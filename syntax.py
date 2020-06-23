@@ -1,0 +1,757 @@
+#! /usr/local/bin/python3
+#
+# Copyright 2020, Ewan Bennett
+#
+# All rights reserved.
+#
+# Released under the BSD 2-clause licence (SPDX identifier: BSD-2-Clause)
+#
+# email: ewanbennett14@fastmail.com
+#
+# This file contains a set of routines to check block syntax in
+# input files.  It will be used to check calc program input files
+# and plot program input files.
+# They ensures that an input file contains a set of correctly
+# nested begin...end blocks.
+# It issues error messages in the following ranges: 1001-1005,
+# 2021-2028 and 2041-2042.
+
+import generics as gen
+
+def CheckClosures(list_of_lines, input_start, file_name,
+                  unnamed, log, debug1):
+    '''Take a list of strings (each string is one line of the
+    input file).  The first line will have "begin " on it,
+    with a noun after it ("begin settings", "begin tunnel Dopey",
+    "begin plots").  Run through the file looking for an
+    "end" noun that matches the "begin" (e.g. "end settings",
+    "end tunnel", "end plots").  If we encounter a nested
+    "begin <something>" command (for example, in the tunnels
+    block we may have a sub-block delimited by "begin gradient"
+    & "end gradient") we add that to a list we keep of nouns
+    to look for.  If we .
+    We return a list of the lines we've found.  After this,
+    we can be sure that all the begin...end blocks match (even
+    if they are nested) and that all the begins and ends have
+    at least one noun after them.
+    If we return successfully, then when we process the data
+    we don't need to worry about guarding against unmatched
+    blocks, un-named blocks or incorrect nesting.
+    '''
+#    debug1 = True
+    if debug1:
+        print("Entered CheckClosures with",list_of_lines[0])
+
+    # Create an empty list to hold the nouns we encounter.
+    # Each time we encounter a "begin" we add a list of
+    # consisting of the line number, the noun (as lower
+    # case) and the entire line (we use the line number
+    # and the entire line in an error message).
+    # Each time we encounter an "end" we check if its
+    # noun is at the end of the list.
+    # If it is, we pop the noun, if it isn't we fault.
+    nouns = []
+
+    for index, line in enumerate(list_of_lines):
+        # Remove any commments.  Comments are preceded
+        # by a '#' symbol and continue until the end of
+        # the line.  Note that we may have lines that are
+        # all comment and no valid data - these become
+        # blank or spaces.
+        # We return True if everything matched and we can
+        # continue processing.  We return False if an error
+        # occurred.
+        line_number = index + input_start # Used in error messages
+
+        actives = line.split("#")[0]
+        words = actives.split(maxsplit = 3)
+        # Ignore blank lines and comment-only lines.
+        if len(words) != 0:
+            first_key = words[0].lower()
+            if first_key in ("begin", "end"):
+                # We have the start or end of a block.
+                # Fault if it has no noun after it, i.e.
+                # "begin" or "end" on a line of its own.
+                if len(words) == 1:
+                    err = ('> Found a "' + first_key + '" command without an '
+                           'accompanying\n'
+                           '> noun (tunnel, train, fan etc).\n'
+                           '> Please edit the file "' + file_name + '"\n'
+                           '> to add one.')
+                    gen.WriteError(2023, err, log)
+                    gen.ErrorOnLine(line_number, line, log)
+                    return(False)
+                else:
+                    # We have at least one extra entry (the noun).  Get
+                    # the noun associated with this "begin" or "end" command.
+                    noun = words[1]
+
+            # Check for absent names in begin commands.
+            if first_key == "begin":
+                if (len(words) == 2 and
+                   words[1].lower() not in unnamed):
+                    # We have two entries on the line but we need a name,
+                    # so we need more entries. Fault.
+                    err = ('> Found a "' + first_key + ' ' + noun
+                             + '" command that needs to be\n'
+                           '> named  (e.g. "begin tunnel Dopey") but which\n'
+                           '> has no name.\n'
+                           '> Please edit the file "' + file_name + '"\n'
+                           '> to add one.')
+                    gen.WriteError(2024, err, log)
+                    gen.ErrorOnLine(line_number, line, log)
+                    return(False)
+                else:
+                    # Add the noun to the list so we can find its
+                    # "end" line (note that we don't care about the
+                    # name in the end lines).
+                    nouns.append([line_number, noun.lower(), line])
+            elif first_key == "end":
+                # First check for too many "end" commands.
+                if len(nouns) == 0:
+                    err = ('> Found too many "end" commands.  We ended a\n'
+                           '> block at a point where there were no blocks\n'
+                           '> to end.\n'
+                           '> Please edit the file "' + file_name + '"\n'
+                           '> to add an appropriate "begin" command or\n'
+                           '> to remove this "end" command.')
+                    gen.WriteError(2025, err, log)
+                    gen.ErrorOnLine(line_number, line, log)
+                    return(False)
+                else:
+                    # Get the noun we expect this "end" to have.
+                    end_noun = nouns[-1][1]
+                    if noun.lower() != end_noun:
+                        # We are at an "end" that that doesn't match the
+                        # most recent "begin".  Fault.
+                        err = ('> Found an "end ' + noun + '" line that\n'
+                               '> did not match the most recent "begin"\n'
+                               '> line (which was "begin ' + end_noun + '").\n'
+                               '> Please edit the file "' + file_name + '"\n'
+                               '> to add an appropriate "begin" command or\n'
+                               '> to change this "end" command.')
+                        gen.WriteError(2026, err, log)
+                        gen.ErrorOnLine(line_number, line, log)
+                        return(False)
+                    elif len(words) != 2:
+                        # We have any extra entries after the
+                        # "end <noun>".  It doesn't really matter
+                        # because we'll ignore the extra data but
+                        # it's always good to ensure that no-one
+                        # fools themself into thinking that we need
+                        #   "begin tunnel Dopey"..."end tunnel Dopey"
+                        # instead of
+                        #   "begin tunnel Dopey"..."end tunnel".
+                        err = ('> Found an "end ' + noun + '" line that\n'
+                               '> had extra data after "' + noun
+                                 + '".\n'
+                               '> Please edit the file "'
+                                 + file_name + '"\n'
+                               '> to remove the extra data.')
+                        gen.WriteError(2027, err, log)
+                        gen.ErrorOnLine(line_number, line, log)
+                        return(False)
+                    else:
+                        # Success!  We have a valid end command to the
+                        # most recent begin.  Remove it from the list
+                        # of active nouns.
+                        nouns.pop(-1)
+
+    # If we get to here, we have processed all the valid lines of
+    # input.  We have already bounded the active lines to the ones
+    # starting at "begin settings" and ending at "end plots" but it
+    # never hurts to do a sanity check.
+    if line.lower().split()[:2] != ["end", "plots"]:
+        print('> *Error* 1003 file did not end at "end plots".')
+        print(line.lower().split())
+        gen.OopsIDidItAgain(log, file_name)
+
+    # Check for fewer "end" commands than "begin" commands.
+    count_unclosed = len(nouns)
+    if count_unclosed != 0:
+
+        if count_unclosed == 1:
+            # Make an error message complaining about one
+            # extra noun.
+            err = ('> There was an extra "begin" command\n'
+                   '> compared to the "end" commands.\n'
+                   '> It is on line ' + str(nouns[-1][0]) + ' of the file:\n'
+                     + '>   "' + nouns[-1][2].rstrip() + '"\n'
+               '> Please edit the file "' + file_name + '"\n'
+               '> to fix up the file syntax.')
+        else:
+            # Make an error message complaining about several
+            # extra nouns, given as a list with line numbers.
+            err = ('> There were ' + str(count_unclosed)
+                     + ' more "begin" commands''\n'
+                   '> than "end" commands.  The following\n'
+                   '> is a list of them and their line\n'
+                   '> numbers:\n')
+            for (location, noun, line) in nouns:
+                err = err + ('>  Line ' + str(location)
+                                + ', "' + line.rstrip() + '"\n')
+
+            err = (err +
+                   '> Please edit the file "' + file_name + '"\n'
+                   '> to fix up the file syntax.')
+        gen.WriteError(2028, err, log)
+        return(False)
+    # Everything matched.  We return True so that processing
+    # continues.
+    return(True)
+
+
+def CheckBeginEnd(list_of_lines, file_name, unnamed,
+                  prog_name, log, debug1):
+    '''Take a list of strings (these are lines of input from the
+    input file).  Check that the begin...end blocks all match
+    one another.  Write progress and error messages to the
+    log file.
+    '''
+    log.write('Read the contents of "' + file_name + '".\n')
+
+    # Check for the "begin settings" line.
+    input_start = -1
+    for index, line in enumerate(list_of_lines):
+        # First step over all the lines of comment at the top.
+        # We don't want to process those.  They are terminated
+        # by a line containing "begin" and "settings" as the
+        # first two words.
+        words = line.lower().split(maxsplit = 2)
+        if words[:2] == ["begin", "settings"]:
+            # We have found the start of our code.
+            input_start = index
+            break
+    # Check whether we found "BEGIN  SETTINGS" (not case sensitive)
+    if input_start == -1:
+        # We didn't find "begin settings" anywhere in the file.
+        err = ('> Failed to find the "begin settings" that should\n'
+               '> mark the end of the introductory comments and\n'
+               '> the start of the input.  Please check whether\n'
+               '> "' + file_name + '" is an input file for\n'
+               '> ' + prog_name + ' or something else.')
+        gen.WriteError(2021, err, log)
+        return(None)
+    else:
+        log.write('Found the "begin settings" line.\n')
+
+    # Check for the "end plots" line.
+    input_end = -1
+    for index, line in enumerate(list_of_lines[input_start:]):
+        # First step over all the lines of comment at the top.
+        # We don't want to process those.  They are terminated
+        # by a line containing "begin" and "settings" as the
+        # first two words.
+        words = line.lower().split(maxsplit = 2)
+        if words[:2] == ["end", "plots"]:
+            # We have found the end of our code.
+            input_end = index + input_start
+            break
+    # Check whether we found "end plots" (not case sensitive)
+    if input_end == -1:
+        # We didn't fine "end plots" anywhere in the file
+        err = ('> Failed to find the "end plots" that should mark\n'
+               '> the end of the input.  Please check whether\n'
+               '> "' + file_name + '" is an input file for\n'
+               '> ' + prog_name + ' or something else.')
+        gen.WriteError(2022, err, log)
+        return(None)
+    else:
+        log.write('Found the "end plots" line.\n')
+        # Figure out how many leading zeroes we need in the
+        # dictionary keys.
+        line_count = index + 1 + input_start
+        line_count_str = str(line_count)
+        # If our "end plots" line is on (say) line 2089 then this
+        # number format will be a four-digit integer with leading
+        # zeroes.  So the key to line 20 would start with "0020"
+        # and the key to line 140 would start with 0140 etc.
+        # We do this because it's convenient to process the lines
+        # in sequence.
+        num_format = "{:" + "0" + str(len(line_count_str)) + "d}"
+
+    if debug1:
+        print("Found input on lines", input_start, "to", input_end)
+        print([line for line in list_of_lines[input_start:input_end + 1]])
+
+
+    # Once we get to here, we have a list of all the lines
+    # of valid input.  The first one definitely has "begin settings"
+    # on it and the last one definitely has "end plots" on it.  In
+    # between could be anything. We call a routine that seeks out
+    # begin...end blocks and checks that they all match, even if
+    # they are nested.  It returns True if everything matched
+    # and False if there was a mismatch or some other error.
+    matching = CheckClosures(list_of_lines[input_start:input_end + 1],
+                             input_start, file_name,
+                             unnamed,
+                             log, debug1)
+    if not matching:
+        # There was an error in the block syntax.  Return to the
+        # calling routine so we can skip further processing of
+        # this file.
+        return(None)
+
+    # Once we get to here, we have successfully found valid begin...end
+    # blocks all through the file, determined what the initial lines of
+    # comment are and determined where the valid input ends.
+
+    # We get a list of the lines of comment at the top and remove
+    # any trailing blank lines.
+    comments = [line.rstrip() for line in list_of_lines[:input_start]]
+    for index in range(len(comments)-1, 0, -1):
+        if comments[index] == '':
+            comments.pop(index)
+        else:
+            # We break at the last line of comment so that we keep
+            # the blank lines between paragraphs.
+            break
+
+    # Now we make a list of lists for the data.  Each entry in the list has the
+    # following:
+    #  0  nothing but the valid input on the line
+    #  1  line number
+    #  2  the entire line with trailing spaces removed
+    input_lines = []
+    for index, line in enumerate(list_of_lines[input_start:input_end + 1]):
+        line_num = index + 1 + input_start
+
+        if "#" in line:
+            # Split the data from the comment
+            data, discard = line.split("#")
+        else:
+            data = line
+        # Add lines that have non-empty data (some lines
+        # will be comments only).
+        if data.rstrip() != "":
+            input_lines.append( (data.lstrip().rstrip(),
+                                line_num,
+                                line.rstrip()
+                               )
+                             )
+    log.write('Processed all the lines of entry in blocks.\n')
+
+    return( (comments, input_lines, num_format) )
+
+
+def GetOneBlock(lines_left, num_format, log, debug1):
+    '''Take a list of input data, we are expecting the first line
+    to start with "begin" and that sets the dictionary key.  Add
+    the lines to a dictionary and when we find the ending delimiter
+    return the dictionary key, the sub-dictionary and the count of
+    entries consumed.
+    This routine assumes that when we enter it we have a "begin"
+    line.  If it encounters a second one it recurses.
+    '''
+
+    if debug1:
+        print("Entered GetOneBlock with")
+        for line in lines_left:
+            print(line[1], line[0])
+    contents = {}
+    # Loop over the contents of the file until we find the
+    # "end <delimiter>" line, adding the entries to the list.
+    # Note that we remove the lines with "begin" and "end".
+    index = 0
+    while index < len(lines_left):
+        line_contents = lines_left[index]
+        data = line_contents[0].split(maxsplit = 1)
+
+        # There is only one entry, the dictionary key, so
+        # give it a blank entry as the value to yield.
+        if len(data) == 1:
+            data.append("")
+
+        if debug1:
+            print(data)
+        # Look for the name of this block.  It will be
+        # something like "settings", "tunnel Dopey" etc.
+        if data[0].lower() == "begin":
+            if index == 0:
+                # This is the line that defines the name
+                # of our block.
+                key = data[1]
+#                print("Found key",key, index)
+                # Do a quick sanity check.  I don't think we
+                # can get here, because it was checked earlier
+                # but you never know if a line with "begin" on
+                # it might slip through.
+                if key == "":
+                    print("> *Error* 1004 found a blank block key.")
+                    gen.OopsIDidItAgain(log, file_name)
+            else:
+                # This is a line that defines a sub-block (say
+                # the definition of gradients along the length
+                # of a tunnel).
+                block_key = data[1]
+                # Do a quick sanity check.  I don't think we
+                # can get here, because it was checked earlier
+                # but you never know if a line with "begin" on
+                # it might slip through.
+                if block_key == "":
+                    print("> *Error* 1005 found a blank block key.")
+                    gen.OopsIDidItAgain(log, file_name)
+                else:
+                    message = ('Processing a sub-dictionary of "'
+                              + key + '", with sub-key "'
+                              + block_key + '".')
+                    log.write(message + "\n")
+#                    print(message)
+                    # Now we spoof line_contents, by setting its value
+                    # to be the sub-dictionary (the second argument
+                    # returned by GetOneBlock).  We need to convert
+                    # the tuple to a list so we can assign it.  We
+                    # figure out the correct offset to add to index
+                    # so that we don't process the subdict in this
+                    # pass through GetOneBlock.
+                    # W can discard the other arguments returned, as
+                    # we pick up reprocessing them.
+                    line_contents = list(line_contents)
+                    sub_dict_data = GetOneBlock(lines_left[index:],
+                                       num_format, log, debug1)
+                    # Get the contents of the sub-block and how
+                    # many lines it covered.
+                    line_contents[0] = sub_dict_data[1]
+                    to_jump = sub_dict_data[3]
+                    # Now adjust the index so we don't reprocess
+                    # the block.
+                    if debug1:
+                        print("Skipping", to_jump + 1, "lines in a subdict")
+                    index += to_jump
+
+        index += 1
+
+        # Fill the settings block.  If we have a sub-block then
+        # 'data' is a list, if we don't it is a string.
+#        print("End line", data)
+        if (type(line_contents[0]) is tuple) or (data[0].lower() != "end"):
+            # First build a key from the line number and the first word.
+            sub_key = num_format.format(line_contents[1]) + " " + data[0]
+            contents.__setitem__(sub_key, line_contents)
+        else:
+            # We have come to the end of the block.
+            # Figure out how many lines we've consumed.
+            consumed = len(lines_left[:index-1])
+            if debug1:
+                print('Breaking out of block "' + key + '".')
+            break
+#    print("contents", contents)
+    return(key, contents, lines_left[index:], consumed)
+
+
+def SplitBlocks(input_lines, num_format, file_name, log, debug1):
+    '''Take the list of input lines and split them into
+    their blocks.  Each entry in input_lines has three entries:
+
+     * The valid data on the line,
+     * Line number,
+     * The entire line unchanged.
+
+    e.g.  ('begin settings', 7, 'begin settings  # Start of input')
+
+    '''
+    if debug1:
+        print("Entered SplitBlocks with")
+        print(input_lines)
+
+    # Do a quick sanity check on the contents of the file.
+    if gen.SplitTwo(input_lines[0][0]) != ["begin", "settings"]:
+        print("> *Error* 1001 didn't find the"' "begin settings" entry.')
+        gen.OopsIDidItAgain(log, file_name)
+
+    if gen.SplitTwo(input_lines[-1][0]) != ["end", "plots"]:
+        print("> *Error* 1002 didn't find the"' "end plots" entry.')
+        gen.OopsIDidItAgain(log, file_name)
+
+    dict_of_blocks = {}
+    found_settings = False
+
+    # Create a dictionary that will hold the sub-dictionaries of the blocks.
+    dictionaries = {}
+
+    # Create an empty list for the keys so we have the sequence
+    keys = []
+
+
+    # Run through the list consuming all the lines
+    lines_left = input_lines
+    while len(lines_left) > 0:
+        # Store the line that is the start of the next block, we may
+        # need to use this in an error message.
+        nextline = lines_left[1]
+
+        key, contents, lines_left, discard = GetOneBlock(lines_left,
+                                                        num_format,
+                                                        log, debug1)
+        # Check to see if we have a duplicate and fault if we do.
+        if key.lower() in dictionaries:
+            # We do.  Get the line number that the first instance
+            # started at.
+            old_entries = dictionaries[key.lower()]
+            old_keys = list(old_entries.keys())
+            old_keys.sort() # We do this in case anyone uses Python 3.5.
+            old_start_line = str(int(old_keys[0].split()[0]))
+
+            err = ('> Found duplicate blocks in the file.  Both were named\n'
+                   '>\n>  "' + key + '".\n>\n'
+                   '> The first definition started at line ' + old_start_line
+                   + '.'
+                  )
+            gen.WriteError(2041, err, log)
+            gen.ErrorOnLine(nextline[1], nextline[2], log)
+            return(None)
+
+        else:
+            # Add this to the dictionary of dictionaries.  We
+            # force the key to lower case as the program is
+            # not case sensitive.
+            dictionaries.__setitem__(key.lower(), contents)
+            keys.append(key)
+    # If we get to here we have all the blocks in a dictionary.
+    # Each block has its name forced to lower case as the key (e.g.
+    # tunnel dopey and yields another dictionary (the subdictionary).
+    #
+    # The subdictionary has its own keys (the line number combined
+    # with the first word on each line).
+    #
+    # The values yielded are a list: The first entry is rest of the
+    # valid entry on the line.  The second entry in the list
+    # is a list: the data, the line number and the entire
+    # line (same as the thre entries in input_lines).
+
+    log.write('Finished splitting all the blocks up.\n')
+    return(dictionaries, keys)
+
+
+def PrintDictionary(block_name, block_dict, space_count):
+    '''Take an entry in the dictionary made from the input file
+    and print its contents in a human-readable form.  Offset
+    it by a given number of spaces so that sub-dictionaries
+    are indented compared to the dictionary one level up.
+    '''
+    # If this is a top-level dictionary, print the name.  If it
+    # is a sub-dictionary print the line number instead.
+    if space_count == 0:
+        # Top-level dictionary
+        print('Block name: "' + block_name + '":')
+    else:
+        # Sub-dictionary
+        print(" "*space_count + 'Sub-block at line', block_name)
+
+    # Print the individual entries, sorted into line number order.
+    dict_keys = list(block_dict.keys())
+    dict_keys.sort() # We do this in case someone's using Python 3.5
+    for key in dict_keys:
+        entry = block_dict[key]
+        if type(entry) == list:
+            # We have a sub-dictionary here.  Print it,
+            # offset by three more spaces than we were
+            # given.
+            PrintDictionary(str(entry[1]), entry[0], space_count + 3)
+        else:
+            print(" "*space_count + "   Line " + key, entry[:2])
+    return()
+
+
+def CheckSubDictClashes(root_dict, file_name, log, debug1):
+    '''Take a dictionary (it may be the top level one or a spoofed
+    sub-dictionary).  Get the values yielded by its keys and
+    make a list of all the values that are sub-dictionaries.
+    If there is more than one sub-dictionary, check their
+    names for clashes.  If there are any sub-sub-dictionaries
+    then call this routine recursively to find clashes at all
+    levels.
+    '''
+
+    # Create a Boolean to hold the result of this test.  It is
+    # set False whenever we find a clash.
+    no_clashes = True
+    if debug1:
+        print("Entered CheckSubDictClashes with",root_dict)
+
+    input_keys = list(root_dict.keys())
+    input_keys.sort()
+
+    for key in input_keys:
+        block = root_dict[key.lower()]
+        # Now get all the sub-dictionaries.  These are distinguished
+        # from the simpler inputs by their types: the sub-dictionaries
+        # are lists and the simpler inputs are tuples.
+        keys = list(block.keys())
+        keys.sort() # Only need this in Python 3.5
+
+        sub_dicts = []
+        for entry in keys:
+            if type(block[entry]) is list:
+                # We have a sub-dictionary.  Get its contents
+                sub_dicts.append(block[entry][:2])
+        # Check if we have more than one sub-dictionary.
+        if len(sub_dicts) > 1:
+            # Now get the names of the sub-dictionaries and
+            # compare them.
+            sub_dict_line1 = []
+            for sub_dict_list in sub_dicts:
+                # Get the list of sub-dictionary keys and sort it
+                # (the need to do this is one of the reasons why
+                # the dictionary keys and sub-dictionary keys all
+                # start with the line number, formatted in such a
+                # way as to sort properly).
+                sub_keys = list(sub_dict_list[0].keys())
+                sub_keys.sort() # Only need this in Python 3.5.
+                # Append the active data on this "begin <something>"
+                # line to the list of sub-dictionary names.
+                sub_dict_line1.append(sub_dict_list[0][sub_keys[0]])
+
+            # Now look for overlaps.
+            for index1, first_line_list in enumerate(sub_dict_line1[:-1]):
+                # Get the first key as a list in lower case, so
+                # that we can catch clashes between "begin gradients"
+                # and "begin   gradients".
+                instance1 = first_line_list[0].lower().split()
+                # Check this instance against all the remaining entries.
+                for second_line_list in sub_dict_line1[index1+1:]:
+                    instance2 = second_line_list[0].lower().split()
+                    if instance1 == instance2:
+                        # We have a clash.  Get the line numbers and
+                        # the contents of the lines for the error message.
+                        line1_num = first_line_list[1]
+                        line1 = first_line_list[2]
+                        line2_num = second_line_list[1]
+                        line2 = second_line_list[2]
+                        err = ('> Found duplicate sub-blocks in the '
+                                 'same block.\n'
+                               '> The clashing blocks start these two lines:\n'
+                               '>   Line ' + str(line1_num)
+                                   + ': ' + line1.lstrip() + '\n'
+                               '>   Line ' + str(line2_num)
+                                   + ': ' + line2.lstrip() + '\n'
+                               '> Please edit the file "' + file_name + '"\n'
+                               '> to resolve the clash.'
+                              )
+                        gen.WriteError(2042, err, log)
+                        no_clashes = False
+
+        # If we get to here we have checked for clashes at this level.
+        # If we did not have one check for clashes at lower levels.
+        if no_clashes and sub_dicts != []:
+            for sub_dict_list in sub_dicts:
+                # Spoof an upper-level dictionary so that
+                # the recursive call works.
+                spoofed = {"spoofed" : sub_dict_list[0]}
+                no_clashes = CheckSubDictClashes(spoofed, file_name,
+                                                    log, debug1)
+    return(no_clashes)
+
+
+def CheckSyntax(file_contents, file_name, unnamed,
+                prog_name, log, debug1):
+    '''Take a list of lines, a file name, a list of keywords for
+    lines that don't need more than two entries and check their
+    syntax. The following are caught:
+
+    '''
+    # Check the file for valid begin...end syntax.  If we have a problem
+    # the routine will return None.  If all is well, it will return
+    # a list holding the lines of formal comment at the top of the
+    # file, a list of lists of all the lines between "begin settings"
+    # and "end plots, and a number format.
+
+
+    result = CheckBeginEnd(file_contents, file_name, unnamed,
+                           prog_name, log, debug1)
+
+    if result is None:
+        # The begin...end syntax was not valid.  The routine
+        # has already issued an appropriate error message.
+        # Return to main() to process the next file.
+        return(None)
+    else:
+        # The begin...end syntax was valid, so split the result
+        # into the three values it returned.  These are a list
+        # of the lines of comment, a list of lists of the lines
+        # with valid data, and a number format that the number
+        # of the last line in the file will just fill (e.g. if
+        # our last line of data is on line 87 it will be "{:02d}"
+        # if the last line is on line 2120 it will be "{:04d}".
+        comments, input_lines, num_format = result
+
+
+    if debug1:
+        print("File comments:\n", comments)
+        print("File input:")
+        for data, line_num, whole_line in input_lines:
+            print(num_format.format(line_num), whole_line)
+
+    # Write the comments at the top of the input file to the log file.
+    if comments == []:
+        log.write("There were no comments at the top of the input file.\n")
+    else:
+        log.write("Comments at the top of the file were as follows:\n")
+        for line in comments:
+            log.write("  " + line  + '\n')
+
+    # If we get to here, we have a file with valid syntax. Split it
+    # up into its begin...end blocks and store them in a dictionary.
+    result = SplitBlocks(input_lines, num_format, file_name, log, debug1)
+    if result is None:
+        # We had a problem with the input file - there is
+        # more than one block with the same name.
+        # Return to main() to process the next file.
+        return(None)
+    else:
+        blocks_dict, input_keys = result
+
+    log.write("Found " + str(len(blocks_dict)) + " blocks in the file.\n")
+
+    # We now have all the blocks in the dictionary "blocks_dict".
+    #
+    # Each block has a key that is a formatted combination of the
+    # line number it started on and the name converted to lower case
+    # and has another dictionary as the value yielded.
+    # The subdictionary has its own keys (the line number combined with
+    # the first word on each line).
+    # The values yielded are a list: The first entry is rest of the
+    # valid entry on the line (the data that we want to process).
+    # The second entry in the list is a sub-list (same as the three
+    # entries in input_lines for that entry) i.e. data, line number,
+    # and the entire line, e.g.
+    #
+    # Key: "031 speedlimit"
+    # Value (31,
+    #        'Speedlimit noseclear',
+    #        '# SES behaviour',
+    #        '  Speedlimit noseclear # SES behaviour'
+    #       )
+    #
+    # It may seem a bit weird to have that, but there is method in it.
+    # We keep the line number and a copy of the original line for
+    # error messages.  We keep the active data because we need to parse
+    # it.  We probably don't need the comment but what the hell, it isn't
+    # going to slow us down and we may find a use for it.  Note that
+    # the key starts with the line number, suitable formatted so that
+    # if we sort the keys we get them in line order.
+    #
+
+    # This next clause prints the dictionary with indentation for
+    # successive sub-blocks.
+    if debug1:
+        for key in input_keys:
+            printDictionary(key, blocks_dict[key.lower()], 0)
+
+    # Now we check for duplicate sub-keys, to prevent there being
+    # (say) two blocks defining the gradients in one tunnel.
+    # We allow multiple levels of nesting and we check each level.
+    no_clashes = CheckSubDictClashes(blocks_dict, file_name, log, debug1)
+
+    if no_clashes:
+        log.write("There were no name clashes at any level")
+    else:
+        # We have duplicate block names, stop the process.
+        return(None)
+
+    # If we get to here we know that there are no duplicate names
+    # in the blocks at each level, that all the blocks have matching
+    # begin...end entries and are correctly nested.  We return the
+    # list of lists of line data:
+    #  [ [valid data, line number, whole line] ]
+    return(input_lines)
