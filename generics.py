@@ -24,6 +24,7 @@ def PauseFail():
     '''
     import sys
     if sys.platform == 'win32':
+        import os
         os.system("pause")
     # Uncomment the 'raise()' command and comment out the
     # sys.exit to get a traceback when running in Terminal.
@@ -309,6 +310,7 @@ def PauseIfLast(file_num, file_count):
         # Windows we ought to pause so that the reader can
         # read the message.
         if sys.platform == 'win32':
+            import os
             os.system("pause")
     return()
 
