@@ -6,8 +6,5 @@ but we do not permission to read it.
 begin settings
 end settings
 
-begin tunnel
-end tunnel
-
 begin plots
 end plots
