@@ -1,0 +1,16 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+June 2020
+This has the minimum valid input.  At the top of the file are
+comments, which end at the line starting with "begin settings".
+
+There are matching begin...end blocks in the valid input.  The
+valid input ends at the line starting "end plots" and everything
+after that is ignored.
+
+
+begin settings  # This line signals the start of input
+end settings
+
+
+begin plots
+end plots  # This line signals the end of input

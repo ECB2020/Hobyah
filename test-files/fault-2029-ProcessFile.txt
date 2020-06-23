@@ -1,0 +1,16 @@
+Test input file for Hobyah, a 1D tunnel vent program
+June 2020
+Tests an error message in PROC ProcessFiles where
+we have more than one "begin settings" blocks.
+
+begin settings # First set of settings
+end settings
+
+begin tunnel Dopey
+end tunnel
+
+begin settings # Second set of settings
+end settings
+
+begin plots
+end plots

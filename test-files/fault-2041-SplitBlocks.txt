@@ -1,0 +1,20 @@
+Test input file for Hobyah, a 1D tunnel vent program
+June 2020
+Tests an error message in PROC SplitBlocks where
+we have more than one block with the same name, which
+is not allowed.
+
+begin settings
+end settings
+
+begin tunnel Dopey
+end tunnel
+
+begin SETTINGS   #   2nd definition (names are not case-sensitive)
+end Settings
+
+begin plots
+end plots
+
+begin plots
+end plots

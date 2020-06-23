@@ -1,0 +1,10 @@
+Processing "/Users/ecb/Documents/sandboxes/Hobyah/test-files/fault-2005-processFile.txt"
+  using Hobyah_005.py, run at 14:49 on 19 June 2020 by ecb.
+Read the contents of "fault-2005-processFile.txt".
+Found the "begin settings" line.
+Found the "end plots" line.
+Processed all the lines of entry in blocks.
+Comments at the top of the file were as follows:
+Finished splitting all the blocks up.
+Found 3 blocks in the file.
+There were no name clashes at any level

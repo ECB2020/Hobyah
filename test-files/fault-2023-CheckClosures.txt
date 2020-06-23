@@ -1,0 +1,13 @@
+Test input file for Hobyah, a 1D tunnel vent program
+June 2020
+Tests an error message in PROC CheckClosures where
+we have a valid "end" command with no noun after it.
+
+begin settings
+end settings
+
+begin tunnel Dopey
+end           # There is no noun to go with this 'begin'
+
+begin plots
+end plots

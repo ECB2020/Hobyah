@@ -1,0 +1,13 @@
+begin settings
+end settings
+
+begin tunnel Dopey
+end tunnel
+
+begin plots
+end plots
+
+Test input file for Hobyah, a 1D tunnel vent program
+June 2020
+This file has no comments at the top but is syntactically valid.
+

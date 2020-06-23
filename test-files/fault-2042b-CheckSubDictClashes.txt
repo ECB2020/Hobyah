@@ -1,0 +1,78 @@
+Test input file for Hobyah, a 1D tunnel vent program
+June 2020
+This file has two sub-sub-sub-blocks with the same name in the
+same sub-sub-block.  It shows that the recursive calls to
+CheckSubDictClashes work and detect the clash.
+
+Note that it correctly does not find a clash between a
+sub-sub-block named "begin heights" and a sub-sub-sub-block
+also named "begin heights". Clashes can only occur when they
+are at the same level.
+
+That last was a bit of a torture test for the program.  We have
+no intention of defining gradients and heights at multiple
+levels.
+Real input files will probably get to about five levels of
+nesting:
+  a block for plots,
+  a sub-block for a page,
+  a sub-sub-block for a graph,
+  a sub-sub-sub-block for the curves on the graph,
+  and a sub-sub-sub-sub-block for custom data in a curve.
+
+
+begin settings
+end settings
+
+
+begin tunnel dopey
+  start 0.0
+  begin gradients
+    0.0  300  -0.7   1100  1.2
+  end gradients
+end tunnel
+
+
+begin tunnel sleepy
+  start 0.0
+  finish 1240
+  begin gradients
+    0.0  300  -0.7   1100  1.2
+    begin heights
+      0.0  132.4
+    end heights
+
+    begin tunnel sleepy2
+      begin heights
+        0.0  132.4
+      end heights
+
+      begin    Heights # This is a duplicate sub-sub-sub block
+        0.0  132.4
+      end heights
+
+      begin adits 101
+      end adits
+    end tunnel
+  end gradients
+end tunnel
+
+
+begin plots
+  begin page
+    begin graph
+      begin curves
+        begin customdata Patchway100m
+          # Custom curve data goes here
+        end customdata
+
+        begin customdata Patchway500m
+        end customdata
+
+        begin customdata Patchway900m
+        end customdata
+      end curves
+    end graph
+  end page
+end plots
+
