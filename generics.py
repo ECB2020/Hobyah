@@ -359,3 +359,58 @@ def CheckVersion():
         PauseFail()
     return()
 
+
+def Reverse(string):
+    '''Take a string and return a reversed copy of the string.
+
+        Parameters:
+            string    (str)
+
+        Returns:
+            gnirts    (str),  The string, reversed.
+    '''
+    # This is extended slice syntax from Stack Overflow question 931092.
+    return(string[::-1])
+
+
+def FloatText(value):
+    '''Take a floating point number and turn it into a string
+    suitable for printing.  Remove spurious trailing digits.
+
+    Some floating point numbers have spurious digits due to
+    the conversion between base 2 and base 10, such as
+    0.037755795455000001 and 0.018877897727999998.
+
+    This routine seeks numbers with "000" and "999" in the
+    slice [-4:-1] and rounds the text to be printed to a
+    suitable extent, e.g. 0.037755795455 and 0.018877897728.
+
+        Parameters:
+            value       (float)
+
+        Returns:
+            text_value  (str),  The string of the number, perhaps
+                                truncated.
+    '''
+    text_value = str(value)
+    size = len(text_value)
+
+    if size  > 15:
+        # The string is so long that we may have a value
+        # that has a floating point mismatch.  Check for a
+        # group of three zeros or nines at the end (three is
+        # an arbitrary choice).
+        if text_value[-4:-1] == "000":
+            # Knock off the final digit and let the float
+            # function take care of all the trailing zeros.
+            text_value = str(float(text_value[:-1]))
+        elif text_value[-4:-1] == "999":
+            # Figure out where the decimal point is.
+            dec_pt = text_value.find(".")
+            if dec_pt >= 0:
+                # There was a decimal point in the number.
+                # Round at one of the three trailing nines,
+                # the round function will consume them all.
+                round_to = size - dec_pt - 2
+                text_value = str(round(value,round_to))
+    return(text_value)
