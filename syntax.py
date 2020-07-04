@@ -29,11 +29,17 @@ def CheckClosures(list_of_lines, input_start, file_name,
     "begin <something>" command (for example, in the tunnels
     block we may have a sub-block delimited by "begin gradient"
     & "end gradient") we add that to a list we keep of nouns
-    to look for.  If we .
+    to look for.
+
+    If we find an "end <something>" command we check if its
+    noun matches the last entry in the list.  If it matches we
+    pop the noun from the list, if it doesn't match we fault.
+
     We return a list of the lines we've found.  After this,
     we can be sure that all the begin...end blocks match (even
     if they are nested) and that all the begins and ends have
     at least one noun after them.
+
     If we return successfully, then when we process the data
     we don't need to worry about guarding against unmatched
     blocks, un-named blocks or incorrect nesting.
