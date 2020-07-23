@@ -1,7 +1,7 @@
 # Hobyah
 Will eventually be a 1D tunnel ventilation program.
 
-At the moment, all can do is:
+At the moment, all it can do is:
   1) open some text files and scan them for matching begin...end syntax.
   2) process the first few forms of SES v4.1 output files (PRN files) into a form suitable for plotting.
 
