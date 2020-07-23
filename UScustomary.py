@@ -62,16 +62,16 @@ import generics as gen
 #
 USequivalents = { #key      SI unit,      US unit,     divisor
                              # Absolute temperature, adds 32 deg F
-                 "temp":    ( "deg C",     "deg F",  0.5555555555555556),
+                 "temp":    ( "deg C",     "DEG F",  0.5555555555555556),
                              # temperature difference, doesn't add 32 deg F
-                 "tdiff":   ( "deg C",     "deg F",  0.5555555555555556),
-                 "press1":  ( "Pa ",      "iwg",
+                 "tdiff":   ( "deg C",     "DEG F",  0.5555555555555556),
+                 "press1":  ( "Pa ",      "IWG",
                              # Converting Pa to inches of water gauge
                              # uses the value of GRACC from SES 4.1 (see
                              # above).
                              # 32.174 * 0.3048 * 1000 * 0.0254
                                                      249.08853408),
-                 "press2":  ( "kPa   ",   "in. Hg",
+                 "press2":  ( "kPa   ",   "IN. HG",
                              # A weird one, this.  It is the atmospheric
                              # pressure outside the tunnel.  In SES v4.1
                              # (Dses.for) the value of pressure in the
@@ -84,54 +84,55 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                              # with the definitions of distance and mass.
                              #  14.696/29.921 * (32.174*12*0.45359237)/0.0254
                                                     3386.42425928967),
-                 "dens":    ( "kg/m^3 ",  "lb/ft^3", 16.018463373960138),
-                 "dist1":   ( "m ",       "ft",      0.3048),
-                 "dist2":   ( "cm",       "ft",      30.48),
-                 "dist3":   ( "mm",       "ft",      304.8),
-                 "dist4":   ( "m ",       "in",      0.0254),
-                 "dist5":   ( "cm",       "in",      2.54),
-                 "dist6":   ( "mm",       "in",      25.4),
-                 "area":    ( "m^2 ",     "ft^2",    0.09290304),
-                 "mass1":   ( "kg",       "lb",      0.45359237),
-                 "mass2":   ( "tonnes",   "tons  ",  0.90718474),
-                 "mass3":   ( "kg  ",     "tons",    907.18474),
-                 "speed1":  ( "m/s",      "fpm",     0.00508),
-                 "speed2":  ( "km/h",     "mph ",    1.609344),
-                 "accel":   ( "m/s^2",    "mph/s",   0.44704),
-                 "volflow": ( "m3/s",     "cfm ",    0.0004719474432),
-                 "watt":    ( "W     ",   "BTU/hr",
+                 "dens":    ( "kg/m^3  ", "LB/CU FT", 16.018463373960138),
+                 "dist1":   ( "m ",       "FT",      0.3048),
+                 "dist2":   ( "cm",       "FT",      30.48),
+                 "dist3":   ( "mm",       "FT",      304.8),
+                 "dist4":   ( "m ",       "IN",      0.0254),
+                 "dist5":   ( "cm",       "IN",      2.54),
+                 "dist6":   ( "mm",       "IN",      25.4),
+                 "area":    ( "m^2 ",     "FT^2",    0.09290304),
+                 "mass1":   ( "kg",       "LB",      0.45359237),
+                 "mass2":   ( "kg ",      "LBS",     0.45359237),
+                 "mass3":   ( "tonnes",   "TONS  ",  0.90718474),
+                 "mass4":   ( "kg  ",     "TONS",    907.18474),
+                 "speed1":  ( "m/s",      "FPM",     0.00508),
+                 "speed2":  ( "km/h",     "MPH ",    1.609344),
+                 "accel":   ( "m/s^2",    "MPH/S",   0.44704),
+                 "volflow": ( "m3/s",     "CFM ",    0.0004719474432),
+                 "watt":    ( "W     ",   "BTU/HR",
                              # Another weird one.  In SES v4.1 the
                              # conversion from BTU/sec to watts is
                              #  WTBTUS = 9.4866E-04.  So 1/(9.4866E-04 * 3600)
                                                     0.2928106779855562),
-                 "kwatt":   ( "kW    ",   "BTU/hr", 0.0002928106779855562),
-                 "Mwatt":   ( "MW    ",   "BTU/hr", 2.9281067798555625e-07),
+                 "kwatt":   ( "kW    ",   "BTU/HR", 0.0002928106779855562),
+                 "Mwatt":   ( "MW    ",   "BTU/HR", 2.9281067798555625e-07),
                  "thcon":   ( "W/m-K          ",
-                                      "BTU/ft-hr-deg F",
+                                      "BTU/FT-HR-DEG F",
                              # In this conversion we use the value of
                              # the WTBTUS value in SES v4.1 again.
                              # 9 / (5 * 9.4866E-04 * 3600 * 0.3048)
                                                     1.7291969172375365),
                  "specheat":( "J/kg-K         ",
-                                        "BTU/lb-deg F",
+                                        "BTU/LB-DEG F",
                              # In this conversion we use the value of
                              # the WTBTUS value in SES v4.1 again.
                              # 9 / (5 * 9.4866E-04 0.45359237)
                                                     4183.080049045808),
-                 "diff":    ( "m^2/s  ",  "ft^2/hr", 2.58064e-05),
+                 "diff":    ( "m^2/s  ",  "FT^2/HR", 2.58064e-05),
                  "SHTC":    ( "W/m^2-K       ",
-                                       "BTU/hr-ft^2-deg F",
+                                       "BTU/HR-FT^2-DEG F",
                              # Once again we use the value of WTBTUS
                              # from SES v4.1,
                              # 9 / (5 * 9.4866E-04 * 3600 * 0.3048**2)
                                                     5.673218232406616),
-                 "Aterm1":   ( "N/kg",      "lb/ton",
+                 "Aterm1":   ( "N/kg",      "LB/TON",
                              # Converting both A terms uses the value
                              # of GRACC from SES 4.1.
                              # 32.174 * 0.3048 / 2000.
                                                     0.0049033176),
-                 "Aterm2":   ( "N ",        "lb",   4.448214902093424),
-                 "Bterm":   ( "N-s/kg-m",    "lb/ton-mph",
+                 "Aterm2":   ( "N ",        "LB",   4.448214902093424),
+                 "Bterm":   ( "N-s/kg-m",    "LB/TON-MPH",
                              # Converting the B term also uses the
                              # value of GRACC from SES 4.1.
                              # 32.174 * 0.3048 * 3600 / (2000. * 5280 * 0.3048)
@@ -141,22 +142,28 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  # The factor is 1/0.912, which is tied up to the
                  # definition the slug.
                  "rotmass": ( "% tare mass       ",
-                                              "(lb/ton)/(mph/sec)",
+                                              "(LB/TON)/(MPH/SEC)",
                                                      1.0964912280701753),
-                 "momint":  ( "kg-m^2",   "lb-ft^2", 0.042140110093805)
+                 "momint":  ( "kg-m^2",   "LB-FT^2", 0.042140110093805),
+                 "W":       ( "kg/kg",     "LB/LB", 1.),
+                 "RH":      ( "percent",   "PERCENT", 1.),
+                 "perc":    ( "percent",   "PERCENT", 1.),
+                 "null":    ( "",          "", 1.),
                 }
 
 
-def ConvertToUS(key, SIvalue, log):
+def ConvertToUS(key, SIvalue, debug1, log):
     '''
     Take a string defining the type of unit and a number.
     Figure out which conversion factor to use and convert
-    the number to US customary units.
+    the number to US customary units.  If debug1 is True
+    write some QA data to the log file.
     Return the new value and the units text.
 
         Parameters:
             key    (str),       a dictionary key
             SIvalue  (real),    a value in US customary units
+            debug1      bool,   The debug Boolean set by the user
             log      (handle),  The handle of the log file
 
         Returns:
@@ -174,14 +181,25 @@ def ConvertToUS(key, SIvalue, log):
         gen.OopsIDidItAgain(log)
 
     USvalue = SIvalue / yielded[2]
-
     # A special for absolute temperature values
     if key == "temp":
         USvalue += 32.
-    return(USvalue, yielded[1])
+        if debug1:
+            QA_text = (" converted " + str(SIvalue) + " " + yielded[0] + " to "
+                       + gen.FloatText(USvalue) + " " + yielded[1]
+                       + " by dividing by "
+                       + gen.FloatText(yielded[2]) + " and adding 32.")
+            gen.WriteOut(QA_text, log)
+    elif debug1:
+        QA_text = (" converted " + str(SIvalue) + " " + yielded[0] + " to "
+                   + gen.FloatText(USvalue) + " " + yielded[1]
+                   + " by dividing by "
+                   + gen.FloatText(yielded[2]) + ".")
+        gen.WriteOut(QA_text, log)
+    return(USvalue, yielded[:2])
 
 
-def ConvertToSI(key, USvalue, log):
+def ConvertToSI(key, USvalue, debug1, log):
     '''
     Take a string defining the type of unit and a number.
     Figure out which conversion factor to use and convert
@@ -190,6 +208,7 @@ def ConvertToSI(key, USvalue, log):
         Parameters:
             key    (str),       a dictionary key
             USvalue  (real),    a value in US customary units
+            debug1      bool,       The debug Boolean set by the user
             log      (handle),  The handle of the log file
 
         Returns:
@@ -206,12 +225,26 @@ def ConvertToSI(key, USvalue, log):
               '> when converting to SI units.  Dud key is "' + key + '".')
         gen.OopsIDidItAgain(log)
 
+
     if key == "temp":
+#                 "momint":  ( "kg-m^2",   "lb-ft^2", 0.042140110093805)
         # A special for absolute temperature values
         SIvalue = (USvalue - 32.) * yielded[2]
+        if debug1:
+            QA_text = (" converted " + str(USvalue) + " " + yielded[1] + " to "
+                       + gen.FloatText(SIvalue) + " " + yielded[0]
+                       + " by subtracting 32 and multiplying by "
+                       + gen.FloatText(yielded[2]) + ".")
+            gen.WriteOut(QA_text, log)
     else:
         SIvalue = USvalue * yielded[2]
-    return(SIvalue, yielded[0])
+        if debug1:
+            QA_text = (" converted " + str(USvalue) + " " + yielded[1] + " to "
+                       + gen.FloatText(SIvalue) + " " + yielded[0]
+                       + " by multiplying by "
+                       + gen.FloatText(yielded[2]) + ".")
+            gen.WriteOut(QA_text, log)
+    return(SIvalue, yielded[:2])
 
 
 def ConversionTest(toUS, log):
@@ -258,15 +291,16 @@ def ConversionTest(toUS, log):
              "press2":  ( 101325,    29.9),
              "dens":    ( 1.2,       0.075),
              "dist1":   ( 0.3048,    1.),
-             "dist2":   ( 30.48,     12.),
+             "dist2":   ( 30.48,     1.),
              "dist3":   ( 304.8,     1.),
              "dist4":   ( 0.3048,    12.),
              "dist5":   ( 2.54,      1.),
              "dist6":   ( 25.4,      1.),
              "area":    ( 20.,       1.),
              "mass1":   ( 0.454,     1.),
-             "mass2":   ( 1.,        907.2),
-             "mass3":   ( 907.2,     0.9072),
+             "mass2":   ( 0.454,     1.),
+             "mass3":   ( 1.,        1.),
+             "mass4":   ( 907.2,     1.1),
              "speed1":  ( 1.,        196.85),
              "speed2":  ( 80.,       50.),
              "accel":   ( 1.,        2.24),
@@ -282,11 +316,15 @@ def ConversionTest(toUS, log):
              "Aterm2":  ( 1.,        1.,),
              "Bterm":   ( 1.,        1.,),
              "rotmass": ( 9.65,      8.8,),
-             "momint":  ( 1.,        1.,)
+             "momint":  ( 1.,        1.,),
+             "W":       ( 1.,        1.,),
+             "RH":      ( 60.,       60.,),
+             "perc":    ( 92.,       92.,),
+             "null":    ( 1.,        1.,),
             }
 
     # We only run this routine once in a blue moon.  But when we
-    # do, we've changed something or added a conversion factor
+    # do, we've changed something or added a conversion factor.
     # So it behoves me to check the contents of the dictionary
     # "units" very carefully against the contents of the dictionary
     # "USequivalents".
@@ -305,7 +343,7 @@ def ConversionTest(toUS, log):
         SI_text_width = 0
         US_text_width = 0
         for key in units_keys_list:
-            key_width = max(key_width, len(key))
+            key_width = max(key_width, len(key) + 1)
             SI_text_width = max(SI_text_width,
                                     len(USequivalents[key][0].rstrip())
                                )
@@ -327,32 +365,32 @@ def ConversionTest(toUS, log):
             if toUS:
                 SI_value = values[key][0]
                 SI_text = gen.FloatText(SI_value)
-                SI_unit_text = USequivalents[key][0].rstrip()
 
                 # Get the value in US units.
-                US_value, US_unit_text = ConvertToUS(key, SI_value, log)
+                (US_value, (SI_utext, US_utext)) = ConvertToUS(key, SI_value,
+                                                               False, log)
                 US_text = gen.FloatText(US_value)
 
 
                 message = ('Key: ' + ('"'+key+'"').rjust(key_width+1)
-                          + SI_text.rjust(9) + " "
-                          + SI_unit_text.ljust(SI_text_width) + " = "
-                          + US_text + " " + US_unit_text
+                          + SI_text.rjust(7) + " "
+                          + SI_utext.rstrip().ljust(SI_text_width) + " = "
+                          + US_text + " " + US_utext.rstrip()
                           )
                 print(message)
             else:
                 US_value = values[key][1]
                 US_text = gen.FloatText(US_value)
-                US_unit_text = USequivalents[key][1].rstrip()
 
                 # Get the value in SI units.
-                SI_value, SI_unit_text = ConvertToSI(key, US_value, log)
+                (SI_value, (SI_utext, US_utext)) = ConvertToSI(key, US_value,
+                                                               False, log)
                 SI_text = gen.FloatText(SI_value)
 
 
                 message = ('Key: ' + ('"'+key+'"').rjust(key_width+1)
-                          + US_text.rjust(9) + " "
-                          + US_unit_text.ljust(US_text_width) + " = "
-                          + SI_text + " " + SI_unit_text
+                          + US_text.rjust(10) + " "
+                          + US_utext.rstrip().ljust(US_text_width) + " = "
+                          + SI_text + " " + SI_utext.rstrip()
                           )
                 print(message)
