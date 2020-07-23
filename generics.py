@@ -170,6 +170,19 @@ def WriteMessage(message_text, log):
     return()
 
 
+def WriteOut(line, handle):
+    '''Write a line to an output file (or to the logfile) and add
+    a carriage return.
+        Parameters:
+            line            str,       A line of text
+            handle          handle,    Handle to the file being written to
+
+        Returns: None
+
+    '''
+    handle.write(line + '\n')
+    return
+
 def OopsIDidItAgain(log, file_name = ""):
     '''Write a spiel to the terminal and to the log file telling the
     user that their input file has managed to break the program
@@ -199,7 +212,7 @@ def OopsIDidItAgain(log, file_name = ""):
     PauseFail()
 
 
-def GetFileData(file_string, debug1):
+def GetFileData(file_string, default_ext, debug1):
     '''Take a string (which we expect to be a file name with or without
     a file path).  Split it up into its component parts.  This is best
     explained by example.  Say we pass the string
@@ -218,6 +231,7 @@ def GetFileData(file_string, debug1):
 
         Parameters:
             file_string (str), A file_name or path and file_name
+            default_ext (str), The extension to return if none was given
             debug1    (bool), The debug Boolean set by the user
 
         Returns:
@@ -240,9 +254,10 @@ def GetFileData(file_string, debug1):
     if file_ext == "":
         # We didn't give the file extension (this is common
         # when running in Terminal).  We make the extension
-        # ".txt".  If a file with the extension ".txt" doesn't
-        # exist, we'll catch it when we try to open it.
-        file_ext = ".txt"
+        # the default extension passed to us.  If a file with
+        # that extension doesn't exist, we'll catch it when
+        # we try to open it.
+        file_ext = default_ext
         file_name = file_name + file_ext
 
     if debug1:

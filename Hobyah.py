@@ -34,7 +34,7 @@ def ProcessFile(file_string, file_num, file_count, debug1,
     # Get the file name, the directory it is in, the file stem and
     # the file extension.
     (file_name, dir_name,
-        file_stem, file_ext) = gen.GetFileData(file_string, debug1)
+        file_stem, file_ext) = gen.GetFileData(file_string, ".txt", debug1)
 
     print("\n> Processing file " + str(file_num) + " of "
           + str(file_count) + ', "' + file_name + '".\n>')
