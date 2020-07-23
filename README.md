@@ -7,7 +7,7 @@ At the moment, all can do is:
 
 Hobyah.py is the main program file.
 
-SESv41conv.py is a routine that converts US customary units to SI, based on the conversion factors in the SES v4.1 code.  It writes a shortened transcript in SI units and saves the SES file's data in a form suitable for pickling and plotting.
+SESv41conv.py is a routine that converts SES v4.1 output files (PRN files) in US customary units to SI, based on the conversion factors in the SES v4.1 code.  It writes a shortened transcript in SI units and saves the SES file's data in a form suitable for pickling and plotting.
 
 Generics.py, syntax.py and UScustomary.py are ancillary routines that are likely to be used by several different main programs.
 
