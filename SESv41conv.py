@@ -12,7 +12,8 @@
 # form that can be used by the Hobyah plot routines.  The binary
 # form can be in US customary units or in SI units.  If told to
 # convert to SI, it generates a copy of the .PRN file in SI units.
-# It doesn't work yet: this is just the bare bones.
+# It doesn't work yet: this is just the bare bones of processing
+# up to form 2.
 
 import sys
 import os
@@ -67,7 +68,7 @@ def OkLine(line):
     return( not(line.isspace() or IsHeader(line) or IsFooter(line)) )
 
 
-def FilterJunk(file_conts, file_name, file_num, file_count, log, debug1):
+def FilterJunk(file_conts, file_name, log, debug1):
     '''Read in a list of lines (file_conts) and strip out all the
     blank lines, header lines, form feeds and footer lines.  It also
     strips off trailing whitespace on the valid lines.
@@ -89,30 +90,84 @@ def FilterJunk(file_conts, file_name, file_num, file_count, log, debug1):
         Errors:
             Aborts with 4021 if no header line was present in the file.
             Aborts with 4022 if no footer line was present in the file.
+            Aborts with 4023 if the first header line was corrupted.
+            Aborts with 4024 if a header line other than the first was found.
     '''
     # First get the header.  This steps over any printer control sequences
     # at the top of the output file.
-    for linenum, line in enumerate(file_conts):
+    for line_num, line in enumerate(file_conts, 1):
         if IsHeader(line):
             header = line.lstrip().rstrip()
-            first_header = linenum
+            first_header = line_num
+            if debug1:
+                print("Found header")
             break
+        # Check for an edited first header line.  We won't catch
+        # them all with this, but we'll catch most.
+        elif "SES VER" in line or "PAGE:     1" in line:
+            # Oops!  We ran across a line that resembles the first
+            # header line but didn't return True from IsHeader!
+            # Most likely reason is that the first header line has
+            # been edited accidentally.  Return a helpful error message.
+            # I did this once when editing a PRN file to test out errors.
+            # The program started the lines of input from page 2 of the
+            # PRN file, failed in form 1B and I was confused for about
+            # an hour.
+            if line[8:15] != "SES VER":
+                # "SES VER" looks like it is in the wrong place.
+                start_char = line.find("SES VER")
+                range_text = ('> Valid headers have "SES VER" in the '
+                               '9th to 15th characters,\n'
+                             '> your line has it in the ' + gen.Enth(start_char+1)
+                             + " to " + gen.Enth(start_char+7) + ' characters.')
+            elif line[112:117] != "PAGE:":
+                # "PAGE:" looks like it is in the wrong place.
+                start_char = line.find("PAGE:")
+                range_text = ('> Valid headers have "PAGE:" in the '
+                                '113th to 117th characters,\n'
+                             '> your line has it in the ' + gen.Enth(start_char+1)
+                             + " to " + gen.Enth(start_char+5) + ' characters.')
+            err = ('> Found a line that resembles the first header line in "'
+                   + file_name + '".\n'
+                   "> but which didn't quite match (edited accidentally?).\n"
+                   + range_text + '\n'
+                   "> Rerun it or edit the PRN file."
+                  )
+            gen.WriteError(4023, err, log)
+            gen.ErrorOnLine(line_num, line, log, lstrip = False)
+            return(None)
 
-    # Fault if we didn't find the header
     try:
         discard = header
     except UnboundLocalError:
-        print('> *Error* 4021\n'
-              '> Failed to find a header line in "' + file_name + '".\n'
-              "> Are you sure this is an SES output file?\n")
-        gen.PauseIfLast(file_num, file_count)
+        err = ('> Failed to find a header line in "' + file_name + '".\n'
+               "> Are you sure this is an SES output file?")
+        gen.WriteError(4021, err, log)
         return(None)
-
+    else:
+        # Now check if it is the first header line and complain if it
+        # is not.
+        if "PAGE:     1" not in header:
+            page_num = header.split()[-1]
+            err = ('> Found a header line, but not on the first page of "'
+                   + file_name + '".\n'
+                  "> It looks like your SES output file is corrupted, as\n"
+                  "> the header on the first page slipped past somehow.\n"
+                  "> The header line that was found was for page " + page_num
+                  + ", which\n"
+                  "> is no use (it means we missed form 1B).\n"
+                  "> Rerun it or edit the PRN file."
+                  )
+            gen.WriteError(4024, err, log)
+            gen.ErrorOnLine(line_num + 1, line, log, lstrip = False)
+            return(None)
 
     # Now get the footer
     for line in file_conts[first_header:]:
         if IsFooter(line):
             footer = line.lstrip().rstrip()
+            if debug1:
+                print("Found footer")
             break
 
     # Fault if we didn't find the footer (unlikely given that we found
@@ -120,19 +175,19 @@ def FilterJunk(file_conts, file_name, file_num, file_count, log, debug1):
     try:
         discard = footer
     except UnboundLocalError:
-        print('> *Error* 4022\n'
-              '> Failed to find a footer line in "' + file_name + '".\n'
-              "> Are you sure this is an SES output file?\n")
-        gen.PauseIfLast(file_num, file_count)
+        err = ('> Failed to find a footer line in "' + file_name + '".\n'
+               "> Are you sure this is an SES output file?")
+        gen.WriteError(4022, err, log)
         return(None)
 
-    # Now get all the lines that are not printer control sequences, headers,
-    # footers, form feeds or blank.
-
+    # Now get all the lines that are not printer control sequences, comments,
+    # headers, footers, form feeds or blank.
     line_pairs = [(index,line[:-1]) for index,line in
-                  enumerate(file_conts[first_header+1:], linenum+1)
+                  enumerate(file_conts[first_header+1:], line_num+2)
                   if OkLine(line)
                  ]
+    # for entry in line_pairs:
+    #     print(entry[0], entry[1])
     # The routine returns a list of tuples: each tuple has the line number
     # and the contents of the line.  The line numbers start at one (not zero)
     # because we will only use the line numbers in error messages.
@@ -644,13 +699,16 @@ def FilterErrors(line_pairs, errors, log, debug1):
     return(line_triples, errors)
 
 
-def Form1A(line_pairs, out, log):
+def Form1A(line_pairs, file_name, file_num, file_count, out, log):
     '''Read the comment lines at the top of the file.
     Return a list of the lines of comment, the contents of the line
     holding form 1B and the index of that line in line_pairs.
 
         Parameters:
             line_pairs      [(int, str)]   Valid lines from the output file
+            file_name       str,           This file name
+            file_num        int,           This file's position in the list of files
+            file_count      int,           The total number of files being processed
             out             handle,        The handle of the output file
             log             handle,        The handle of the logfile
 
@@ -660,6 +718,9 @@ def Form1A(line_pairs, out, log):
             shortline       str,      The header line without trailing whitespace
             errors          [str],    A list of errors (32 or 33 could occur)
             index           int,      The index of the line holding form 1B
+
+        Errors:
+            Raises error 4025 if the line with "DESIGN TIME" on it is not found.
     '''
     comments_on = False
     comments = []
@@ -672,8 +733,10 @@ def Form1A(line_pairs, out, log):
             # We are at the start of the comments.  Start logging
             # them.
             comments_on = True
-        elif shortline[:11] == "DESIGN TIME":
-            # We are at the end of the comments.  Break out.
+        elif line[:47] == " "*36 + "DESIGN TIME":
+            # We are at the end of the comments.  Break out, noting
+            # that we found the end of the comments.
+            comments_on = False
             break
         elif comments_on:
             comments.append(shortline)
@@ -683,7 +746,7 @@ def Form1A(line_pairs, out, log):
     # two-line error message twice.  N.B. the year entry in Form 1B is
     # not used for anything.
     for discard in range(2):
-        if comments[-2][:4] == "*ERR":
+        if len(comments) > 1 and comments[-2][:4] == "*ERR":
             # An error happened.  Write the last two lines to the
             # list of errors.  We have to spoof the line number in
             # the tuple that PROC AddErrorLine expects.  Remove the
@@ -694,12 +757,25 @@ def Form1A(line_pairs, out, log):
             comments.pop()
             comments.pop()
 
-    # Return the list of comments, list of errors, the line that holds form
-    # 1B and the index of it in the list of tuples.
-    return(comments, shortline, errors, index)
+    # Check that we did break out, not just run out of lines of input
+    if comments_on:
+        err = ('> Ran out of lines of input while reading comments in "'
+               + file_name + '".\n'
+              "> It looks like your SES output file is corrupted.\n"
+              '> The line for form 1B, the one that should start with\n'
+              '>   "                                    DESIGN TIME",\n'
+              "> is absent.  Try rerunning the file or checking the\n"
+              '> contents of the PRN file.'
+              )
+        gen.WriteError(4025, err, log)
+        return(None)
+
+    # Return the list of comments, list of errors and the index of where
+    # form 1B is in the list of tuples.
+    return(comments, errors, index)
 
 
-def Form1B(line, log):
+def Form1B(line_pair, file_name, log):
     '''Process form 1B and return the time, month and year in the
     number form they have in the input file.  Note that if an incorrect
     hour or month was in the original input file, they will have been
@@ -707,8 +783,10 @@ def Form1B(line, log):
     we don't need to guard against incorrect months.
 
         Parameters:
-            line            str,           A line of text for form 1B
-            log             handle,        The handle of the logfile
+            line_pair     (str, int)    A tuple of the line holding form 1B
+                                        and its line number in the PRN file.
+            file_name       str,        This file name
+            log             handle,     The handle of the logfile
 
 
         Returns:
@@ -716,21 +794,95 @@ def Form1B(line, log):
                                         8.5 = 8:30 am (rounded to 4 D.P)
             month           int,        The design month, 1 to 12
             year            int,        The year the file was written, I guess
+
+        Errors:
+            Raises error 4026 if the line doesn't have 6 words on it.
+            Raises error 4027 if design time is not a number.
+            Raises error 4028 if the name of the month is invalid.
+            Raises error 4029 if the year is not a number.
+
+
     '''
     months = ("JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY",
               "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER")
 
-    # DESIGN    TIME     1700        HRS      JULY       2020
-    (discard, discard, time_text, discard, month_text, year_text) = line.split()
+    (line_num, line_text) = line_pair
+    # We were given a line that started with "DESIGN TIME" but it is possible
+    # that it is a line of comment text rather than form 1B.  It should be
+    # something like  "DESIGN TIME 1700 HRS   JULY       2028" and have
+    # six words in it.
+    parts = line_text.split()
+    if len(parts) != 6:
+        # It doesn't have six entries.  Complain.
+        err = ('> Came across an oddity in form 1B in the file "'
+               + file_name + '".\n'
+              "> This SES processor spots form 1B by looking out for the\n"
+              '> text "DESIGN TIME" at a particular place in a line of\n'
+              "> comment.  It looks like one of your lines of comment\n"
+              "> happened to meet that criterion.  Please edit your PRN\n"
+              "> file to avoid this (easiest thing is to change it to lower\n"
+              "> case) and edit the comments in the SES input file to\n"
+              "> stop it happening again.  Either that, or the PRN file\n"
+              "> has been corrupted."
+              )
+        gen.WriteError(4026, err, log)
+        gen.ErrorOnLine(line_num + 1, line_text, log, lstrip = False)
+        return(None)
+    else:
+        # We have six words, get the three values in form 1B on the line.
+        (discard, discard, time_text, discard,
+        #  DESIGN    TIME     1700      HRS
+                                 month_text, year_text) = line_text.split()
+        #                            JULY       2028
 
-    hour, mins = divmod(float(time_text), 100)
-    time = hour + round(mins / 60.0, 4)
-    month = months.index(month_text) + 1
-    year = int(year_text)
+    # Check the time, month and year, raise fatal errors if they are weird.
+    try:
+        clock_time = float(time_text)
+    except ValueError:
+        err = ('> Failed to find a valid clock time in form 1B in file "'
+               + file_name + '".\n'
+              '> The clock time was supposed to be something like "1700"\n'
+              '> but was actually "' + time_text + '".\n'
+              "> Please edit the file to correct the corrupted entry."
+              )
+        gen.WriteError(4027, err, log)
+        gen.ErrorOnLine(line_num + 1, line_text, log)
+        return(None)
+    else:
+        hour, mins = divmod(clock_time, 100)
+        time = hour + round(mins / 60.0, 4)
+
+    try:
+        month = months.index(month_text) + 1
+    except ValueError:
+        err = ('> Failed to find a valid month in form 1B in file "'
+               + file_name + '".\n'
+              '> The text giving the month should have been something\n'
+              '> like "FEBRUARY" but was actually "' + month_text + '".\n'
+              "> Please edit the file to correct the corrupted entry."
+              )
+        gen.WriteError(4028, err, log)
+        gen.ErrorOnLine(line_num + 1, line_text, log)
+        return(None)
+
+
+    try:
+        year = float(year_text)
+    except ValueError:
+        err = ('> Failed to find a valid year in form 1B in file "'
+               + file_name + '".\n'
+              '> The year was supposed to be something like "2028"\n'
+              '> but was actually "' + year_text + '".\n'
+              "> Please edit the file to correct the corrupted entry."
+              )
+        gen.WriteError(4029, err, log)
+        gen.ErrorOnLine(line_num + 1, line_text, log)
+        return(None)
+
     return(time, month, year)
 
 
-def GetValidLine(line_triples, index, out, log):
+def GetValidLine(line_triples, tr_index, out, log):
     '''Take a list of the line triplets and return the next valid line
     from the current index.  If a non-valid line (a line of error message)
     is encountered, write it to the log file.  Also return the updated
@@ -739,7 +891,7 @@ def GetValidLine(line_triples, index, out, log):
         Parameters:
             line_triples [(int,str,Bool)],   A list of tuples (line no., line
                                              text, True if not an error line)
-            index           int,             Index of the last valid line
+            tr_index        int,             Index of the last valid line
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -757,35 +909,35 @@ def GetValidLine(line_triples, index, out, log):
     '''
     valid = False
     while not valid:
-        index += 1
+        tr_index += 1
         try:
-            (line_num, line_text, valid) = line_triples[index]
+            (line_num, line_text, valid) = line_triples[tr_index]
         except IndexError:
             # We are seeking a valid line but there are none left.
             # This won't happen in well-formed files but will turn
             # up in files that have failed.
             err = ("> Failed to find a valid line to read.  This\n"
                    "> usually happens during failed runs.  Please\n"
-                   "> check the log file and raise a bug report\n"
-                   "> if it looks like the run ran to the end.")
+                   "> check the log file for input and simulation\n"
+                   "> errors and raise a bug report if it looks\n"
+                   "> like the run ran to the end.\n")
             gen.WriteError(4041, err, log)
-            gen.ErrorOnLine(line_num, line_text, log)
             return(None)
         if not valid:
             # This is a line of error message, write it to the output file.
             gen.WriteOut(line_text, out)
-    return(line_num, line_text, index)
+    return(line_num, line_text, tr_index)
 
 
-def Form1CDE(line_triples, count, index1CDE, debug1, out, log):
-    '''Process form 1C, 1D or 1E.  Return a tuple of the eight values and the
-    index of where the next form starts in the list of line pairs.  If the file
+def Form1CDE(line_triples, count, tr_index, debug1, out, log):
+    '''Process form 1C, 1D or 1E.  Return a tuple of its values and the index
+    of where the next form starts in the list of line pairs.  If the file
     ends before all of the form has been processed, it returns None.
 
         Parameters:
             line_pairs      [(int, str)]   Valid lines from the output file
             count           int            Count of numbers we want to read
-            index1CDE       int,           The place to start reading the form
+            tr_index       int,           The place to start reading the form
             debug1          bool,          The debug Boolean set by the user
             out             handle,        The handle of the output file
             log             handle,        The handle of the logfile
@@ -793,7 +945,7 @@ def Form1CDE(line_triples, count, index1CDE, debug1, out, log):
 
         Returns:
             form1CDE        (int)*count,   The numbers in the form
-            index_next      int,           Where to start reading the next form
+            tr_index        int,           Where to start reading the next form
     '''
     # A local debug switch
     debug2 = False
@@ -801,7 +953,7 @@ def Form1CDE(line_triples, count, index1CDE, debug1, out, log):
     # Create a list to hold the 7 or 8 numbers.
     result = []
     for discard in range(count):
-        line_data = GetValidLine(line_triples, index1CDE, out, log)
+        line_data = GetValidLine(line_triples, tr_index, out, log)
         if debug2:
             print("Line:",line_data)
 
@@ -809,14 +961,14 @@ def Form1CDE(line_triples, count, index1CDE, debug1, out, log):
             # The input file has ended unexpectedly, likely a fatal error.
             return(None)
         else:
-            (line_num, line_text, index1CDE) = line_data
+            (line_num, line_text, tr_index) = line_data
             gen.WriteOut(line_text, out)
 
             # Get the integer at the end of the line.  The slice matches
             # the Input.for format field text 'T79,I5'.
             counter = GetInt(line_text, 78, 83, log)
             result.append(counter)
-    return(result, index1CDE)
+    return(result, tr_index)
 
 
 def ConvOne(line_text, start, end, unit_key, decpl, QA_text,
@@ -839,13 +991,13 @@ def ConvOne(line_text, start, end, unit_key, decpl, QA_text,
             log         handle,     The handle of the logfile
 
         Returns:
-            value       real,       The number in the slice.  Will be None
-                                    in the case of a fatal error and zero in
+            value       real,       The number in the slice.  Will be zero in
                                     the case of a Fortran format field error.
             line_new    str,        The modified line, with the converted
                                     value.
             units_texts (str, str)  A tuple of the SI and US units text, e.g.
-                                      ("kg/m^3", "LB/FT^3").
+                                      ("kg/m^3 ", "LB/FT^3").
+            In the case of an error it returns None.
     '''
     # Get the value on the line.
     result = GetReal(line_text, start, end, log)
@@ -893,7 +1045,8 @@ def ShoeHornText(line_text, start, end, value, decpl,
 
         Returns:
             repl        str,        The modified line, with the converted
-                                    value in the range [start:end]
+                                    value in the range [start:end].  If it
+                                    can't fit, it returns None.
 
         Errors:
             Raises error 4082 if the value is too large after being
@@ -914,22 +1067,41 @@ def ShoeHornText(line_text, start, end, value, decpl,
                 best_guess = str(int(value))
             elif decpl < 0:
                 # The value is too large to fit in the space even as an integer.
-                # This is an unlikely event, but you never know.
-                err_text = ("*Error* 4082\n"
-                    "Tried to convert a value but the replacement value\n"
-                    "is too large to fit in the space.\n"
-                    "Details are: " + QA_text + "\n"
-                    "The intended conversion is from " + units_texts[1]
-                    + " to " + units_texts[0] + ".\n"
-                    + SliceErrText(line_text, start, end))
-                gen.WriteOut(err_text, log)
-                print(err_text)
-                return(None)
+                # This is an unlikely event, but you never know.  Convert it
+                # to the widest value that fits in scientific notation.
+                width = end - start - 2
+                # Sample format: '{5.0E}' leads to things like 149999
+                # turning into '1E+05', an error of 50%.  This is the
+                # best we can do, though.
+                num_format = "{:" + str(width) + "." + str(width - 5) + "E}"
+                best_guess = " " + num_format.format(value)
+                if width >= 5:
+                    # We have a suitable string in scientific notation, return.
+                    break
+                else:
+                    # We have such a small space to fit the number into that
+                    # even the scientific notation is too wide.  This is
+                    # unlikely but it might happen.
+                    err = (
+                        "> Tried to convert a value but the replacement value\n"
+                        "> is too large to fit in the space, even when it is\n"
+                        "> converted to scientific form (e.g. 1E+05).\n"
+                        "> Details are: " + QA_text + "\n"
+                        "> The intended conversion is from "
+                        + units_texts[1].rstrip() + " to "
+                        + units_texts[0].rstrip() + ".\n"
+                        "> The space available is " + str(width + 2)
+                        + " characters and the converted value is" + best_guess
+                        + " (" + str(len(best_guess)) + " characters wide).\n"
+                        + SliceErrText(line_text, start, end)
+                          )
+                    gen.WriteError(4082, err, log)
+                    return(None)
             else:
                 # We still have some digits after the decimal point.
                 # Re-try with fewer decimal places and go around again.
                 best_guess = str(value.round(decpl))
-    # If we get to here, we have succeeded.
+    # If we get to here, we have succeeded.  Replace the slice.
     repl = line_text[:start] + best_guess.rjust(end - start) + line_text[end:]
     return(repl)
 
@@ -956,6 +1128,7 @@ def ConvTwo(line_text, details, convert, debug1, log):
                                     value
     '''
     # Get the details.  These are:
+    # skip        int,        Not used here
     # key         str,        Not used here
     # start       int,        Where to start the slice
     # end         int,        Where to end the slice
@@ -963,7 +1136,7 @@ def ConvTwo(line_text, details, convert, debug1, log):
     # unit_key    str,        A key to the conversion dictionary
     # QA_text     str,        A QA string, e.g. "Form 1F, external
     #                           dry bulb temperature"
-    (discard, key, start, end, unit_key, decpl, spaces, QA_text) = details
+    (skip, key, start, end, unit_key, decpl, spaces, QA_text) = details
 
     # Get the value on the line.
     result = ConvOne(line_text, start, end, unit_key, decpl, QA_text,
@@ -979,32 +1152,34 @@ def ConvTwo(line_text, details, convert, debug1, log):
             # Convert the unit, unless it is null.
             if unit_key == "null":
                 # This is something weird that has no units, like the
-                # fire option
+                # fire option or Reynolds number.
                 return(value, line_text)
             else:
                 # Check the US units text is in the line and fault if not.
                 if line_text[start2:end2].rstrip() == units_texts[1].rstrip():
                     # We have a match
                     line_new = line_text[:start2] + units_texts[0] + line_text[end2:]
-                    return(value, line_new)
+                    return(value, line_new.rstrip())
                 else:
                     # We have a mismatch.  Complain about it.
                     # Get pointers to where the units text should be.
-                    err_text = ("*Error* 4081\n"
-                        "Tried to convert a line and its unit but the unit "
+                    err = (
+                        "> Tried to convert a line and its unit but the unit "
                         "is not on the line.\n"
-                        "Details are: " + QA_text + ".\n"
-                        "The intended conversion is from "+ units_texts[1]
-                        + " to " + units_texts[0] + ".\n"
+                        "> This is likely a failure to consider an SES option, "
+                        "please raise a bug report.\n"
+                        "> Details are: " + QA_text + ".\n"
+                        "> The intended conversion is from "
+                        + units_texts[1].rstrip() + " to "
+                        + units_texts[0].rstrip() + ".\n"
                         + SliceErrText(line_text, start2, end2))
-                    gen.WriteOut(err_text, log)
-                    print(err_text)
+                    gen.WriteError(4081, err, log)
                     return(None)
         else:
             return(result, line_text)
 
 
-def FormRead(line_triples, index1, definitions, debug1, out, log):
+def FormRead(line_triples, tr_index, definitions, debug1, out, log):
     '''Read a group of lines from an input form made up of lines with one
     number on them (such as form 1F).  Convert the number and its unit to
     SI, write the line to the SI file and return the values as a dictionary
@@ -1012,17 +1187,19 @@ def FormRead(line_triples, index1, definitions, debug1, out, log):
 
         Parameters:
             line_pairs   [(int, str)]   Valid lines from the output file
-            index1       int,           The place to start reading the form
+            tr_index     int,           The place to start reading the form
             definitions  (tuple)        A tuple of tuples.  Each sub-tuple shows
-                                        how to convert one line of PRN file.
+                                        how to convert one line of the PRN file
+                                        that holds one number and if any lines
+                                        need to be skipped over.
             debug1       bool,          The debug Boolean set by the user
             out          handle,        The handle of the output file
             log          handle,        The handle of the logfile
 
 
         Returns:
-            form1F      {form 1F values},  A dictionary of numbers in form 1F
-            index_next      int,           Where to start reading the next form
+            form        {form values},  A dictionary of numbers in the form
+            tr_index     int,           Where to start reading the next form
     '''
     # A local debug switch
     debug2 = False
@@ -1033,10 +1210,10 @@ def FormRead(line_triples, index1, definitions, debug1, out, log):
     for def_data in definitions:
         # Skip zero or more header lines first.
         if def_data[0] > 0:
-            index1 = SkipLines(line_triples, index1, def_data[0], out, log)
+            tr_index = SkipLines(line_triples, tr_index, def_data[0], out, log)
 
         # Get the valid line that has a number at the end of it.
-        line_data = GetValidLine(line_triples, index1, out, log)
+        line_data = GetValidLine(line_triples, tr_index, out, log)
         if debug2:
             print("Line:",line_data)
 
@@ -1045,7 +1222,7 @@ def FormRead(line_triples, index1, definitions, debug1, out, log):
             return(None)
         else:
             # Get the line, convert the data and the units text on it
-            (line_num, line_text, index1) = line_data
+            (line_num, line_text, tr_index) = line_data
             result = ConvTwo(line_text, def_data, True, debug1, log)
             if result is None:
                 # Something went awry with the conversion
@@ -1053,7 +1230,7 @@ def FormRead(line_triples, index1, definitions, debug1, out, log):
             else:
                 value, line_text = result
                 gen.WriteOut(line_text.rstrip(), out)
-        # Add the value to the form 1F dictionary.  Note that the value
+        # Add the value to the form's dictionary.  Note that the value
         # that returns here is not rounded.
         # Check to see if we are expecting an integer and set an integer
         # as the value to yield.
@@ -1064,10 +1241,234 @@ def FormRead(line_triples, index1, definitions, debug1, out, log):
         else:
             form_dict.__setitem__(key, value)
     # Return the dictionary and the index of the next line.
-    return(form_dict, index1)
+    return(form_dict, tr_index)
 
 
-def Form1F(line_triples, index1F, debug1, out, log):
+def GetInt(line_text, start, end, log, dash_before = False, dash_after = False):
+    '''Take a line in a PRN file and a pair of integers.  Seek an integer
+    in the line on the place indicated and raise an error if we don't find
+    one.  Most of the work is done in PROC GetReal.
+
+        Parameters:
+            line_text       str,      A string that we think contains a number
+            start           int,      Where to start the slice
+            end             int,      Where to end the slice
+            dash_before     Bool,     True if we expect a dash before the slice
+            dash_after      Bool,     True if we expect a dash after the slice
+            log             handle,   The handle of the logfile
+
+        Returns:
+            value           real,     The number in the slice.  Will be None
+                                      in the case of a fatal error and zero in
+                                      the case of a Fortran format field error.
+
+        Errors:
+            Issues error 4068 if the slice does not contain an integer number.
+    '''
+    # Get a real number
+    value = GetReal(line_text, start, end, log, dash_before, dash_after)
+
+    if value is None:
+        # There was an error in the value somewhere.
+        return(None)
+    integer = int(value)
+    if integer == value:
+        return(integer)
+    else:
+        err = ("> A slice of a line did not contain a valid integer."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end)
+             )
+        gen.WriteError(4068, err, log)
+        return(None)
+
+
+def GetReal(line_text, start, end, log, dash_before = False, dash_after = False):
+    '''Take a line in a PRN file and a pair of integers.  Seek a number
+    in the line on the place indicated and raise an error if we don't find
+    one.
+
+    Warn if the character before the slice starts or after the slice ends
+    is not a space (and optionally, not a dash) (this will help catch
+    incorrect slices) but can be triggered by large numbers.  Also warn if
+    the number is all *, which indicates a number too large to fit in its
+    Fortran field (these turn up as well).
+
+        Parameters:
+            line_text       str,      A string that we think contains a number
+            start           int,      Where to start the slice
+            end             int,      Where to end the slice
+            dash_before     Bool,     True if we expect a dash before the slice
+            dash_after      Bool,     True if we expect a dash after the slice
+            log             handle,   The handle of the logfile
+
+        Returns:
+            value           real,     The number in the slice.  Will be None
+                                      in the case of a fatal error and zero in
+                                      the case of a Fortran format field error.
+
+        Errors:
+            Issues error 4061 and returns with None if a valid number can't
+            be found in the place indicated.
+            Issues error 4062 if there is a relevant character before the slice.
+            Issues error 4063 and returns with None if the contents of the
+            slice is all whitespace.
+            Issues error 4064 if the last character in the slice is whitespace.
+            Issues error 4065 if there is a relevant character after the slice.
+            Issues error 4066 if the slice is all *** characters (a Fortran
+            field format failure).
+            Issues error 4067 if the slice does not contain a real number.
+    '''
+    # Set up strings holding the characters we don't want to see before the
+    # slice or after the slice.
+    if dash_before:
+        # We are reading a segment or subsegment number so we don't want
+        # to raise the alarm if there is a '-' before the number.
+        befores = "*E.1234567890+"
+    else:
+        befores = "*E.1234567890+-"
+    if dash_after:
+        # We are reading a section or segment number so we don't want
+        # to raise the alarm if there is a '-' after the number.
+        afters = "*E.1234567890+"
+    else:
+        afters = "*E.1234567890+-"
+
+    # Check if the slice extends beyond the end of the line.
+    # We won't check for negative slice integers: if we feed the routine
+    # those we deserve to get confused.
+    if end > len(line_text):
+        err = ("> Seeking a string slice beyond the end of the line."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end)
+               + "> Line length is " + str(len(line_text)) + ", slice is "
+               + str(start) + ":" + str(end) + ".")
+        gen.WriteError(4061, err, log)
+        return(None)
+    elif start > 0 and line_text[start - 1] in befores:
+        # We may have an improper slice, but we keep going
+        err = ("> *Error* 4062 (it may be an error, it may be OK).\n"
+               "> Sliced a line to get a number but found that there\n"
+               "> was a possibly related character before it."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end))
+        gen.WriteOut(err, log)
+        return(None)
+    elif line_text[start:end].isspace():
+        err = ("> The contents of the slice was blank."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end))
+        gen.WriteError(4063, err, log)
+        return(None)
+    elif line_text[end - 1].isspace():
+        err = ("> *Error* 4064 (it may be an error, it may be OK).\n"
+               "> The last character in the slice was whitespace."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end))
+        gen.WriteOut(err, log)
+    if end < len(line_text) and line_text[end] in afters:
+        # We may have an improper slice, but we keep going
+        err = ("> *Error* 4065 (it may be an error, it may be OK).\n"
+               "> Sliced a line to get a number but found that there\n"
+               "> was a possibly related character after it."
+                "  Details are:\n"
+               + SliceErrText(line_text, start, end))
+        gen.WriteOut(err, log)
+    # Check for Fortran format field errors.  Fortran replaces all the digits
+    # with '*'.
+    if "**" in line_text[start:end]:
+        # We have a number that is too big for its Fortran format field.
+        err = ("> The Fortran format field is too small for the number."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end)
+               + "> Returning a zero value instead.\n")
+        gen.WriteError(4066, err, log)
+        return(0)
+
+    try:
+        value = float(line_text[start:end])
+    except ValueError:
+        # Oops.
+        err = ("> A slice of a line did not contain a valid real number."
+               "  Details are:\n"
+               + SliceErrText(line_text, start, end) )
+        gen.WriteError(4067, err, log)
+        return(None)
+    else:
+        return(value)
+
+
+def SliceErrText(line_text, start, end):
+    '''Generate a line of error text used in PROCs GetReal and GetInt to show
+    where in the file there was a possibly invalid slice.  Example follows:
+
+    Line:          2 -  3 -  1                                1.285601          736108.         117.34
+    Slice:-----------------------------------------------------------------------^^^^^^^
+
+    The intent of this error message (which is written to the log file) is that
+    it picks up places where I may have told the converter to take a slice in
+    the wrong place on a line.  The carets point to where the slice is, but in
+    the above error it's clear that it is one character too far to the right.
+    It isn't always an error, as there are cases where two independent numbers
+    on a line can run into one another.
+
+        Parameters:
+            line_text       str,      A string that we think contains a number
+            start           int,      Where to start the slice
+            end             int,      Where to end the slice
+
+        Returns:
+            err        str,      Three lines of error text.
+    '''
+    err = ("> Line: " + line_text + "\n"
+                "> Slice:" + "-"*(start) + "^"*(end - start) + "\n"
+               )
+    return(err)
+
+
+def SkipLines(line_triples, tr_index, count, out, log):
+    '''Skip over a number of lines in the file.  We do this frequently
+    but we call GetValidLine just in case there are error messages in the
+    lines we want to skip over.
+
+        Parameters:
+            line_triples [(int,str,Bool)],   A list of tuples (line no., line
+                                             text, True if not an error line)
+            tr_index        int,             Where we are in line_triples
+            count           int,             Count of valid lines to read/write
+            out             handle,          The handle of the output file
+            log             handle,          The handle of the logfile
+
+        Returns:
+            tr_index        int,             Updated index1 (note that the
+                                             routine may have skipped more lines
+                                             due to errors messages.
+    '''
+
+    for index in range(count):
+        # Note that PROC GetValidLine skips over lines of error messages
+        # silently and returns the index when it returns.
+        result = GetValidLine(line_triples, tr_index, out, log)
+        if result is None:
+            return(None)
+        else:
+            (line_num, line_text, tr_index) = result
+            gen.WriteOut(line_text, out)
+    return(tr_index)
+
+
+def CloseDown(form, out, log):
+    '''Write an optional standard message to the log file and close
+    the output file and log file.
+    '''
+    if form != "skip":
+        gen.WriteOut("Failed to process form " + form, log)
+    log.close()
+    out.close()
+    return()
+
+
+def Form1F(line_triples, tr_index, debug1, out, log):
     '''Process form 1F, the external weather data and air pressure.  Return
     a dictionary of the eight values it contains and an index of where form 1G
     starts in the list of line pairs.  If the file ends before all of
@@ -1076,7 +1477,7 @@ def Form1F(line_triples, index1F, debug1, out, log):
         Parameters:
             line_pairs   [(int, str)]   Valid lines from the output file
             count        int            Count of numbers we want to read
-            index1F      int,           The place to start reading the form
+            tr_index     int,           The place to start reading the form
             debug1       bool,          The debug Boolean set by the user
             out          handle,        The handle of the output file
             log          handle,        The handle of the logfile
@@ -1084,7 +1485,7 @@ def Form1F(line_triples, index1F, debug1, out, log):
 
         Returns:
             result_dict {form 1F values},  A dictionary of numbers in form 1F
-            index1          int,           Where to start reading the next form
+            tr_index        int,           Where to start reading the next form
     '''
     # Create a dictionary to hold the numbers.
     result_dict = {}
@@ -1122,17 +1523,17 @@ def Form1F(line_triples, index1F, debug1, out, log):
         (1, "ann_var", 78, 92, "tdiff",  2, 3, "Form 1F, yearly temperature range"),
            )
 
-    result = FormRead(line_triples, index1F, defns, debug1, out, log)
+    result = FormRead(line_triples, tr_index, defns, debug1, out, log)
 #    if result is None:
 #        return(None)
 #    else:
-#        result_dict, index1 = result
+#        result_dict, tr_index = result
 
     # Return the dictionary and the index of the next line.
-#    return(result_dict, index1)
+#    return(result_dict, tr_index)
     return(result)
 
-def Form1G(line_triples, index1G, debug1, out, log):
+def Form1G(line_triples, tr_index, debug1, out, log):
     '''Process form 1F, the external weather data and air pressure.  Return
     a dictionary of the eight values it contains and an index of where form 1G
     starts in the list of line pairs.  If the file ends before all of
@@ -1151,9 +1552,6 @@ def Form1G(line_triples, index1G, debug1, out, log):
             result_dict {form 1G values},  A dictionary of numbers in form 1F
             index1          int,           Where to start reading the next form
     '''
-    # Create a dictionary to hold the numbers.
-    result_dict = {}
-
     # Create lists of the definitions in the form.  Each sub-list gives
     # the following:
     #    dictionary key to store the value under,
@@ -1163,244 +1561,83 @@ def Form1G(line_triples, index1G, debug1, out, log):
     #    the count of spaces between the value and its units text
     #    some text is used for QA in the log file if the debug1 switch is active.
 
-    # Design hour weather data.  Input.for format fields are all T79, F14.x
+    # Passenger mass, OTE capture and fire data.  Input.for format fields 620 to
+    # 645 and 820.
     defns= (
-            (0, "pax_mass",    78, 92, "mass1",  1, 3, "Form 1G, passenger mass"),
+            (0, "pax_mass",    78, 92, "mass2",  1, 3, "Form 1G, passenger mass"),
             (1, "cap_B+T_sta", 78, 92, "perc",   1, 3, "Form 1G, OTE capture rate 1"),
             (1, "cap_B+T_mov", 78, 92, "perc",   1, 3, "Form 1G, OTE capture rate 2"),
             (1, "cap_pax_sta", 78, 92, "perc",   1, 3, "Form 1G, OTE capture rate 3"),
             (1, "cap_pax_mov", 78, 92, "perc",   1, 3, "Form 1G, OTE capture rate 4"),
-            (0, "cap_speed",   78, 92, "speed2", 2, 3, "Form 1G, capture speed"),
+            (0, "cap_speed",   78, 92, "speed2", 2, 3, "Form 1G, transition speed"),
             (0, "fire_sim",    78, 92, "null",   0, 3, "Form 1G, fire option"),
            )
-    print("Form 1G starting:")
-    result = FormRead(line_triples, index1G, defns, debug1, out, log)
-    print("Form 1G result:", result)
+    result = FormRead(line_triples, tr_index, defns, debug1, out, log)
+
+    if result is not None:
+        # Get the seven values returned into our dictionary and the
+        # index of the next line.
+        (result_dict, line_index) = result
+        # Check if we need to read a line for the emissivity or not.
+        # We only read the emissivity if this is a fire simulation.
+        if result_dict["fire_sim"] == 1:
+            emiss_defn = (
+                          (0, "emiss",78, 92, "null", 3, 3,
+                                    "Form 1G, flame emissivity"),
+                         )
+            result = FormRead(line_triples, line_index, emiss_defn,
+                     debug1, out, log)
+            result_dict.update(result[0])
+            line_index = result[1]
+        else:
+            # Spoof an entry for the emissivity, for consistency across the
+            # binary files.
+            result_dict.__setitem__("emiss", 0.0)
+        # Build a suitable returnable.
+        result = (result_dict, line_index)
+
     return(result)
 
 
-def GetInt(line_text, start, end, log, dash_before = False, dash_after = False):
-    '''Take a line in a PRN file and a pair of integers.  Seek an integer
-    in the line on the place indicated and raise an error if we don't find
-    one.  Most of the work is done in PROC GetReal.
+def CountEntries(line_entry, count, form, debug1, file_name, log):
+    '''Take a line of output and check that when it is split up it has
+    the correct count of entries.  This will not work for many lines of
+    output where some numbers are so large that they have no whitespace
+    between them and the prior or subsequent number, but it will work
+    for most.
 
         Parameters:
-            line_text       str,      A string that we think contains a number
-            start           int,      Where to start the slice
-            end             int,      Where to end the slice
-            dash_before     Bool,     True if we expect a dash before the slice
-            dash_after      Bool,     True if we expect a dash after the slice
-            log             handle,   The handle of the logfile
+            line_text    (int, str, Bool)  One line triple from the output file
+            count           int,           How many separate words it should have
+            form            str,           Form to use in an error, e.g. "3A"
+            debug1          bool,          The debug Boolean set by the user
+            log             handle,        The handle of the logfile
+
 
         Returns:
-            value           real,     The number in the slice.  Will be None
-                                      in the case of a fatal error and zero in
-                                      the case of a Fortran format field error.
+            line_text       str,           The text of the line if valid.  If
+                                           it is not valid it returns None.
 
         Errors:
-            Issues error 4066 if the slice does not contain an integer number.
+            Raises error 4101 if there is a mismatch between the expected and
+            actual count.
     '''
-    # Get a real number
-    value = GetReal(line_text, start, end, log, dash_before, dash_after)
 
-    if value is None:
-        # There was an error in the value somewhere.
-        return(None)
-    integer = int(value)
-    if integer == value:
-        return(integer)
-    else:
-        err_text = ("*Error* 4066\n"
-                    "A slice of a line did not contain a valid integer."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end)
-                    + "Returning a zero value instead")
-        gen.WriteOut(err_text, log)
-        return(None)
-
-
-def GetReal(line_text, start, end, log, dash_before = False, dash_after = False):
-    '''Take a line in a PRN file and a pair of integers.  Seek a number
-    in the line on the place indicated and raise an error if we don't find
-    one.
-
-    Warn if the character before the slice starts or after the slice ends
-    is not a space (and optionally, not a dash) (this will help catch
-    incorrect slices) but can be triggered by large numbers.  Also warn if
-    the number is all *, which indicates a number too large to fit in its
-    Fortran field (these turn up as well).
-
-        Parameters:
-            line_text       str,      A string that we think contains a number
-            start           int,      Where to start the slice
-            end             int,      Where to end the slice
-            dash_before     Bool,     True if we expect a dash before the slice
-            dash_after      Bool,     True if we expect a dash after the slice
-            log             handle,   The handle of the logfile
-
-        Returns:
-            value           real,     The number in the slice.  Will be None
-                                      in the case of a fatal error and zero in
-                                      the case of a Fortran format field error.
-
-        Errors:
-            Issues error 4061 and returns with None if a valid number can't
-            be found in the place indicated.
-            Issues error 4062 if there is a relevant character before the slice.
-            Issues error 4063 if the last character in the slice is whitespace.
-            Issues error 4064 if there is a relevant character after the slice.
-            Issues error 4065 if the slice is all *** characters (a Fortran
-            field format failure).
-            Issues error 4066 if the slice does not contain a real number.
-    '''
-    # Set up strings holding the characters we don't want to see before the
-    # slice or after the slice.
-    if dash_before:
-        # We are reading a segment or subsegment number so we don't want
-        # to raise the alarm if there is a '-' before the number.
-        befores = "*E.1234567890+"
-    else:
-        befores = "*E.1234567890+-"
-    if dash_after:
-        # We are reading a section or segment number so we don't want
-        # to raise the alarm if there is a '-' after the number.
-        afters = "*E.1234567890+"
-    else:
-        afters = "*E.1234567890+-"
-
-    # Check if the slice extends beyond the end of the line.
-    # We won't check for negative slice integers: if we feed the routine
-    # those we deserve to get confused.
-    if end > len(line_text):
-        err_text = ("*Error* 4061\n"
-                    "Seeking a string slice beyond the end of the line."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end)
-                    + "Line length is " + str(len(line_text)) + ", slice is "
-                    + str(start) + ":" + str(end) + ".")
-        gen.WriteOut(err_text, log)
-        print(err_text)
-        return(None)
-    elif start > 0 and line_text[start - 1] in befores:
-        # We may have an improper slice, but we keep going
-        err_text = ("*Error* 4062 (it may be an error, it may be OK).\n"
-                    "Sliced a line to get a number but found that there\n"
-                    "was a possibly related character before it."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end))
-        gen.WriteOut(err_text, log)
-        print(err_text)
-    elif line_text[end - 1].isspace():
-        err_text = ("*Error* 4063 (it may be an error, it may be OK).\n"
-                    "The last character in the slice was whitespace\n"
-                    "was a possibly related character before it."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end))
-        gen.WriteOut(err_text, log)
-        print(err_text)
-    if end < len(line_text) and line_text[end] in afters:
-        # We may have an improper slice, but we keep going
-        err_text = ("*Error* 4064 (it may be an error, it may be OK).\n"
-                    "Sliced a line to get a number but found that there\n"
-                    "was a possibly related character after it."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end))
-        gen.WriteOut(err_text, log)
-        print(err_text)
-    # Check for Fortran format field errors.  Fortran replaces all the digits
-    # with '*'.
-    if "**" in line_text[start:end]:
-        # We have a number that is too big for its Fortran format field.
-        err_text = ("*Error* 4065\n"
-                    "The Fortran format field is too small for the number."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end)
-                    + "Returning a zero value instead.")
-        gen.WriteOut(err_text, log)
-        return(0)
-
-    try:
-        value = float(line_text[start:end])
-    except ValueError:
-        # Oops.
-        err_text = ("*Error* 4066\n"
-                    "A slice of a line did not contain a valid real number."
-                    "  Details are:\n"
-                    + SliceErrText(line_text, start, end) )
-        gen.WriteOut(err_text, log)
+    entries = line_entry[1].split()
+    if len(entries) != count:
+        # We have a mismatch.  Raise an error and return None
+        line_number = line_entry[0]
+        err = ('> Came across a faulty line in form ' + form
+               + ' while reading "' + file_name + '".\n'
+               "> It doesn't have " + str(count) + " entries in it, it has "
+               + str(len(entries)) + ".  "
+              )
+        gen.WriteError(4101, err, log)
+        gen.ErrorOnLine(line_number, line_entry[1], log, False)
         return(None)
     else:
-        return(value)
-
-
-def SliceErrText(line_text, start, end):
-    '''Generate a line of error text used in PROCs GetReal and GetInt to show
-    where in the file there was a possibly invalid slice.  Example follows:
-
-    Line:          2 -  3 -  1                                1.285601          736108.         117.34
-    Slice:-----------------------------------------------------------------------^^^^^^^
-
-    The intent of this error message (which is written to the log file) is that
-    it picks up places where I may have told the converter to take a slice in
-    the wrong place on a line.  The carets point to where the slice is, but in
-    the above error it's clear that it is one character too far to the right.
-    It isn't always an error, as there are cases where two independent numbers
-    on a line can run into one another.
-
-        Parameters:
-            line_text       str,      A string that we think contains a number
-            start           int,      Where to start the slice
-            end             int,      Where to end the slice
-
-        Returns:
-            err_text        str,      Three lines of error text.
-    '''
-    err_text = ("Line: " + line_text + "\n"
-                "Slice:" + "-"*(start) + "^"*(end - start) + "\n"
-               )
-    return(err_text)
-
-
-def SkipLines(line_triples, index1, count, out, log):
-    '''Skip over a number of lines in the file.  We do this frequently
-    but we call GetValidLine just in case there are error messages in the
-    lines we want to skip over.
-
-        Parameters:
-            line_triples [(int,str,Bool)],   A list of tuples (line no., line
-                                             text, True if not an error line)
-            line_num        int,             Where we are in line_triples
-            count           int,             Count of valid lines to read/write
-            out             handle,          The handle of the output file
-            log             handle,          The handle of the logfile
-
-        Returns:
-            index1          int,             Updated index1 (note that the
-                                             routine may have skipped more lines
-                                             due to errors messages.
-    '''
-
-    for index in range(count):
-        # Note that PROC GetValidLine skips over lines of error messages
-        # silently and returns the index when it returns.
-        result = GetValidLine(line_triples, index1, out, log)
-        if result is None:
-            return(None)
-        else:
-            (line_num, line_text, index1) = result
-            gen.WriteOut(line_text, out)
-    return(index1)
-
-
-def CloseDown(form, out, log):
-    '''Write an optional standard message to the log file and close
-    the output file and log file.
-    '''
-    if form != "skip":
-        gen.WriteOut("Failed to process form 1G", log)
-    log.close()
-    out.close()
-    return()
+        # Return the text on the line
+        return(line_entry[1])
 
 
 def ProcessFile(file_string, file_num, file_count, convert, debug1,
@@ -1413,7 +1650,7 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
         Parameters:
             file_string     str,      An argument that may be a valid file name
             file_num        int,      This file's position in the list of files
-            file_cpount     int,      The total number of files being processed
+            file_count      int,      The total number of files being processed
             convert         Bool,     If True, convert to SI.  If False, leave
                                       as US customary units.
             debug1          Bool,     If True, write out debug information
@@ -1431,6 +1668,7 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
             Aborts with 4005 if we don't have permission to write to the logfile
             Aborts with 4006 if we don't have permission to write to the output
             file
+            Aborts with 4026 if we didn't find the start of form 1C
     '''
 
     # Get the file name, the directory it is in, the file stem and
@@ -1512,13 +1750,13 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     # lot of whitespace and form feed entries.  We filter out the
     # whitespace, the header lines, the footer lines and the form feeds.
 
-    result = FilterJunk(file_conts, file_name,
-                        file_num, file_count, log, debug1)
+    result = FilterJunk(file_conts, file_name, log, debug1)
 
     if result is None:
         # Something went wrong somewhere.  The routine
         # has already issued an appropriate error message.
         # Return back to main().
+        gen.PauseIfLast(file_num, file_count)
         log.close()
         return()
     else:
@@ -1535,9 +1773,9 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     try:
         out = open(out_name, 'w')
     except PermissionError:
-        print('> *Error* 4006\n'
-              '> Skipping "' + file_name + '", because you\n'
-              "> do not have permission to write to its output file.")
+        err = ('> Skipping "' + file_name + '", because you\n'
+               "> do not have permission to write to its output file.")
+        gen.WriteError(4006, err, log)
         gen.PauseIfLast(file_num, file_count)
         log.close()
         return()
@@ -1547,33 +1785,44 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     gen.WriteOut(footer, out)
 
     # Process form 1A and get a list of the lines of comment text and
-    # a list of errors (errors 32 and 33 may precede form 1A).
-    (comments, form1B, errors, index1B) = Form1A(line_pairs, out, log)
+    # a list of SES errors (SES errors 32 and 33 precede form 1B).
+    result = Form1A(line_pairs, file_name, file_num, file_count, out, log)
+    if result is None:
+        # We didn't find the line that signifies form 1B.  The routine
+        # has already issued a suitable error message.
+        log.close()
+        return()
+    else:
+        (comments, errors, index1B) = result
 
-    # Seek out any error messages in the text and tag their location
+    # Seek out any SES error messages in the text and tag their location
     # in line_pairs.  This routine also figures out if the run failed
     # at the input stage, failed due to a simulation error, ran to
     # completion or had issues with flow reversal.  It writes these
     # states and errors to the log file.
     line_triples, errors = FilterErrors(line_pairs[index1B:], errors, log, debug1)
 
-#    print(comments)
-#    for entry in line_triples[:10]:
-#        print(entry)
-
-
 
     # Turn the line holding form 1B into numbers.
-    (time, month, year) = Form1B(form1B, log)
-
+    result = Form1B(line_pairs[index1B], file_name, log)
+    if result is None:
+        # Either we didn't find the line that signifies form 1B or there
+        # was a problem with the numbers on it.  The routine has already
+        # issued a suitable error message.
+        CloseDown("1B", out, log)
+        gen.PauseIfLast(file_num, file_count)
+        log.close()
+        return()
+    else:
     # Create a dictionary to hold forms 1B, 1C, 1D and 1E.
     # Each of the entries in those forms will be yielded by a
     # relevant dictionary key.  Many of these are useless
-    # except for the procedural generation of SES input files
-    settings_dict = {"time": time,
-                     "month": month,
-                     "year": year
-                    }
+    # except for the procedural generation of SES input files.
+        (time, month, year) = result
+        settings_dict = {"time": time,
+                         "month": month,
+                         "year": year
+                        }
 
     # Skip over the text between form 1B and form 1C, writing each line
     # as we go (we don't need to do any conversion).
@@ -1582,14 +1831,29 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
         if "FORM 1C" in line:
             # We've reached the start of form 1C (and written it out)
             break
-
+    if "FORM 1C" not in line:
+        # We didn't find it.
+        err = ('> Ran out of lines of input while skipping lines in "'
+               + file_name + '".\n'
+              "> It looks like your SES output file is corrupted, as the\n"
+              '> line for form 1C was absent.  Try rerunning the file or\n'
+              '> checking the contents of the PRN file.'
+              )
+        gen.WriteError(4030, err, log)
+        CloseDown("1C", out, log)
+        gen.PauseIfLast(file_num, file_count)
+        log.close()
+        return()
 
     # Process form 1C.  It returns a tuple of the eight numbers in
     # form 1C and returns the index to where form 1D starts in.
+    # From this point on we assume that the file is well-formed.  We
+    # don't issue any more error checks like 4026 above.
     result = Form1CDE(line_triples, 8, index1C + 1, debug1, out, log)
     if result is None:
         # Something failed.
         CloseDown("1C", out, log)
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         (form1C, index1D) = result
@@ -1610,6 +1874,7 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     result = Form1CDE(line_triples, 7, index1D, debug1, out, log)
     if result is None:
         CloseDown("1D", out, log)
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         (form1D, index1E) = result
@@ -1619,7 +1884,7 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
         settings_dict.__setitem__("nodes",    form1D[3]) # Count of nodes
         settings_dict.__setitem__("branches", form1D[4]) # A very dangerous option if zero!
         settings_dict.__setitem__("fires",    form1D[5]) # Count of unsteady heat sources
-        settings_dict.__setitem__("fans",     form1D[6]) # Count of axial/centrifufal fan types
+        settings_dict.__setitem__("fans",     form1D[6]) # Count of axial/centrifugal fan types
         gen.WriteOut("Processed form 1D", log)
         if debug1:
             print("Form 1D", result)
@@ -1629,6 +1894,7 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     result = Form1CDE(line_triples, 8, index1E, debug1, out, log)
     if result is None:
         CloseDown("1E", out, log)
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         (form1E, index1F) = result
@@ -1642,18 +1908,22 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
         settings_dict.__setitem__("readopt",  form1E[7]) # How much data to read from a restart file
         gen.WriteOut("Processed form 1E", log)
         if debug1:
+            print("Form 1E", result)
             print("Forms 1C, 1D & 1E", settings_dict)
             print(line_triples[index1F])
 
     result = Form1F(line_triples, index1F, debug1, out, log)
     if result is None:
         CloseDown("1F", out, log)
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         (form1F_dict, index1G) = result
         # The variable 'form1F_dict' is a dictionary of all the entries
         # in form 1F.  We may not need it for plotting but it is
-        # convenient to have it in the binary file.
+        # convenient to have it in the binary file.  We add its entries
+        # to settings_dict.
+        settings_dict.update(form1F_dict)
         gen.WriteOut("Processed form 1F", log)
         if debug1:
             print("Form 1F", form1F_dict)
@@ -1662,27 +1932,245 @@ def ProcessFile(file_string, file_num, file_count, convert, debug1,
     result = Form1G(line_triples, index1G, debug1, out, log)
     if result is None:
         CloseDown("1G", out, log)
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         (form1G_dict, index2A) = result
         # The variable 'form1G_dict' is a dictionary of all the entries
         # in form 1G.  We may not need it for plotting but it is
-        # convenient to have it in the file.
+        # convenient to have it in the file.  We add its entries
+        # to settings_dict.  Note that if this is not a fire run we
+        # have a spoof value for emissivity (zero).
+        settings_dict.update(form1G_dict)
         gen.WriteOut("Processed form 1G", log)
         if debug1:
             print("Form 1G", form1G_dict)
             print(line_triples[index2A])
 
+    # We now have all the values in forms 1B to 1G in a dictionary.
+    if debug1:
+        for key in settings_dict:
+            print(key, settings_dict[key])
 
+    result = Form2(line_triples, index2A, settings_dict,
+                   convert, debug1, file_name, out, log)
+    if result is None:
+        CloseDown("2", out, log)
+        gen.PauseIfLast(file_num, file_count)
+        return()
+    else:
+        (form2_dict, tr_index) = result
 
-    # Now get the useful settings as variables.  We will need these
-    # to know what's coming next as we process the rest of the file.
+    # We now have a dictionary of settings, a dictionary of entries in
+    # form 2 and the index of where form 3 starts.  Do form 3.
 
     # We completed with no failures, return to main() and
     # process the next file.
     print("> Finished processing file " + str(file_num) + ".")
     CloseDown("skip", out, log)
     return()
+
+
+def Form2(line_triples, tr_index, settings_dict, convert,
+          debug1, file_name, out, log):
+    '''Process forms 2A and 2B.  Complain in an intelligent way if form 2B
+    starts before it should.
+
+        Parameters:
+            line_triples [(int, str, Bool)] Lines from the output file
+            tr_index        int,           The place to start reading the form
+            settings_dict   {}             Dictionary of stuff (incl. counters)
+            convert         Bool,          If True, convert to SI.  If False, leave
+                                           as US customary units.
+            debug1          bool,          The debug Boolean set by the user
+            out             handle,        The handle of the output file
+            log             handle,        The handle of the logfile
+
+
+        Returns:
+            form2           {{}},          The numbers in the form, as a
+                                           dictionary of dictionaries.
+            tr_index        int,           Where to start reading the next form
+    '''
+
+    # Dig out the counters we will need for forms 2A and 2B.  The first
+    # is the count of entries we are expecting in form 2B (five numbers),
+    # the second is the count of entries we are expecting in form 2B (four
+    # numbers).
+    ventsecs = settings_dict['ventsegs'] # We'll call them vent sections here
+    linesecs = settings_dict['sections'] - ventsecs
+    # Log the counts.
+    plural1 = gen.Plural(linesecs)
+    plural2 = gen.Plural(ventsecs)
+    log_mess = ("Expecting " + str(linesecs) + " instance" + plural1
+                + " of form 2A and " + str(ventsecs) + " instance" + plural2
+                + " of form 2B.")
+    gen.WriteOut(log_mess, log)
+
+
+    # Make a dictionary that will contain all the entries.  The key
+    # will be section number and the entries in it will be all the things
+    # that pertain only to sections only (not segments or subsegments):
+    #  * The entries in form 2
+    #  * Initial volume flow
+    #  * List of all the segment numbers in this section (when we read form 3)
+    #  * Calculated volume flows (so we can transfer it to the segments)
+    form2 = {}
+
+    # Skip over the header lines at the top of form 2.  There are five of
+    # them, but in one we want to change the volume flow text from (CFM)
+    # to (m3/s).
+    tr_index = SkipLines(line_triples, tr_index, 3, out, log)
+    if tr_index is None:
+        return(None)
+    # Now do the line that has CFM on it.
+    tr_index += 1
+    line_text = line_triples[tr_index][1]
+    line_text = line_text.replace(" (CFM)", "(m^3/s)")
+#    print(tr_index, line_text)
+    gen.WriteOut(line_text, out)
+    tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+    if tr_index is None:
+        return(None)
+
+    # Make a list of what the numbers in form 2A are and where to find them.
+    # These are similar to the lists for an entire form but apply to multiple
+    # values on one line.  The entries are:
+    #  * The dictionary key to store them in
+    #  * Where the number slice starts on the line (note that in all practical
+    #    cases we set the start of the slice so that it has a space between
+    #    it and the previous entry, so as to avoid triggering warning message
+    #    4062).  There are a few cases where this is not practical (e.g. the
+    #    section pressure drops, where the field is only 9 characters wide)
+    #    but we will have to check those carefully).
+    #  * Where the number slice ends on the line.
+    #  * What type of number to process it as.  Integers that need not be
+    #    converted are given the tag "int".  Numbers that do need to be
+    #    converted get tagged with their conversion key in UScustomary
+    #    and are treated as floats.
+    #  * A description, to be used in error messages.
+    #
+    # The slices are based on Input.for format field 680.
+    # 680   FORMAT (/ T17,I13,I16,2I15,F17.0)
+    value_def = [
+                 ("sec_num", 16, 29, "int", 0, "Form 2A, section number"),
+                 ("LH_node", 30, 45, "int", 0, "Form 2A, LH node number"),
+                 ("RH_node", 46, 60, "int", 0, "Form 2A, RH node number"),
+                 ("seg_count", 61, 75, "int", 0, "Form 2A, segment count"),
+                 ("volflow", 77, 92, "volflow", 5, "Form 2A, initial flow"),
+                ]
+
+    # Process all the entries in form 2A and 2B.
+    sec_type = "line"
+    for vent_or_line in (linesecs, ventsecs):
+        form = "2A"
+        count = len(value_def)
+        for discard in range(vent_or_line):
+            result = DoOneLine(line_triples, tr_index, count, form, value_def,
+                               convert, debug1, file_name, out, log)
+            if result is None:
+                # Something went wrong.
+                return(None)
+            else:
+                # Get the section number, we will use it as the key
+                # in the dictionary 'form2'
+                (numbers, tr_index) = result
+                sec_num = numbers[0]
+
+                # Create and fill the sub-dictionary.
+                sub_dict = {"sec_type": sec_type}
+
+                for index in range(1, len(numbers)):
+                    key = value_def[index][0]
+                    value = numbers[index]
+                    sub_dict.__setitem__(key, value)
+                # Spoof a dictionary entry for the count of vent segments
+                # (which is always 1, not read from the PRN file).
+                if sec_type == "vent":
+                    sub_dict.__setitem__("seg_count", 1)
+                if debug1:
+                    print("Form", form, sec_num, sub_dict)
+                form2.__setitem__(sec_num, sub_dict)
+        # We get to here after processing all the line sections (form 2A)
+        # Go round again, this time processing form 2B (which is much the
+        # same but does not have a count of segments in it).
+        #
+        sec_type = "vent"
+        form = "2B"
+        # The slices are based on Input.for format field 690.
+        # 690   FORMAT (/ T17,I13,I16,I15,15X,F17.0)
+        value_def = [
+                     ("sec_num", 16, 29, "int", 0, "Form 2B, section number"),
+                     ("LH_node", 30, 45, "int", 0, "Form 2B, LH node number"),
+                     ("RH_node", 46, 60, "int", 0, "Form 2B, RH node number"),
+                     ("volflow", 77, 92, "volflow", 5, "Form 2B, initial flow"),
+                    ]
+        # Skip the header line with "FORM 2B" on it.
+        tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+
+    # There is a load of program QA data in the PRN file before we get to
+    # form 3A.  None of it is of much interest unless you have a serious
+    # problem.  We skip over it all and we don't bother to convert the
+    # CFM and CFS values to m^3/s.  Note that we always have form 3A
+    # somewhere - if we have no line segments input error 1 is raised and
+    # the output file stops in form 1E.
+    line_text = ""
+    while "INPUT VERIFICATION FOR LINE SEGMENT" not in line_text:
+        tr_index += 1
+        line_text = line_triples[tr_index][1]
+        gen.WriteOut(line_text, out)
+
+    # Return the dictionary of what we've just read and the index of the
+    # next line
+    return(form2, tr_index)
+
+
+def DoOneLine(line_triples, tr_index, count, form, value_def,
+              convert, debug1, file_name, out, log):
+    '''Take the line triples, a count of expected numbers on
+    the line and a definition of where they are and how to convert
+    them.  Read the next valid line, convert all the numbers on
+    it and return a list of the numbers.  In the case of an error,
+    return None.
+    '''
+    line_data = GetValidLine(line_triples, tr_index, out, log)
+    if line_data == None:
+        return(None)
+    else:
+        # Update the pointer to where we are in the line triples.
+        tr_index = line_data[2]
+
+    # If we get to here we have a valid line.
+    line_text = CountEntries(line_data, count, form, debug1, file_name, log)
+    if line_text is None:
+        # There was a mismatch in the count of entries.  We may
+        # need to disable this in some cases but we'll cross that
+        # bridge when we get to it.
+        return(None)
+    # If we get to here there are the correct number of entries
+    # on the line.
+    values = []
+    for (name, start, end, what, digits, QA_text) in value_def:
+        if what == "int":
+            # We have an integer that does not need to be converted
+            # (such as a segment number).
+            value = GetInt(line_text, start, end, log)
+            if value is None:
+                return(None)
+        else:
+            # We have a value in US customary units.
+            result = ConvOne(line_text, start, end, what, digits, QA_text,
+                            convert, debug1, log)
+            if result is None:
+                return(None)
+            else:
+                # Get the updated line text and the value.  We
+                # don't need the units texts here.
+                (value, line_text, discard) = result
+        values.append(value)
+    gen.WriteOut(line_text, out)
+
+    return(tuple(values), tr_index)
 
 
 def main():
@@ -1693,7 +2181,7 @@ def main():
     we'll make those run in parallel).
     '''
 
-    # First check the version of Python.  We need 3.5 or higher, fault
+    # First check the version of Python.  We need 3.6 or higher, fault
     # if we are running on something lower (unlikely these days, but you
     # never know).
     gen.CheckVersion()

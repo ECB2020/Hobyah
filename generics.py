@@ -75,6 +75,15 @@ def Enth(number):
     return(ordinal)
 
 
+def Plural(count):
+    '''Return an empty string if the count is 1, "s" otherwise
+    '''
+    if count == 1:
+        return("")
+    else:
+        return("s")
+
+
 def ColumnText(number):
     '''
     Take an integer and turn it into its equivalent spreadsheet
@@ -111,19 +120,28 @@ def ColumnText(number):
     return(val)
 
 
-def ErrorOnLine(line_number, line_text, log):
+def ErrorOnLine(line_number, line_text, log, lstrip = True, rstrip = True):
     '''Take the line number of a faulty line of input and the line
-    itself.  Write it to to the screen and to the logfile.
+    itself.  Write it to to the screen and to the logfile.  In a few
+    circumstances (mostly when complaining about possibly-invalid SES
+    PRN file header lines) we want to keep the whitespace so those options
+    are available.
 
         Parameters:
             line_number (int),  The line number where we failed
             line_text   (str),  The text on the line that failed
             log      (handle),  The handle of the log file
+            lstrip       bool,  If True, remove whitespace at the LHS
+            rstrip       bool,  If True, remove whitespace at the RHS
 
         Returns: None
     '''
+    if lstrip:
+        line_text = line_text.lstrip()
+    if rstrip:
+        line_text = line_text.rstrip()
     message = ('> Faulty line of input (' + Enth(line_number) + ') is\n'
-               '> ' + line_text.lstrip().rstrip())
+               '> ' + line_text)
     log.write(message + "\n")
     print(message)
     return()
@@ -356,8 +374,10 @@ def SplitTwo(line):
 
 def CheckVersion():
     '''Check the version of Python we are running.  It faults if we
-    are using a version below 3.5 and returns None if we are using
-    3.5 or higher.
+    are using a version below 3.6 and returns None if we are using
+    3.6 or higher.  We need the entries in dictionaries to be in
+    the order they were entered, which is how 3.6 and higher do it.
+    Anything below 3.6 has random order.
 
        Parameters: none
 
@@ -365,9 +385,9 @@ def CheckVersion():
     '''
     import sys
     version = float(".".join([str(num) for num in sys.version_info[:2]]))
-    if version < 3.5:
+    if version < 3.6:
         print("> You need to update your version of Python to a newer\n"
-              "> one.  This script will only run with Python version 3.5\n"
+              "> one.  This script will only run with Python version 3.6\n"
               "> or higher. You are running it on Python " + str(version)
                 + ".\n"
               "> Update your version of Python and try again.")

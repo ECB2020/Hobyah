@@ -91,7 +91,7 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  "dist4":   ( "m ",       "IN",      0.0254),
                  "dist5":   ( "cm",       "IN",      2.54),
                  "dist6":   ( "mm",       "IN",      25.4),
-                 "area":    ( "m^2 ",     "FT^2",    0.09290304),
+                 "area":    ( "m^2  ",    "SQ FT",   0.09290304),
                  "mass1":   ( "kg",       "LB",      0.45359237),
                  "mass2":   ( "kg ",      "LBS",     0.45359237),
                  "mass3":   ( "tonnes",   "TONS  ",  0.90718474),
@@ -99,7 +99,7 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  "speed1":  ( "m/s",      "FPM",     0.00508),
                  "speed2":  ( "km/h",     "MPH ",    1.609344),
                  "accel":   ( "m/s^2",    "MPH/S",   0.44704),
-                 "volflow": ( "m3/s",     "CFM ",    0.0004719474432),
+                 "volflow": ( "m^3/s",    "CFM  ",    0.0004719474432),
                  "watt":    ( "W     ",   "BTU/HR",
                              # Another weird one.  In SES v4.1 the
                              # conversion from BTU/sec to watts is
@@ -185,15 +185,15 @@ def ConvertToUS(key, SIvalue, debug1, log):
     if key == "temp":
         USvalue += 32.
         if debug1:
-            QA_text = (" converted " + str(SIvalue) + " " + yielded[0] + " to "
-                       + gen.FloatText(USvalue) + " " + yielded[1]
-                       + " by dividing by "
+            QA_text = (" converted " + str(SIvalue) + " " + yielded[0].rstrip()
+                       + " to " + gen.FloatText(USvalue) + " "
+                       + yielded[1].rstrip() + " by dividing by "
                        + gen.FloatText(yielded[2]) + " and adding 32.")
             gen.WriteOut(QA_text, log)
     elif debug1:
-        QA_text = (" converted " + str(SIvalue) + " " + yielded[0] + " to "
-                   + gen.FloatText(USvalue) + " " + yielded[1]
-                   + " by dividing by "
+        QA_text = (" converted " + str(SIvalue) + " " + yielded[0].rstrip()
+                   + " to " + gen.FloatText(USvalue) + " "
+                   + yielded[1].rstrip() + " by dividing by "
                    + gen.FloatText(yielded[2]) + ".")
         gen.WriteOut(QA_text, log)
     return(USvalue, yielded[:2])
@@ -231,31 +231,33 @@ def ConvertToSI(key, USvalue, debug1, log):
         # A special for absolute temperature values
         SIvalue = (USvalue - 32.) * yielded[2]
         if debug1:
-            QA_text = (" converted " + str(USvalue) + " " + yielded[1] + " to "
-                       + gen.FloatText(SIvalue) + " " + yielded[0]
+            QA_text = (" converted " + str(USvalue) + " " + yielded[1].rstrip()
+                       + " to " + gen.FloatText(SIvalue) + " "
+                       + yielded[0].rstrip()
                        + " by subtracting 32 and multiplying by "
                        + gen.FloatText(yielded[2]) + ".")
             gen.WriteOut(QA_text, log)
     else:
         SIvalue = USvalue * yielded[2]
         if debug1:
-            QA_text = (" converted " + str(USvalue) + " " + yielded[1] + " to "
-                       + gen.FloatText(SIvalue) + " " + yielded[0]
-                       + " by multiplying by "
+            QA_text = (" converted " + str(USvalue) + " " + yielded[1].rstrip()
+                       + " to " + gen.FloatText(SIvalue) + " "
+                       + yielded[0].rstrip() + " by multiplying by "
                        + gen.FloatText(yielded[2]) + ".")
             gen.WriteOut(QA_text, log)
     return(SIvalue, yielded[:2])
 
 
-def ConversionTest(toUS, log):
+def ConversionTest(toUS, debug1, log):
     '''
     Print a set of conversions between SI units and US units, so
     we can demonstrate what the factors are.
 
         Parameters:
-            toUS     (Bool),    If True, tabulate US to SI conversion.  If
+            toUS     Bool,      If True, tabulate US to SI conversion.  If
                                 False, tabulate SI to US conversion instead.
-            log      (handle),  The handle of the log file
+            debug1   Bool,      If True, write a load of stuff to the logfile
+            log      handle,    The handle of the log file
 
         Returns:  None
 
@@ -368,7 +370,7 @@ def ConversionTest(toUS, log):
 
                 # Get the value in US units.
                 (US_value, (SI_utext, US_utext)) = ConvertToUS(key, SI_value,
-                                                               False, log)
+                                                               debug1, log)
                 US_text = gen.FloatText(US_value)
 
 
@@ -384,7 +386,7 @@ def ConversionTest(toUS, log):
 
                 # Get the value in SI units.
                 (SI_value, (SI_utext, US_utext)) = ConvertToSI(key, US_value,
-                                                               False, log)
+                                                               debug1, log)
                 SI_text = gen.FloatText(SI_value)
 
 
