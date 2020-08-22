@@ -71,7 +71,7 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                              # above).
                              # 32.174 * 0.3048 * 1000 * 0.0254
                                                      249.08853408),
-                 "press2":  ( "kPa   ",   "IN. HG",
+                 "press2":  ( "Pa    ",   "IN. HG",
                              # A weird one, this.  It is the atmospheric
                              # pressure outside the tunnel.  In SES v4.1
                              # (Dses.for) the value of pressure in the
@@ -84,27 +84,30 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                              # with the definitions of distance and mass.
                              #  14.696/29.921 * (32.174*12*0.45359237)/0.0254
                                                     3386.42425928967),
-                 "dens":    ( "kg/m^3  ", "LB/CU FT", 16.018463373960138),
+                 "dens1":   ( "kg/m^3  ", "LB/CU FT", 16.018463373960138),
+                 "dens2":   ( "kg/m^3  ", "LBS/CUFT", 16.018463373960138),
                  "dist1":   ( "m ",       "FT",      0.3048),
                  "dist2":   ( "cm",       "FT",      30.48),
                  "dist3":   ( "mm",       "FT",      304.8),
-                 "dist4":   ( "m ",       "IN",      0.0254),
-                 "dist5":   ( "cm",       "IN",      2.54),
-                 "dist6":   ( "mm",       "IN",      25.4),
+                 "dist4":   ( "m  ",      "IN.",     0.0254),
+                 "dist5":   ( "cm ",      "IN.",     2.54),
+                 "dist6":   ( "mm ",      "IN.",     25.4),
                  "area":    ( "m^2  ",    "SQ FT",   0.09290304),
                  "mass1":   ( "kg",       "LB",      0.45359237),
                  "mass2":   ( "kg ",      "LBS",     0.45359237),
                  "mass3":   ( "tonnes",   "TONS  ",  0.90718474),
                  "mass4":   ( "kg  ",     "TONS",    907.18474),
                  "speed1":  ( "m/s",      "FPM",     0.00508),
-                 "speed2":  ( "km/h",     "MPH ",    1.609344),
-                 "accel":   ( "m/s^2",    "MPH/S",   0.44704),
-                 "volflow": ( "m^3/s",    "CFM  ",    0.0004719474432),
-                 "watt":    ( "W     ",   "BTU/HR",
+                 "speed2":  ( "km/h",     "MPH",     1.609344),
+                 "accel":   ( "m/s^2  "  ,"MPH/SEC", 0.44704),
+                 "volflow": ( "m^3/s",    "CFM",     0.0004719474432),
+                 "watt1":   ( "W     ",   "BTU/HR",
                              # Another weird one.  In SES v4.1 the
-                             # conversion from BTU/sec to watts is
+                             # conversion from watts to BTU/sec is
                              #  WTBTUS = 9.4866E-04.  So 1/(9.4866E-04 * 3600)
                                                     0.2928106779855562),
+                 "watt2":   ( "W      ",  "BTU/SEC",
+                                                    1054.1184407480025),
                  "kwatt":   ( "kW    ",   "BTU/HR", 0.0002928106779855562),
                  "Mwatt":   ( "MW    ",   "BTU/HR", 2.9281067798555625e-07),
                  "thcon":   ( "W/m-K          ",
@@ -119,20 +122,20 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                              # the WTBTUS value in SES v4.1 again.
                              # 9 / (5 * 9.4866E-04 0.45359237)
                                                     4183.080049045808),
-                 "diff":    ( "m^2/s  ",  "FT^2/HR", 2.58064e-05),
+                 "diff":    ( "m^2/s        ",  "FT SQUARED/HR", 2.58064e-05),
                  "SHTC":    ( "W/m^2-K       ",
                                        "BTU/HR-FT^2-DEG F",
                              # Once again we use the value of WTBTUS
                              # from SES v4.1,
                              # 9 / (5 * 9.4866E-04 * 3600 * 0.3048**2)
                                                     5.673218232406616),
-                 "Aterm1":   ( "N/kg",      "LB/TON",
+                 "Aterm1":   ( "N/kg   ",  "LBS/TON",
                              # Converting both A terms uses the value
                              # of GRACC from SES 4.1.
                              # 32.174 * 0.3048 / 2000.
                                                     0.0049033176),
-                 "Aterm2":   ( "N ",        "LB",   4.448214902093424),
-                 "Bterm":   ( "N-s/kg-m",    "LB/TON-MPH",
+                 "Aterm2":   ( "N  ",        "LBS",   4.448214902093424),
+                 "Bterm":   ( "N-s/kg-m   ", "LBS/TON-MPH",
                              # Converting the B term also uses the
                              # value of GRACC from SES 4.1.
                              # 32.174 * 0.3048 * 3600 / (2000. * 5280 * 0.3048)
@@ -141,10 +144,11 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  # unit (lb/ton)/(mph/sec) would convert into.
                  # The factor is 1/0.912, which is tied up to the
                  # definition the slug.
-                 "rotmass": ( "% tare mass       ",
-                                              "(LB/TON)/(MPH/SEC)",
+                 "rotmass": ( "% tare mass        ",
+                                              "(LBS/TON)/(MPH/SEC)",
                                                      1.0964912280701753),
-                 "momint":  ( "kg-m^2",   "LB-FT^2", 0.042140110093805),
+                 "momint":  ( "kg-m^2        ", "LBS-FT SQUARED",
+                                                     0.042140110093805),
                  "W":       ( "kg/kg",     "LB/LB", 1.),
                  "RH":      ( "percent",   "PERCENT", 1.),
                  "perc":    ( "percent",   "PERCENT", 1.),
