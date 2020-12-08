@@ -13,4 +13,7 @@ Generics.py, syntax.py and UScustomary.py are ancillary routines that are likely
 
 SESerrs.py is a mixed python - fortran 66 routine for figuring out the line counts in error messages in SES v4.1: a one-off run.
 
+"quadratics.ods" is an incompressible flow spreadsheet for a simple road tunnel (two portals, no area changes, no junctions).  The spreadsheet handles friction, jet fans, drag of moving traffic and portal pressure differences.  It was written as part of the validation work for the method of characteristics program, but may be useful in other contexts.
+
+
 The suite is named after The Hobyahs, the villains in a fairy tale from my pre-school days.
