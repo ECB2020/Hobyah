@@ -1,12 +1,12 @@
-#! /usr/local/bin/python3
+#! python3
 #
-# Copyright 2020, Ewan Bennett
+# Copyright 2020-2021, Ewan Bennett
 #
 # All rights reserved.
 #
 # Released under the BSD 2-clause licence (SPDX identifier: BSD-2-Clause)
 #
-# email: ewanbennett14@fastmail.com
+# email: ewanbennett@fastmail.com
 #
 # This file has some variables and functions that convert between
 # SI units and US customary units.  It uses conversion factors that
@@ -85,6 +85,10 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                              #  14.696/29.921 * (32.174*12*0.45359237)/0.0254
                                                     3386.42425928967),
                  "dens1":   ( "kg/m^3  ", "LB/CU FT", 16.018463373960138),
+                 # # In a few places in the .PRN files the text to be
+                 # replaces differs.  This is one such case: the only
+                 # difference between "dens1" and "dens2" is the US
+                 # units text.
                  "dens2":   ( "kg/m^3  ", "LBS/CUFT", 16.018463373960138),
                  "dist1":   ( "m ",       "FT",      0.3048),
                  "dist2":   ( "cm",       "FT",      30.48),
@@ -101,6 +105,9 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  "speed2":  ( "km/h",     "MPH",     1.609344),
                  "accel":   ( "m/s^2  "  ,"MPH/SEC", 0.44704),
                  "volflow": ( "m^3/s",    "CFM",     0.0004719474432),
+                 # This next one isn't used but it is useful to have
+                 # it in the transcript included in the user manual.
+                 "energy":  ( "J  ",      "BTU",     94866E-4),
                  "watt1":   ( "W     ",   "BTU/HR",
                              # Another weird one.  In SES v4.1 the
                              # conversion from watts to BTU/sec is
@@ -143,16 +150,22 @@ USequivalents = { #key      SI unit,      US unit,     divisor
                  # I prefer percentage of tare mass to whatever hellish
                  # unit (lb/ton)/(mph/sec) would convert into.
                  # The factor is 1/0.912, which is tied up to the
-                 # definition the slug.
+                 # definition of the slug.
                  "rotmass": ( "% tare mass        ",
                                               "(LBS/TON)/(MPH/SEC)",
                                                      1.0964912280701753),
                  "momint":  ( "kg-m^2        ", "LBS-FT SQUARED",
                                                      0.042140110093805),
                  "W":       ( "kg/kg",     "LB/LB", 1.),
-                 "RH":      ( "percent",   "PERCENT", 1.),
+                 "RH":      ( "%      ",   "PERCENT", 1.),
                  "perc":    ( "percent",   "PERCENT", 1.),
                  "null":    ( "",          "", 1.),
+                 "wperm":   ( "W/m       ",  "BTU/SEC-FT",
+                                                    3458.393834475073),
+                # And finally, something to convert Pa-s^2/m^6 (gauls)
+                # into Atkinsons.
+                # >> (0.45359237 * 9.806635)/ (1e6 * 0.3048**8)
+                 "atk":     ( "gauls",   "atk. ",  0.05971260947492826)
                 }
 
 
@@ -165,14 +178,17 @@ def ConvertToUS(key, SIvalue, debug1, log):
     Return the new value and the units text.
 
         Parameters:
-            key    (str),       a dictionary key
-            SIvalue  (real),    a value in US customary units
-            debug1      bool,   The debug Boolean set by the user
-            log      (handle),  The handle of the log file
+            key             str      a dictionary key
+            SIvalue        real      a value in SI units
+            debug1         bool      The debug Boolean set by the user
+            log       handle OR str  If called from a real program,
+                                     the handle of the log file.  If
+                                     called from ConversionTest, a
+                                     string saying "there is no log file".
 
         Returns:
-            USvalue  (real),    a value in US customary units
-            USunit   (str),     the units text (e.g. "fpm")
+            USvalue       real       a value in US customary units
+            USunit        str        the units text (e.g. "fpm")
 
         Errors:
             Aborts with 1101 if the key isn't valid.
@@ -180,9 +196,13 @@ def ConvertToUS(key, SIvalue, debug1, log):
     try:
         yielded = USequivalents[key]
     except:
-        print('> **Error** 1101 failed to use a correct key\n'
-              '> when converting to US units.  Dud key is "' + key + '".')
-        gen.OopsIDidItAgain(log)
+        print('> *Error* type 1101\n'
+              '> failed to use a correct key when converting\n'
+              '> to US units.  Dud key is "' + key + '".')
+        if type(log) is _io.TextIOWrapper:
+            # We aren't calling from ConversionTest, so 'log'
+            # is a genuine file handle.
+            gen.OopsIDidItAgain(log)
 
     USvalue = SIvalue / yielded[2]
     # A special for absolute temperature values
@@ -210,14 +230,17 @@ def ConvertToSI(key, USvalue, debug1, log):
     the number to SI customary units.
 
         Parameters:
-            key    (str),       a dictionary key
-            USvalue  (real),    a value in US customary units
-            debug1      bool,       The debug Boolean set by the user
-            log      (handle),  The handle of the log file
+            key             str      a dictionary key
+            USvalue        real      a value in US customary units
+            debug1         bool      The debug Boolean set by the user
+            log       handle OR str  If called from a real program,
+                                     the handle of the log file.  If
+                                     called from ConversionTest, a
+                                     string saying "there is no log file".
 
         Returns:
-            SIvalue  (real),    a value in US customary units
-            SIunit   (str),     the units text (e.g. "m/s")
+            SIvalue       real       a value in SI units
+            SIunit        str        the units text (e.g. "m/s")
 
         Errors:
             Aborts with 1102 if the key isn't valid.
@@ -225,13 +248,15 @@ def ConvertToSI(key, USvalue, debug1, log):
     try:
         yielded = USequivalents[key]
     except:
-        print('> **Error** 1102 failed to use a correct key\n'
-              '> when converting to SI units.  Dud key is "' + key + '".')
-        gen.OopsIDidItAgain(log)
-
+        print('> *Error* type 1102\n'
+              '> failed to use a correct key when converting\n'
+              '> to SI units.  Dud key is "' + key + '".')
+        if type(log) is _io.TextIOWrapper:
+            # We aren't calling from ConversionTest, so 'log'
+            # is a genuine file handle.
+            gen.OopsIDidItAgain(log)
 
     if key == "temp":
-#                 "momint":  ( "kg-m^2",   "lb-ft^2", 0.042140110093805)
         # A special for absolute temperature values
         SIvalue = (USvalue - 32.) * yielded[2]
         if debug1:
@@ -252,16 +277,19 @@ def ConvertToSI(key, USvalue, debug1, log):
     return(SIvalue, yielded[:2])
 
 
-def ConversionTest(toUS, debug1, log):
+def ConversionTest(toUS):
     '''
     Print a set of conversions between SI units and US units, so
-    we can demonstrate what the factors are.
+    we can demonstrate what the factors are.  This module may be fragile,
+    because the routines it calls are expecting a logfile handle and
+    this routine sends them a string instead (opening a real logfile
+    isn't needed in this routine and if there is a mismatch in the keys
+    we already caught it with error 1104).
 
         Parameters:
             toUS     Bool,      If True, tabulate US to SI conversion.  If
                                 False, tabulate SI to US conversion instead.
-            debug1   Bool,      If True, write a load of stuff to the logfile
-            log      handle,    The handle of the log file
+
 
         Returns:  None
 
@@ -283,19 +311,21 @@ def ConversionTest(toUS, debug1, log):
         units_keys_list.sort()
 
     # Create a dictionary that we use to convert SI values to US values
-    # and vise-versa.  The keys should be the same as in dictionary
+    # and vice versa.  The keys should be the same as in dictionary
     # "USequivalents" and they return a pair of values:
     #   first a value in SI to convert to US,
     #   second a value in US to convert to SI,
     #
-    # The numbers are generally those that I would recognize from
-    # engineering practice, e.g. density 1.2 kg/m^3 and 0.075 lb/ft^3.
+    # The values are generally those that I would recognize from
+    # engineering practice, e.g. air density 1.2 kg/m^3 and
+    # air density 0.075 lb/ft^3.
     values = { #key    SI unit,    US unit
              "temp":    ( 35.,       95.),
              "tdiff":   ( 5.,        9.),
              "press1":  ( 250.,      1.),
              "press2":  ( 101325,    29.9),
-             "dens":    ( 1.2,       0.075),
+             "dens1":   ( 1.2,       0.075),
+             "dens2":   ( 1.2,       0.075),
              "dist1":   ( 0.3048,    1.),
              "dist2":   ( 30.48,     1.),
              "dist3":   ( 304.8,     1.),
@@ -311,7 +341,9 @@ def ConversionTest(toUS, debug1, log):
              "speed2":  ( 80.,       50.),
              "accel":   ( 1.,        2.24),
              "volflow": ( 1.,        2118.88),
-             "watt":    ( 1.,        3.415),
+             "energy":  ( 1.,        1.),
+             "watt1":   ( 1.,        3.415),
+             "watt2":   (1000.,      3.415),
              "kwatt":   ( 1.,        3415.2),
              "Mwatt":   ( 1.,        3415176.),
              "thcon":   ( 1.,        1.73),
@@ -327,6 +359,8 @@ def ConversionTest(toUS, debug1, log):
              "RH":      ( 60.,       60.,),
              "perc":    ( 92.,       92.,),
              "null":    ( 1.,        1.,),
+             "wperm":   ( 1.,        1.,),
+             "atk":     ( 1.,        16.747),
             }
 
     # We only run this routine once in a blue moon.  But when we
@@ -337,11 +371,11 @@ def ConversionTest(toUS, debug1, log):
     if len(values) != len(units_keys_list):
         # We have added something new to one of the dictionaries
         # without adding it to the other.
-        print('> **Error** 1103.  The count of keys in the\n'
-              '> dictionary "USequivalents" in "UScustomary.py"\n'
-              "> didn't match the"' count of keys in the test\n'
-              '> conversion dictionary "values".')
-        gen.OopsIDidItAgain(log)
+        print('> *Error* type 1103\n'
+              '> The count of keys in the dictionary\n'
+              '> "USequivalents" in "UScustomary.py"\n'
+              "> didn't match the"' count of keys in\n'
+              '> the test conversion dictionary "values".')
     else:
         # Figure out some field widths that we'll need for formatting
         # the printout of the conversion factors.
@@ -359,22 +393,27 @@ def ConversionTest(toUS, debug1, log):
         SIunit, USunit, convert = USequivalents[key]
         if key not in values:
             # We have a mismatch in the names of one of the keys.
-            print('> **Error** 1104.  A key in "USequivalents"\n'
-                  '> in "UScustomary.py" is missing from the\n'
-                  '> test conversion dictionary "values" in\n'
-                  '> PROC ConversionTest.  Dud key is "' + key + '".')
-            gen.OopsIDidItAgain(log)
+            print('> *Error* type 1104\n'
+                  '> A key in "USequivalents" in in "UScustomary.py"\n'
+                  '> is missing from the test conversion dictionary\n'
+                  '> "values" in PROC ConversionTest.\n'
+                  '> Dud key is "' + key + '".')
         else:
             # We have a match.  We convert from SI to US (or vice
-            # versa) and write the conversion to the log file.
+            # versa) and print it to the terminal.
 
             if toUS:
                 SI_value = values[key][0]
                 SI_text = gen.FloatText(SI_value)
 
-                # Get the value in US units.
+                # Get the value in US units.  We use the string "ignore"
+                # in place of the handle of the logfile because any errors
+                # that cause something to be written to the logfile from
+                # here will have already been caught, and I tend to run
+                # ConversionTest from an interpreter, where it's a pain
+                # to have to open a fake logfile and pass a valid handle.
                 (US_value, (SI_utext, US_utext)) = ConvertToUS(key, SI_value,
-                                                               debug1, log)
+                                                               False, "ignore")
                 US_text = gen.FloatText(US_value)
 
 
@@ -390,7 +429,7 @@ def ConversionTest(toUS, debug1, log):
 
                 # Get the value in SI units.
                 (SI_value, (SI_utext, US_utext)) = ConvertToSI(key, US_value,
-                                                               debug1, log)
+                                                               False, "ignore")
                 SI_text = gen.FloatText(SI_value)
 
 
