@@ -1,0 +1,1324 @@
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).
+
+                         Three segments, one angled junction and a jet fan in the stem.  NBRJCT is set
+
+                         to 1, so the call to OMGJ4.for (that calculates the pressure loss across the
+
+                         angled junction) is made.  The airflow split at the angled junction is unequal.
+
+                                    DESIGN TIME 1700 HRS   JULY       2028
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              0     BYPASS
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+
+                            NUMBER OF LINE SEGMENTS                               3                            FORM 1D
+
+                            TOTAL NUMBER OF SECTIONS                              3
+
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+
+                            NUMBER OF NODES                                       4
+
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+
+                            NUMBER OF FAN TYPES                                   0
+
+
+                            NUMBER OF TRAIN ROUTES                                0                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 0
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+
+                            NUMBER OF IMPULSE FAN TYPES                           1
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.91   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07281   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                75.0   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                65.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01088   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    85.0   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    74.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                             29.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            104              1               0.
+
+                          102             102            104              1               0.
+
+                          103             103            104              1               0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     5
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Tee piece 1                                            FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                328.10   FT
+
+CROSS SECTION AREA                                                                     215.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         64.2                                                           TOTAL PERIMETER        64.2  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.0160                                                           ROUGHNESS LENGTH     0.0160  FT
+
+   HYDRAULIC DIAMETER                                                                   13.4   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00119
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0211
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      5
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     5             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     6
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Tee piece 2                                            FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                328.10   FT
+
+CROSS SECTION AREA                                                                     215.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         64.2                                                           TOTAL PERIMETER        64.2  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.0160                                                           ROUGHNESS LENGTH     0.0160  FT
+
+   HYDRAULIC DIAMETER                                                                   13.4   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00119
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0211
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      5
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     5             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     7
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  103 -103           Stem with jet fan                                      FORM 3A
+
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+
+LENGTH                                                                                328.10   FT
+
+CROSS SECTION AREA                                                                     215.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         64.2                                                           TOTAL PERIMETER        64.2  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.0160                                                           ROUGHNESS LENGTH     0.0160  FT
+
+   HYDRAULIC DIAMETER                                                                   13.4   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00119
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0211
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      5
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     5             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     8
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:     9
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              103                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              104                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      4   ANGLED JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+BRANCH NUMBER  1                                                         SECTION NUMBER  101
+
+BRANCH NUMBER  2                                                         SECTION NUMBER  102
+
+BRANCH NUMBER  3                                                         SECTION NUMBER  103
+
+JUNCTION ASPECT RATIO                                                                 1.0000
+
+JUNCTION ANGLE                                                                          20.0   DEGREES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    10
+
+
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+
+
+
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+
+                       IMPULSE FAN VOLUME FLOW RATE                           63566.4   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.70
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   5500.0   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    1000.0   SEC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    11
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1          6         50.00         2         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5            300.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    12
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.20   SECONDS
+
+MAXIMUM SIMULATION TIME                                                               300.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                            10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    14
+
+
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
+  102 -102            0.0      0.0
+  103 -103            0.0      0.0
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    15
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.40 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 2.00 SEC
+
+
+TIME     50.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -132371.8   -614.8
+  102 -102       -54854.7   -254.8
+  103 -103       187226.4    869.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    16
+
+
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -155769.3   -723.5
+  102 -102       -37247.6   -173.0
+  103 -103       193016.9    896.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    17
+
+
+TIME    150.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -158532.6   -736.3
+  102 -102       -34096.1   -158.4
+  103 -103       192628.7    894.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    18
+
+
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -158855.8   -737.8
+  102 -102       -33689.0   -156.5
+  103 -103       192544.9    894.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    19
+
+
+TIME    250.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -158893.8   -738.0
+  102 -102       -33640.2   -156.2
+  103 -103       192533.9    894.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    20
+
+
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -158898.0   -738.0
+  102 -102       -33634.9   -156.2
+  103 -103       192532.9    894.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-nbrjct-set-to-1.ses                                                 SIMULATION TIME: 24 APR 2021 11:49:24
+       SES VER 4.10         SES v4.1 file showing a problem with NBRJCT (form 1D counter of branches).         PAGE:    21
+
+
+                                            END OF SIMULATION
