@@ -1,0 +1,13 @@
+Test input file for Hobyah, a 1D tunnel vent program
+December 2020
+Tests an error message in PROC ProcessSettings where
+the version of the input file has not been set.
+
+begin settings
+#    version 1
+    runtype calc
+    frictiontype Darcy
+end settings
+
+begin plots
+end plots

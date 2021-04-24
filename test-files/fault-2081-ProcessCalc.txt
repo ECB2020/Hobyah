@@ -1,0 +1,16 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a settings block but no definitions of sections, which
+raises an error after all the sections blocks have been read.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+end settings
+
+begin sections
+end sections
+
+begin plots
+end plots

@@ -1,0 +1,21 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This raises fault call 2145 in PROC ProcessPlotFiles by having a files
+block that needs nicknames and file names and a line of entry that
+only has a one-word nickname in it  (the entry is actually a file name
+but the first word in "begin files nicknames" blocks is always treated
+as the nickname.
+
+begin settings
+  version 1
+  runtype plot
+  frictiontype Fanning
+end settings
+
+begin files nicknames
+  slugflow      Fake output file1.ses
+  Fake-output-file2.txt
+end files
+
+begin plots
+end plots

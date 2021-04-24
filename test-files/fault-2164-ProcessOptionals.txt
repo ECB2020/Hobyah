@@ -1,0 +1,15 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a sections block with optional entries.  One of the entries
+triggers fault 2165 because a line consisted of nothing but optional
+entries.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  option1 := dark option2 := light
+end settings
+
+begin plots
+end plots

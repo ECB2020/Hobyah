@@ -1,0 +1,14 @@
+Test input file for Hobyah, a 1D tunnel vent program
+December 2020
+Tests an error message raised when we have a non-number where we
+are expecting a floating point number.
+
+begin settings
+    version 1
+    runtype plot
+    frictiontype Darcy
+    rho_atm 1.2.3       # Should be a number
+end settings
+
+begin plots
+end plots

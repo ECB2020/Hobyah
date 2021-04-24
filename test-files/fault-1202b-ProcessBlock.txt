@@ -1,0 +1,22 @@
+Test input file for Hobyah, a 1D tunnel vent program
+December 2020
+Tests an error message in PROC ProcessBlock where
+we have an invalid definition of what we want (i.e. not strings
+beginning with "int", "float" or "#name" or a tuple in the code).
+This error should only be raised during development work.
+This test file raises it at the second level of processing,
+after reading a valid word that requires any word and a number
+after the word.
+
+begin settings
+  version 1
+  runtype plot
+  frictiontype Darcy
+end settings
+
+begin testblock
+  1202b    any_word 54
+end testblock
+
+begin plots
+end plots

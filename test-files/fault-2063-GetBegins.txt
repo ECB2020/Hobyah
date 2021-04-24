@@ -1,0 +1,20 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This raises fault call 2063 in PROC GetBegins.  It is running a calculation
+but has no blocks that define sections (the "begin sections" block is
+commented out).
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+end settings
+
+#begin sections
+#  West-C+C  69    45   0.030  height := 9.2   West end cut and cover
+#  TBM       40.5  35  -0.036  height := 6.4   8.1 m ID TBM tunnel
+#  East-C+C  74    47   0.030  height := 9.2   East end cut and cover
+#end sections
+
+begin plots
+end plots

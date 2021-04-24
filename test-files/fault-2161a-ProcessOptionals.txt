@@ -1,0 +1,14 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a sections block with optional entries.  One of the entries
+triggers fault 2161 because there is no key before the assignment
+operator :=
+
+begin settings
+  version 1
+  runtype calc
+  := optional frictiontype Fanning
+end settings
+
+begin plots
+end plots

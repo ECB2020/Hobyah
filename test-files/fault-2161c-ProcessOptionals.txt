@@ -1,0 +1,15 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a sections block with optional entries.  One of the entries
+triggers fault 2161 because a key is missing and a number is consumed
+for the key.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  rho_atm 1.2 option1 := dark := light
+end settings
+
+begin plots
+end plots

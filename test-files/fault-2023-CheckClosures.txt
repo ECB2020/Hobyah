@@ -4,6 +4,7 @@ Tests an error message in PROC CheckClosures where
 we have a valid "end" command with no noun after it.
 
 begin settings
+  frictiontype Darcy
 end settings
 
 begin tunnel Dopey

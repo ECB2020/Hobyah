@@ -1,0 +1,14 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+June 2020
+Tests an error message in PROC ProcessFile where the log file is
+locked and can't be opened to write to it.
+
+begin settings
+  frictiontype Darcy
+end settings
+
+begin tunnel Dopey
+end tunnel
+
+begin plots
+end plots

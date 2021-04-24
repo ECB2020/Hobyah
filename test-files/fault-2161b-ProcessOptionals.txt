@@ -1,0 +1,16 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a sections block with optional entries.  One of the entries
+triggers fault 2161 because there is no key before the assignment
+second operator :=.  This is a variant error message because the
+phrase "option1 := option2" has been consumed, leaving ":= option3"
+at the start of the line.
+
+begin settings
+  version 1
+  runtype calc
+  option1 := option2 := option3  frictiontype Fanning
+end settings
+
+begin plots
+end plots

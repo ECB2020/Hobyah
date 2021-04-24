@@ -6,6 +6,7 @@ because "begin settings" marks the end of the initial comments and
 the start of the input.
 
 begin  setting    # This should be "begin settingS" to start the file
+  frictiontype Darcy
 end settings
 
 begin tunnel Dopey

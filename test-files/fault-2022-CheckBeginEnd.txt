@@ -1,9 +1,10 @@
 Test input file for Hobyah, a 1D tunnel vent program
 June 2020
 Tests an error message in PROC CheckBeginEnd where
-we have no line "end plots"..
+we have no line "end plots".
 
 begin settings
+  frictiontype Darcy
 end settings
 
 begin tunnel Dopey

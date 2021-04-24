@@ -1,0 +1,33 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+April 2021
+This file has an entry in a line of its graph block that sets an
+axis label or range after starting to plot the curves.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  units SI
+end settings
+
+begin sections
+  mined       84  37  0.03
+end sections
+
+begin tunnel Heysen
+  back 0 portal 15  mined
+  fwd  500 portal 0
+end tunnel
+
+begin plots
+  begin page
+    begin graph
+      title "My graph"
+      xlabel Time (s)
+      ylabel "Volume flow (m^3/s)"
+      transient calc velocity Heysen@10
+      ylabel "Volume flow" # This line should cause an error
+    end graph
+  end page
+end plots

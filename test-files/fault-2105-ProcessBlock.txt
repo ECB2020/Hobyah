@@ -1,0 +1,14 @@
+Test input file for Hobyah, a 1D tunnel vent program
+December 2020
+Tests an error message in PROC ProcessBlock where
+we have too many entries for a setting.
+
+
+begin settings
+    version 1
+    runtype plot
+    frictiontype Darcy Weisbach
+end settings
+
+begin plots
+end plots

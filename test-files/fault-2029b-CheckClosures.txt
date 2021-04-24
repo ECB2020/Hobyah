@@ -1,17 +1,21 @@
 Test input file for Hobyah, a 1D tunnel vent program
 June 2020
 Tests an error message in PROC CheckClosures where
-we have a "begin" command that needs a name after it
-but does not.
+we have several extra "begin" commands that are not ended.
 
 begin settings
   frictiontype Darcy
 end settings
 
-begin tunnel # Dopey
-  begin gradients
-  end gradients
+begin tunnel Grumpy
+
+
+begin tunnel Dopey
 end tunnel
+
+begin tunnel Sleepy
+
+
 
 begin plots
 end plots

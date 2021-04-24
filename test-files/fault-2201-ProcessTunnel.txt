@@ -1,0 +1,22 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+February 2021
+This file has sections and a tunnel, but when the section is set
+at the back end of the tunnel the section name does not exist.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+end settings
+
+begin sections
+  TBM       40.5  35  -0.036
+end sections
+
+begin tunnel Dopey
+  back 10000 portal 20  BLT     # incorrect section name
+  fwd  12130 portal 0
+end tunnel
+
+begin plots
+end plots

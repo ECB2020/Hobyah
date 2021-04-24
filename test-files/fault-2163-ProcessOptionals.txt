@@ -1,0 +1,13 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+December 2020
+This has a sections block with optional entries.  One of the entries
+triggers fault 2163 because two assignments are made with the same key.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning  option1 := foo  option1 := bar
+end settings
+
+begin plots
+end plots

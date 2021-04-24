@@ -5,6 +5,7 @@ we have more than one block with the same name, which
 is not allowed.
 
 begin settings
+  frictiontype Darcy
 end settings
 
 begin tunnel Dopey

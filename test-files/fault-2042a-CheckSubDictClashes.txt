@@ -5,6 +5,7 @@ the same block.  It faults on the first call to
 CheckSubDictClashes.
 
 begin settings
+  frictiontype Darcy
 end settings
 
 begin tunnel dopey
