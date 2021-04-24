@@ -1,0 +1,892 @@
+% ../Hobyah.py fau*
+
+> Processing file 1 of 78, "fault-2001-processFile.txs".
+>
+> *Error* type 2001
+> Skipping "fault-2001-processFile.txs", because it
+> doesn't end with the extension ".txt".
+
+> Processing file 2 of 78, "fault-2002-ProcessFile.txt".
+>
+> *Error* type 2002
+> Skipping "fault-2002-ProcessFile.txt", because you
+> do not have permission to read it.
+
+> Processing file 3 of 78, "fault-2005-ProcessFile.txt".
+>
+> *Error* type 2005
+> Skipping "fault-2005-ProcessFile.txt", because you
+> do not have permission to write to its logfile.
+
+> Processing file 4 of 78, "fault-2021-CheckBeginEnd.txt".
+>
+> *Error* type 2021
+> Failed to find the "begin settings" that should
+> mark the end of the introductory comments and
+> the start of the input.  Please check whether
+> "fault-2021-CheckBeginEnd.txt" is an input file for
+> Hobyah or something else.
+
+> Processing file 5 of 78, "fault-2022-CheckBeginEnd.txt".
+>
+> *Error* type 2022
+> Failed to find the "end plots" that should mark
+> the end of the input.  Please check whether
+> "fault-2022-CheckBeginEnd.txt" is an input file for
+> Hobyah or something else.
+
+> Processing file 6 of 78, "fault-2023-CheckClosures.txt".
+>
+> *Error* type 2023
+> Found a "end" command without an accompanying
+> noun (tunnel, train, fan etc).
+> Please edit the file "fault-2023-CheckClosures.txt"
+> to add one.
+> Faulty line of input (10th) is
+>   end           # There is no noun to go with this 'begin'
+
+> Processing file 7 of 78, "fault-2024-CheckClosures.txt".
+>
+> *Error* type 2024
+> Found a "begin tunnel" command that needs to be
+> named  (e.g. "begin tunnel Dopey") but which
+> has no name.
+> Please edit the file "fault-2024-CheckClosures.txt"
+> to add one.
+> Faulty line of input (10th) is
+>   begin tunnel # Dopey
+
+> Processing file 8 of 78, "fault-2025-CheckClosures.txt".
+>
+> *Error* type 2025
+> Found a "begin settings" command that had
+> extra text after it.  Please edit the file
+> "fault-2025-CheckClosures.txt" to
+> remove the extra text.
+> Faulty line of input (6th) is
+>   begin settings should_not_be_named
+
+> Processing file 9 of 78, "fault-2026-CheckClosures.txt".
+>
+> *Error* type 2026
+> Found too many "end" commands.  We ended a
+> block at a point where there were no blocks
+> to end.
+> Please edit the file "fault-2026-CheckClosures.txt"
+> to add an appropriate "begin" command or
+> to remove this "end" command.
+> Faulty line of input (10th) is
+>   end tunnel
+
+> Processing file 10 of 78, "fault-2027-CheckClosures.txt".
+>
+> *Error* type 2027
+> Found an "end tunnel" line that
+> did not match the most recent "begin"
+> line (which was "begin gradients").
+> Please edit the file "fault-2027-CheckClosures.txt"
+> to add an appropriate "begin" command or
+> to change this "end" command.
+> Faulty line of input (13th) is
+>   end tunnel
+
+> Processing file 11 of 78, "fault-2028-CheckClosures.txt".
+>
+> *Error* type 2028
+> Found an "end tunnel" line that
+> had extra data after "tunnel".
+> Please edit the file "fault-2028-CheckClosures.txt"
+> to remove the extra data.
+> Faulty line of input (13th) is
+>   end tunnel Dopey
+
+> Processing file 12 of 78, "fault-2029a-CheckClosures.txt".
+>
+> *Error* type 2029
+> There was an extra "begin" command
+> compared to the "end" commands.
+> It is on line 12 of the file:
+>   "begin tunnel Sleepy"
+> Please edit the file "fault-2029a-CheckClosures.txt"
+> to fix up the file syntax.
+
+> Processing file 13 of 78, "fault-2029b-CheckClosures.txt".
+>
+> *Error* type 2029
+> There were 2 more "begin" commands
+> than "end" commands.  The following
+> is a list of them and their line
+> numbers:
+>  Line 9, "begin tunnel Grumpy"
+>  Line 15, "begin tunnel Sleepy"
+> Please edit the file "fault-2029b-CheckClosures.txt"
+> to fix up the file syntax.
+
+> Processing file 14 of 78, "fault-2041-SplitBlocks.txt".
+>
+> *Error* type 2041
+> Found duplicate blocks in the file "fault-2041-SplitBlocks.txt".
+> Both blocks were named "SETTINGS".
+> The first definition started at line 7.
+> Faulty line of input (14th) is
+>   begin SETTINGS   #   2nd definition (names are not case-sensitive)
+
+> Processing file 15 of 78, "fault-2042a-CheckSubDictClashes.txt".
+>
+> *Error* type 2042
+> Found duplicate sub-blocks in the same block.
+> The clashing blocks start at these two lines:
+>   Line 18: begin gradients
+>   Line 21: begin   Gradients
+> Please edit the file "fault-2042a-CheckSubDictClashes.txt"
+> to resolve the clash.
+
+> Processing file 16 of 78, "fault-2042b-CheckSubDictClashes.txt".
+>
+> *Error* type 2042
+> Found duplicate sub-blocks in the same block.
+> The clashing blocks start at these two lines:
+>   Line 47: begin heights
+>   Line 51: begin    Heights # This is a duplicate sub-sub-sub block
+> Please edit the file "fault-2042b-CheckSubDictClashes.txt"
+> to resolve the clash.
+
+> Processing file 17 of 78, "fault-2043-GetOneBlock.txt".
+>
+> *Error* type 2043
+> Found a line of input outside of a block, or
+> a line of comment without a # at the start.
+> Please edit the file "fault-2043-GetOneBlock.txt"
+> to resolve the clash.
+> Faulty line of input (13th) is
+>     second line does not, which raises a fault.
+
+> Processing file 18 of 78, "fault-2061-GetBegins.txt".
+>
+> *Error* type 2061
+> Found more than one "begin files" blocks in
+> "fault-2061-GetBegins.txt".
+> The 14th line started a "begin files" block
+> that was processed successfully, but a second
+> "begin files" block was encountered later.
+> Please edit the file to remove the conflict.
+> Either merge the blocks or remove one of them.
+> Faulty line of input (19th) is
+>   begin files numbered # 2nd instance of a "begin files" block
+
+> Processing file 19 of 78, "fault-2062-GetBegins.txt".
+>
+> *Error* type 2062
+> Found too many "begin files" blocks in
+> "fault-2062-GetBegins.txt".
+> The 15th line started a "begin files" block
+> that was processed successfully, but more
+> "begin files" blocks were encountered on
+> the following lines:
+>   20th and 25th.
+> Please edit the file to remove the conflict.
+> Either merge the blocks or remove all but 1.
+
+> Processing file 20 of 78, "fault-2063-GetBegins.txt".
+>
+> *Error* type 2063
+> Failed to find a "begin sections" block in
+> the file "fault-2063-GetBegins.txt".
+> Please edit the file to add one.
+
+> Processing file 21 of 78, "fault-2064-GetBegins.txt".
+>
+> *Error* type 2064
+> Failed to find enough "begin testblock" blocks in
+> "fault-2064-GetBegins.txt".
+> Please edit the file to add at least 3.
+> Finished processing file 21.
+
+> Processing file 22 of 78, "fault-2081-ProcessCalc.txt".
+>
+> *Error* type 2081
+> The file named "fault-2081-ProcessCalc.txt" is
+> running a calculation but has no sections.
+> Please either add one or more sections
+> or edit the settings block to change
+> "runtype calc" to "runtype plot".
+
+> Processing file 23 of 78, "fault-2101-ProcessBlock.txt".
+>
+> *Error* type 2101
+> Came across an unrecognised keyword in "fault-2101-ProcessBlock.txt".
+> The keyword is "rfictiontype".  Valid keywords
+> are as follows:
+>   version, runtype, frictiontype, frictionapprox,
+>   units, qa1, qa2, qa3, p_atm, rho_atm, aero_step
+>   and aero_time.
+> Faulty line of input (9th) is
+>      rfictiontype Darcy
+
+> Processing file 24 of 78, "fault-2102-ProcessBlock.txt".
+>
+> *Error* type 2102
+> Came across a faulty setting in "fault-2102-ProcessBlock.txt".
+> The setting has too few entries in it
+> (expected 2 words).
+> Faulty line of input (11th) is
+>       frictiontype
+
+> Processing file 25 of 78, "fault-2103-ProcessBlock.txt".
+>
+> *Error* type 2103
+> Came across a faulty setting in "fault-2103-ProcessBlock.txt".
+> The setting has too few entries in it
+> (expected 4 words).
+> Note that this error can be triggered when
+> when there are instances of := (marking the
+> optional entries) but not enough keys.  For
+> what it's worth, here are the words taken
+> from the line as optional entries:
+>    tbm := 0.3
+>    zeta_fb := 0.42
+> Faulty line of input (22nd) is
+>     change 10060 TBM            := 0.3   zeta_fb := 0.42
+
+> Processing file 26 of 78, "fault-2104-ProcessBlock.txt".
+>
+> *Error* type 2104
+> Came across an unrecognised entry in "fault-2104-ProcessBlock.txt".
+> The 1st entry for keyword "runtype" was "fail".
+> Valid settings for this are:
+>   calc and plot.
+> Faulty line of input (9th) is
+>       runtype fail
+
+> Processing file 27 of 78, "fault-2105-ProcessBlock.txt".
+>
+> *Error* type 2105
+> Came across a faulty setting in "fault-2105-ProcessBlock.txt".
+> The setting has too many entries in it
+> (expected 1 words).
+> Faulty line of input (10th) is
+>       frictiontype Darcy Weisbach
+
+> Processing file 28 of 78, "fault-2106-ProcessBlock.txt".
+>
+> *Error* type 2106
+> Came across a duplicate keyword in "fault-2106-ProcessBlock.txt".
+> The keyword "version" has been used
+> already and you must have only one of these.
+> Faulty line of input (8th) is
+>       version 1
+
+> Processing file 29 of 78, "fault-2107-ProcessBlock.txt".
+>
+> *Error* type 2107
+> Came across a duplicate entry in "fault-2107-ProcessBlock.txt".
+> The keyword "change" at chainage 10060.0
+> has been used already in this tunnel.
+> Faulty line of input (22nd) is
+>     change 10060 TBM
+
+> Processing file 30 of 78, "fault-2108a-ProcessBlock.txt".
+>
+> *Error* type 2108
+> Came across an invalid optional entry in
+> "fault-2108a-ProcessBlock.txt".
+> The keyword "float" has no valid
+> optional entries, but you've set one.
+> Please remove it.
+> Faulty line of input (14th) is
+>     float 42   option_1 := 42
+> Finished processing file 30.
+
+> Processing file 31 of 78, "fault-2108b-ProcessBlock.txt".
+>
+> *Error* type 2108
+> Came across an invalid optional entry in
+> "fault-2108b-ProcessBlock.txt".
+> The keyword "float" has no valid
+> optional entries, but you've set 3.
+> Please remove them.
+> Faulty line of input (14th) is
+>     float 42   option_1 := 42, option_2 := 42  option_3 := 42
+> Finished processing file 31.
+
+> Processing file 32 of 78, "fault-2109a-ProcessBlock.txt".
+>
+> *Error* type 2109
+> Came across an invalid optional entry in
+> "fault-2109a-ProcessBlock.txt".
+> The keyword "name" cannot use the
+> optional entry "dud_option", there is one
+> valid optional entry for this keyword,
+> "option_1".
+> Faulty line of input (15th) is
+>     name  testing   dud_option := 42
+> Finished processing file 32.
+
+> Processing file 33 of 78, "fault-2109b-ProcessBlock.txt".
+>
+> *Error* type 2109
+> Came across an invalid optional entry in
+> "fault-2109b-ProcessBlock.txt".
+> The keyword "any" cannot use the
+> optional entry "dud_option", the only valid
+> optional entries for this keyword are:
+>   option_1 and option_2.
+> Faulty line of input (16th) is
+>     any  0.0   dud_option := 42
+> Finished processing file 33.
+
+> Processing file 34 of 78, "fault-2110-ProcessBlock.txt".
+>
+> *Error* type 2110
+> Came across a tunnel definition
+> in "fault-2110-ProcessBlock.txt"
+> that lacked a required entry, "fwd".
+> Please add a line to define it.
+> Faulty line of input (24th) is
+>   end tunnel
+
+> Processing file 35 of 78, "fault-2111a-ProcessBlock.txt".
+>
+> *Error* type 2111
+> Came across two entities that are too close
+> in "fault-2111a-ProcessBlock.txt".
+> Entities can't be closer than one metre.
+> The 21st line was
+>     back 10000 portal 0 West-C+C
+> Faulty line of input (23rd) is
+>     change 10001 TBM
+
+> Processing file 36 of 78, "fault-2111b-ProcessBlock.txt".
+>
+> *Error* type 2111
+> Came across two entities that are too close
+> in "fault-2111b-ProcessBlock.txt".
+> Entities can't be closer than 3.28 feet.
+> The 22nd line was
+>     back 10000 portal 0 West-C+C
+> Faulty line of input (24th) is
+>     change 10001 TBM
+
+> Processing file 37 of 78, "fault-2121-ProcessSettings.txt".
+>
+> *Error* type 2121
+> There is no setting for input file version number in
+> the file "fault-2121-ProcessSettings.txt".
+> Please add "version 1" (without double quotes) to
+> the settings block.
+
+> Processing file 38 of 78, "fault-2122-ProcessSettings.txt".
+>
+> *Error* type 2122
+> There is no setting for the run type in the file
+> "fault-2122-ProcessSettings.txt".
+> Please add "runtype plot" or "runtype calc" (without
+> double quotes) to the settings block.
+
+> Processing file 39 of 78, "fault-2123-ProcessSettings.txt".
+>
+> *Error* type 2123
+> There is no setting for friction type in the file
+> "fault-2123-ProcessSettings.txt".
+> Please add either "frictiontype Darcy" (without
+> double quotes) or "frictiontype Fanning" (also
+> without double quotes) to the settings block.
+> You must make a choice of one or the other.  If
+> you are unsure which to use (or were unaware that
+> there is more than one type of friction factor)
+> then please read "friction.pdf" in Hobyah's
+> documentation folder.
+
+> Processing file 40 of 78, "fault-2141-ProcessPlotFiles.txt".
+>
+> *Error* type 2141
+> The "begin files" block in "fault-2141-ProcessPlotFiles.txt"
+> has been given the type "misspelled".
+> Only "numbered", "nicknames" or "2syllables" are
+> permitted here.
+> Faulty line of input (13th) is
+>   begin files misspelled
+
+> Processing file 41 of 78, "fault-2142-ProcessPlotFiles.txt".
+>
+> *Error* type 2142
+> There is an invalid entry in a "begin files"
+> block in "fault-2142-ProcessPlotFiles.txt".
+> The file "Incorrect-extension.bin" in the
+> "files" block has an incorrect extension or
+> no extension.  Filenames must end in ".txt",
+> ".ses" or ".inp" so that Hobyah can identify
+> which program produced it.
+> Faulty line of input (14th) is
+>       Incorrect-extension.bin
+
+> Processing file 42 of 78, "fault-2143-ProcessPlotFiles.txt".
+>
+> *Error* type 2143
+> The "files" block in "fault-2143-ProcessPlotFiles.txt"
+> has been told to generate nicknames from
+> two syllables in the file name but there
+> are not enough syllables available in the
+> file named "too-few.txt".
+> Please either give the file name three
+> or more syllables separated by dashes (a
+> name like "WGT-012-fire-12080ab.txt" has
+> four syllables ("WGT", "012", "fire" and
+> "12080ab").
+> Faulty line of input (15th) is
+>       too-few.txt
+
+> Processing file 43 of 78, "fault-2144-ProcessPlotFiles.txt".
+>
+> *Error* type 2144
+> The "files" block in "fault-2144-ProcessPlotFiles.txt"
+> has been told to generate one-word nicknames
+> from two syllables in the file name  The
+> syllables in the nickname "2 nd-5th"
+> (generated from "1st-2 nd-3rd-4th-5th.txt"
+> has spaces in it, which is not allowed.
+> Please rename the file or use a different
+> naming scheme.
+> Faulty line of input (14th) is
+>       1st-2 nd-3rd-4th-5th.txt
+
+> Processing file 44 of 78, "fault-2145-ProcessPlotFiles.txt".
+>
+> *Error* type 2145
+> The "files" block in "fault-2145-ProcessPlotFiles.txt"
+> has been told to read a nickname and a
+> file name, but one of the entries had
+> nothing but the nickname, "Fake-output-file2.txt".
+> Please add a file name or choose another
+> way of generating nicknames.
+> Faulty line of input (17th) is
+>     Fake-output-file2.txt
+
+> Processing file 45 of 78, "fault-2146-ProcessPlotFiles.txt".
+>
+> *Error* type 2146
+> The "files" block in "fault-2146-ProcessPlotFiles.txt"
+> has been told to read a nickname and a
+> file name.  One of the nicknames was
+> "calc", which is not allowed because
+> it is a word reserved for other uses.
+> Please choose a different word.
+> Faulty line of input (13th) is
+>     calc      Fake output file1.ses
+
+> Processing file 46 of 78, "fault-2147-ProcessPlotFiles.txt".
+>
+> *Error* type 2147
+> The "files" block in "fault-2147-ProcessPlotFiles.txt"
+> has duplicate nicknames: "compressible"
+> appears twice (note that nicknames are not
+> case sensitive).  Please rename one of them.
+> Faulty line of input (15th) is
+>     compressible  Fake-output-file3.txt
+
+> Processing file 47 of 78, "fault-2148-ProcessPlotFiles.txt".
+>
+> *Error* type 2148
+> Came across a file name that consisted of
+> nothing but the extension ".txt" in the
+> "files" block of "fault-2148-ProcessPlotFiles.txt".
+> Please give it a name.
+> Faulty line of input (13th) is
+>     .txt
+
+> Processing file 48 of 78, "fault-2149-ProcessPlotFiles.txt".
+>
+> *Error* type 2149
+> One of the binary output files in the "files"
+> block of "fault-2149-ProcessPlotFiles.txt" doesn't exist.
+> The missing file is "Fake-output-file3.bin".
+> Please either run "Fake-output-file3.txt".
+> to create its output file or remove it from the
+> list of files.
+> Faulty line of input (15th) is
+>     Fake-output-file3.txt
+
+> Processing file 49 of 78, "fault-2150-ProcessPlotFiles.txt".
+>
+> *Error* type 2150
+> One of the binary output files in the "files"
+> block of "fault-2150-ProcessPlotFiles.txt" exists
+> but you don't have permission to read its
+> .bin file.
+> The locked file is "Fake-output-file4-locked.bin".
+> Please remove it from the list of files and
+> remove any references to it in your plots.
+> Faulty line of input (15th) is
+>     Fake-output-file4-locked.txt
+
+> Processing file 50 of 78, "fault-2161a-ProcessOptionals.txt".
+>
+> *Error* type 2161
+> Came across a faulty line of input in
+> "fault-2161a-ProcessOptionals.txt".
+> The line contained ":=" (which signifies an
+> optional entry) but there was no key before
+> the :=.  Please add one.
+> Faulty line of input (10th) is
+>     := optional frictiontype Fanning
+
+> Processing file 51 of 78, "fault-2161b-ProcessOptionals.txt".
+>
+> *Error* type 2161
+> Came across a faulty line of input in
+> "fault-2161b-ProcessOptionals.txt".
+> The line contained ":=" (which signifies an
+> optional entry) but there was no key before
+> the :=.  Please add one.
+> Note that this error can be triggered when
+> when there are instances of := (marking the
+> optional entries) but not enough keys.  For
+> what it's worth, here are the words taken
+> from the line as optional entries:
+>    option1 := option2
+> Faulty line of input (12th) is
+>     option1 := option2 := option3  frictiontype Fanning
+
+> Processing file 52 of 78, "fault-2161c-ProcessOptionals.txt".
+>
+> *Error* type 2161
+> Came across a faulty line of input in
+> "fault-2161c-ProcessOptionals.txt".
+> The line contained ":=" (which signifies an
+> optional entry) but there was no key before
+> the :=.  Please add one.
+> Note that this error can be triggered when
+> when there are instances of := (marking the
+> optional entries) but not enough keys.  For
+> what it's worth, here are the words taken
+> from the line as optional entries:
+>    option1 := dark
+> Faulty line of input (11th) is
+>     rho_atm 1.2 option1 := dark := light
+
+> Processing file 53 of 78, "fault-2162-ProcessOptionals.txt".
+>
+> *Error* type 2162
+> Came across a faulty line of input in
+> "fault-2162-ProcessOptionals.txt".
+> The line contained ":=" (which signifies an
+> optional entry) but there was no value after
+> the :=.  Please add one.
+> Faulty line of input (10th) is
+>     frictiontype Fanning  optional :=
+
+> Processing file 54 of 78, "fault-2163-ProcessOptionals.txt".
+>
+> *Error* type 2163
+> Came across a faulty line of input in
+> "fault-2163-ProcessOptionals.txt".
+> The line contained two optional entries
+> with the same key (option1).  One set it
+> it to "foo", the other set it to
+> "bar".  Please pick one.
+> Faulty line of input (9th) is
+>     frictiontype Fanning  option1 := foo  option1 := bar
+
+> Processing file 55 of 78, "fault-2164-ProcessOptionals.txt".
+>
+> *Error* type 2164
+> Came across a faulty line of input in
+> "fault-2164-ProcessOptionals.txt".
+> The line contained nothing but optional entries.
+> Note that this error can be triggered when
+> when there are instances of := (marking the
+> optional entries) but not enough keys.  For
+> what it's worth, here are the words taken
+> from the line as optional entries:
+>    option1 := dark
+>    option2 := light
+> Faulty line of input (11th) is
+>     option1 := dark option2 := light
+
+> Processing file 56 of 78, "fault-2181-ProcessConstants.txt".
+>
+> *Error* type 2181
+> Came across a faulty line of input in
+> "fault-2181-ProcessConstants.txt".
+> The line set a constant with a name that
+> starts with "*", which is not permitted.
+> Please edit the file to rename it.
+> Faulty line of input (15th) is
+>      *dud_name  12.5
+
+> Processing file 57 of 78, "fault-2201-ProcessTunnel.txt".
+>
+> *Error* type 2201
+> In the file named "fault-2201-ProcessTunnel.txt"
+> the name of the section at the back end
+> of the tunnel named "dopey" does not
+> exist (the name given was "BLT").
+> Please edit the file to correct it.  For
+> what it's worth, here are the names of
+> the section(s) you've set:
+>   tbm.
+> Faulty line of input (17th) is
+>     back 10000 portal 20  BLT     # incorrect section name
+
+> Processing file 58 of 78, "fault-2202-ProcessTunnel.txt".
+>
+> *Error* type 2202
+> In the file named "fault-2202-ProcessTunnel.txt"
+> the name of the section in a change of
+> section in tunnel "dopey" does not
+> exist (the name given was "blt").
+> Please edit the file to correct it.  For
+> what it's worth, here are the names of
+> the section(s) you've set:
+>   tbm.
+> Faulty line of input (18th) is
+>     change 14060    BLT     # wrong name of new section
+
+> Processing file 59 of 78, "fault-2221a-CheckRangeAndSI.txt".
+>
+> *Error* type 2221
+> Came across version number that was not
+> an integer in "fault-2221a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "version" was "1.2".
+> The only valid entries there are integers.
+> Faulty line of input (7th) is
+>       version 1.2   # Should be an integer
+
+> Processing file 60 of 78, "fault-2221b-CheckRangeAndSI.txt".
+>
+> *Error* type 2221
+> Came across any number (testblock) that was not
+> an integer in "fault-2221b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "int" was "real_neg",
+> referring to a constant of that name which
+> was not an integer. The only valid entries
+> there are integers or integer constants.
+> Faulty lines of input (17th and 23rd) were
+>     real_neg -1.
+>     int   real_neg   # Should be an integer
+> Finished processing file 60.
+
+> Processing file 61 of 78, "fault-2222a-CheckRangeAndSI.txt".
+>
+> *Error* type 2222
+> Came across an air density that was not
+> a real number in "fault-2222a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "rho_atm" was "1.2.3".
+> The only valid entries there are real numbers
+> or constants, and there is not a constant with
+> that name.
+> Faulty line of input (10th) is
+>       rho_atm 1.2.3       # Should be a number
+
+> Processing file 62 of 78, "fault-2222b-CheckRangeAndSI.txt".
+>
+> *Error* type 2222
+> Came across any number (testblock) that was not
+> a real number in "fault-2222b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "float" was "dud_constant",
+> referring to a constant of that name which
+> was not a number. The only valid entries
+> there are real numbers or constants.
+> Faulty lines of input (19th and 24th) were
+>     dud_constant  blah   # A constant that isn't a number.
+>     float   dud_constant   # Should be a real number
+> Finished processing file 62.
+
+> Processing file 63 of 78, "fault-2223a-CheckRangeAndSI.txt".
+>
+> *Error* type 2223
+> Came across a number (testblock) that should
+> have been negative but was not, in
+> "fault-2223a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "-" was "0".
+> The only valid entries there are negative numbers.
+> Faulty line of input (13th) is
+>     -   0   # Should be a negative number
+> Finished processing file 63.
+
+> Processing file 64 of 78, "fault-2223b-CheckRangeAndSI.txt".
+>
+> *Error* type 2223
+> Came across a number (testblock) that should
+> have been negative but was not, in
+> "fault-2223b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "-" was "zero",
+> referring to a constant of that name which
+> was not negative.
+> Faulty lines of input (16th and 23rd) were
+>     zero     0
+>     -   zero
+> Finished processing file 64.
+
+> Processing file 65 of 78, "fault-2223c-CheckRangeAndSI.txt".
+>
+> *Error* type 2223
+> Came across a number (testblock) that should
+> have been negative but was not, in
+> "fault-2223c-CheckRangeAndSI.txt".
+> The 1st entry for keyword "-" was "real_pos",
+> referring to a constant of that name which
+> was not negative.
+> Faulty lines of input (18th and 23rd) were
+>     real_pos  1.
+>     -   real_pos   # Should be a negative number
+> Finished processing file 65.
+
+> Processing file 66 of 78, "fault-2224a-CheckRangeAndSI.txt".
+>
+> *Error* type 2224
+> Came across a number (testblock) that should
+> have been negative or zero but was not, in
+> "fault-2224a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "-0" was "2".
+> The only valid entries there are negative numbers
+> or zero.
+> Faulty line of input (15th) is
+>     -0    2   # Should be a negative number or zero
+> Finished processing file 66.
+
+> Processing file 67 of 78, "fault-2224b-CheckRangeAndSI.txt".
+>
+> *Error* type 2224
+> Came across a number (testblock) that should
+> have been negative or zero but was not, in
+> "fault-2224b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "-0" was "real_pos",
+> referring to a constant of that name which
+> was positive.
+> Faulty lines of input (18th and 24th) were
+>     real_pos  1.
+>     -0   real_pos
+> Finished processing file 67.
+
+> Processing file 68 of 78, "fault-2225a-CheckRangeAndSI.txt".
+>
+> *Error* type 2225
+> Came across a number (testblock) that should
+> have been positive or zero but was not, in
+> "fault-2225a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "0+" was "-1".
+> The only valid entries there are positive numbers
+> or zero.
+> Faulty line of input (15th) is
+>     0+    -1   # Should be a positive number or zero
+> Finished processing file 68.
+
+> Processing file 69 of 78, "fault-2225b-CheckRangeAndSI.txt".
+>
+> *Error* type 2225
+> Came across a number (testblock) that should
+> have been positive or zero but was not, in
+> "fault-2225b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "0+" was "real_neg",
+> referring to a constant of that name which
+> was negative.
+> Faulty lines of input (17th and 24th) were
+>     real_neg -1.
+>     0+   real_neg
+> Finished processing file 69.
+
+> Processing file 70 of 78, "fault-2226a-CheckRangeAndSI.txt".
+>
+> *Error* type 2226
+> Came across a number (testblock) that should
+> have been positive but was not, in
+> "fault-2226a-CheckRangeAndSI.txt".
+> The 1st entry for keyword "+" was "0".
+> The only valid entries there are positive numbers
+> (not negative numbers or zero).
+> Faulty line of input (13th) is
+>     +   0   # Should be a positive number
+> Finished processing file 70.
+
+> Processing file 71 of 78, "fault-2226b-CheckRangeAndSI.txt".
+>
+> *Error* type 2226
+> Came across a number (testblock) that should
+> have been positive but was not, in
+> "fault-2226b-CheckRangeAndSI.txt".
+> The 1st entry for keyword "+" was "-2".
+> The only valid entries there are positive numbers
+> (not negative numbers or zero).
+> Faulty line of input (13th) is
+>     +   -2   # Should be a positive number
+> Finished processing file 71.
+
+> Processing file 72 of 78, "fault-2226c-CheckRangeAndSI.txt".
+>
+> *Error* type 2226
+> Came across a number (testblock) that should
+> have been positive but was not, in
+> "fault-2226c-CheckRangeAndSI.txt".
+> The 1st entry for keyword "+" was "real_neg",
+> referring to a constant of that name which
+> was not positive.
+> Faulty lines of input (17th and 23rd) were
+>     real_neg -1.
+>     +   real_neg
+> Finished processing file 72.
+
+> Processing file 73 of 78, "fault-6001-ProcessPlots.txt".
+>
+> *Error* type 6001
+> Skipping "fault-6001-ProcessPlots.txt", because
+> you do not have permission to write to
+> its gnuplot file "fault-6001-ProcessPlots.plt" in
+> the "ancillaries" folder.
+
+> Processing file 74 of 78, "fault-6021-ProcessGraph.txt".
+>
+> *Error* type 6021
+> Found a "begin verbatim" block inside an
+> earlier "begin verbatim" block in "fault-6021-ProcessGraph.txt".
+> You cannot have nested verbatim blocks.
+> Please edit the file to remove the nesting.
+> Faulty lines of input (25th and 27th) were
+>         begin verbatim
+>           begin verbatim
+
+> Processing file 75 of 78, "fault-6022-ProcessGraph.txt".
+>
+> *Error* type 6022
+> Found an invalid keyword in a graph
+> block in "fault-6022-ProcessGraph.txt".
+> The keyword is "dud".  Please
+> edit the file to correct it.
+> Faulty line of input (26th) is
+>         Dud line of entry
+
+> Processing file 76 of 78, "fault-6041-ProcessCurves.txt".
+>
+> *Error* type 6041
+> Found a valid keyword in a graph after
+> the start of the curve definitions in
+> "fault-6041-ProcessCurves.txt".
+> Unfortunately this is not allowed, as
+> it is too complex to process (the curves
+> are all lumped into one gnuplot "plot"
+> command).  Please edit the file to either
+> remove it or move it before the 29th line
+> of the input file.
+> Faulty line of input (30th) is
+>         ylabel "Volume flow" # This line should cause an error
+
+> Processing file 77 of 78, "fault-6042-ProcessCurves.txt".
+>
+> *Error* type 6042
+> Found an invalid curve keyword in "fault-6042-ProcessCurves.txt".
+> Please edit the file to correct it.
+> Faulty line of input (31st) is
+>         Dud line of input
+
+> Processing file 78 of 78, "fault-6061-GetFileData.txt".
+>
+> *Error* type 6061
+> Found the invalid nickname "caalc" in
+> a curve in "fault-6061-GetFileData.txt".
+> Please edit the file to correct it.
+> Valid nicknames in this file are as
+> follows:
+>   calc.
+> Faulty line of input (30th) is
+>         transient caalc velocity Heysen@490  # Not a valid nickname
+%

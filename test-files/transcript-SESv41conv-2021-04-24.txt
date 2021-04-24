@@ -1,0 +1,236 @@
+% SESv41conv.py -serial -acceptwrong *.PRN
+
+> Processing file 1 of 15, "SES-forms-101-fire.PRN".
+>
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which fatal SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES v4.1 Fortran source code you will most
+> likely regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option and using SES v4.1
+>   but hiding your use of "-acceptwrong" from your boss because
+>   admitting that the SES run is wrong would make you or your
+>   boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+> Finished processing file 1.
+
+> Processing file 2 of 15, "SES-forms-102-impl-impl.PRN".
+>
+> Finished processing file 2.
+
+> Processing file 3 of 15, "SES-forms-103-impl-expl.PRN".
+>
+> *Error* type 4031
+> There is a fatal problem with the input of "SES-forms-103-impl-expl.PRN".
+> The run uses train performance option 2 (explicit train
+> speed and implicit brake/traction heat calculation). In
+> SES version 4.1 the tractive effort calculation of train
+> performance option 2 is too low by a factor of several
+> hundred.  This is a bug in SES v4.1 routine Train.for.
+>
+> Details of the bug are as follows:
+>
+> SES calculates the tractive effort required to overcome
+> the gradient resistance (variable name RG, tractive effort
+> needed to climb a hill) and the curve resistance (variable
+> name RC, friction at the flange-rail interface).  It does
+> so by a call to Locate.for.
+> Locate.for returns RG as a fraction of train mass and RC
+> as lbs of flange drag on curves per short ton of train mass.
+>
+> When using train performance option 1, SES v4.1 works
+> properly.  It gets RG and RC from Locate.for as fractions
+> of train mass (see line 185 of Train.for). It multiplies
+> RG by train mass (line 193 of Train.for) and it multiplies
+> RC by "train mass/2000" (line 194).  These factors put RG
+> and RC into units suitable for the tractive effort
+> calculation.
+>
+> But when using train performance option 2, SES v4.1 does
+> not behave properly.  It gets RG and RC from Locate.for as
+> fractions of train mass (at line 693) but does not multiply
+> by the relevant factors.  Instead, it jumps to label 1100
+> and starts assuming that RG and RC are already in suitable
+> units.
+>
+> I came across the bug a few years ago when doing a freight
+> rail tunnel.  We could see this 4,000 tonne train racing up
+> a 1.6% incline with negligible tractive effort when we used
+> train performance option 2.
+> A bit of investigation showed that SES v4.1 exhibited the
+> same behaviour, so we went looking for the cause and found
+> the bug in Train.for in the SES v4.1 distribution.
+>
+> Your best bet is to switch to implicit train performance
+> or (if you're up to the challenge) you can calculate the
+> heat rejection yourself and use train performance option 3.
+>
+> You have set the "-acceptwrong" flag so the run will
+> continue.  We've already printed a long spiel about how
+> risky your choice was, so we won't harp on about it.
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   1   1 1   5512.53   0.47    -0.648   -3033.7********           0.        0.       0.        0.    530.0   1059.2   0.312   1.234
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   2   1 1   5512.53   0.47    -0.648   -3140.4********           0.        0.       0.        0.    530.0   1059.7   0.312   1.243
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   3   1 1   5512.53   0.47    -0.648   -3144.9********           0.        0.       0.        0.    530.0   1059.7   0.312   1.243
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> Finished processing file 3.
+
+> Processing file 4 of 15, "SES-forms-104-expl-expl.PRN".
+>
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   1   1 1   4668.02   0.29    -0.407   -1343.4********           0.        0.       0.        0.    530.0    946.8   0.277   0.960
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   2   1 1   4668.02   0.29    -0.407   -1921.6********           0.        0.       0.        0.    530.0    947.2   0.277   1.009
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   1   1 1   6429.65   0.48    -0.671   -2197.4********           0.        0.       0.        0.    530.0    873.8   0.277   0.878
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   3   1 1   4668.02   0.29    -0.407   -1912.7********           0.        0.       0.        0.    530.0    947.2   0.277   1.008
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 4066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   2   1 1   6429.65   0.48    -0.671   -2201.9********           0.        0.       0.        0.    530.0    873.9   0.277   0.879
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+
+> Finished processing file 4.
+
+> Processing file 5 of 15, "SES-forms-105-relhumid.PRN".
+>
+> Finished processing file 5.
+
+> Processing file 6 of 15, "SES-forms-106-wetbulb.PRN".
+>
+> Finished processing file 6.
+
+> Processing file 7 of 15, "SES-forms-107-no-routes.PRN".
+>
+> Finished processing file 7.
+
+> Processing file 8 of 15, "SES-forms-108-printopt-0.PRN".
+>
+> Finished processing file 8.
+
+> Processing file 9 of 15, "SES-forms-109-printopt-1.PRN".
+>
+> Finished processing file 9.
+
+> Processing file 10 of 15, "SES-forms-110-printopt-2.PRN".
+>
+> Finished processing file 10.
+
+> Processing file 11 of 15, "SES-forms-111-printopt-3.PRN".
+>
+> Finished processing file 11.
+
+> Processing file 12 of 15, "SES-forms-112-printopt-4.PRN".
+>
+> Finished processing file 12.
+
+> Processing file 13 of 15, "SES-forms-113-printopt-5.PRN".
+>
+> Finished processing file 13.
+
+> Processing file 14 of 15, "SES-nbrjct-set-to-0.PRN".
+>
+> *Error* type 4161
+> Found an obscure mistake in the input of "SES-nbrjct-set-to-0.PRN"
+> that invalidates its calculation.  You have one or
+> more junctions of type 1-6 in your file, which means
+> that SES ought to call a routine that calculates the
+> pressure losses across junctions (Omega3.for).  But
+> the count of branched junctions in form 1D is zero, so
+> SES skips making that call and the junction pressure
+> losses are all zero.
+>
+> What was the point of coding it that way?  Back in the
+> 1970s and 1980s CPU time was expensive.  It was useful
+> to have the ability to pay less for runs that did not
+> have branched junctions.
+> Nowadays the feature is just a forgotten trap that SES
+> doesn't warn about and which the unwary fall into.
+>
+> The way to solve the problem is to set the count of
+> branched junctions in form 1D to any positive number
+> (1 is suggested) and rerun "SES-nbrjct-set-to-0".
+> Finished processing file 14.
+
+> Processing file 15 of 15, "SES-nbrjct-set-to-1.PRN".
+>
+> Finished processing file 15.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which fatal SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES v4.1 Fortran source code you will most
+> likely regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option and using SES v4.1
+>   but hiding your use of "-acceptwrong" from your boss because
+>   admitting that the SES run is wrong would make you or your
+>   boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+%
