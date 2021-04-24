@@ -1,16 +1,16 @@
-#! /usr/local/bin/python3
+#! python3
 #
-# Copyright 2020, Ewan Bennett
+# Copyright 2020-2021, Ewan Bennett
 #
 # All rights reserved.
 #
 # Released under the BSD 2-clause licence (SPDX identifier: BSD-2-Clause)
 #
-# email: ewanbennett14@fastmail.com
+# email: ewanbennett@fastmail.com
 #
 # This file contains a set of general routines used by the other
 # programs.
-# It issues error messages in the following ranges: 1021-1023.
+# It issues error messages in the following ranges: 1021-1024.
 
 
 def PauseFail():
@@ -47,17 +47,17 @@ def Enth(number):
             Aborts with 1022 if negative.
     '''
     if type(number) != int:
-        print('> *Error* 1021 tried to get the ordinal\n'
-              '> of a non-integer.')
+        print('> *Error* type 1021\n'
+              '> tried to get the ordinal of a non-integer.')
         # Abort the run
         PauseFail()
     elif number < 0:
-        print('> *Error* 1022 tried to get the ordinal\n'
-              '> of a negative number.')
+        print('> *Error* type 1022\n'
+              '> tried to get the ordinal of a negative number.')
         # Abort the run
         PauseFail()
     # Yes, these are pretty lame error messages.  They are
-    # here because they occassionally get triggered during
+    # here because they occasionally get triggered during
     # development.
 
     # First check for 11th, 12th, 13th, 211th, 212th, 213th etc.
@@ -100,8 +100,9 @@ def ColumnText(number):
             Aborts with 1023 if negative or zero.
     '''
     if number <= 0:
-        print('> *Error* 1023 tried to get the column\n'
-              '> letter of an invalid number (' + str(number) + ').')
+        print('> *Error* type 1023\n'
+              '> tried to get the column letter of an\n'
+              '> invalid number (' + str(number) + ').')
         # Abort the run
         PauseFail()
     letters = "_ABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -141,9 +142,70 @@ def ErrorOnLine(line_number, line_text, log, lstrip = True, rstrip = True):
     if rstrip:
         line_text = line_text.rstrip()
     message = ('> Faulty line of input (' + Enth(line_number) + ') is\n'
-               '> ' + line_text)
+               '>   ' + line_text)
     log.write(message + "\n")
     print(message)
+    return()
+
+
+
+def ErrorOnTwoLines(line_number1, line_text1, line_number2, line_text2,
+                    log, lstrip = True, rstrip = True):
+    '''Take the line numbers of two faulty lines of input and the lines
+    themselves.  Write them to to the screen and to the logfile.
+
+        Parameters:
+            line_number1 (int),  The first line number
+            line_text1   (str),  The text on the first line
+            line_number2 (int),  The second line number
+            line_text2   (str),  The text on the second line
+            log        (handle), The handle of the log file
+            lstrip        bool,  If True, remove whitespace at the LHS
+            rstrip        bool,  If True, remove whitespace at the RHS
+
+        Returns: None
+    '''
+    if lstrip:
+        line_text1 = line_text1.lstrip()
+        line_text2 = line_text2.lstrip()
+    if rstrip:
+        line_text1 = line_text1.rstrip()
+        line_text2 = line_text2.rstrip()
+    # This is likely to be the definition of a constant followed by
+    # misuse of the constant, so we'll put the line of entry defining
+    # the constant first.
+    message = ('> Faulty lines of input (' + Enth(line_number2)
+                + ' and ' + Enth(line_number1) + ') were\n'
+               '>   ' + line_text2 + '\n'
+               '>   ' + line_text1)
+    log.write(message + "\n")
+    print(message)
+    return()
+
+
+def ErrorOnLine2(line_index, line_triples, log, lstrip = True, rstrip = True):
+    '''Take the line number of a faulty line of input and the line
+    triples.  Write it to to the screen and to the logfile.  In a few
+    circumstances (mostly when complaining about possibly-invalid SES
+    PRN file header lines) we want to keep the whitespace so those options
+    are available.
+
+        Parameters:
+            line_index         int,         The index of the line number
+            line_triples [(int, str, str)]  List of lines in the file.  First
+                                            entry is the line number in the file
+                                            (starting at one, not zero).
+                                            Second is the valid data on the line.
+                                            Third is the entire line (including
+                                            comments) also used in error messages.
+            log              handle,        The handle of the log file
+            lstrip             bool,        If True, remove whitespace at the LHS
+            rstrip             bool,        If True, remove whitespace at the RHS
+
+        Returns: None
+    '''
+    (line_number, line_data, line_text) = line_triples[line_index]
+    ErrorOnLine(line_number, line_text, log, lstrip, rstrip)
     return()
 
 
@@ -185,6 +247,18 @@ def WriteMessage(message_text, log):
     '''
     print(message_text)
     log.write(message_text + "\n")
+    return()
+
+
+def DudConstant(const_number, const_text, log):
+    '''An error occurred with a number.  The number on the line was
+    a substitute entry (a constant).  This routine tells the user the
+    line that was in error.  It is mostly used in Hobyah.
+    '''
+    err = ('> This line of input referenced an entry in one\n'
+           '> the constants blocks.')
+    WriteMessage(err, log)
+    ErrorOnLine(const_number, const_text, log, False)
     return()
 
 
@@ -316,9 +390,9 @@ def GetUserQA():
     year = iso_date[:4]
     month = int(iso_date[5:7])
     day = int(iso_date[8:10])
-    month_dict = {1: "January", 2: "February", 3: "March", 4: "April",
-                 5: "May", 6: "June", 7: "July", 8: "August", 9: "September",
-                 10: "October", 11: "November", 12: "December"}
+    month_dict = {1: "Jan", 2: "Feb", 3: "Mar", 4: "Apr",
+                 5: "May", 6: "Jun", 7: "Jul", 8: "Aug", 9: "Sep",
+                 10: "Oct", 11: "Nov", 12: "Dec"}
     month_text = month_dict[month]
     when_who = (iso_date[11:16] + ' on '
                 + str(day) + " " + month_text + " " + year + ' by '
@@ -449,3 +523,133 @@ def FloatText(value):
                 round_to = size - dec_pt - 2
                 text_value = str(round(value,round_to))
     return(text_value)
+
+
+def Interpolate(x1, x2, y1, y2, x_mid, extrapolate = False, log = None):
+    '''Do linear interpolation with four values.  Optionally allow
+    extrapolation.
+
+        Parameters:
+            x1          float,      First value on the X-axis
+            x2          float,      Second value on the X-axis
+            y1          float,      First value on the Y-axis
+            y2          float,      Second value on the Y-axis
+            x_mid       float,      X-value we want Y for
+            extrapolate bool,       If False, print an error message and
+                                    return None if x_mid < x1 or x_mid > x2
+            log         handle,     Handle of a logfile to write to
+
+        Returns:
+            y_mid       float,      The interpolated (or extrapolated) Y value
+
+        Errors:
+            Aborts with 1024 if we attempt to extrapolate without being
+            allowed to, printing the message to the screen.  If there
+            is a logfile handle given it writes the message to the logfile
+            too and returns None to the calling routine.  If no log handle
+            is given it aborts like 1021 to 1023 do.
+    '''
+    if (x1 <= x_mid <= x2) or extrapolate:
+        y_mid = y1 + (y2 - y1) / (x2 - x1) * (x_mid - x1)
+    else:
+        err1 = ("Ugh, tried to extrapolate while forbidden to do so.  "
+               "Details are:\n")
+
+        num_format = "{:>15.5g}"
+        if x_mid < x1:
+            err2 = ("Y-values:                 "
+                    + num_format.format(y1)
+                    +  "  " +  num_format.format(y2) + "\n"
+                    + "X-values:" + num_format.format(x_mid)
+                    + "  " + num_format.format(x1)
+                    + "  " + num_format.format(x2))
+        else:
+            err2 = ("Y-values:  "
+                    + num_format.format(y1)
+                    +  "  " +  num_format.format(y2) + "\n"
+                    + "X-values:"
+                    + "  " + num_format.format(x1)
+                    + "  " + num_format.format(x2)
+                    + "  " + num_format.format(x_mid))
+        if log is not None:
+            print("writing to log")
+            WriteError(1024, err1 + err2, log)
+            log.close()
+            return(None)
+        else:
+            print("> *Error* type 1024")
+            print(err1 + err2)
+            PauseFail()
+    return(y_mid)
+
+
+def FormatOnLines(my_list):
+    '''Take a list of keywords and format them into a string of text
+    with lines no shorter than 45 characters long, with each word
+    separated by ", " and ending with "and <last entry>.".
+    Return the string.  Used to give lists of valid keywords in
+    error messages.
+
+        Parameters:
+            my_list   []    a list of keywords (we assume they are all strings).
+
+
+        Returns:
+            line      str   lines of text with the keywords, properly formatted.
+    '''
+    len_list = len(my_list)
+    if len_list == 1:
+        line = ">   " + my_list[0] + "."
+    else:
+        line = ">   "
+        for index, entry in enumerate(my_list):
+            if index == (len_list - 2):
+                # This is the 2nd last entry, we don't append
+                # a comma
+                line = line + entry + ' '
+            elif index == (len_list - 1):
+                # This is the last entry, we include "and".
+                line = line + "and " + entry + "."
+            else:
+                # Just a standard entry.
+                line = line + entry + ", "
+            # Check if we have more to add and the line is
+            # long enough.  Start a new line if it is.
+            if (index != (len_list - 1) and
+                len(line.split(sep = "\n")[-1]) > 45):
+                    line = line + "\n>   "
+    return(line)
+
+
+def LogBlock(dictionary, block_name, debug1, log):
+    '''Take a dictionary made from a block and text describing the
+    block and write it to the logfile.  If the
+
+        Parameters:
+            dictionary      dict            A dictionary.
+            block_name      str             The name of the block
+            debug1          bool            The debug Boolean set by the user.
+            log             handle          The handle of the logfile.
+
+
+        Returns:
+            None
+    '''
+    # Write the dictionary to the logfile (and if the debug Boolean
+    # is set, to the screen too).
+    header = "Added " + block_name + ":"
+    WriteOut(header, log)
+    if debug1:
+        print(header)
+
+    for key in dictionary:
+        value = dictionary[key]
+        entry = "   " + key + ": " + str(value)
+        WriteOut(entry, log)
+        if debug1:
+            print(entry)
+    return()
+
+
+
+

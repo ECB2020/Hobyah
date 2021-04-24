@@ -1,12 +1,12 @@
-#! /usr/local/bin/python3
+#! python3
 #
-# Copyright 2020, Ewan Bennett
+# Copyright 2020-2021, Ewan Bennett
 #
 # All rights reserved.
 #
 # Released under the BSD 2-clause licence (SPDX identifier: BSD-2-Clause)
 #
-# email: ewanbennett14@fastmail.com
+# email: ewanbennett@fastmail.com
 #
 # A routine to print all the error messages in SES v4.1 file Eerror.for
 # and turn them into a dictionary of the count of lines in each error.
@@ -17,16 +17,10 @@
 # how many lines of error message printed before the line containing
 # "*Error", so I will have to catch those manually.
 #
-# Also my first attempt at using f2py.  It was pretty easy, even when
-# asking it to compile Fortran 66 code!
-#
 # Requires the SES v4.1 source files 'Eerror.for' and 'Dshare' (SES's
-# commmon block file).  These won't appear in my repository as their
-# licencing arrangements are unclear.  They were commissioned by the
-# US Department of Transportation from Associated Engineers (the joint
-# venture of consulting engineers that wrote SES in the 1970s).  But as
-# far as I am aware the files have no licence so it is better not to
-# post them here.
+# commmon block file).  These used to be unavailable to the public, but
+# can now be found at https://github.com/Open-SES/OpenSES under the
+# 3-Clause BSD licence.
 #
 # Steps to use it:
 #
