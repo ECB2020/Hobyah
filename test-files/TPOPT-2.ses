@@ -1,0 +1,88 @@
+Simple tunnel with a train passing through at constant speed.
+Explicit train speed specification and implicit train heat release calculation.
+This file is used to illustrate the difference between tractive effort to
+climb hills with train performance option 1 and train performance option 2.
+Train performance option 1 calculates it correctly, train performance
+option 2 (this file) does not.
+The train performance is set to represent diesel locos rather than electric
+(traction efficiency 35% rather than 90%) to illustrate the heat problem
+better.
+17        7.0       2022
+2         1         1         1         1         2         0         0
+3         3         0         4         1         0         0         0
+1         1         1         2         0         0         0         0
+69.08     64.4      29.91     69.08     64.4      69.08     64.4      9.
+165.3     0.        0.        0.        0.        62.14     0         0.2        Form 1G
+101       101       102       1         0.                                       Form 2A
+102       102       103       1         0.
+103       103       104       1         0.
+101       1         Flat tunnel 1                                                Form 3A
+656.168   204.51    0.        1
+68.90
+0.03
+0.        0.        0.5       1         0         1         0
+1         1         69.08     64.4      64.4
+0.8       49.2      0.83      0.025     0.7       0.025     66.2
+102       1         Inclined tunnel 2
+1640.42   204.51    49.213   1
+68.90
+0.03
+0.        0.        0.        0.        0         1         0
+1         1         69.08     64.4      64.4
+0.8       49.2      0.83      0.025     0.7       0.025     66.2
+103       1         Flat tunnel 3
+1312.336  204.51    0.        1
+68.90
+0.03
+1         0.5       0.        0.        0         1         0
+1         1         69.08     64.4      64.4
+0.8       49.2      0.83      0.025     0.7       0.025     66.2
+101       0         3                                                            Form 6A
+0.        0.        0.        0.        0.        0.
+102       7         1
+103       7         1
+104       0         3
+0.        0.        0.        0.        0.        0.
+Route 1                                                                          Form 8A
+8202.1    1         4         0         1         31.069    1
+11482.94  0.        0         0.        31.069    0         0
+13123.34  0.        3.        0.        31.069    0         0
+14763.78  0.        0         0.        31.069    0         0
+19685.04  0.        0         0.        31.069    0         0
+13                                                                               Form 8E
+1         2.87
+2         5.77
+3         8.67
+4         11.57
+5         14.47
+6         17.37
+7         20.27
+8         23.17
+9         25.96
+10        28.47
+11        30.78
+12        31.07
+999       31.07
+3         10826.77
+101
+102
+103
+200 m long train                        9         6         656.16    130.24     Form 9A totcars, pwdcars, length, area
+44.95     0.023     0.        0.6                                                perim, Darcy_f, bogies, noseloss
+0.        0.        0.        0.        0.        0.                             sens & lat/car, sens & lat/pax, kW/car & pax
+100.      100.      2.9       1.6       32.4      21.5      31.2      25.8       accel & decel: mass, diam, areas (conv & rad)
+0.82      0.9       0.12      0.22      75.       75.                            accel & decel: emissivity, specheat, temp
+38.58     2         1.18      116.      0.0408    8.8                            mass, mtrs/car, A1(N/t), A2(N), B, rot_mass
+2 no. 28 kN, 250 kW motors              33.1      33.0                           motor descrip, 2 wheel diameters
+4.4       4.3       1500.     1499.     750.                                     2 gear ratios, 3 voltages (3rd is discarded)
+21.7      21.8      48.5      72.1                                               Train speeds
+12439.1   12439.2   5620.2    3746.6                                             Motor tractive efforts
+330.      390.      350.      410.                                               Motor amps
+2                                                                                1 = cams (no forms 9H, 9J-9L), 2 = choppers
+80.8      665.      781.      705.      820.                                     Form 9H Line amps
+35.       49.1      35.       22.       1                                        effic1, speed, effic2, regen, 2=flywheels
+0.        0.        0.        0.        0.001                                    Choppers: 4 zeros & 1 motor ohms (0.001-0.3)
+2         1                                                                      Form 11A - environmental control zones
+9         1                                                                      Form 12
+250       1         0         0         1         5
+1         250       1         5                                                  Form 13
