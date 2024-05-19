@@ -1,0 +1,63 @@
+SES v4.1 file with an example of a mismatch between motor and line currents.
+This file has trains with eight motors per powered car.  The line currents
+are limited to no more than twice the motor current when you print them.
+This may be because SES is aimed at EMUs instead of locomotives, but if
+you are modelling locomotive train performance you need to know about this
+limitation.
+17.0      7         2020
+1         0         1         0         0         0         0         0          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
+1         1         0         2         1         0         0         0          lsegs  sects  vsegs nodes use1  use0   fires  fans
+1         1         0         1         2         0         0         0          routes trtyp  zones fcark trns  JFs    write  read
+85.0      74.0      29.91     75.0      65.0      85.0      74.0      9.0        DB1    WB1    P_atm AMDB  AMWB  PMDB   PMWB   annamp
+150.0     0.0       0.0       0.0       0.0       0.0       0         0.2        mass   cpBst  cpBmv cpAst cpAmv speed  firopt emiss
+101       101       102       1         0.0                                      Form 2A
+101       9         Left side tunnel (jet fan)                                   Form 3A
+1000.0    190.0     0.0       0
+50
+0.2
+0.5       1.0       0.0       0.0       0.0       12        0
+1         12        85.0      85.0      74.0
+101       0         3                                                            Form 6A
+0.0       0.0       0.0       0.0       0.0       0.0
+102       7         1
+103       7         1
+104       7         1
+105       0         3
+0.0       0.0       0.0       0.0       0.0       0.0
+901       0         3
+0.0       0.0       0.0       0.0       0.0       0.0
+90000     0.75      -5900     0.0       9999.0                                   Form 7C
+90000     0.75      5900      0.0       9999.0
+Route 1                                                                          Form 8A
+0.0       1         1         1.0       1         25.0      0
+6000.0    50000.0   0.0       0         50.0      0         0                    Form 8C
+0         500
+4         0.0                                                                    Form 8F
+101
+102
+103
+104
+4 motors, line amps > 2 * motor amps    10        6         800       130.2      Form 9A totcars, pwdcars, length, area
+44.94     0.023     12.5      0.5                                                perim, Darcy_f, bogies, noseloss
+67560.0   0.0       461.0     0.0       17.0      0.065                          sens & lat/car, sens & lat/pax, kW/car & pax
+1763.7    0.0       1.6       1.6       21.5      21.5      25.8      25.8       accel & decel: mass, diam, areas (conv & rad)
+0.9       0.9       0.12      0.12      530.0     980.0                          accel & decel: emissivity, specheat, temp
+46.7      8         1.18      116.0     0.0408    8.8                            mass, mtrs/car, A1(N/T), A2(N), B, rot_mass
+4 no. 28 kN, 250 kW motors              33.1      33.1                           motor descrip, 2 wheel diameters
+4.4       4.4       1500.0    1500.0    750.0                                    2 gear ratios, 3 voltages (3rd is discarded)
+21.7      21.8      48.5      72.1                                               Train speeds
+12439.2   12439.2   5620.2    3746.6                                             Motor tractive efforts
+392.0     392.0     392.0     392.0                                              Motor amps
+2                                                                                1 = cams (no forms 9H, 9J-9L), 2 = choppers
+170       1568      1569.0    1400.     1200.                                    Form 9H Line amps
+92.0      49.1      95.0      20.0      1                                        effic1, speed, effic2, regen, 2=flywheels
+0         0         0         0         0.3                                      Choppers: 4 zeros & 1 motor ohms (0.001-0.3)
+2.9       2.5       20.0      2.0       72.0                                     accel, decel<V1, V1, decel>V1, max V
+999       0.0       1         1         0.0       0.0       900.0     0          Form 10
+2801      0.0       1         1         0.0       0.0       900.0     0
+5         1                                                                      Form 12A
+100       5         1         0         1         5                              count seconds abbrev ECZs aero & thermo cycles
+5         500.0     10        2                                                  timestep, runtime, train cycles, wall cycles
+
+
+======================= End of the input =======================

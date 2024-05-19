@@ -1,0 +1,53 @@
+SES v4.1 file with a tunnel and a jet fan that mimics fixed pressure.
+The jet fan has an air velocity of +999,999 fpm (5080 m/s) so that
+it behaves almost like a fixed pressure rise.  This is out of range, so
+one input error is allowed so that this file runs.
+It can be compared to the calculation of airflow in the tunnel called
+"Mainline1" in Hobyah file "ok-041-risetime-comparison.txt" (negative airflow).
+17.0      7         2020
+1         0         0         0         0         3         0         1          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
+1         1         0         2         1         0         0         0          lsegs  sects  vsegs nodes use1  use0   fires  fans
+1         1         0         1         0         1         0         0          routes trtyp  zones fcark trns  JFs    write  read
+69.93     62.0      29.921    69.75     62.0      69.75     62.0      9.0        DB1    WB1    P_atm AMDB  AMWB  PMDB   PMWB   annamp
+150.0     0.0       0.0       0.0       0.0       0.0       0         0.2        mass   cpBst  cpBmv cpAst cpAmv speed  firopt emiss
+101       101       102       1         0.0                                      Form 2A
+101       9         Short tunnel with a jet fan and losses                       Form 3A
+4921.2598 990.27978 0.0       0
+147.6378
+0.16404
+0.85      0.24      2.6       2.2       0.0       50         0
+1         50        69.93     69.93     62.0
+101       0         3                                                            Form 6A
+0.0       0.0       0.0       0.0       0.0       0.0
+102       0         3
+0.0       0.0       0.0       0.0       0.0       0.0
+6397.95   0.1       +999999   0.0       9999.0                                   Form 7C (flow set to give 1840 N at 2 m/s)
+Route 1                                                                          Form 8A
+0         1         1         9999.     1         42.       1
+5150      0.        0.0       0.        49.71     1         0                    Form 8C
+0         2
+1         0.0                                                                    Form 8F
+101
+Chopper, no flywheel, line Ohms=zero    10        6         705.4     130.24     Form 9A totcars, pwdcars, length, area
+44.95     0.023     0.        0.6                                                perim, Darcy_fricfac, bogies, noseloss
+67560.4   3305.     410.      97.       17.       0.14                           sens & lat/car, sens & lat/pax, kW/car & pax
+920.2     763.7     2.9       1.6       32.4      21.5      31.2      25.8       accel & decel: mass, diam, areas (conv & rad)
+0.82      0.9       0.12      0.22      300.      782.                           accel & decel: emissivity, specheat, temp
+46.7      2         1.18      116.      0.0408    9.12                           mass, mtrs/car, A1(N/t), A2(N), B, rot_mass
+A pair of 19 kN, 210 kW motors          33.1      33.0                           motor descrip, 2 wheel diameters
+4.4       4.3       1500.     1499.     740.                                     2 gear ratios, 3 voltages (3rd is discarded)
+22.7      22.8      46.2      70.8                                               Train speeds
+8334.3    8334.3    4154.2    2713.7                                             Motor tractive efforts
+392.      390.      366.      358.                                               Motor amps
+2                                                                                1 = cams (no forms 9H, 9J-9L), 2 = choppers
+80.8      832.      791.      789.      770.                                     Form 9H Line amps
+90.       49.1      94.       22.       1                                        effic1, speed, effic2, regen, 2=flywheels
+0.        0.        0.        0.        0.001                                    Choppers: 4 zeros & 1 motor ohms (0.001-0.3)
+2.9       2.5       20.       2.        72.                                      accel, decel<V1, V1, decel>V1, max V
+5         2                                                                      Form 12A
+200       1         1         0         1         5                              count seconds abbrev ECZs aero & thermo cycles
+560       5         1         0         1         5
+5         3000.0    10        2                                                  timestep, runtime, train cycles, wall cycles
+
+
+======================= End of the input =======================

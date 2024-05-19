@@ -1,0 +1,57 @@
+SES v4.1 file with short tunnel and vent shaft.
+Case without any routes in the file.
+17.0      7         2020
+0         0         1         0         0         0         0         0          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
+4         5         1         6         1         0         0         0          lsegs  sects  vsegs nodes use1  use0   fires  fans
+0         0         0         1         0         2         0         0          routes trtyp  zones fcark trns  JFs    write  read
+85.0      74.0      29.91     75.0      65.0      85.0      74.0      9.0        DB1    WB1    P_atm AMDB  AMWB  PMDB   PMWB   annamp
+150.0     0.0       0.0       0.0       0.0       0.0       0         0.2        mass   cpBst  cpBmv cpAst cpAmv speed  firopt emiss
+101       101       102       1         0.0                                      Form 2A
+102       102       103       1         0.0
+103       103       104       1         0.0
+104       104       105       1         0.0
+901       103       901       0.0                                                Form 2B
+101       9         Left side tunnel (jet fan)                                   Form 3A
+1000.0    190.0     0.0       0
+50
+0.2
+0.5       1.0       0.0       0.0       0.0       12        0
+1         12        85.0      85.0      74.0
+102       1         Left side of cavern
+500.0     700.0     0.0       0
+150
+0.2
+0.0       0.0       0.0       0.0       0.0       6         0
+1         6         85.0      85.0      74.0
+103       1         Right side of cavern
+500.0     700.0     0.0       0
+150
+0.2
+0.0       0.0       0.0       0.0       0.0       6         0
+1         6         85.0      85.0      74.0
+104       10         Right side tunnel (jet fan)
+1000.0    190.0     0.0       0
+50
+0.2
+1.0       0.5       0.0       0.0       0.0       12         0
+1         12         85.0      85.0      74.0
+901       1         Cavern shaft                                                 Form 5A
+1         1         500.0     1500.0    82.0      85.0      74.0      80.0
+80.0      300.0     80.0      1.5       1.5       0.0       0.0
+101       0         3                                                            Form 6A
+0.0       0.0       0.0       0.0       0.0       0.0
+102       7         1
+103       7         1
+104       7         1
+105       0         3
+0.0       0.0       0.0       0.0       0.0       0.0
+901       0         3
+0.0       0.0       0.0       0.0       0.0       0.0
+90000     0.75      -5900     0.0       9999.0                                   Form 7C
+90000     0.75      5900      0.0       9999.0
+5         1                                                                      Form 12A
+100       5         1         0         1         5                              count seconds abbrev ECZs aero & thermo cycles
+5         500.0     10        2                                                  timestep, runtime, train cycles, wall cycles
+
+
+======================= End of the input =======================
