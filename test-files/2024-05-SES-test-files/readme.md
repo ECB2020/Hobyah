@@ -1,4 +1,4 @@
-The files in this folder are a set of input files (.ses files) and output files (.PRN and .TMP files) for SES v4.1 and offline-SES.
+The files in this folder are a set of input files (.ses files) and zip files containing output files (.PRN and .TMP files) for SES v4.1 and offline-SES.
 
 Most of the files were written so that the output files could be used to test the operation of SESconv.py.  A few are used to verify the calculations in Hobyah.py.
 
