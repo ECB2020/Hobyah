@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2021, Ewan Bennett
+# Copyright 2020-2024, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -11,15 +11,16 @@
 # This file contains a set of routines to check block syntax in
 # input files.  It will be used to check calc program input files
 # and plot program input files.
-# They ensures that an input file contains a set of correctly
+# They ensure that an input file contains a set of correctly
 # nested begin...end blocks.
 # It issues error messages in the following ranges: 1001-1005,
-# 2021-2028 and 2041-2042.
+# 2021-2031 and 2041-2044.
 
 import generics as gen
 
+
 def CheckClosures(list_of_lines, input_start, file_name,
-                  unnamed, log, debug1):
+                  unnamed, named, log, debug1):
     '''Take a list of strings (each string is one line of the
     input file).  The first line will have "begin " on it,
     with a noun after it ("begin settings", "begin tunnel Dopey",
@@ -50,10 +51,12 @@ def CheckClosures(list_of_lines, input_start, file_name,
                                             data.
             file_name       str             The name of the file, used in error
                                             messages.
-            unnamed         [str]           A list of blocks that do not need to
-                                            be named, e.g. "begin settings";
-                                            unlike "begin tunnel" which needs
-                                            a name like "begin tunnel Dopey".
+            unnamed         [str]           A list of names of blocks that do
+                                            not need to be named, e.g.
+                                            "begin settings".
+            named           [str]           A list of names of blocks that do
+                                            need to be named, e.g.
+                                            "begin tunnel westbound".
             log             handle          The handle of the logfile.
             debug1          bool            The debug Boolean set by the user.
 
@@ -74,6 +77,9 @@ def CheckClosures(list_of_lines, input_start, file_name,
             the "begin <noun>" at the same level.
             Aborts with 2028 if an "end <noun>" lines had text after the noun.
             Aborts with 2029 if there were not enough "end <noun>" lines.
+            Aborts with 2030 if a block that needs a name has a name with more
+            than one word.
+            Aborts with 2031 if a block had a name that was not allowed.
     '''
 #    debug1 = True
     if debug1:
@@ -105,8 +111,19 @@ def CheckClosures(list_of_lines, input_start, file_name,
         # continue processing.  We return False if an error
         # occurred.
         line_number = index + input_start # Used in error messages
-
         actives = line.split("#")[0]
+        if len(actives.strip()) > 0:
+            # This is not a blank line, it has words on it.
+            # Remove any words that form part of optional arguments
+            # from the line.  Optional arguments are the words or
+            # phrases on either side of a ":=" (without double quotes).
+            result = gen.GetOptionals(line_number, actives, line,
+                                      file_name, debug1, log)
+            if result is None:
+                return(False, [])
+            else:
+                (actives, discard) = result
+
         words = actives.split(maxsplit = 3)
         # Ignore blank lines and comment-only lines.
         if len(words) != 0:
@@ -115,8 +132,14 @@ def CheckClosures(list_of_lines, input_start, file_name,
                 # We have the start or end of a block.
                 # Fault if it has no noun after it, i.e.
                 # "begin" or "end" on a line of its own.
+                # Figure out whether to use the indeterminate
+                # object "a" or "an".
+                if first_key == "begin":
+                    phrase = 'a "begin'
+                else:
+                    phrase = 'an "end'
                 if len(words) == 1:
-                    err = ('> Found a "' + first_key + '" command without an '
+                    err = ('> Found ' + phrase + '" command without an '
                            'accompanying\n'
                            '> noun (tunnel, train, fan etc).\n'
                            '> Please edit the file "' + file_name + '"\n'
@@ -129,9 +152,21 @@ def CheckClosures(list_of_lines, input_start, file_name,
                     # the noun associated with this "begin" or "end" command.
                     noun = words[1]
 
-            # Check for absent names in begin commands.
+            # Check for incorrect block types, absent names in begin commands
+            # and unwanted names added to begin commands.
             if first_key == "begin":
-                if (len(words) == 2 and
+                if (len(words) > 1 and
+                    words[1].lower() not in unnamed + named):
+                    # We have a block of a type that is not allowed.
+                    err = ('> Found a "' + first_key + ' ' + noun
+                             + '" command.  This is an\n'
+                           '> unrecognised type of block.  Please edit\n'
+                           '> the file "' + file_name + '" to\n'
+                           '> remove it.')
+                    gen.WriteError(2031, err, log)
+                    gen.ErrorOnLine(line_number, line, log)
+                    return(False, [])
+                elif (len(words) == 2 and
                     words[1].lower() not in unnamed):
                     # We have two entries on the line but we need a name,
                     # so we need more entries. Fault.
@@ -145,8 +180,8 @@ def CheckClosures(list_of_lines, input_start, file_name,
                     gen.ErrorOnLine(line_number, line, log)
                     return(False, [])
                 elif (len(words) > 2 and
-                   words[1].lower() in unnamed):
-                    # We  more than two entries on the line but we only
+                      words[1].lower() not in named):
+                    # We have more than two entries on the line but we only
                     # want two. Fault.
                     err = ('> Found a "' + first_key + ' ' + noun
                              + '" command that had\n'
@@ -154,6 +189,18 @@ def CheckClosures(list_of_lines, input_start, file_name,
                            '> "' + file_name + '" to\n'
                            '> remove the extra text.')
                     gen.WriteError(2025, err, log)
+                    gen.ErrorOnLine(line_number, line, log)
+                    return(False, [])
+                elif len(words) > 3:
+                    # We have more than three entries on the line but we only
+                    # want three ("begin", a block type and a block name.
+                    err = ('> Found a "' + first_key + ' ' + noun
+                             + '" command that had\n'
+                           '> a name ("' + words[2] + '") but had extra text\n'
+                           '> after the name.\n'
+                           '> Please edit the file "' + file_name + '"\n'
+                           '> to remove the extra text.')
+                    gen.WriteError(2030, err, log)
                     gen.ErrorOnLine(line_number, line, log)
                     return(False, [])
                 else:
@@ -261,7 +308,7 @@ def CheckClosures(list_of_lines, input_start, file_name,
     return(True, begins)
 
 
-def CheckBeginEnd(list_of_lines, file_name, unnamed,
+def CheckBeginEnd(list_of_lines, file_name, unnamed, named,
                   prog_name, log, debug1):
     '''Take a list of strings (these are lines of input from the
     input file).  Check that the begin...end blocks all match
@@ -379,9 +426,15 @@ def CheckBeginEnd(list_of_lines, file_name, unnamed,
     # begin...end blocks and checks that they all match, even if
     # they are nested.  It returns True if everything matched
     # and False if there was a mismatch or some other error.
+    # This routine strips out all the optional arguments on the
+    # line before checking, because it is possible that a chaos
+    # gremlin could start a begin <something> block with the
+    # optional argument in the middle of the valid text, such as
+    #   begin switcheroo := true  gradients   percentages
+    # In the above line, "switcheroo := true" is the optional
+    # argument and the valid text is "begin gradients percentages".
     matching, begins = CheckClosures(list_of_lines[input_start:input_end + 1],
-                                     input_start, file_name,
-                                     unnamed,
+                                     input_start, file_name, unnamed, named,
                                      log, debug1)
     if not matching:
         # There was an error in the block syntax.  Return to the
@@ -477,12 +530,11 @@ def GetOneBlock(lines_left, num_format, file_name, top_level, log, debug1):
                                             messages.
             top_level       Bool            True if we are at not reading a block
                                             at the moment, False if we are.  Used
-                                            to decide when to trigger error 2043.
+                                            to decide when to trigger error 2042.
             num_format      str             A string used to pretty-print line
                                             numbers.
             log             handle          The handle of the logfile.
             debug1          bool            The debug Boolean set by the user.
-    return(key, contents, lines_left[index:], consumed)
 
         Returns:
             key              str            The key to use for this block.  It
@@ -509,7 +561,7 @@ def GetOneBlock(lines_left, num_format, file_name, top_level, log, debug1):
             occurs (no text after a "begin").  These can occur when we re-edit
             code after a few years of not having looked at it.  Obligatory XKCD:
             https:/www.xkcd.com/1421.
-            Aborts with 2043 if it finds a line of input outside a top-level
+            Aborts with 2042 if it finds a line of input outside a top-level
             block.
     '''
 
@@ -603,19 +655,15 @@ def GetOneBlock(lines_left, num_format, file_name, top_level, log, debug1):
                    '> Please edit the file "' + file_name + '"\n'
                    '> to resolve the clash.'
                   )
-            gen.WriteError(2043, err, log)
+            gen.WriteError(2042, err, log)
             gen.ErrorOnLine(line_contents[0], line_contents[2], log, False)
             return(None)
         index += 1
 
         # Fill the settings block.  If we have a sub-block then
         # 'data' is a list, if we don't it is a string.
-#        print("End line", data)
-
         if (type(line_contents[1]) is tuple) or (data[0].lower() != "end"):
             # First build a key from the line number and the first word.
-            # print("X", type(line_contents[1]))
-            # print(line_contents)
             sub_key = num_format.format(line_contents[0]) + " " + data[0]
             contents.__setitem__(sub_key, line_contents)
         else:
@@ -630,15 +678,15 @@ def GetOneBlock(lines_left, num_format, file_name, top_level, log, debug1):
     return(key, contents, lines_left[index:], consumed)
 
 
-def SplitBlocks(line_triples, num_format, duplicatables, file_name, log, debug1):
+def SplitBlocks(line_triples, num_format, duplicables, file_name, log, debug1):
     '''Take the list of input lines and split them into
     their blocks.  Each entry in line_triples has three entries:
 
-     * The valid data on the line,
-     * Line number,
-     * The entire line unchanged.
+     * Line number (int),
+     * The valid data on the line (str),
+     * The entire line (str).
 
-    e.g.  ('begin settings', 7, 'begin settings  # Start of input')
+    e.g.  (7, 'begin settings', 'begin settings  # Start of input')
 
     '''
     if debug1:
@@ -678,7 +726,7 @@ def SplitBlocks(line_triples, num_format, duplicatables, file_name, log, debug1)
         else:
             (key, contents, lines_left, discard) = result
         # Check to see if we have a disallowed duplicate and fault if we do.
-        if (key.lower() not in duplicatables) and (key.lower() in dictionaries):
+        if (key.lower() not in duplicables) and (key.lower() in dictionaries):
             # We do.  Get the line number that the first instance
             # started at.
             old_entries = dictionaries[key.lower()]
@@ -716,36 +764,114 @@ def SplitBlocks(line_triples, num_format, duplicatables, file_name, log, debug1)
     return(dictionaries, keys)
 
 
-def PrintDictionary(block_name, block_dict, space_count):
+def CheckNestables(block_name, block_dict, space_count, nestables,
+                   file_name, enclosing, num_format, bad_nesting,
+                   debug1, log):
     '''Take an entry in the dictionary made from the input file
     and print its contents in a human-readable form.  Offset
     it by a given number of spaces so that sub-dictionaries
     are indented compared to the dictionary one level up.
+    While we are here we might as well check that the sub-dictionaries
+    are of a permitted type.
     '''
+    # Get the names of the sub-blocks this block may contain
+    # (if any).
     # If this is a top-level dictionary, print the name.  If it
     # is a sub-dictionary print the line number instead.
     if space_count == 0:
-        # Top-level dictionary
-        print('Block name: "' + block_name + '":')
+        # Top-level dictionary.  We have a block name and can use
+        # it to get the allowable sub-blocks.  First get the type
+        # of the block without its name (if it has one).
+        sub1_name = block_name.split()[0].lower()
+        if sub1_name in nestables:
+            permitted_subs = nestables[sub1_name]
+        else:
+            permitted_subs = []
+        if debug1:
+            print('Block name: "' + block_name + '":')
     else:
-        # Sub-dictionary
-        print(" "*space_count + 'Sub-block at line', block_name)
+        # Sub-dictionary.  We have a line number (as a string) instead
+        # of a name.
+        sub1_key = block_name + " begin"
+        if debug1:
+            print(sub1_key, block_dict[sub1_key])
+        sub1_name = block_dict[sub1_key][1].split()[1].lower()
+        if sub1_name in nestables:
+            permitted_subs = nestables[sub1_name]
+        else:
+            permitted_subs = []
+        if debug1:
+            print(" "*space_count + 'Sub-block at line', block_name)
 
     # Print the individual entries, sorted into line number order.
     dict_keys = list(block_dict.keys())
     for key in dict_keys:
         entry = block_dict[key]
         if type(entry) == list:
-            # We have a sub-dictionary here.  Print it,
-            # offset by three more spaces than we were
-            # given.
-            PrintDictionary(str(entry[0]), entry[1], space_count + 3)
-        else:
+            # We have a sub-dictionary here.  Check if it is
+            # permitted and fault if it is not.  Otherwise
+            # print it, offset by three more spaces than we
+            # were given.
+            # import sys; sys.exit()
+            # Get the type of the sub-dictionary.  It is the second
+            # word on the first line.  We have to get the dictionary
+            # key first, though.
+            if debug1:
+                print("Checking sub-block")
+                print(entry)
+            sub2_key = num_format.format(entry[0]) + " begin"
+            line2_triple = entry[1][sub2_key]
+            line_text, discard = gen.GetOptionals(line2_triple[0],
+                                                  line2_triple[1],
+                                                  line2_triple[2],
+                                                  file_name, debug1, log)
+            sub2_name = line_text.split()[1]
+            if sub2_name.lower() not in permitted_subs:
+                # We have a sub-block of a type that is not allowed
+                # here.
+                line1_num = enclosing[0]
+                line1 = enclosing[2]
+                line2_num = line2_triple[0]
+                line2 = line2_triple[2]
+                if len(permitted_subs) == 0:
+                    # This type of block cannot have sub-blocks in it.
+                    snippet = (' blocks cannot contain sub-blocks\n'
+                               '> of any type.\n')
+                elif len(permitted_subs) == 1:
+                    snippet = (' blocks may only contain sub-blocks\n'
+                               '> that are of the "' + permitted_subs[0]
+                                + '" type.\n')
+                else:
+                    snippet = (' blocks may only contain blocks of the\n'
+                               '> following types:\n'
+                                + gen.FormatOnLines(permitted_subs) + '\n')
+                err = ('> Found a sub-block of the wrong type inside a\n'
+                       '> block ("' + sub2_name + '" block inside a "'
+                         + sub1_name + '" block).\n'
+                       '> ' + sub1_name.capitalize() + snippet +
+                       '> The clashing blocks start at these two '
+                         'lines:\n'
+                       '>   Line ' + str(line1_num)
+                           + ': ' + line1.lstrip() + '\n'
+                       '>   Line ' + str(line2_num)
+                           + ': ' + line2.lstrip() + '\n'
+                       '> Please edit the file "' + file_name + '"\n'
+                       '> to resolve the clash.'
+                      )
+                gen.WriteError(2044, err, log)
+                bad_nesting = True
+            else:
+                # It is allowed.  Process the sub-block.
+                bad_nesting = CheckNestables(num_format.format(entry[0]),
+                               entry[1], space_count + 3, nestables,
+                               file_name, line2_triple, num_format,
+                               bad_nesting, debug1, log)
+        elif debug1:
             print(" "*space_count + "   Line " + key, entry[:2])
-    return()
+    return(bad_nesting)
 
 
-def CheckSubDictClashes(root_dict, file_name, duplicatables, log, debug1):
+def CheckSubDictClashes(root_dict, file_name, duplicables, log, debug1):
     '''Take a dictionary (it may be the top level one or a spoofed
     sub-dictionary).  Get the values yielded by its keys and
     make a list of all the values that are sub-dictionaries.
@@ -791,18 +917,17 @@ def CheckSubDictClashes(root_dict, file_name, duplicatables, log, debug1):
                 # Append the active data on this "begin <something>"
                 # line to the list of sub-dictionary names.
                 sub_dict_line1.append(sub_dict_list[1][sub_keys[0]])
-
             # Now look for overlaps.
             for index1, first_line_list in enumerate(sub_dict_line1[:-1]):
                 # Get the first key as a list in lower case, so
                 # that we can catch clashes between "begin gradients"
                 # and "begin   gradients".
                 instance1 = first_line_list[1].lower().split()
-                # If this instance is not duplicatable, check this instance
-                # against all the remaining entries.  Duplicatable instances
+                # If this instance is not duplicable, check this instance
+                # against all the remaining entries.  Duplicable instances
                 # are things like "begin graph" where we can have multiple
                 # graphs on a page.
-                if instance1[1] not in duplicatables:
+                if instance1[1] not in duplicables:
                     for second_line_list in sub_dict_line1[index1+1:]:
                         instance2 = second_line_list[1].lower().split()
                         if instance1 == instance2:
@@ -823,9 +948,8 @@ def CheckSubDictClashes(root_dict, file_name, duplicatables, log, debug1):
                                    '> Please edit the file "' + file_name + '"\n'
                                    '> to resolve the clash.'
                                   )
-                            gen.WriteError(2042, err, log)
+                            gen.WriteError(2043, err, log)
                             no_clashes = False
-
         # If we get to here we have checked for clashes at this level.
         # If we did not have one check for clashes at lower levels.
         if no_clashes and sub_dicts != []:
@@ -834,16 +958,15 @@ def CheckSubDictClashes(root_dict, file_name, duplicatables, log, debug1):
                 # the recursive call works.
                 spoofed = {"spoofed" : sub_dict_list[1]}
                 no_clashes = CheckSubDictClashes(spoofed, file_name,
-                                                 duplicatables, log, debug1)
+                                                 duplicables, log, debug1)
     return(no_clashes)
 
 
-def CheckSyntax(file_contents, file_name, unnamed, duplicatables,
-                prog_name, log, debug1):
+def CheckSyntax(file_contents, file_name, unnamed, named, duplicables,
+                nestables, prog_name, log, debug1):
     '''Take a list of lines, a file name, a list of keywords for
     lines that don't need more than two entries and check their
-    syntax. The following are caught:
-
+    syntax.
     '''
     # Check the file for valid begin...end syntax.  If we have a problem
     # the routine will return None.  If all is well, it will return
@@ -852,7 +975,7 @@ def CheckSyntax(file_contents, file_name, unnamed, duplicatables,
     # and "end plots, and a number format.  CheckBeginEnd is called
     # from other routines where a slice of the file is given so
     # we have to include an offset value, which in this case is zero.
-    result = CheckBeginEnd(file_contents, file_name, unnamed,
+    result = CheckBeginEnd(file_contents, file_name, unnamed, named,
                            prog_name, log, debug1)
 
     if result is None:
@@ -887,7 +1010,7 @@ def CheckSyntax(file_contents, file_name, unnamed, duplicatables,
 
     # If we get to here, we have a file with valid syntax. Split it
     # up into its begin...end blocks and store them in a dictionary.
-    result = SplitBlocks(line_triples, num_format, duplicatables,
+    result = SplitBlocks(line_triples, num_format, duplicables,
                          file_name, log, debug1)
     if result is None:
         # We had a problem with the input file - there is
@@ -928,17 +1051,33 @@ def CheckSyntax(file_contents, file_name, unnamed, duplicatables,
     # if we sort the keys we get them in line order.
     #
 
-    # This next clause prints the dictionary with indentation for
-    # successive sub-blocks.
+    # This next clause checks that sub-blocks are valid for their
+    # enclosing block (it will raise a fault if we have "begin graph"
+    # as a sub-block of "begin route").  It also prints the dictionary
+    # with indentation for successive sub-blocks.
     if debug1:
-        for key in input_keys:
-            PrintDictionary(key, blocks_dict[key.lower()], 0)
+        print("In Syntax")
+    for key in input_keys:
+        # CheckNestables recurses, each time feeding itself the
+        # line triple of the enclosing block.
+        # Figure out the details of the enclosing block in case
+        # we need it for error messages.
+        key2 = list(blocks_dict[key.lower()].keys())[0]
+        top_level = blocks_dict[key.lower()][key2]
+        bad_nesting = CheckNestables(key, blocks_dict[key.lower()], 0,
+                                     nestables, file_name, top_level,
+                                     num_format, False, debug1, log)
+        if debug1:
+            print("nesting result:", bad_nesting)
+        if bad_nesting:
+            return(None)
+    log.write("There were no wrongly-nested blocks.\n")
 
     # Now we check for duplicate sub-keys, to prevent there being
     # (say) two blocks defining the gradients in one tunnel.
     # We allow multiple levels of nesting and we check each level.
     no_clashes = CheckSubDictClashes(blocks_dict, file_name,
-                                     duplicatables, log, debug1)
+                                     duplicables, log, debug1)
 
     if no_clashes:
         log.write("There were no name clashes at any level.\n")
@@ -950,5 +1089,5 @@ def CheckSyntax(file_contents, file_name, unnamed, duplicatables,
     # in the blocks at each level, that all the blocks have matching
     # begin...end entries and are correctly nested.  We return the
     # list of lists of line data:
-    #  [ [valid data, line number, whole line] ]
+    #  [ [line number, valid data, whole line] ]
     return(comments, line_triples, begin_lines)
