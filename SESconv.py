@@ -62,7 +62,7 @@ import pathlib         # Supersedes some functions in module 'os', apparently
 try:
     import numpy as np
     import pandas as pd
-except ModuleNotFoundError:
+except (ModuleNotFoundError, ImportError):
     # If they aren't installed we pass.  We reload them later (after the
     # first log file is open) and write the complaint to the logfile.
     pass
@@ -146,7 +146,7 @@ def main():
 
     # Print a blurb.
     print(#'SESconv.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-          'SESconv.py, 19 July 2024\n'
+          'SESconv.py, 21 July 2024\n'
           'Copyright (C) 2020-2024 Ewan Bennett\n'
           'This is free software, released under the BSD 2-clause open\n'
           'source licence.  See licence.txt for copying conditions.\n\n'
@@ -214,15 +214,18 @@ def main():
     if file_count > 1:
         runargs = []
         for fileIndex, fileString in enumerate(args_SESconv.file_name):
-            runargs.append((fileString, fileIndex + 1, file_count,
+            file_num = fileIndex + 1
+            runargs.append((fileString, file_num, file_count,
                             options_dict, user_name, when_who)
                           )
         if args_SESconv.serial:
             # The command-line option "-serial" has been set, so we process
             # the file(s) sequentially.  It is occasionally useful when
             # doing development.
-            for args in runargs:
-                ProcessFile(args)
+            for index, args in enumerate(runargs):
+                result = ProcessFile(args)
+                if result is None:
+                    gen.PauseIfLast(index + 1, file_count)
         else:
             # Run them all in parallel, using as many cores as are available.
             import multiprocessing
@@ -233,9 +236,11 @@ def main():
         # We only have one output file to process.  Best not to bother with
         # the time it takes to import the multiprocessing library and the
         # overhead it adds.
-        ProcessFile( (args_SESconv.file_name[0], 1, 1, options_dict,
-                      user_name, when_who)
-                   )
+        result = ProcessFile( (args_SESconv.file_name[0], 1, 1,
+                               options_dict, user_name, when_who)
+                            )
+        if result is None:
+            gen.PauseIfLast(1, 1)
 
     if options_dict["acceptwrong"] is True:
         # Warn about misusing this option after finishing all the files, in
@@ -7867,7 +7872,7 @@ def ProcessFile(arguments):
     # passed the user's home directory to Python instead of the current
     # working directory.
     try:
-        inp = open(dir_name + file_name, 'r')
+        inp = open(dir_name + file_name, 'r', encoding='utf-8')
     except PermissionError:
         print('> *Error* type 8002 ******************************\n'
               '> Skipping "' + file_name + '" in folder\n'
@@ -7984,7 +7989,7 @@ def ProcessFile(arguments):
     # Try and open the SI version of the .PRN file, fault if we can't.
     out_name = file_stem + extension + ".txt"
     try:
-        out = open(dir_name + out_name, 'w')
+        out = open(dir_name + out_name, 'w', encoding='utf-8')
     except PermissionError:
         err = ('> Skipping "' + file_name + '", because you\n'
                "> do not have permission to write to its output file.")

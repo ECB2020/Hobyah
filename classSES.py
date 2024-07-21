@@ -6943,7 +6943,7 @@ class SESdata:
 
 
         try:
-            ses = open(self.bin_path + new_name, 'w')
+            ses = open(self.bin_path + new_name, 'w', encoding='utf-8')
         except PermissionError:
             err = ('> Skipping the recreation of "' + new_name + '", because\n'
                    "> you do not have permission to write to it.")

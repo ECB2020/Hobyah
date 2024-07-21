@@ -98,7 +98,7 @@ try:
     import pandas as pd
     import scipy.optimize
     import compressible as ftn # Fortran compressible flow routines inside f2py
-except ModuleNotFoundError:
+except (ModuleNotFoundError, ImportError):
     # We let this pass.  We complain about it if we need it later, after
     # we've opened the first logfile and can write the complaint to it.
     # Also, we only need scipy and compressible if we are running a
@@ -1194,7 +1194,7 @@ def ProcessCurves(curve_triples, settings_dict, last_doodad,
                                + '-c' + str(tr_index + 1) + plotnames)
             # Now open a file in the "ancillaries" folder to hold the data.
             try:
-                handle = open(ancill_path + curve_file_name, 'w')
+                handle = open(ancill_path + curve_file_name, 'w', encoding='utf-8')
             except PermissionError:
                 # This is unlikely to happen but it is still worth catching it.
                 err = ('> Skipping "' + file_name + '", because\n'
@@ -3420,7 +3420,7 @@ def ProcessImage(img_triples, settings_dict, last_doodad, sources_list, log, plt
                '> or the other, something along the lines of\n'
                '>    width 0.1     # fraction of page width'
                '> or\n'
-               '>    height 0.14   # fraction of page height'
+               '>    height 0.14   # fraction of page height\n'
                '> The image block began at the ' + gen.Enth(line_number)
                    + ' line of\n'
                '> the file:\n'
@@ -5818,7 +5818,7 @@ def OpenPltFile(settings_dict, plt_name, log):
     ancill_path = settings_dict["ancill_path"]
     file_name =  settings_dict["file_name"]
     try:
-        plt = open(ancill_path + plt_name, 'w')
+        plt = open(ancill_path + plt_name, 'w', encoding='utf-8')
     except PermissionError:
         err = ('> Skipping "' + file_name + '", because\n'
                "> you do not have permission to write to\n"
@@ -6524,10 +6524,11 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
             paxmass = USc.ConvertToSI("mass1", paxmass, False, log)[0]
             speed = USc.ConvertToSI("speed2", speed, False, log)[0]
     else:
-        # Use 75 kg for passenger mass, turn all TES capture fractions
-        # to zero, turn off fire simulation and set the emissivity of
-        # flames to 0.2.
-        paxmass = 75.0
+        # Use 100 kg for passenger mass (obese, because we want the
+        # defaults to be extremely conservative), turn all TES capture
+        # fractions to zero, turn off fire simulation and set the
+        # emissivity of flames to 0.2.
+        paxmass = 100.0
         pbTESstat = 0.0
         pbTESmov = 0.0
         apTESstat = 0.0
@@ -7600,14 +7601,15 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
                                                      dir_name)
     if s_ext == '':
         # The user did not set an extension.
-        if version in ("svs", "open-ses"):
-            # Developers of these programs seem to like using .INP. as
-            # the filename extension
+        if version == "open-ses":
+            # OpenSES developers like using .INP.
             s_ext = '.INP'
+        if version == "svs":
+            s_ext = '.SIN'
         else:
             # Use .ses for the other program types.
             s_ext = '.ses'
-    sesfile = open(s_dir + s_stem + s_ext, "w")
+    sesfile = open(s_dir + s_stem + s_ext, "w", encoding='utf-8')
 
     for line in form1A:
         gen.WriteOut(line, sesfile)
@@ -9568,7 +9570,8 @@ def ProcessCalc(line_triples, begin_lines, settings_dict, log):
     # train length to 1000 metres, so that if the user is using this
     # to build SES input files that have trains going up the route,
     # they have 1 km to get their trains up to speed.  If there are
-    # train types longer than 1 km, we use their length instead.
+    # train types longer than 1 km, we use their length plus 1 m
+    # instead.
     max_trlen = 1000.0
     for trtype_name in trtypes_dict:
         length = trtypes_dict[trtype_name]["geometry"][0]
@@ -17501,7 +17504,7 @@ def FricFac(d_h, roughness, rr, rr37, veloc, fric_app_num):
                       "but the code to handle it hasn't been added to\n"
                       'PROC FricFac in Hobyah.py.\n'
                       'Please complain to whoever added it.')
-                gen.PCpause()
+                gen.PauseFail()
                 sys.exit()
         elif Re < 0.1:
             # It's practically stationary.  Use a fixed c_f of 160.
@@ -24155,7 +24158,7 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                     # tail of the train reaches the last chainage in the
                     # input file, the nose isn't beyond the definition
                     # of the elevation.
-                    elevgrad_chs.append(elevgrad_chs[-1] + 2 * max_trlen)
+                    elevgrad_chs.append(elevgrad_chs[-1] + max_trlen)
                 # Now calculate the elevations at each of the chainages.
                 for index in range(1, len(gradients)):
                     delta_ch = elevgrad_chs[index] - elevgrad_chs[index - 1]
@@ -30064,6 +30067,7 @@ def ProcessFile( arguments ):
         # Hobyah file.  Put out a message about it.
         print('> Skipping "' + file_name + '", because it\n'
               '> is an SESconv.py output file.')
+        gen.PauseIfLast(file_num, file_count)
         return()
 
     # If we get to here, the file name did end in .txt.
@@ -30073,7 +30077,7 @@ def ProcessFile( arguments ):
     if os.access(dir_name + file_name, os.F_OK):
         # The file exists.
         try:
-            inp = open(dir_name + file_name, 'r')
+            inp = open(dir_name + file_name, 'r', encoding='utf-8')
         except PermissionError:
             print('> *Error* type 2002 ******************************\n'
                   '> Skipping "' + file_name + '", because you\n'
@@ -30115,7 +30119,7 @@ def ProcessFile( arguments ):
     # Now try to create the logfile.
     log_name = dir_name + "ancillaries/" + file_stem + ".log"
     try:
-        log = open(log_name, 'w')
+        log = open(log_name, 'w', encoding='utf-8')
     except PermissionError:
         print('> *Error* type 2005 ******************************\n'
               '> Skipping "' + file_name + '", because you\n'
@@ -30226,6 +30230,7 @@ def ProcessFile( arguments ):
         # has already issued an appropriate error message.
         # Return back to main() to process the next file.
         log.close()
+        gen.PauseIfLast(file_num, file_count)
         return()
     else:
         # If we get to here then every instance of "begin <foo>" was
@@ -30269,6 +30274,8 @@ def ProcessFile( arguments ):
     if result is None:
         # Something went wrong.  The routine we called has already
         # issued a suitable error message.  Go back to main().
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
     else:
         # Add the run settings to the settings dictionary.
@@ -30285,6 +30292,8 @@ def ProcessFile( arguments ):
     result = GetBegins(line_triples, begin_lines, "constants",
                        0, math.inf, file_name, debug1, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
     constants_dict = {}
     if debug1:
@@ -30293,6 +30302,8 @@ def ProcessFile( arguments ):
         result = ProcessConstants(line_triples, tr_index, constants_dict,
                                   settings_dict, log)
         if result is None:
+            log.close()
+            gen.PauseIfLast(file_num, file_count)
             return(None)
         else:
             constants_dict = result
@@ -30320,6 +30331,8 @@ def ProcessFile( arguments ):
     result = GetBegins(line_triples, begin_lines, "data",
                        0, math.inf, file_name, debug1, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
 
     # Create a dictionary to hold the blocks of user data and the
@@ -30331,6 +30344,8 @@ def ProcessFile( arguments ):
         result = ProcessUserData(line_triples, line_index,
                                    False, settings_dict, log)
         if result is None:
+            log.close()
+            gen.PauseIfLast(file_num, file_count)
             return(None)
         else:
             (block_name, data_list) = result
@@ -30345,6 +30360,8 @@ def ProcessFile( arguments ):
     result = GetBegins(line_triples, begin_lines, "csv",
                        0, 1, file_name, debug1, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
     else:
         # Get a list of the names that have been used already so that we
@@ -30355,6 +30372,8 @@ def ProcessFile( arguments ):
             result = ProcessCsvData(line_triples, line_index, settings_dict,
                                     used_nicknames, log)
             if result is None:
+                log.close()
+                gen.PauseIfLast(file_num, file_count)
                 return(None)
             else:
                 # Add the dictionary of .csv data to the dictionary of user
@@ -30375,6 +30394,8 @@ def ProcessFile( arguments ):
             result = ProcessCalc(line_triples, begin_lines, settings_dict, log)
             if result is None:
                 # Something went wrong.  Go back to main().
+                log.close()
+                gen.PauseIfLast(file_num, file_count)
                 return(None)
     # If we get to here we either ran a calculation successfully
     # or we didn't run a calculation at all.
@@ -30397,6 +30418,8 @@ def ProcessFile( arguments ):
         result = ProcessPlotFiles(line_triples, result[0],
                                   settings_dict, log)
         if result is None:
+            log.close()
+            gen.PauseIfLast(file_num, file_count)
             return(None)
         else:
             files_dict = result
@@ -30425,12 +30448,16 @@ def ProcessFile( arguments ):
     result = GetBegins(line_triples, begin_lines, "sesdata",
                        0, math.inf, file_name, debug1, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
     else:
         for line_index in result:
             result = ProcessSESData(line_triples, line_index, settings_dict,
                                     files_dict, log)
             if result is None:
+                log.close()
+                gen.PauseIfLast(file_num, file_count)
                 return(None)
             # We don't need to store anything that returns from the
             # routine, the user can edit and adjust their SES input
@@ -30441,6 +30468,8 @@ def ProcessFile( arguments ):
     result = GetBegins(line_triples, begin_lines, "plots",
                        1, 1, file_name, debug1, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
     else:
         # We know there is only one so we don't need the loop here.
@@ -30452,6 +30481,8 @@ def ProcessFile( arguments ):
     result = ProcessPlots(line_triples, tr_index, settings_dict,
                           files_dict, log)
     if result is None:
+        log.close()
+        gen.PauseIfLast(file_num, file_count)
         return(None)
 
     # Now seek out the test block (the test block raises errors
@@ -30605,7 +30636,7 @@ def main():
     if not args_hobyah.showerrors:
         # Print a blurb.
         print(#'Hobyah.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-              'Hobyah.py, 19 July 2024\n'
+              'Hobyah.py, 21 July 2024\n'
               'Copyright (C) 2020-2024 Ewan Bennett\n'
               'This is free software, released under the BSD 2-clause open\n'
               'source licence.  See licence.txt for copying conditions.\n\n'
