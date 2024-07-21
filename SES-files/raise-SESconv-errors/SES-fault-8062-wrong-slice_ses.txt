@@ -1,0 +1,526 @@
+SES VER 4.10                         SES file for raising a fault in SESconv.py.                        PAGE:     1
+FILE: SES-oddity-densities-1.ses                                              SIMULATION TIME: 29 AUG 2021 10:54:46
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES file for raising a fault in SESconv.py.
+                         This SES file has been edited to trigger an error in SESconv.py
+                         in which it finds a character that isn't a space before a slice
+                         that contains a number.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              1     YES
+                            HUMIDITY DISPLAY OPTION                               1     HUMIDITY RATIO
+                            ENVIRONMENTAL CONTROL LOAD EVALUATION OPTION          0     BYPASS
+                            HEAT SINK SUMMARY PRINT OPTION                        0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0
+                            NUMBER OF LINE SEGMENTS                               1                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              1
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+                            NUMBER OF NODES                                       2
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+                            NUMBER OF UNSTEADY HEAT SOURCES                       1
+                            NUMBER OF FAN TYPES                                   0
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           1
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      29.444   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                        0         1.166   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  23.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                            16.11   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     1   YES
+EFFECTIVE EMMISSIVITY OF COMBUSTION PRODUCTS                                             0.2
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           losses at back end                                     FORM 3A
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           losses at back end                                     FORM 3A
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+LENGTH                                                                                 1524.   m
+CROSS SECTION AREA                                                                  17.65158   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+                                                XXXXXXXXXXXXXXX                            1   (SPECIAL 'FIRE' SEGMENT)
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        15.24                                                           TOTAL PERIMETER       15.24  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  4.633   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                    30.                  30.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     50
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    50           29.444          29.444         23.333
+INPUT VERIFICATION OF FIRE/UNSTEADY HEAT SOURCE NUMBER  1   Fire                                               FORM 4
+SENSIBLE HEAT RATE                                                                       15.   MW
+LATENT HEAT RATE                                                                          0.   MW
+SIMULATION TIME AFTER WHICH SOURCE BECOMES ACTIVE                                        90.   SECONDS
+SIMULATION TIME AFTER WHICH SOURCE BECOMES INACTIVE                                    9999.   SECONDS
+FIRE SOURCE EFFECTIVE FLAME TEMPERATURE                                              831.111   deg C
+FIRE SOURCE EFFECTIVE AREA FOR RADIATION                                              16.723   m^2
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+                       IMPULSE FAN VOLUME FLOW RATE                           333.332   m^3/s
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   29.698   m/s
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON         0.   SEC
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF     9999.   SEC
+                       Jet fan static thrust (at 1.2 kg/m^3)                    11879.0   N
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+                                               TRAIN SCHEDULING DATA
+TRAIN SCHEDULING ORIGIN                                                                   0.   m
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              5000.   SECONDS
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              40.23   km/h
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+             1                   1                 1               5000                      5000
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                  TRACK SECTION DATA                                           FORM 8C
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+                 (m)            (m)         (m)              (m)        (percent)       (km/h)
+   1           1828.8         1828.8      15240.              0.             0.          80.47            0
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+NUMBER OF SCHEDULED STOPS                                                                  0
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                               0.   m
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER                 (m)               (m)
+                           101                 101                     0.    TO       1524.
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+TOTAL LENGTH OF TRAIN                                                                 243.84   m
+FRONTAL AREA OF TRAIN                                                                 12.096   m^2
+PERIMETER OF CAR                                                                      13.698   m               FORM 9B
+SKIN FRICTION COEFFICIENT                                                              0.023
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                                0.   m^2
+FRONT OF TRAIN DRAG COEFFICIENT                                                          0.6
+TRAIN HEAT DATA                                                                                                FORM 9C
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    19782.3   W      PER CAR
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                         0.   W      PER CAR
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR         135.   W      PER PATRON
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR             0.   W      PER PATRON
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                          17.   KW PER CAR
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.065   KW PER PATRON
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                           800.                 0.   kg
+       EFFECTIVE DIAMETER OF AN ELEMENT                            0.0406             0.0406   m
+       EFFECTIVE SURFACE AREA FOR CONVECTION                        1.997              1.997   m^2
+       EFFECTIVE SURFACE AREA FOR RADIATION                         2.397              2.397   m^2
+       EMISSIVITY OF RESISTANCE ELEMENT                               0.9                0.9
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                         501.97             501.97   J/kg-K
+       INITIAL GRID TEMPERATURES                                  276.667            526.667   deg C
+A VALUE OF ZERO FOR THE DECELERATION GRID RESISTANCE ELEMENT WEIGHT INDICATES THAT THE HEAT GENERATED FROM TRAIN
+BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+AVERAGE EMPTY CAR WEIGHT                                                              42.366   tonnes          FORM 9E
+NUMBER OF MOTORS PER POWERED CAR                                                           2
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0058   N/kg
+                                                                                 =    5.7859   N/tonne
+                                                                                 =     1.180   lb/ton
+                                           SECOND                                       516.   N
+                                           THIRD                                    0.000448   N/(kg-m/s)
+                                                                              =    0.4475111   N/(tonne-m/s)
+                                                                              = 0.1243086364   N/(tonne-kph)
+                                                                              =  0.000124309   N/(kg-kph)
+                                                                              =      0.04080   lb/ton-mph
+ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
+                                                                                 =   4087.90   kg/car
+                                                                                 =     8.800   (lb/ton)/(mph/s)
+                      MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+       WHEEL DIAMETER                                              0.8407             0.8407   m
+       GEAR RATIO                                                     4.4                4.4
+       SUPPLY VOLTAGE                                               1500.              1500.   VOLTS
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                    750.   VOLTS/MOTOR
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+       TRAIN SPEED              34.923      35.084      78.053     116.034                     km/h             FORM 9G
+       TRACTIVE EFFORT        55332.23    55332.23    24999.86    16665.68                     N
+       MOTOR CURRENT              392.        392.        392.        392.                     AMPS
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+       LINE CURRENT               80.8        581.        582.        583.        584.         AMPS/POWERED CAR
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                              92.   percent
+SPEED U1                                                                              79.019   km/h
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                            95.   percent
+REGENERATIVE BRAKING EFFECTIVENESS                                                       20.   percent
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+  (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)  . (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)
+                                                                .
+      0.         55331.3             392.              81.      . 88.514         22000.9             392.             583.
+   8.047         55331.3             392.             196.      . 96.561         20132.6             392.             584.
+  16.093         55331.3             392.             311.      . 104.61         18544.6             392.             584.
+   24.14         55331.3             392.             427.      . 112.65         17183.5             392.             584.
+  32.187         55331.3             392.             542.      .  120.7         16000.2             392.             584.
+  40.234          48401.             392.             582.      . 128.75         14963.8             392.             584.
+   48.28         40438.7             392.             582.      . 136.79         14047.5             392.             584.
+  56.327         34696.1             392.             582.      . 144.84         13233.4             392.             584.
+  64.374         30359.1             392.             583.      . 152.89         12499.5             392.             585.
+   72.42         26965.1             392.             583.      . 160.93         11845.6             392.             585.
+  80.467         24238.3             392.             583.      . 168.98         11249.5             392.             585.
+INTERNAL MOTOR RESISTANCE                                                                0.3   OHMS/MOTOR      FORM 9I
+Hobyah freebie: a table of traction efficiencies
+                                    Power delivered at wheel-rail interface
+    Traction efficiency = ----------------------------------------------------------
+                          Power delivered at wheel-rail interface + loss in traction
+
+ Speed     Tractive     Power at      Loss in       Efficiency
+            effort       wheels      traction      of traction
+(km/h)    (N/train)     (W/train)    (W/train)         (%)
+   0.00     663976             0       611510          0.00
+   8.05     663976       1484119       694310         68.13
+  16.09     663976       2968239       777110         79.25
+  24.14     663976       4452358       860630         83.80
+  32.19     663976       5936478       943430         86.29
+  40.23     580812       6491158       972230         86.97
+  48.28     485265       6507981       972230         87.00
+  56.33     416353       6514424       972230         87.01
+  64.37     364309       6514424       972950         87.01
+  72.42     323581       6509413       972950         87.00
+  80.47     290860       6501300       815540         88.85
+  88.51     264010       6491278       815540         88.84
+  96.56     241591       6480062       815990         88.82
+ 104.61     222535       6466342       815990         88.79
+ 112.65     206201       6452621       815990         88.77
+ 120.70     192003       6437468       815990         88.75
+ 128.75     179566       6421838       815990         88.73
+ 136.79     168570       6405373       815990         88.70
+ 144.84     158801       6389147       815990         88.67
+ 152.89     149994       6370057       816440         88.64
+ 160.93     142147       6354546       816440         88.61
+ 168.98     134994       6336530       816440         88.59
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                    1.296   m/s^2           FORM 9J
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                         1.118   m/s^2
+SPEED V1                                                                              32.187   km/h
+NORMAL DECELERATION RATE AT SPEED V2                                                   0.894   m/s^2
+SPEED V2                                                                             115.873   km/h
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+TEMPERATURE TABULATION INCREMENT                                                       2.778   deg C
+NUMBER OF CONTROL GROUPS                                                                   1
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+     1        100            5.         0         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5              500.
+                                                   PROGRAM CONTROLS                                            FORM 13
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+MAXIMUM SIMULATION TIME                                                                   5.   SECONDS
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+  1524.  101 -101     (SPECIAL TUNNEL)          losses at back end
+         101 -101 -  1            0.            0.          29.444     0.01552          0.        0.
+         101 -101 -  2            0.            0.          29.444     0.01552
+         101 -101 -  3            0.            0.          29.444     0.01552
+         101 -101 -  4            0.            0.          29.444     0.01552
+         101 -101 -  5            0.            0.          29.444     0.01552
+         101 -101 -  6            0.            0.          29.444     0.01552
+         101 -101 -  7            0.            0.          29.444     0.01552
+         101 -101 -  8            0.            0.          29.444     0.01552
+         101 -101 -  9            0.            0.          29.444     0.01552
+         101 -101 - 10            0.            0.          29.444     0.01552
+         101 -101 - 11            0.            0.          29.444     0.01552
+         101 -101 - 12            0.            0.          29.444     0.01552
+         101 -101 - 13            0.            0.          29.444     0.01552
+         101 -101 - 14            0.            0.          29.444     0.01552
+         101 -101 - 15            0.            0.          29.444     0.01552
+         101 -101 - 16            0.            0.          29.444     0.01552
+         101 -101 - 17            0.            0.          29.444     0.01552
+         101 -101 - 18            0.            0.          29.444     0.01552
+         101 -101 - 19            0.            0.          29.444     0.01552
+         101 -101 - 20            0.            0.          29.444     0.01552
+         101 -101 - 21            0.            0.          29.444     0.01552
+         101 -101 - 22            0.            0.          29.444     0.01552
+         101 -101 - 23            0.            0.          29.444     0.01552
+         101 -101 - 24            0.            0.          29.444     0.01552
+         101 -101 - 25            0.            0.          29.444     0.01552
+         101 -101 - 26            0.            0.          29.444     0.01552
+         101 -101 - 27            0.            0.          29.444     0.01552
+         101 -101 - 28            0.            0.          29.444     0.01552
+         101 -101 - 29            0.            0.          29.444     0.01552
+         101 -101 - 30            0.            0.          29.444     0.01552
+         101 -101 - 31            0.            0.          29.444     0.01552
+         101 -101 - 32            0.            0.          29.444     0.01552
+         101 -101 - 33            0.            0.          29.444     0.01552
+         101 -101 - 34            0.            0.          29.444     0.01552
+         101 -101 - 35            0.            0.          29.444     0.01552
+         101 -101 - 36            0.            0.          29.444     0.01552
+         101 -101 - 37            0.            0.          29.444     0.01552
+         101 -101 - 38            0.            0.          29.444     0.01552
+         101 -101 - 39            0.            0.          29.444     0.01552
+         101 -101 - 40            0.            0.          29.444     0.01552
+         101 -101 - 41            0.            0.          29.444     0.01552
+         101 -101 - 42            0.            0.          29.444     0.01552
+         101 -101 - 43            0.            0.          29.444     0.01552
+         101 -101 - 44            0.            0.          29.444     0.01552
+         101 -101 - 45            0.            0.          29.444     0.01552
+         101 -101 - 46            0.            0.          29.444     0.01552
+         101 -101 - 47            0.            0.          29.444     0.01552
+         101 -101 - 48            0.            0.          29.444     0.01552
+         101 -101 - 49            0.            0.          29.444     0.01552
+         101 -101 - 50            0.            0.          29.444     0.01552
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -101 -  1          29.444                  0.             0.
+       101 -101 -  2          29.444                  0.             0.
+       101 -101 -  3          29.444                  0.             0.
+       101 -101 -  4          29.444                  0.             0.
+       101 -101 -  5          29.444                  0.             0.
+       101 -101 -  6          29.444                  0.             0.
+       101 -101 -  7          29.444                  0.             0.
+       101 -101 -  8          29.444                  0.             0.
+       101 -101 -  9          29.444                  0.             0.
+       101 -101 - 10          29.444                  0.             0.
+       101 -101 - 11          29.444                  0.             0.
+       101 -101 - 12          29.444                  0.             0.
+       101 -101 - 13          29.444                  0.             0.
+       101 -101 - 14          29.444                  0.             0.
+       101 -101 - 15          29.444                  0.             0.
+       101 -101 - 16          29.444                  0.             0.
+       101 -101 - 17          29.444                  0.             0.
+       101 -101 - 18          29.444                  0.             0.
+       101 -101 - 19          29.444                  0.             0.
+       101 -101 - 20          29.444                  0.             0.
+       101 -101 - 21          29.444                  0.             0.
+       101 -101 - 22          29.444                  0.             0.
+       101 -101 - 23          29.444                  0.             0.
+       101 -101 - 24          29.444                  0.             0.
+       101 -101 - 25          29.444                  0.             0.
+       101 -101 - 26          29.444                  0.             0.
+       101 -101 - 27          29.444                  0.             0.
+       101 -101 - 28          29.444                  0.             0.
+       101 -101 - 29          29.444                  0.             0.
+       101 -101 - 30          29.444                  0.             0.
+       101 -101 - 31          29.444                  0.             0.
+       101 -101 - 32          29.444                  0.             0.
+       101 -101 - 33          29.444                  0.             0.
+       101 -101 - 34          29.444                  0.             0.
+       101 -101 - 35          29.444                  0.             0.
+       101 -101 - 36          29.444                  0.             0.
+       101 -101 - 37          29.444                  0.             0.
+       101 -101 - 38          29.444                  0.             0.
+       101 -101 - 39          29.444                  0.             0.
+       101 -101 - 40          29.444                  0.             0.
+       101 -101 - 41          29.444                  0.             0.
+       101 -101 - 42          29.444                  0.             0.
+       101 -101 - 43          29.444                  0.             0.
+       101 -101 - 44          29.444                  0.             0.
+       101 -101 - 45          29.444                  0.             0.
+       101 -101 - 46          29.444                  0.             0.
+       101 -101 - 47          29.444                  0.             0.
+       101 -101 - 48          29.444                  0.             0.
+       101 -101 - 49          29.444                  0.             0.
+       101 -101 - 50          29.444                  0.             0.
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+TIME      5.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+  1524.  101 -101     (SPECIAL TUNNEL)          losses at back end
+         101 -101 -  1            0.            0.          29.444     0.01552      22.993     1.303
+         101 -101 -  2            0.            0.          29.444     0.01552
+         101 -101 -  3            0.            0.          29.444     0.01552
+         101 -101 -  4            0.            0.          29.444     0.01552
+         101 -101 -  5            0.            0.          29.444     0.01552
+         101 -101 -  6            0.            0.          29.444     0.01552
+         101 -101 -  7            0.            0.          29.444     0.01552
+         101 -101 -  8            0.            0.          29.444     0.01552
+         101 -101 -  9            0.            0.          29.444     0.01552
+         101 -101 - 10            0.            0.          29.444     0.01552
+         101 -101 - 11            0.            0.          29.444     0.01552
+         101 -101 - 12            0.            0.          29.444     0.01552
+         101 -101 - 13            0.            0.          29.444     0.01552
+         101 -101 - 14            0.            0.          29.444     0.01552
+         101 -101 - 15            0.            0.          29.444     0.01552
+         101 -101 - 16            0.            0.          29.444     0.01552
+         101 -101 - 17            0.            0.          29.444     0.01552
+         101 -101 - 18            0.            0.          29.444     0.01552
+         101 -101 - 19            0.            0.          29.444     0.01552
+         101 -101 - 20            0.            0.          29.444     0.01552
+         101 -101 - 21            0.            0.          29.444     0.01552
+         101 -101 - 22            0.            0.          29.444     0.01552
+         101 -101 - 23            0.            0.          29.444     0.01552
+         101 -101 - 24            0.            0.          29.444     0.01552
+         101 -101 - 25            0.            0.          29.444     0.01552
+         101 -101 - 26            0.            0.          29.444     0.01552
+         101 -101 - 27            0.            0.          29.444     0.01552
+         101 -101 - 28            0.            0.          29.444     0.01552
+         101 -101 - 29            0.            0.          29.444     0.01552
+         101 -101 - 30            0.            0.          29.444     0.01552
+         101 -101 - 31            0.            0.          29.444     0.01552
+         101 -101 - 32            0.            0.          29.444     0.01552
+         101 -101 - 33            0.            0.          29.444     0.01552
+         101 -101 - 34            0.            0.          29.444     0.01552
+         101 -101 - 35            0.            0.          29.444     0.01552
+         101 -101 - 36            0.            0.          29.444     0.01552
+         101 -101 - 37            0.            0.          29.444     0.01552
+         101 -101 - 38            0.            0.          29.444     0.01552
+         101 -101 - 39            0.            0.          29.444     0.01552
+         101 -101 - 40            0.            0.          29.444     0.01552
+         101 -101 - 41            0.            0.          29.444     0.01552
+         101 -101 - 42            0.            0.          29.444     0.01552
+         101 -101 - 43            0.            0.          29.444     0.01552
+         101 -101 - 44            0.            0.          29.444     0.01552
+         101 -101 - 45            0.            0.          29.444     0.01552
+         101 -101 - 46            0.            0.          29.444     0.01552
+         101 -101 - 47            0.            0.          29.444     0.01552
+         101 -101 - 48            0.            0.          29.444     0.01552
+         101 -101 - 49            0.            0.          29.444     0.01552
+         101 -101 - 50            0.            0.          29.444     0.01552
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -101 -  1          29.444                  0.             0.
+       101 -101 -  2          29.444                  0.             0.
+       101 -101 -  3          29.444                  0.             0.
+       101 -101 -  4          29.444                  0.             0.
+       101 -101 -  5          29.444                  0.             0.
+       101 -101 -  6          29.444                  0.             0.
+       101 -101 -  7          29.444                  0.             0.
+       101 -101 -  8          29.444                  0.             0.
+       101 -101 -  9          29.444                  0.             0.
+       101 -101 - 10          29.444                  0.             0.
+       101 -101 - 11          29.444                  0.             0.
+       101 -101 - 12          29.444                  0.             0.
+       101 -101 - 13          29.444                  0.             0.
+       101 -101 - 14          29.444                  0.             0.
+       101 -101 - 15          29.444                  0.             0.
+       101 -101 - 16          29.444                  0.             0.
+       101 -101 - 17          29.444                  0.             0.
+       101 -101 - 18          29.444                  0.             0.
+       101 -101 - 19          29.444                  0.             0.
+       101 -101 - 20          29.444                  0.             0.
+       101 -101 - 21          29.444                  0.             0.
+       101 -101 - 22          29.444                  0.             0.
+       101 -101 - 23          29.444                  0.             0.
+       101 -101 - 24          29.444                  0.             0.
+       101 -101 - 25          29.444                  0.             0.
+       101 -101 - 26          29.444                  0.             0.
+       101 -101 - 27          29.444                  0.             0.
+       101 -101 - 28          29.444                  0.             0.
+       101 -101 - 29          29.444                  0.             0.
+       101 -101 - 30          29.444                  0.             0.
+       101 -101 - 31          29.444                  0.             0.
+       101 -101 - 32          29.444                  0.             0.
+       101 -101 - 33          29.444                  0.             0.
+       101 -101 - 34          29.444                  0.             0.
+       101 -101 - 35          29.444                  0.             0.
+       101 -101 - 36          29.444                  0.             0.
+       101 -101 - 37          29.444                  0.             0.
+       101 -101 - 38          29.444                  0.             0.
+       101 -101 - 39          29.444                  0.             0.
+       101 -101 - 40          29.444                  0.             0.
+       101 -101 - 41          29.444                  0.             0.
+       101 -101 - 42          29.444                  0.             0.
+       101 -101 - 43          29.444                  0.             0.
+       101 -101 - 44          29.444                  0.             0.
+       101 -101 - 45          29.444                  0.             0.
+       101 -101 - 46          29.444                  0.             0.
+       101 -101 - 47          29.444                  0.             0.
+       101 -101 - 48          29.444                  0.             0.
+       101 -101 - 49          29.444                  0.             0.
+       101 -101 - 50          29.444                  0.             0.
+                                            END OF SIMULATION

@@ -1,0 +1,149 @@
+SES VER 4.10              SES v4.1 file for testing the raising of SESconv error messages.              PAGE:     1
+FILE: SES-triggers-4221-form-3B.ses                                           SIMULATION TIME: 29 AUG 2021 15:12:21
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES v4.1 file for testing the raising of SESconv error messages.
+                         This has entries in form 3B with zero length perimeters to the left of non-zero
+                         perimeters, for illustrating a point and testing the raising of an SESconv
+                         error message about incorrect calculation of mean roughness.
+                         Segment 1 has four entries in form 3B, the last of which has zero perimeter.
+                         Segment 52 also has the same four entries, but the third has zero perimeter.
+                         Although the four pairs of numbers in segments 1 and 52 are the same, the
+                         calculated mean roughness (and thus the segment friction factor) are not.
+                         This is due to a bug in Lsins.for.  See section 14 of "SES-notes.pdf" for a
+                         longer explanation of the bug.
+                                    DESIGN TIME 1700 HRS   JULY       2028
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              1     YES
+                            HUMIDITY DISPLAY OPTION                               1     HUMIDITY RATIO
+                            ENVIRONMENTAL CONTROL LOAD EVALUATION OPTION          1     YES
+                            HEAT SINK SUMMARY PRINT OPTION                        0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                               -1     NO SIMULATION
+                            NUMBER OF LINE SEGMENTS                               2                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              3
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+                            NUMBER OF NODES                                       4
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+                            NUMBER OF UNSTEADY HEAT SOURCES                       1
+                            NUMBER OF FAN TYPES                                   3
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 1
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           1
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      29.444   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                                  1.166   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  23.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                            16.11   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     1   YES
+EFFECTIVE EMMISSIVITY OF COMBUSTION PRODUCTS                                             0.2
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                            1               2              1              1         14.63037
+                            2               2              3              1         -7.07921
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+                            5               2              4                        -7.55116
+INPUT VERIFICATION FOR LINE SEGMENT    1 -  1           Zero perim in last entry, OK                           FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 609.6   m
+CROSS SECTION AREA                                                                   17.5308   m^2
+STACK HEIGHT                                                                          18.288   m
+  GRADE OF LINE SEGMENT                                                                   3.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        4.054   6.096   6.096                                           TOTAL PERIMETER      16.246  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.03658      0. 0.10058                                           ROUGHNESS LENGTH    0.04688  m
+   HYDRAULIC DIAMETER                                                                  4.328   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01086
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0389
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                     0.5                   1.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     10
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     3           29.444          29.444         23.333
+     4     THRU    10           29.444          29.444         23.333
+TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
+DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
+TUNNEL WALL THERMAL CONDUCTIVITY                                                     1.43523   W/m-K
+TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.21044   W/m-K
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+DEEP SINK TEMPERATURE                                                                    19.   deg C
+INPUT VERIFICATION FOR LINE SEGMENT    2 - 52           Zero perim in 3rd entry, dud                           FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 152.4   m
+CROSS SECTION AREA                                                                   17.5308   m^2
+STACK HEIGHT                                                                           4.572   m
+  GRADE OF LINE SEGMENT                                                                   3.   percent
+                                                XXXXXXXXXXXXXXX                            1   (SPECIAL 'FIRE' SEGMENT)
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        4.054   6.096      0.                                           TOTAL PERIMETER      16.246  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.03658      0. 0.03048                                           ROUGHNESS LENGTH    0.00911  m
+   HYDRAULIC DIAMETER                                                                  4.328   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00211
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0244
+> Came across an instance of form 3B in which there
+> were zero values of perimeter appearing before non-
+> zero values of perimeter.  Details are:
+>   There were 3 perimeters printed to the output file.
+>   There were 4 perimeters in the input file.
+> Due to a bug in SES some of the roughnesses have
+> been ignored and the total perimeter and friction
+> factor of segment 52 in "SES-fault-8221-form-3B.PRN" are wrong.

@@ -1,0 +1,11 @@
+Processing "/Users/ecb/Documents/sandboxes/Hobyah/files-SES/locked-folder/SES-fault-4004-no-dir-access.PRN".
+Using SESconv.py, run at 13:20 on 5 Nov 2023 by ecb.
+> *Error* type 4024
+> Failed to find lines marking "SES-fault-4004-no-dir-access.PRN"
+> as an SES output file (no header, couldn't find
+> all three of the following lines near the start
+> of the file:
+>     "SUBWAY ENVIRONMENT SIMULATION"
+>            "SIMULATION OF"
+>                         "VERSION 4.10"
+> Are you sure this is an SES output file?

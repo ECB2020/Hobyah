@@ -1,0 +1,32 @@
+SES VER 4.10                        SES file for raising a fault in SESconv.py.                         PAGE:     1
+FILE: SES-triggers-4041-ends-early.ses                                        SIMULATION TIME: 28 AUG 2021 19:07:12
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES file for raising a fault in SESconv.py.
+                         This SES file has been edited to trigger an error in SESconv.py
+                         about files that end too early.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              1     YES
+                            HUMIDITY DISPLAY OPTION                               1     HUMIDITY RATIO
+                            ENVIRONMENTAL CONTROL LOAD EVALUATION OPTION          0     BYPASS
+                            HEAT SINK SUMMARY PRINT OPTION                        0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0

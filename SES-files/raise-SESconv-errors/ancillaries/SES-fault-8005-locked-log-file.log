@@ -1,0 +1,29 @@
+Processing "/Users/ecb/Documents/sandboxes/Hobyah/files-SES/tests-raise-SESconv-faults/SES-fault-8007-locked-bin-file.PRN".
+Using SESconv.py, run at 10:09 on 28 Jun 2024 by ecb.
+SES read all the input and started the calculation.
+The run finished at the intended time and will be processed.
+Checking the output file for SES error messages...didn't find any SES error messages.
+Processed form 1C
+Processed form 1D
+Processed form 1E
+Processed form 1F
+Processed form 1G
+Expecting 1 instance of form 2A and 0 instances of form 2B.
+Processed form 2
+Expecting 1 instance of form 3.
+Processed form 3
+Expecting 1 instance of form 4.
+Processed form 4
+Expecting 2 instances of form 6.
+Processed form 6
+Expecting 0 fan chars and 1 jet fan.
+Processed form 7
+Expecting 1 route.
+Processed form 8
+Expecting 1 train type.
+Processed form 9
+Processed form 12
+Processed form 13
+> *Error* type 8007 ******************************
+> Skipping "SES-fault-8007-locked-bin-file.PRN", because you
+> do not have permission to write to its binary file.
