@@ -4,6 +4,8 @@ The files in this folder are a set of input files (.ses files) and output files 
 
 Most of the files were written so that the output files could be used to test the operation of SESconv.py.  A few are to verify the calculations in Hobyah.py.
 
+The output files were fed to SESconv.py, which generated the _ses.txt files (the SES output file converted into SI units) and the .sbn files (a binary Python pickle file that can be interrogated by classSES.py).  Drag and drop ought to work on Windows machines.
+
 The files use most of the features in SES v4.1, different print options, types of value (e.g. using zero to get a default value), input forms and types of output.  Many files have demonstrably incorrect input, like running a fire simulation and putting the fire in a non-fire segment (SESconv.py raises a fatal error when it processes this one).  Few of the files in this folder are suitable for basing new input files on.
 
 The following SES input errors have specific files to trigger them because they write output files that are tricky to process:
