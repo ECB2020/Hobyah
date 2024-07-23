@@ -1,0 +1,284 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A test file that has four tunnels, each with three changes of sectype.
+One is an expansion, one changes to the same area and one is a
+contraction:
+
+ Portal        change of        change of         change of           Portal
+                sectype          sectype           sectype
+  ch.             ch.              ch.               ch.               ch.
+ 10000           10200            10300             10400             10600
+  __________________                                  ___________________
+                   |                                  |
+                   ------------------------------------
+                   .                .                 .
+    Sectype "West" . Sectype "Mid"  . Sectype "Mid"   .  Sectype "East"
+    (area 92 m**2) . (area 72 m**2) . (area 72 m**2)  .  (area 92 m**2)
+                   .                .                 .
+  _______________________________________________________________________
+
+
+The purpose of this file is to show that the pressure losses at portals
+and at changes of sectype in the compressible calculation are correct
+regardless of the orientations and flow directions.  The comments in
+this file compare the values of pressure drop from the compressible
+calculations to incompressible hand calculations (they do match).
+
+Two tunnels have airflow from back end to forward end, the other two have
+airflow from forward end to back end.  The airflow is driven by a fixed
+gauge pressure of +20 Pa outside the inflow portal a fixed gauge pressire
+of -20 Pa outside the outflow portal.  The pressures are near zero so that
+the effect of compressibility is minimised, so that the pressure drops can
+be compared to what they would be in an incompressible calculation with
+density 1.2 kg/m^3.
+
+Explicit fixed losses are set at portals and changes of sectype (i.e. at
+each end of each segment).
+
+In the first two tunnels all the fixed losses are non-zero, in the third
+and fourth tunnels they are as follows, for the two flow directions:
+
+     Segment 1                                                 Segment 4
+  _________________                                      ___________________
+                   |   Segment 2            Segment 3   |
+                   --------------------------------------
+0.92->         0-> . 0.31->    0.51-> . 0->      0.71-> . 0->           2.13->
+                   .                  .                 .
+                   .                  .                 .
+1.7 <-         0<- . 0.41<-    0.61<- . 0<-      0.81<- . 0<-           0.83<-
+  __________________________________________________________________________
+
+
+The inlet portal has a fixed gauge pressure of +20 Pa, the outflow
+portal has a fixed pressure gauge pressure of -20 Pa.  The file runs
+for 500 seconds, long enough to get all four tunnels to steady state.
+
+The pressure profiles at the last timestep are correct.
+In the tunnels with zero fixed losses the only losses are due to to
+friction.
+
+Some observations of the pressure profiles in the two tunnels with no
+pressure losses on the first page of the .pdf file
+"ok-019-three-changes.pdf":
+ * At the entry portals the total pressure inside is +20 Pa (because the
+   entry loss is zero).
+ * At the exit portal the total pressure is -20 Pa (because there
+   is no pressure loss at the exit).
+ * There is no change of total pressure across the three junctions.
+ * The change of static pressure across the junctions is only due
+   to changes in dynamic pressure.
+
+
+Some observations of the pressure profiles on the second page of the
+.pdf file "ok-019-three-changes.pdf" (which has fixed pressure losses):
+
+ * At the inflow portals the total pressure inside is less than +20 Pa
+   and is set by inflow pressure losses.  The equivalent incompressible
+   calculations are:
+    Mainline3 inflow: zeta_in = zeta_bf = 0.92,
+                            air velocity is 2.473 m/s.
+                    DP = 0.5 * 1.2 * 0.92 * 2.473**2 = 3.375 Pa
+                    P_tot in the first cell should be:
+                         P_tot = 101325 + 20 - 3.375 = 101341.625 Pa
+                     Value in the compressible calc is 101341.624 Pa
+
+    Mainline4 inflow: zeta_in = zeta_fb = 0.83,
+                             air velocity is -2.140 m/s.
+                    DP = 0.5 * 1.2 * 0.83 * 2.140**2 = 2.281 Pa
+                    P_tot in the last cell should be:
+                         P_tot = 101325 + 20 - 2.281 = 101342.719 Pa
+                     Value in the compressible calc is 101342.719 Pa
+
+ * At the outflow portals the total pressure inside is higher than -20 Pa
+   and set by outflow pressure losses.  The equivalent incompressible
+   calculations are:
+    Mainline3 outflow: zeta_out = zeta_fb = 2.13,
+                            air velocity is 2.167 m/s.
+                    DP = 0.5 * 1.2 * 2.13 * 2.167**2 = 6.001 Pa
+                    P_tot in the last cell should be:
+                         P_tot = 101325 - 20 + 6.001 = 101311.001 Pa
+                     Value in the compressible calc is 101311.001 Pa
+
+    Mainline4 outflow: zeta_out = zeta_bf = 1.7,
+                            air velocity is -2.443 m/s.
+                    DP = 0.5 * 1.2 * 1.7 * 2.443**2 = 6.088 Pa
+                    P_tot in the first cell should be:
+                         P_tot = 101325 - 20 + 6.88 = 101311.087 Pa
+                    Value in the compressible calc is 101311.087 Pa
+
+ * At the change of sectype at chainage 10200 the step change in
+   total pressure is set by back-to-forward pressure loss factors
+   (zeta_bf) and forward-to-back pressure loss factors (zeta_fb).
+   These apply to the air velocity in the smaller of the two areas
+   on either side of the change.
+
+     In Mainline3: zeta_bf = 0.31, air velocity is 3.121 m/s.
+                    DP = 0.5 * 1.2 * 0.31 * 3.160**2 = 1.857 Pa
+      Compressible calc DP = 101328.701 - 101326.843 = 1.858 Pa
+
+     In Mainline4: zeta_fb = 0.41, air velocity is -3.121 m/s.
+                    DP = 0.5 * 1.2 * 0.41 * 3.121**2 = 2.396 Pa
+         Compressible calc DP = 101332.574 - 101329.008 = 2.397 Pa
+
+
+ * At the change of sectype at chainage 10300 the sectype on each
+   side of the change is the same.
+
+     In Mainline3: zeta_bf = 0.51, air velocity is 3.160 m/s.
+                    DP = 0.5 * 1.2 * 0.51 * 3.160**2 = 3.056 Pa
+      Compressible calc DP = 101323.857 - 101320.801 = 3.056 Pa
+
+     In Mainline4: zeta_fb = 0.61, air velocity is -3.121 m/s.
+                    DP = 0.5 * 1.2 * 0.61 * -3.121**2 = 3.565 Pa
+       Compressible calc DP = 101332.574 - 101329.008 = 3.566 Pa
+
+  back 10000 portal  20 West    zeta_out := 1.7  zeta_in := 0.92
+  fwd  10600 portal -20         zeta_out := 2.13 zeta_in := 0.83
+  change 10200 Mid              zeta_bf := 0.31   zeta_fb := 0.41
+  change 10300 Mid              zeta_bf := 0.51   zeta_fb := 0.61
+  change 10400 East             zeta_bf := 0.71   zeta_fb := 0.81
+
+
+ * At the change of sectype at chainage 10400:
+
+     In Mainline3: zeta_bf = 0.71, air velocity is 3.160 m/s.
+                    DP = 0.5 * 1.2 * 0.71 * 3.160**2 = 4.254 Pa
+      Compressible calc DP = 101317.815 - 101313.561 = 4.254 Pa
+
+     In Mainline4: zeta_fb = 0.81, air velocity is -3.121 m/s.
+                    DP = 0.5 * 1.2 * 0.81 * 3.121**2 = 4.734 Pa
+      Compressible calc DP = 101340.222 - 101335.487 = 2.735 Pa
+
+So the incompressible hand calculations match the compressible
+calculations as near as can be expected.
+
+
+begin settings # comment text
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 500
+end settings
+
+#begin plotcontrol
+#  aero  range(0, 100, 0.1)
+#end plotcontrol
+
+begin sectypes
+  West  92    45  -0.036
+  Mid   72    41   0.055
+  East 105    62   0.035
+end sectypes
+
+begin tunnel Mainline1   # Airflow back end to fwd end, no fixed losses
+  back 10000 portal  20 West    zeta_out := 0.0  zeta_in := 0.0
+  fwd  10600 portal -20         zeta_out := 0.0  zeta_in := 0.0
+  change 10200 Mid              zeta_bf := 0.0    zeta_fb := 0.0
+  change 10300 Mid              zeta_bf := 0.0    zeta_fb := 0.0
+  change 10400 East             zeta_bf := 0.0    zeta_fb := 0.0
+end tunnel
+
+begin tunnel Mainline2   # Airflow fwd end to back end, no fixed losses
+  back 10000 portal -20 West    zeta_out := 0.0  zeta_in := 0.0
+  fwd  10600 portal  20         zeta_out := 0.0  zeta_in := 0.0
+  change 10200 Mid              zeta_bf := 0.0    zeta_fb := 0.0
+  change 10300 Mid              zeta_bf := 0.0    zeta_fb := 0.0
+  change 10400 East             zeta_bf := 0.0    zeta_fb := 0.0
+end tunnel
+
+begin tunnel Mainline3   # Airflow back end to fwd end, with fixed losses
+  back 10000 portal  20 West    zeta_out := 1.7  zeta_in := 0.92
+  fwd  10600 portal -20         zeta_out := 2.13 zeta_in := 0.83
+  change 10200 Mid              zeta_bf := 0.31   zeta_fb := 0.41
+  change 10300 Mid              zeta_bf := 0.51   zeta_fb := 0.61
+  change 10400 East             zeta_bf := 0.71   zeta_fb := 0.81
+end tunnel
+
+begin tunnel Mainline4   # Airflow fwd end to back end, with fixed losses
+  back 10000 portal -20 West    zeta_out := 1.7  zeta_in := 0.92
+  fwd  10600 portal  20         zeta_out := 2.13 zeta_in := 0.83
+  change 10200 Mid              zeta_bf := 0.31   zeta_fb := 0.41
+  change 10300 Mid              zeta_bf := 0.51   zeta_fb := 0.61
+  change 10400 East             zeta_bf := 0.71   zeta_fb := 0.81
+end tunnel
+
+begin route eastbound
+  origin 9500
+  portal 11000
+  begin tunnels
+    Mainline4
+  end tunnels
+end route
+
+begin plotcontrol
+  aero  range(0, 500.05, 0.1)
+end plotcontrol
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profiles (without fixed losses)
+      margins 0.13   0.87   0.57   0.87
+      yrange -49 21  10
+      verbatim set key bottom right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot   calc  Mainline1@1000 lt:=4
+      profile ptot   calc  Mainline2@1000
+      profile pstat   calc  Mainline1@1000  lt:=13
+      profile pstat   calc  Mainline2@1000  lt:=11
+    end graph
+    begin graph
+      title   Transient velocity near the inflow portals (without fixed losses)
+      yrange -6  4.5  1
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  Mainline1@10001 lt:=4
+      transient  velocity   calc  Mainline2@10001
+    end graph
+    begin graph
+      title   Velocity profile at the final timestep (without fixed losses)
+      margins 0.57   0.87   0.13   0.43
+      xlabel   Distance (m)
+      profile  velocity   calc  Mainline1@1000 lt:=4
+      profile  velocity   calc  Mainline2@1000
+    end graph
+  end page
+
+  begin page # ignore # 2
+    pagesize A3
+    begin graph
+      title   Pressure profiles (with fixed losses)
+      margins 0.13   0.87   0.57   0.87
+      yrange -49 21  10
+      verbatim set key bottom right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot   calc  Mainline3@1000 lt:=4
+      profile ptot   calc  Mainline4@1000
+      profile pstat   calc  Mainline3@1000  lt:=13
+      profile pstat   calc  Mainline4@1000  lt:=11
+    end graph
+    begin graph
+      title   Transient velocity near the inflow portals (with fixed losses)
+      yrange -6  4.5  1
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  Mainline3@10001 lt:=4
+      transient  velocity   calc  Mainline4@10001
+    end graph
+    begin graph
+      title   Velocity profile at the final timestep (with fixed losses)
+      margins 0.57   0.87   0.13   0.43
+      xlabel   Distance (m)
+      profile  velocity   calc  Mainline3@1000 lt:=4
+      profile  velocity   calc  Mainline4@1000
+    end graph
+  end page
+end plots

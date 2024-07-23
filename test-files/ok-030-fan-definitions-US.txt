@@ -1,0 +1,36 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the processing of fans.  It is in US units and
+tests the printout of air densities in the log file.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  units US
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 300
+end settings
+
+begin sectypes
+  West-C+C  92    65  -0.009
+  East-C+C  65    42  -0.009
+  Offslip   41    35  -0.009
+end sectypes
+
+begin fanchar  fan2
+  density 0.0741   # This is lb/ft^3 because the main units of the file are US.
+  SES_7B   12.04  0    9.23  211888    3.21  423776    0  476748
+#  SES_7B   3000  0    2300  100       800  200        0  225
+end fanchar
+
+begin tunnel first
+  back 10000 portal 50   West-C+C
+  fwd  10330 portal 0
+end tunnel
+
+begin plots
+end plots

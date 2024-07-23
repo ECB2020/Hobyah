@@ -1,0 +1,141 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has several area changes in one tunnel, with varying friction
+properties.  It also has route properties, for plotting figures
+in the Hobyah User Manual.
+
+Generates a loop plot that illustrates the movement of pressure waves.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 300
+end settings
+
+begin sectypes
+  West-C+C  92    45  -0.036   West end cut and cover
+  TBM       72    41   0.205   11 m ID TBM tunnel, very rough
+  East-C+C1  74    47   0.035  Narrow cut and cover
+  East-C+C2 114    65   0.035  Wider section at junction
+  East-C+C3 155    82   0.035  Widest section at junction
+end sectypes
+
+begin tunnel Mainline1
+  back 6000 portal 100 West-C+C
+  fwd  8130 portal 0
+  change 6160 TBM
+  change 7850 East-C+C2
+  change 7670 East-C+C1
+  change 8000 East-C+C3
+end tunnel
+
+begin route eastbound
+  origin 5000  elevation:=15.2
+  portal 5500
+  begin tunnels
+    Mainline1
+  end tunnels
+  begin gradients percentages
+#   gradient    chainage
+#     (%)      it ends at
+      1.2        5100
+     -4          5930
+     -1.5        6420
+      0.0        6470
+      1.7        7380
+      2.9        7690
+      0.1        8400
+  end gradients
+  begin lanes
+#    lane       chainage
+#    count     it ends at
+       4         5590
+       3         7400
+       4         8400
+  end lanes
+  begin speedlimits
+#    speed      chainage
+#    limit     it ends at
+      75         5400
+      60         8300
+      75         8400
+  end speedlimits
+end route
+
+begin plotcontrol
+  aero  range (0, duration, 0.1)
+end plotcontrol
+
+begin plots
+  begin page
+    begin graph
+      title   Transient velocity near both ends
+#      xrange 0  400 *20
+#      yrange 0  1.1  *1
+      margins 0.13   0.87   0.57   0.87
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  Mainline1@7990
+      transient  velocity   calc  Mainline1@6001
+    end graph
+    begin graph
+      title   Pressure profile at the final timestep
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot   calc  Mainline1@100
+    end graph
+    begin graph
+      title   Velocity profile at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  Mainline1@1000
+    end graph
+  end page
+  begin page
+    begin graph
+      title   Mass flow and volume flow profiles at the final timestep
+      margins 0.13   0.87   0.57   0.87
+      xlabel   Distance (m)
+      ylabel   "Mass flow (kg/s) or Volume flow (m^3/s)"
+      profile volflow   calc  Mainline1@1000
+      profile massflow  calc  Mainline1@1000
+    end graph
+  end page
+
+
+  begin timeloop # ignore
+    timelist range(0.0, 200, 0.5)
+#    start 59
+#    stop 60
+#    step 0.1
+    begin graph
+      title   Velocity profile
+      margins 0.13   0.87   0.57   0.87
+      yrange -0.1  4   .5
+
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile velocity   calc  Mainline1@*time
+    end graph
+    begin graph
+      title   Pressure and mass flow profile
+      margins 0.13   0.87   0.13   0.43
+      yrange -40  140   20
+      y2range  0  360   40
+
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      y2label  Mass flow (kg/s)
+      profile ptot   calc  Mainline1@*time
+      profile massflow   calc  Mainline1@*time   axes:=y2
+    end graph
+  end timeloop
+end plots
