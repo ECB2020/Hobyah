@@ -1,0 +1,40 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has one tunnel and tests out the setting of friction factors.
+This has a relative roughness of 0.02 and uses the approximation in
+Moody's 1947 ASME paper for friction factor.
+The calculated friction factor at the first gridpoint is 0.0115105,
+5.4% lower than the exact value of 0.0121645.
+Resulting air velocities are 7.213-7.215 m/s.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  frictionapprox Moody
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.1
+  aero_time 102
+end settings
+
+
+begin sectypes
+  duct    20   20  0.08
+end sectypes
+
+begin tunnel Mainline1
+  back 10000 portal 90   duct
+  fwd  10120 portal 0
+end tunnel
+
+begin plotcontrol
+  aero  range(0, 102, 0.1) # + range(2, duration, 1)
+end plotcontrol
+
+begin plots
+end plots

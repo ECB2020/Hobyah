@@ -1,0 +1,106 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has one tunnel and tests out the setting of friction factors.
+This has a relative roughness of 0.02 and uses the iterated Colebrook-White
+function for friction factor.  Do not use this approximation in paid
+work, it is not worth the extra CPU cycles at every gridpoint in every
+timestep.  It is included for validation purposes.
+Resulting air velocities from this run are 7.117-7.118 m/s.
+
+A comparison of air velocities in the first cell from the runs:
+  ok-015a-friction-factor-tests.hbn (fixed c_f):                 7.116 m/s
+  ok-015b-friction-factor-tests.hbn (fixed lambda):              7.116 m/s
+  ok-015c-friction-factor-tests.hbn (Colebrook's approximation): 7.116 m/s
+  ok-015d-friction-factor-tests.hbn (Moody's approximation):     7.213 m/s
+  ok-015e-friction-factor-tests.hbn (SES's approximation):       7.140 m/s
+  ok-015f-friction-factor-tests.hbn (exact Colebrook-White):     7.117 m/s
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  frictionapprox Colebrook-White
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.1
+  aero_time 102
+end settings
+
+
+begin sectypes
+  duct    20   20  0.08
+end sectypes
+
+begin tunnel Mainline1
+  back 10000 portal 90   duct
+  fwd  10120 portal 0
+end tunnel
+
+begin files nicknames
+  c_f             ok-015a-friction-factor-tests.hbn
+  lambda          ok-015b-friction-factor-tests.hbn
+  colebrook       ok-015c-friction-factor-tests.hbn
+  moody           ok-015d-friction-factor-tests.hbn
+  ses             ok-015e-friction-factor-tests.hbn
+  colebrook-white ok-015f-friction-factor-tests.hbn
+end files
+
+begin plotcontrol
+  aero  range(0, 102, 0.1) # + range(2, duration, 1)
+end plotcontrol
+
+begin plots
+  begin page
+    begin graph
+      title "Comparison of velocities near steady state"
+      xrange  25  102   *1
+      yrange  7.1  7.35   *1
+      margins 0.13  0.42  0.13 0.42
+      xlabel Time (s)
+      ylabel Air velocity (m/s)
+      verbatim set key top right
+      transient velocity c_f             Mainline1@10110  Fixed c_f
+      transient velocity lambda          Mainline1@10110  Fixed lambda
+      transient velocity colebrook       Mainline1@10110  Colebrook's approximation
+      transient velocity moody           Mainline1@10110  Moody's approximation
+      transient velocity ses             Mainline1@10110  SES's approximation
+      transient velocity colebrook-white Mainline1@10110  Colebrook-White
+    end graph
+    begin graph
+      title "Comparison of velocities near time zero"
+      xrange  0  3   *1
+      yrange  -0.05  1.5   *1
+      margins 0.58  0.87  0.13 0.42
+      xlabel Time (s)
+      ylabel Air velocity (m/s)
+      verbatim set key bottom right
+      transient velocity c_f             Mainline1@10110  "Fixed c_f"
+      transient velocity lambda          Mainline1@10110  Fixed lambda
+      transient velocity colebrook       Mainline1@10110  Colebrook's approximation
+      transient velocity moody           Mainline1@10110  Moody's approximation
+      transient velocity ses             Mainline1@10110  SES's approximation
+      transient velocity colebrook-white Mainline1@10110  Colebrook-White
+    end graph
+    begin graph
+      title "Comparison of velocities by different friction factor approximations"
+      xrange  0  102   *1
+      yrange  0  7.7   *1
+      margins 0.12 0.88 0.58 0.88
+      xlabel Time (s)
+      ylabel Air velocity detail (m/s)
+      verbatim set key bottom right
+      transient velocity c_f             Mainline1@10110  Fixed c_f
+      transient velocity lambda          Mainline1@10110  Fixed lambda
+      transient velocity colebrook       Mainline1@10110  Colebrook's approximation
+      transient velocity moody           Mainline1@10110  Moody's approximation
+      transient velocity ses             Mainline1@10110  SES's approximation
+      transient velocity colebrook-white Mainline1@10110  Colebrook-White
+    end graph
+  end  page # 1
+end plots
+
+

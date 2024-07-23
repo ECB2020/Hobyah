@@ -1,0 +1,96 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A limited file to check the creation of looped images (one page definition
+executed at multiple times).  It exercises all the capabilities available
+in ProcessLoop: image blocks, graph blocks and verbatim sub-blocks.
+
+It shows how icon-type curves can be used to explain how the movement
+of trains affects airflow.  There are three styles of train icons:
+ * train icons that follow the vertical profile set for train performance,
+ * train icons that just track across the base of a graph,
+ * train icons that follow a vertical profile set by stack heights.
+
+The timeloop plots the transit of one train along the route, from origin
+to down end.
+
+begin settings
+  version 1
+  runtype plot
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+end settings
+
+begin constants
+  left_edge   0.13  # Graph margins
+  right_edge  0.87
+  bottom_edge 0.13
+  top_edge    0.87
+  max_X  8500
+end constants
+
+begin files nicknames
+  slugflow   SES-085-for-timeloop-example.sbn
+end files
+
+begin plots
+  # pngtrim False dpi:=200
+  begin timeloop
+    start     0
+    stop    336
+    step      2
+    begin graph
+      title   SES profile data in SI units, with elevations, trains and jet fans
+      lmargin 0.3
+      rmargin 0.9
+      bmargin 0.32
+      tmargin 0.8
+      lrmargins 0.31  0.92
+      btmargins 0.27  0.89
+      margins left_edge right_edge 0.58 0.88
+      verbatim set key top right
+      xrange 3000  max_X  500
+      # yrange -250  300 *500
+      yrange -12  18 *500
+      y2range -25 160 *500
+      verbatim set y2tics ("-20" -20, "-10" -10, "0" 0, "10" 10)
+      xlabel   Distance (m)
+      # ylabel   Volume flow (m^3/s)
+      ylabel   Air velocity (m/s)
+      verbatim set y2label  "{/*1Elevation (m)}" offset 0,-5.5
+
+      profile vcold  slugflow  route1umd@*time lt:=4
+
+      profile elevations  slugflow  route1@0  axes := x1y2
+      profile stacks  slugflow  route1@0  axes := x1y2  lt:= 1
+      profile stacks  slugflow  route1@0  nokey  axes := x1y2  lt:= 1  yoffset := 12.0  areamult:= 0.3
+      icons trains slugflow route1@*time   axes := x1y2    colour:=red #height := 1
+      icons jetfans slugflow route1@*time   axes := x1y2#    colour:=red #height := 10
+
+#      profile stacks  slugflow  route2@0  axes := x1y2  lt:= 1  yoffset:=-31 xmult:=-1  xoffset:=10056.7
+#      icons trains slugflow route2@*time   axes := x1y2  xmult:=-1  xoffset:=10056.7  colour:=yellow   yoffset:=-31
+    end graph
+    begin graph
+      graphunits US  # Change the units to SI for this graph only
+      title   Same SES profile data, but in US units and with trains and jet fans at the base of the frame
+      margins left_edge right_edge 0.12 0.42
+      xrange 9842  22966  *
+      yrange -530000 600000 *500
+#      y2range -87 525 *500
+      y2range -137 415 *500
+      verbatim set y2tics ("-80" -80, "-40" -40, "0" 0, "40" 40)
+      xlabel   Distance (ft)
+      ylabel   Volume flow (cfm)
+      verbatim set y2label  "{/*1Elevation (ft)}" offset 0,-4.5
+      profile qcold  slugflow  route1ud@*time
+
+      profile stacks   slugflow  route1@1 axes := x1y2
+      icons trains slugflow  route1@*time profile:=stack  axes := x1y2 colour:=green
+
+      icons trains slugflow  route1@*time profile:=flat  colour:=blue
+      icons jetfans slugflow route1@*time profile:=flat
+    end graph
+  end timeloop #1
+end plots
+

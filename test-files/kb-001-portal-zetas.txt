@@ -1,0 +1,119 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file demonstrates a known bug in Hobyah (hence the 'kb' at the
+start of the filename).
+
+The bug occurs when the outflow pressure loss factor at a portal is very
+high.
+
+This file has two almost-identical tunnels, each 500 m long with a
+pressure difference of 490 Pa.
+
+One tunnel has a pressure loss factor (zeta) of 153 set at a loss
+part-way along the tunnel; its calculation works.
+The other tunnel has zeta = 153 set at the portal and it fails (it
+violates conservation of mass in the gridpoint at the portal).
+
+The problem seems to be in the routines that calculate celerity and
+velocity at the gridpoints just inside a pressure portal.  There are
+two such routines: OpenEnd and PortalCelerity.
+
+The routine PortalCelerity calculates the celerity at the portal that
+matches the air velocity in the tunnel (given a reservoir of fixed
+celerity and zero velocity outside the portal).
+
+The routine OpenEnd calculates one backwards characteristic and pairs
+it with the values calculated by PortalCelerity.  It iterates to
+calculate new values of c_N and u_N.
+
+When the pressure loss factors at the portals are large enough, successive
+estimates of air velocity u_N and celerity c_N hunt, and the calculation
+at the gridpoint does not converge.  The count of iterations times out
+and the routine returns whatever value it happened to be on at the last
+iteration.
+
+The cyclic nature of the bug can be looked into by searching for the
+boolean variable "debug_kb_001" (without double quotes) in Hobyah.py
+and setting it to True instead of False.  This causes the program to
+print a set of debug statements showing the values in those functions.
+Note that you will need to use the command-line switch to tell Hobyah
+not to use the Fortran routines, as the debug statements are only in
+the equivalent Python routines.  The command-line syntax is:
+    Hobyah.py -nofortran kb-001-portal-zetas.txt
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 50
+end settings
+
+begin sectypes
+  ventshaft  20    20   -0.009
+end sectypes
+
+begin tunnel  this-works
+  back 10000 portal 0   ventshaft
+  loss1   10100    20   153  153
+  fwd  10500 portal 490
+end tunnel
+
+begin tunnel  this-fails
+  back 10000 portal 0   ventshaft    zeta_out:=153
+  fwd  10500 portal 490
+end tunnel
+
+begin plotcontrol
+  aero  range(0, duration, 0.05)
+end plotcontrol
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profiles at the final timestep
+      margins 0.13   0.43   0.57   0.87
+      xrange 10000    10500  *1
+      yrange 0   600  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  this-works@200  lt:=4
+      profile ptot    calc  this-fails@200  lt:=2
+    end graph
+    begin graph # ignore
+      title   Mass flow profiles at the final timestep
+      margins 0.57   0.87   0.57   0.87
+      yrange -70  -40  *2
+      xlabel   Distance (m)
+      ylabel   Mass flow (kg/s)
+      profile  massflow   calc  this-works@10000 lt:=4
+      profile  massflow   calc  this-fails@10000 lt:=2
+    end graph
+    begin graph
+      title   Transient velocities at the two ends of the tunnel
+      xrange 0  *100 *20
+      yrange -3  0  0.5
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  this-works@10000 lt:=2   lw:=4
+      transient  velocity   calc  this-works@10500 lt:=12  lw:=3
+      transient  velocity   calc  this-fails@10000 lt:=4   lw:=2
+      transient  velocity   calc  this-fails@10500 lt:=13  lw:=1
+    end graph
+    begin graph
+      title   Density profiles at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      xrange 10000    10500  *1
+      yrange 1.19  1.21  *1
+      xlabel   Distance (m)
+      ylabel   "Density (kg/m^3)"
+      profile density    calc  this-works@200  lt:=4
+      profile density    calc  this-fails@200  lt:=2
+    end graph
+  end page
+end plots

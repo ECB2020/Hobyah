@@ -1,0 +1,34 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has all the current valid settings block entries.
+
+begin settings
+  version 1
+  runtype plot
+  frictiontype Fanning
+  frictionapprox Colebrook
+  units SI
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  P_atm  91800        # Cooma is ~830 m above sea level, so 91.8 kPa
+  rho_atm 1.13        # It has thinner air too (kg/m^3)
+  aero_step 0.05      # Seconds
+  aero_time 500       # Seconds
+  header off          # Don't show a header on pages of output (default is on)
+  footer on           # Show a footer on pages of output (default is on)
+  plotnames .txt      # End plot filenames with '.txt'.  Can also use '.csv'
+  images optional     # Don't freak out if an image can't be found.
+  solver  moc2        # Which solver to use (always moc2 at the moment)
+  autokeys   off      # If 'on', always use the autokey texts in graph keys.
+  keytextscale  0.65  # Text size in default graph keys is 65% of full size.
+  max_vel  20         # Add 20 m/s to the speed of sound when sizing cells.
+  gamma  1.4          # Ratio of specific heats for air.
+  rise_time  2.0      # Ramp up fixed velocities at portals over 2 seconds.
+  time_accuracy  8    # Round times to 8 decimal places before removing duplicates.
+  jetfancounts   integers # Whether to force integer counts of jet fans
+  min_area    0.1     # Sets the minimum annulus area
+end settings
+
+begin plots
+end plots

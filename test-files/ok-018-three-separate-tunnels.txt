@@ -1,0 +1,97 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has three tunnels and runs a calculation.
+
+One tunnel case has a fixed pressure outside one portal, one tunnel
+has a fixed velocity at one portal and one tunnel has a fixed volume
+flow at one portal.  All end up at the same condition (air velocity
+7.5 m/s), but the way they get to the condition differs.  The two
+tunnels with fixed velocity/fixed volume flow experience large pressure
+fluctuations due to the calculation needing high pressures to get the
+flow going in the first few seconds then seeing pressure waves rush
+back and forward along their tunnels.  The tunnel with the fixed
+pressure sees a much smoother rise, although there are some visible
+pressure fluctuations in the first few seconds.
+
+The pressure to set at the portal was calculated as follows:
+
+ * Desired velocity is v_t = 7.5 m/s.
+ * Duct has area 20 m^2, perimeter 18 m, length 350 m and fixed Fanning
+   friction factor c_f = 0.005.
+ * Inlet portal has zeta_in = 0.5 (default) and outflow portal has
+   zeta_out = 1.0 (default).
+ * Outside air density is 1.2 kg/m^3.
+ * Friction loss term is zeta_fric = c_f * perimeter * length / area
+                                   = 0.005 * 18 * 350 / 20
+                                   = 1.575
+ * Total loss term zeta_tot = zeta_in + zeta_out + zeta_fric
+                            = 0.5 + 1.0 + 1.575
+                            = 3.075
+ * Required pressure is 1/2 * rho * zeta_tot * v_t^2
+                      = 1.2 * 1.2 * 3.075 * 7.5^2
+                      = 103.78125 Pa.
+
+The above calculation ignores the density changes inside the tunnel
+as the air in the tunnel is compressed from 101.33 kPa to 101.43 kPa,
+but that effect is small enough to not matter.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.1
+  aero_time 240
+end settings
+
+begin sectypes
+  duct    20    18  -0.005
+end sectypes
+
+begin tunnel tun_fixedP
+  back 10000 portal 103.78125   duct
+  fwd  10350 portal 0
+end tunnel
+
+begin tunnel tun_fixedV
+  back 0 v_inflow 7.5   duct
+  fwd  350 portal 0
+end tunnel
+
+begin tunnel tun_fixedQ
+  back 3500 q_outflow -150   duct
+  fwd  3850 portal 0
+end tunnel
+
+begin plotcontrol
+  aero range(0, 180, 0.1) + range(200, 9999, 0.2)
+end plotcontrol
+
+begin plots
+  begin page
+    begin graph
+      title "Compressible calc transient plots, velocities"
+      btmargins 0.58 0.88
+      xrange 0  240 *2
+      xlabel Time (s)
+      ylabel Velocity (m/s)
+      transient velocity  calc  tun_fixedV@175
+      transient velocity  calc  tun_fixedQ@3675
+      transient velocity  calc  tun_fixedP@10175
+    end graph
+    begin graph
+      title "Compressible calc transient plots, pressures"
+      btmargins 0.12 0.42
+#      xrange 0  60 *2
+      ylabel Pressure (Pa)
+      transient ptot  calc  tun_fixedV@175
+      transient ptot  calc  tun_fixedQ@3675
+      transient ptot  calc  tun_fixedP@10175
+    end graph
+  end page
+end plots

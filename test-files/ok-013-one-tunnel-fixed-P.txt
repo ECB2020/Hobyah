@@ -1,0 +1,100 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has one tunnel with an exit portal and an entry portal and runs a
+calculation.  It should match the calculation in the spreadsheets
+"slug-flow-quadratics-2022-05-10.ods and "MoC-simple-020-2022-05-10.ods"
+and in MoC-009-2022-05-10.py.
+
+The slug flow calculation is 8.575 m/s.  The spreadsheet MoC calculation
+is 8.573 m/s and the MoC-009.py script agrees.  Hobyah calculates 8.573 m/s
+in the first cell and 8.574 m/s in the last cell.
+
+This case has a fixed pressure outside one portal.
+
+The second page in the plotted output tests the use and protection
+of enhanced text effects (subscripts and superscripts, curly braces,
+ampersands, carriage returns) in titles and key text.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.05
+  aero_time 102
+end settings
+
+begin constants
+  zero  0
+end constants
+
+begin sectypes
+  duct    20    18  -0.005
+end sectypes
+
+begin tunnel test_tunnel
+  back 10000 portal 90   duct
+  fwd  10120 portal 0
+end tunnel
+
+begin plotcontrol
+  aero range(0, 20, 0.1) + range(20, duration, 1)
+end plotcontrol
+
+begin plots
+#  pagesize custom 11.3  7
+#  fontsize 8
+#  linewidth 0
+  basemargins 0.2  0.855   0.6 0.85
+  begin page #ignore # 1
+    begin graph
+      title 'Compressible calc plots, compare to "MoC-simple-020.ods"'
+      margins 0.2  0.855   0.58 0.83
+      xlabel Time (s)
+      ylabel Static pressure (Pa)
+      xrange 0  102 10
+      yrange 101320  101420  20
+      transient pstatabs  calc  test_tunnel@10001
+      transient pstatabs  calc  test_tunnel@10041
+      transient pstatabs  calc  test_tunnel@10081
+      transient pstatabs  calc  test_tunnel@10119
+    end graph
+    begin graph
+      title 'Compressible calc plots, compare to "MoC-simple-021.ods"'
+      btmargins 0.17 0.42
+      ylabel Air velocity (m/s)
+      yrange 0  9  *1
+      transient velocity  calc  test_tunnel@10001
+      transient velocity  calc  test_tunnel@10041
+      transient velocity  calc  test_tunnel@10081
+      transient velocity  calc  test_tunnel@10119
+    end graph
+  end page
+  begin page  #ignore # 2
+    begin graph
+      title "Air velocity profile at the final timestep"
+      xlabel Distance (m)
+      ylabel Air \ \n  \\n \\\n velocity (m/s)
+      xrange 10000  10120 20
+      yrange 8.57   8.58  0.001
+      profile velocity  calc test_tunnel@999  Air^{vel}ocity" in test_tunnel'" at 999 sec
+    end graph
+    begin graph
+      title Air density profile {}"_'&^\x at the final timestep
+      xlabel 'Distance (m^1)\\ \& blah'
+      ylabel "Air density \n  \\n \\\n (m^3/s)\\\\ \\& blah"
+      btmargins 0.17 0.42
+      xrange 10000  10120 20
+      yrange 1.2   1.2003  0.00005
+      profile density  calc test_tunnel@999   {}"\_'&^
+    end graph
+  end page
+end plots
+
+
+
