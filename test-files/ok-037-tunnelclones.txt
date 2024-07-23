@@ -1,0 +1,134 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that corresponds to the complex example system in Chapter 1 of the
+Hobyah user manual, with 24 cross-passages instead of seven.
+
+The "join" and "joins" commands in the westbound tunnel illustrate several
+ways of creating joins:
+  * the "join" command, with one chainage.
+  * the "joins" command with a list of chainages that has spaces in it.
+    The spaces mean that it has to be enclosed in double quotes.
+  * the "joins" command with a list of chainages that does not have
+    spaces in it, so it is not enclosed in double quotes.
+
+The "tunnelclones" block illustrates how to create multiple tunnels
+with a selection of sectypes.  It is intended for cross-passages
+at regular intervals.
+
+Note that both commands write the full text of the definition of each
+join and tunnel to the log file in the ancillaries folder.
+This is so that you can use "clonetunnels" block, copy the definitions
+from the log file to an input file, then customise them.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.075
+  aero_time 500.
+end settings
+
+begin sectypes
+# Name    area  perim   +roughness,
+#                        -fricfac
+  C+C1    103     55      0.07
+  C+C2    103     55     -0.008
+  closed   0.1    1.2     0.05
+  open   2.5     5.7      0.05
+end sectypes
+
+begin tunnel Eastbound1
+  back 10020 portal 0 C+C1
+  joins "startstepcount(10120, 120, 17)"  XP*eb
+  fwd  12100 node Turnout  zeta_bf:=0.1  zeta_fb:=0.25
+end tunnel
+
+begin tunnel Eastbound2
+  back 12100   node Turnout C+C1  zeta_bf:=0.3  zeta_fb:=0.12
+  joins startstepcount(12160,120,6)  XP*eb  start:=18
+  fwd  12880   portal 20
+end tunnel
+
+begin tunnel Offslip
+  back   400  node turnout C+C2  zeta_bf:=0.22  zeta_fb:=0.49
+  fwd    900  portal 20
+end tunnel
+
+begin tunnel Westbound1
+  back 10020 portal 25 C+C1
+  join 10120 XP1wb
+  joins "[10240] + range(10360, 12761, 120)" XP*wb  start := 2
+  fwd  12880 portal 0
+end tunnel
+
+
+begin tunnel XP1 # One cross-passage
+  back    0  node XP1wb closed  zeta_bf:=2.4  zeta_fb:=2.4
+  fwd    30  node XP1eb
+end tunnel
+
+begin tunnelclones  XP*  # These are XP2 to XP23
+  #change  15   same
+  numbering  "range(2, 23.1, 1)"
+  sectypes "[open, open] + [closed]*8 + [open]*3 + [closed]*9"
+  back  0  node XP*wb sectypes   zeta_bf:=2.4  zeta_fb:=2.4
+  damper1  30  XP*damper  damper  time  area  zeta+  zeta-
+  fwd  60  node XP*eb
+end tunnelclones
+
+
+begin data damper
+  time, area, zeta+, zeta-
+  0,    10,   2.5,   2.5
+  50,   10,   2.5,   2.5
+  100,  0.5,  2.5,   2.5
+end data
+
+begin route EBmain
+  origin 9000
+  portal 10000
+  begin tunnels
+    Eastbound1 Eastbound2
+  end tunnels
+end route
+
+begin route EBbranch
+  origin 9000
+  portal 10000
+  begin tunnels
+    Eastbound1 offslip
+  end tunnels
+end route
+
+begin route WBmain
+  origin 9000
+  portal 10000
+  begin tunnels
+    Eastbound1 Eastbound2
+  end tunnels
+end route
+
+begin plots
+  begin page # 1
+    begin graph
+      title Air velocity profiles
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.57  0.87
+      profile velocity  calc  EBmain@1000
+      profile velocity  calc  EBbranch@1000
+      profile velocity  calc  Westbound1@1000
+    end graph
+    begin graph
+      title Transient air velocities
+      xlabel   Time (s)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+      transient velocity  calc  EBmain@11500
+      transient velocity  calc  Westbound1@11500
+    end graph
+  end page
+end plots

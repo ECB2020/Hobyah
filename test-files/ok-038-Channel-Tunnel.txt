@@ -1,0 +1,423 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+June 2024
+This is a simple model of the Channel Tunnel.  Two running tunnels,
+(both crossover doors closed), 193 pressure relief ducts (PRDs) at
+250 m intervals except at the two crossovers, supplementary ventilation
+system (SVS) at Shakespeare Cliff and Sangatte.
+
+No service tunnel, escape cross-passages or normal ventilation system (NVS).
+No consideration of the Castle Hill cut and cover tunnels and the rail
+turnouts they contain (that's why there are too many PRDs).
+No changes of area: the entire length of both running tunnels is treated
+as if it were the 7.6 m internal diameter (ID) bored tunnel.
+
+The SVS is running ventilation with supply at Sangatte to running
+tunnel south (RTS) and extract at Shakespeare Cliff from RTS.
+The airflows take about 500 seconds to settle down.  At that point,
+someone in the control room notices that all the PRDs are still open
+(oops) and closes them.  This leads to an interesting set of airflow
+and pressure fluctuations as the flow in both running tunnels adjusts.
+
+The main reason for building it is to illustrate the combined use of
+the "joins" keyword to create multiple adits and the "tunnelclones"
+block.
+
+Four lines of "joins" and a ten-line "tunnelclones" block created 193
+PRDs that are indistinguishable from the same tunnels if they had been
+defined in 193 individual "tunnel" blocks.
+
+Cloned tunnels are not true clones: they can be given different
+sectypes by creating a list of the names of sectypes.  In this example,
+all the PRDs have a sectype named "open" except PRDs 100 and 101,
+which have a sectype named "closed".
+
+When a set of cloned tunnels is created, the commands required to
+create the cloned tunnels are written to the log file as "begin tunnel...
+end tunnel" blocks.  These can be copied into the input file and
+customised in ways not available in the "tunnelclones" block.
+
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.04
+  aero_time  1 # 1000  # Use 1000 seconds when testing runtimes.
+end settings
+
+begin sectypes
+  RT    42.2   26.2  0.02   Bored running tunnel, 7.6 m ID
+  ST    14.5   17     0.1   Bored service tunnel, 4.8 m ID, full of services
+  PRDopen     3.14   6.28  0.003  Open PRDs, 2 m ID and smooth
+  PRDclosed   0.05   6.28  0.003  Closed PRDs, butterfly damper leakage
+  vent_adit     25    17.9  0.005
+  vent_shaft    20    16.5  0.005
+end sectypes
+
+begin tunnel RT-North
+  back 10000 portal 0   RT
+  # From UK portal to UK crossover
+  joins "startstepcount(10250, 250, 67)"  PRD*RTN
+  # UK crossover at about 27 km (17 km from UK portal, 164 m long cavern
+  # From crossover to crossover
+  joins "startstepcount(27450, 250, 64)"  PRD*RTN  start:=68
+  # French crossover at about 44 km (34 km from UK portal)
+  # From French crossover to French portal
+  joins startstepcount(44400,250,62)  PRD*RTN  start:=132
+  fwd  60193 portal 0
+
+  # The approximate locations of the SVS adits in RTN
+  join 19100 Shak-north
+  join 57500 Sang-north
+
+  SESpragmat 101 line
+end tunnel
+
+begin tunnel RT-South
+  back 10000 portal 0   RT
+  # From UK portal to UK crossover
+  joins "startstepcount(10250, 250, 67) + startstepcount(27450, 250, 64) + startstepcount(44400, 250, 62)"   PRD*RTS
+  # UK crossover at about 27 km (17 km from UK portal, 164 m long cavern
+  # From crossover to crossover
+  # French crossover at about 45 km (35 km from UK portal)
+  # From French crossover to French portal
+  fwd  60193 portal 0
+
+  # The approximate locations of the SVS adits in RTN
+  join 19100 Shak-south
+  join 57500 Sang-south
+
+  sespragmat 301 line
+end tunnel
+
+begin tunnelclones  PRD*
+  # Pressure relief ducts.  These are about 28 m long but are modelled
+  # as longer so that a long timestep can be used.
+  back  0 node PRD*RTN   sectypes    zeta_bf := 2.2   zeta_fb := 2.2
+  damper1  28  D*(PRD)  PRD-damper   time  area  zeta+  zeta-
+  # fwd  28 node PRD*RTS
+  fwd  56 node PRD*RTS
+  numbering  "range(1, 193.1, 1)"  # 0.1 added so 193 appears in the list.
+  sectypes "[PRDopen] * 99 + [PRDclosed]*2 + [PRDopen] * 92"
+  SESpragmat 501 vent
+end tunnelclones
+
+begin data PRD-damper
+  time,  area,  zeta+, zeta-
+  0,     6.28,   0.5,   0.5
+  500,   6.28,   0.5,   0.5
+  515,   0.05,   2.4,   2.4
+end data
+
+begin data SVS-curve
+# This is the Channel Tunnel SVS specified fan characteristic in Bard, H.,
+# "Performance Criteria for the Channel Tunnel ventilation fans and system",
+# 6th International Symposium on the Aerodynamics and Ventilation of
+# Vehicle Tunnels, BHRA 1991.
+# It looks like they wanted a main duty point of 300 m^3/s at 1500 Pa
+# total pressure, with the condition that the characteristic should rise
+# continuously from -1000 Pa freewheel flow to -100 m^3/s reverse flow
+# (to account for the transient pressures of moving trains, which can
+# easily drive fans into the reverse flow or freewheeling part of their
+# characteristics).
+# Note that the SVS fans are variable pitch in motion and reverse by
+# changing the pitch angle instead of reversing the motor.
+  Q,   Ptot
+-100,  3900
+ -50,  3800
+   0,  3670
+  50,  3490
+ 100,  3230
+ 150,  2860
+ 200,  2500
+ 250,  2050
+ 300,  1510
+ 350,   950
+ 400,   150
+ 450, -1000
+end data
+
+begin fanchar   SVS-char
+  datasource SVS-curve  1  2
+end fanchar
+
+begin tunnel Shakeshaft  # SVS vent shaft at Shakespeare Cliff
+  back 0 node Shak-base  vent_shaft    zeta_bf:=5.55  zeta_fb:=5.55
+  fan1 40 S-Cliff-SVS  SVS-char  1.0
+  fwd 80  portal 0
+  SESpragmat 901 vent
+end tunnel
+
+begin tunnel ShakeNorth  # Adit from SVS vent shaft at Shakespeare Cliff to RTN
+  back 0 node Shak-base     vent_adit
+  loss1 40 0.3  4.2 4.2   # Closed damper in trackside adit
+  fwd  80 node Shak-North
+  SESpragmat 901 vent
+end tunnel
+
+begin tunnel ShakeSouth  # Adit from SVS vent shaft at Shakespeare Cliff to RTS
+  back 0 node Shak-base     vent_adit
+  loss1 40  25  2.4 2.4   # Open damper in trackside adit
+  fwd  80 node Shak-south
+  SESpragmat 901 vent
+end tunnel
+
+begin tunnel Sangshaft  # SVS vent shaft at Sangatte cofferdam
+  back 0 portal 0  vent_shaft
+  fan1 40 Sangatte-SVS  SVS-char  -1.0  start:=30
+  fwd 80 node Sang-base    zeta_bf:=5.55  zeta_fb:=5.55
+  SESpragmat 921 vent
+end tunnel
+
+begin tunnel SangNorth  # Adit from SVS vent shaft at Sangatte to RTN
+  back 0 node Sang-base     vent_adit
+  loss1 40 0.3  4.2 4.2   # Closed damper in trackside adit
+  fwd  80 node Sang-North
+  SESpragmat 921 vent
+end tunnel
+
+begin tunnel SangSouth  # Adit from SVS vent shaft at Sangatte to RTS
+  back 0 node Sang-base     vent_adit
+  loss1 40  25  2.4 2.4   # Open damper in trackside adit
+  fwd  80 node Sang-south
+  SESpragmat 921 vent
+end tunnel
+
+begin SESdata
+  #  target offline-ses  # Sets which type of SES input file to write.
+  #  filename  ok-038-off.ses
+  #  target aurecon-ses
+  #  filename  ok-038-aur.ses
+  #  target svs
+  #  filename  ok-038-svs.ses
+    target 4.1
+    filename  ok-038-v41.ses
+  #  target openses
+  #  filename  ok-038-v43.ses
+
+  form1B 17   7    2024
+
+  form1F 25.       19.       p_atm     23.5      18.73     28.78     20.17     4.6
+
+  form1G 75        10.       12.2      14.5      12.8      96.6      1         0.2
+
+               # wall   DB    WB
+  3temperatures   21.   25.   19.
+
+  form3F 0.24      20.       1.4352    6.452E-07 1.2104    6.452E-07 19.
+
+end SESdata
+
+
+begin plots
+end plots
+  begin page # ignore # 1
+    begin graph
+      title Air velocity profiles along Channel Tunnel Running Tunnel North (RTN) and Running Tunnel South (RTS)
+      xlabel   Distance (km)
+      ylabel   Air velocity (m/s)
+      btmargins 0.7  0.9
+      xrange 7.200  65.000  5
+      yrange -7  6  *0.5
+      begin verbatim
+        set label "{/*1.1 UK}" at first 8.600, -0.5 centre
+        set label "{/*0.9 Shakespeare Cliff vent}" at first 19.100, -6.2 centre
+        set arrow from first 19.100, -6 to 19.100, -5 #nohead
+        set label "{/*0.9 Sangatte vent}" at first 57.500, -6.2 centre
+        set arrow from first 57.500, -6 to 57.500, -5 #nohead
+        set label "{/*1.1 France}" at first 62.600, -.5 centre
+      end verbatim
+      profile velocity  calc  RT-North@495.0  xdiv:= 1000
+      profile velocity  calc  RT-South@495.0  xdiv:= 1000
+    end graph
+    begin graph
+      begin verbatim
+        unset label
+        unset arrow
+        set key bottom right
+      end verbatim
+      title Air pressure profiles along RTN and RTS
+      xlabel   Distance (km)
+      ylabel   Air pressure (Pa)
+      btmargins 0.38  0.58
+      xrange 7.200  65.000  5
+      yrange -1000  +1000  250
+      profile Ptot  calc  RT-North@505.0  xdiv:= 1000
+      profile Ptot  calc  RT-South@505.0  xmult:= 0.001
+    end graph
+    begin graph
+      title Transient air velocities near Shakespeare Cliff vent
+      xlabel   Time (s)
+      ylabel   Air velocity (m/s)
+      xrange *0  *500  *100
+      margins 0.13  0.43  0.09  0.29
+      verbatim set key bottom right
+      transient velocity  calc  RT-North@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-South@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-North@18001 lt:=1  xstop:=495.0 "{/*0.65Air velocity in RTN at 18 km point}"
+      transient velocity  calc  RT-South@18001 lt:=2  xstop:=495.0 "{/*0.65Air velocity in RTS at 18 km point}"
+    end graph
+    begin graph
+      title Supplementary Vent System (SVS) fan duties
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan total pressure (Pa)
+      xrange -110  460  *50
+      yrange -1100  6000  *200
+      margins 0.57  0.87  0.09  0.29
+      verbatim set key top right
+      fandata fanchar  calc  Sangatte-SVS@99999 lt:=6 lw:=0  nokey
+      fandata fanchar  calc  S-Cliff-SVS@495.0
+      fandata system  calc  S-Cliff-SVS@495.0
+      fandata system  calc  Sangatte-SVS@495.0
+    end graph
+  end page
+
+  begin timeloop # ignore # 1
+    start 0
+    stop 1000
+    step 1
+    begin graph
+      title Air velocity profiles along Channel Tunnel Running Tunnel North (RTN) and Running Tunnel South (RTS)
+      xlabel   Distance (km)
+      ylabel   Air velocity (m/s)
+      btmargins 0.7  0.88
+      xrange 7.200  65.000  5
+      yrange -7  6  *0.5
+      begin verbatim
+        set label "{/*1.1 UK}" at first 8.600, -0.5 centre
+        set label "{/*0.9 Shakespeare Cliff vent}" at first 19.100, -6.2 centre
+        set arrow from first 19.100, -6 to 19.100, -5 #nohead
+        set label "{/*0.9 Sangatte vent}" at first 57.500, -6.2 centre
+        set arrow from first 57.500, -6 to 57.500, -5 #nohead
+        set label "{/*1.1 France}" at first 62.600, -.5 centre
+      end verbatim
+      profile velocity  calc  RT-North@*time  xdiv:= 1000 # divide by 1000 for km
+      profile velocity  calc  RT-South@*time  xdiv:= 1000
+    end graph
+    begin graph
+      begin verbatim
+        unset label
+        unset arrow
+        set key bottom right
+      end verbatim
+      title Air pressure profiles along Channel Tunnel Running Tunnel North (RTN) and Running Tunnel South (RTS)
+      xlabel   Distance (km)
+      ylabel   Air pressure (Pa)
+      btmargins 0.4  0.58
+      xrange 7.200  65.000  5
+      yrange -1500  +500  250
+      profile Ptot  calc  RT-North@*time  xdiv:= 1000
+      profile Ptot  calc  RT-South@*time  xdiv:= 1000
+    end graph
+    begin graph
+      title Transient air velocities near Shakespeare Cliff vent
+      xlabel   Time (s)
+      ylabel   Air velocity (m/s)
+      xrange *0  *500  *100
+      yrange -7  6  *0.5
+      margins 0.13  0.43  0.09  0.29
+      verbatim set key bottom right
+      transient velocity  calc  RT-North@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-South@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-North@18001 lt:=1  xstop:=*time "{/*0.65Air velocity in RTN at 18 km point}"
+      transient velocity  calc  RT-South@18001 lt:=2  xstop:=*time "{/*0.65Air velocity in RTS at 18 km point}"
+    end graph
+    begin graph
+      title Supplementary Vent System (SVS) fan duties
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan total pressure (Pa)
+      xrange -110  460  *50
+      yrange -1100  6000  *200
+      margins 0.57  0.87  0.11  0.31
+      verbatim set key top right
+      fandata fanchar  calc  Sangatte-SVS@99999 lt:=6 lw:=0  nokey
+      fandata fanchar  calc  S-Cliff-SVS@*time
+      fandata system  calc  S-Cliff-SVS@*time
+      fandata system  calc  Sangatte-SVS@*time
+    end graph
+  end timeloop
+
+  begin timeloop  ignore # 2
+    start 0
+    stop 1000
+    step 10
+    begin graph
+      title Air velocity profiles along Channel Tunnel Running Tunnel North (RTN) and Running Tunnel South (RTS)
+      xlabel   Distance (km)
+      ylabel   Air velocity (m/s)
+      btmargins 0.57  0.87
+      xrange 7.200  65.000  5
+      yrange -7  6  *0.5
+      begin verbatim
+        set label "{/*1.1 UK}" at first 8.600, -0.5 centre
+        set label "{/*0.9 Shakespeare Cliff vent}" at first 19.100, -6.2 centre
+        set arrow from first 19.100, -6 to 19.100, -5 #nohead
+        set label "{/*0.9 Sangatte vent}" at first 57.500, -6.2 centre
+        set arrow from first 57.500, -6 to 57.500, -5 #nohead
+        set label "{/*1.1 France}" at first 62.600, -.5 centre
+      end verbatim
+      profile velocity  calc  RT-North@*time  xdiv:= 1000
+      profile velocity  calc  RT-South@*time  xdiv:= 1000
+    end graph
+    begin graph
+      begin verbatim
+        unset label
+         unset arrow
+      end verbatim
+      title Transient air velocities near Shakespeare Cliff vent
+      xlabel   Time (s)
+      ylabel   Air velocity (m/s)
+      xrange *0  *500  *100
+      margins 0.13  0.43  0.13  0.43
+      verbatim set key bottom right
+      transient velocity  calc  RT-North@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-South@18001 lt:=6 lw:=0  nokey
+      transient velocity  calc  RT-North@18001 lt:=1  xstop:=*time "{/*0.65Air velocity in RTN at 18 km point}"
+      transient velocity  calc  RT-South@18001 lt:=2  xstop:=*time "{/*0.65Air velocity in RTS at 18 km point}"
+    end graph
+    begin graph
+      title Supplementary Vent System (SVS) fan duties
+      xlabel   "Volume flow (m^3/s)
+      ylabel   Fan total pressure (Pa)
+      xrange -110  460  *50
+      yrange -1100  5500  *200
+      margins 0.57  0.87  0.13  0.43
+      verbatim set key top right
+      fandata fanchar  calc  Sangatte-SVS@99999 lt:=6 lw:=0  nokey
+      fandata fanchar  calc  S-Cliff-SVS@*time
+      fandata system  calc  S-Cliff-SVS@*time
+      fandata system  calc  Sangatte-SVS@*time
+    end graph
+  end timeloop
+end plots
+
+
+
+
+Length, area and perimeter of the Channel Tunnel are from:
+ Henson, D A and Lowndes, J F F L,  "The use of fluid dynamics calculations
+ in the design of the Channel Tunnel", Proc. 1st International Conference on
+ Computer Applications in Transportation Systems, ITC, 1996.
+
+Friction factor of the running tunnels is from:
+  Creedy, D P, Smith, P R and Goodhead, N R, “Measurement of the
+  resistances of the UK landward running and service tunnels for TML”,
+  British Coal TSRE report, 1992.
+
+  They concluded that the running tunnel had an area of 41.3 m^2 and a
+  resistance of 0.00015 ±0.00002 gauls per 100 metres, which is approximately
+  a Fanning friction c_f = 0.0066 (Darcy friction factor lambda = 0.0264).
+  The equivalent fully-turbulent roughness (using Henson's area and
+  perimeter) by Colebrook's approximation is 0.0196 m.
+
+Details of the approximate crossover locations are from data on charts
+in "The Channel Tunnel, A Designer's Perspective", Mott MacDonald,
+privately published (in 1995, I think).
+
