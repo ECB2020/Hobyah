@@ -1,0 +1,1183 @@
+SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     1
+FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES v4.1 file with short tunnel and vent shaft.
+                         Case without any routes in the file.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              0     BYPASS
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0
+                            NUMBER OF LINE SEGMENTS                               4                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              5
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+                            NUMBER OF NODES                                       6
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+                            NUMBER OF FAN TYPES                                   0
+                            NUMBER OF TRAIN ROUTES                                0                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 0
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           2
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      29.444   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                                  1.166   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  23.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                               5.   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+                          102             102            103              1               0.
+                          103             103            104              1               0.
+                          104             104            105              1               0.
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+                          901             103            901                              0.
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Left side tunnel (jet fan)                             FORM 3A
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+LENGTH                                                                                 304.8   m
+CROSS SECTION AREA                                                                  17.65158   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        15.24                                                           TOTAL PERIMETER       15.24  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  4.633   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                     0.5                   1.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     12
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    12           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Left side of cavern                                    FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 152.4   m
+CROSS SECTION AREA                                                                  65.03213   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        45.72                                                           TOTAL PERIMETER       45.72  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                    5.7   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                      6
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     6           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  103 -103           Right side of cavern                                   FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 152.4   m
+CROSS SECTION AREA                                                                  65.03213   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        45.72                                                           TOTAL PERIMETER       45.72  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                    5.7   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                      6
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     6           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  104 -104            Right side tunnel (jet fan)                           FORM 3A
+LINE SEGMENT TYPE                                                                         10   (SPECIAL TUNNEL)
+LENGTH                                                                                 304.8   m
+CROSS SECTION AREA                                                                  17.65158   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        15.24                                                           TOTAL PERIMETER       15.24  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  4.633   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      1.                  0.5
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     12
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    12           29.444          29.444         23.333
+INPUT VERIFICATION FOR VENTILATION SHAFT  901 -901     Cavern shaft                                            FORM 5A
+SECTION TYPE                                                                               1   (VENTILATION SHAFT)
+NUMBER OF SEGMENTS IN THIS VENT SHAFT                                                      1                   FORM 5B
+NUMBER OF SUBSEGMENTS IN RESULTING EQUIVALENT VENT SHAFT                                   1
+GRATE FREE AREA                                                                      46.4515   m^2
+DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                            7.62   m/s
+WALL SURFACE TEMPERATURE                                                              27.778   deg C
+INITIAL AIR DRY-BULB TEMPERATURE                                                      29.444   deg C
+INITIAL AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+STACK HEIGHT                                                                          24.384   m
+SEGMENT CHARACTERISTICS                                                                                        FORM 5D
+                                                                    SEGMENT TOTAL HEAD LOSS COEFFICIENTS
+                LENGTH          AREA         PERIMETER          FORWARD    FORWARD       BACKWARD   BACKWARD
+                 (m)            (m^2)           (m)             POSITIVE   NEGATIVE      POSITIVE   NEGATIVE
+        1      24.384         27.8709         24.384               1.5        1.5            0.         0.
+EQUIVALENT VENTILATION SHAFT PROPERTIES
+     LENGTH                 24.384   m                           TOTAL HEAD CHANGE COEFFICIENTS
+     AREA                  27.8709   m^2                  POSITIVE FLOW            1.5
+     PERIMETER              24.384   m                    NEGATIVE FLOW            1.5
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              103                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+NODE NUMBER                                                                              104                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              105                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              901                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+                       IMPULSE FAN VOLUME FLOW RATE                            42.475   m^3/s
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                  -29.972   m/s
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON         0.   SEC
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF     9999.   SEC
+                       Jet fan static thrust (at 1.2 kg/m^3)                     1527.7   N
+                       IMPULSE FAN TYPE                                                   2                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                             10
+                       IMPULSE FAN VOLUME FLOW RATE                            42.475   m^3/s
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   29.972   m/s
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON         0.   SEC
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF     9999.   SEC
+                       Jet fan static thrust (at 1.2 kg/m^3)                     1527.7   N
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+TEMPERATURE TABULATION INCREMENT                                                       2.778   deg C
+NUMBER OF CONTROL GROUPS                                                                   1
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+     1        100            5.         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5              500.
+                                                   PROGRAM CONTROLS                                            FORM 13
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+MAXIMUM SIMULATION TIME                                                                 500.   SECONDS
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101             0.       0.
+  102 -102             0.       0.
+  103 -103             0.       0.
+  104 -104             0.       0.
+  901 -901             0.       0.
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+TIME      5.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -12.35     -0.7
+  102 -102         -12.35    -0.19
+  103 -103          12.35     0.19
+  104 -104          12.35      0.7
+  901 -901        -24.701   -0.886
+TIME     10.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -23.78   -1.347
+  102 -102         -23.78   -0.366
+  103 -103          23.78    0.366
+  104 -104          23.78    1.347
+  901 -901        -47.561   -1.706
+TIME     15.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -33.779   -1.914
+  102 -102        -33.779   -0.519
+  103 -103         33.779    0.519
+  104 -104         33.779    1.914
+  901 -901        -67.558   -2.424
+TIME     20.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -42.129   -2.387
+  102 -102        -42.129   -0.648
+  103 -103         42.129    0.648
+  104 -104         42.129    2.387
+  901 -901        -84.258   -3.023
+TIME     25.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -48.835   -2.767
+  102 -102        -48.835   -0.751
+  103 -103         48.835    0.751
+  104 -104         48.835    2.767
+  901 -901         -97.67   -3.504
+TIME     30.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -54.055   -3.062
+  102 -102        -54.055   -0.831
+  103 -103         54.055    0.831
+  104 -104         54.055    3.062
+  901 -901       -108.109   -3.879
+TIME     35.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -58.019   -3.287
+  102 -102        -58.019   -0.892
+  103 -103         58.019    0.892
+  104 -104         58.019    3.287
+  901 -901       -116.038   -4.164
+TIME     40.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -60.974   -3.454
+  102 -102        -60.974   -0.938
+  103 -103         60.974    0.938
+  104 -104         60.974    3.454
+  901 -901       -121.948   -4.375
+TIME     45.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -63.146   -3.577
+  102 -102        -63.146   -0.971
+  103 -103         63.146    0.971
+  104 -104         63.146    3.577
+  901 -901       -126.292   -4.531
+TIME     50.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -64.727   -3.667
+  102 -102        -64.727   -0.995
+  103 -103         64.727    0.995
+  104 -104         64.727    3.667
+  901 -901       -129.453   -4.645
+TIME     55.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -65.868   -3.732
+  102 -102        -65.868   -1.013
+  103 -103         65.868    1.013
+  104 -104         65.868    3.732
+  901 -901       -131.736   -4.726
+TIME     60.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -66.688   -3.778
+  102 -102        -66.688   -1.026
+  103 -103         66.688    1.026
+  104 -104         66.688    3.778
+  901 -901       -133.376   -4.785
+TIME     65.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -67.274   -3.811
+  102 -102        -67.274   -1.034
+  103 -103         67.274    1.034
+  104 -104         67.274    3.811
+  901 -901       -134.549   -4.828
+TIME     70.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -67.693   -3.835
+  102 -102        -67.693   -1.041
+  103 -103         67.693    1.041
+  104 -104         67.693    3.835
+  901 -901       -135.385   -4.857
+TIME     75.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -67.991   -3.852
+  102 -102        -67.991   -1.045
+  103 -103         67.991    1.045
+  104 -104         67.991    3.852
+  901 -901       -135.981   -4.879
+TIME     80.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.203   -3.864
+  102 -102        -68.203   -1.049
+  103 -103         68.203    1.049
+  104 -104         68.203    3.864
+  901 -901       -136.405   -4.894
+TIME     85.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.353   -3.872
+  102 -102        -68.353   -1.051
+  103 -103         68.353    1.051
+  104 -104         68.353    3.872
+  901 -901       -136.706   -4.905
+TIME     90.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.46   -3.879
+  102 -102         -68.46   -1.053
+  103 -103          68.46    1.053
+  104 -104          68.46    3.879
+  901 -901        -136.92   -4.913
+TIME     95.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.536   -3.883
+  102 -102        -68.536   -1.054
+  103 -103         68.536    1.054
+  104 -104         68.536    3.883
+  901 -901       -137.071   -4.918
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.589   -3.886
+  102 -102        -68.589   -1.055
+  103 -103         68.589    1.055
+  104 -104         68.589    3.886
+  901 -901       -137.179   -4.922
+TIME    105.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.628   -3.888
+  102 -102        -68.628   -1.055
+  103 -103         68.628    1.055
+  104 -104         68.628    3.888
+  901 -901       -137.255   -4.925
+TIME    110.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.655   -3.889
+  102 -102        -68.655   -1.056
+  103 -103         68.655    1.056
+  104 -104         68.655    3.889
+  901 -901       -137.309   -4.927
+TIME    115.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.674    -3.89
+  102 -102        -68.674   -1.056
+  103 -103         68.674    1.056
+  104 -104         68.674     3.89
+  901 -901       -137.347   -4.928
+TIME    120.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.687   -3.891
+  102 -102        -68.687   -1.056
+  103 -103         68.687    1.056
+  104 -104         68.687    3.891
+  901 -901       -137.375   -4.929
+TIME    125.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.697   -3.892
+  102 -102        -68.697   -1.056
+  103 -103         68.697    1.056
+  104 -104         68.697    3.892
+  901 -901       -137.394    -4.93
+TIME    130.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.704   -3.892
+  102 -102        -68.704   -1.057
+  103 -103         68.704    1.057
+  104 -104         68.704    3.892
+  901 -901       -137.407    -4.93
+TIME    135.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.709   -3.892
+  102 -102        -68.709   -1.057
+  103 -103         68.709    1.057
+  104 -104         68.709    3.892
+  901 -901       -137.417   -4.931
+TIME    140.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.712   -3.893
+  102 -102        -68.712   -1.057
+  103 -103         68.712    1.057
+  104 -104         68.712    3.893
+  901 -901       -137.424   -4.931
+TIME    145.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.714   -3.893
+  102 -102        -68.714   -1.057
+  103 -103         68.714    1.057
+  104 -104         68.714    3.893
+  901 -901       -137.429   -4.931
+TIME    150.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.716   -3.893
+  102 -102        -68.716   -1.057
+  103 -103         68.716    1.057
+  104 -104         68.716    3.893
+  901 -901       -137.432   -4.931
+TIME    155.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.717   -3.893
+  102 -102        -68.717   -1.057
+  103 -103         68.717    1.057
+  104 -104         68.717    3.893
+  901 -901       -137.435   -4.931
+TIME    160.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.718   -3.893
+  102 -102        -68.718   -1.057
+  103 -103         68.718    1.057
+  104 -104         68.718    3.893
+  901 -901       -137.436   -4.931
+TIME    165.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.719   -3.893
+  102 -102        -68.719   -1.057
+  103 -103         68.719    1.057
+  104 -104         68.719    3.893
+  901 -901       -137.438   -4.931
+TIME    170.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        -68.719   -3.893
+  102 -102        -68.719   -1.057
+  103 -103         68.719    1.057
+  104 -104         68.719    3.893
+  901 -901       -137.439   -4.931
+TIME    175.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.439   -4.931
+TIME    180.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    185.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    190.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    195.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    205.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    210.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901        -137.44   -4.931
+TIME    215.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    220.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    225.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    230.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    235.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    240.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    245.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    250.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    255.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    260.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    265.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    270.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    275.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    280.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    285.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    290.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    295.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    305.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    310.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    315.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    320.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    325.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    330.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    335.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    340.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    345.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    350.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    355.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    360.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    365.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    370.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    375.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    380.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    385.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    390.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    395.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    405.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    410.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    415.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    420.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    425.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    430.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    435.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    440.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    445.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    450.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    455.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    460.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    465.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    470.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    475.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    480.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    485.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    490.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    495.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+TIME    500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         -68.72   -3.893
+  102 -102         -68.72   -1.057
+  103 -103          68.72    1.057
+  104 -104          68.72    3.893
+  901 -901       -137.441   -4.931
+                                            END OF SIMULATION
