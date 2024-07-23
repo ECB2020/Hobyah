@@ -1,0 +1,140 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that verifies the development of jet fan types.
+
+There is a "jetfantypes" block with unidirectional and reversible
+jet fans.  There is one tunnel with three active banks of jet fans
+and eight inactive banks.  Five jet fans run in forwards mode at
+one end of the tunnel and two run in reverse at the other end.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.025
+  aero_time 500.
+end settings
+
+begin sectypes
+  C+C1    86   48   -0.036
+  bored   78   41   0.05
+  C+C2    92   49   -0.042
+end sectypes
+
+begin jetfantypes
+  #   type        name    T   eta  u_j                          Description
+  unidirectional  uni1  1100  0.7  30                           URTW-112-29
+  reversible      REV1  1050  0.7  29.8   1035  0.7  -29.2
+  unidirectional  uni2  1100  0.7  30    jetlength:=5
+  reversible      REV2  1050  0.7  29.8   1035  0.7  -29.2  jetlength:=5
+end jetfantypes
+
+begin plotcontrol
+    aero range(0, 5, 0.1) + range(5, 1000, 1)
+end plotcontrol
+
+
+begin tunnel first
+  back 11000 portal  0  C+C1
+#  change 11098  bored
+#  change 11352  same
+#  change 11372  same
+#  change 11415  same
+#  change 12130  same
+#  change 12198   C+C2
+  fwd  12300 portal  0
+  jetfans1   11080   EB_JF01  2  uni1  1.0  start:=0  stop:=1000
+  jetfans1   11220   EB_JF02  1  uni1  1.0  start:=10  stop:=1000
+  jetfans1   11349   EB_JF03  0  uni1  1.0
+  jetfans1   11460   EB_JF04  0  uni1  +1     # fans are turned off (zero count)
+  jetfans1   11840   EB_JF05  1  uni1  0      # fans are turned off (zero speed)
+  jetfans1   11960   EB_JF06  0  uni1  0      # also off
+  jetfans1   12080   EB_JF07  0  uni1  +1
+  jetfans1   12220   EB_JF08  1  rev1 -1.0  start:=0  stop:=1000
+end tunnel
+
+begin tunnel second
+  back 11000 portal  0  C+C1
+#  change 11098  bored
+#  change 11352  same
+#  change 11372  same
+#  change 11415  same
+#  change 12130  same
+#  change 12198   C+C2
+  fwd  12300 portal  0
+  jetfans1   11080   WB_JF01  2  uni2  1.0  start:=0  stop:=1000
+  jetfans1   11220   WB_JF02  1  uni2  1.0  start:=10  stop:=1000
+  jetfans1   12220   WB_JF08  1  rev2 -1.0  start:=0  stop:=1000
+end tunnel
+
+begin route one
+  origin 9000
+  portal 11030
+  begin tunnels
+    first
+  end tunnels
+end route
+
+begin route two
+  origin 9000
+  portal 11030
+  begin tunnels
+    second
+  end tunnels
+end route
+
+begin plots
+  begin page # ignore # 1
+    begin graph #ignore
+      title Air pressure along the tunnel
+      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  11000  12500  *20
+      yrange  *0    *100  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  one@-1
+      profile  Pstat  calc  one@-1
+    end graph
+    begin graph #ignore
+      title Mass flow along the tunnel
+      xlabel   Distance (m)
+      ylabel   Mass flow (kg/s)
+      xrange  11000  12500  *20
+      yrange  *0    *100  *10
+      btmargins 0.13  0.43
+      profile  massflow   calc  one@-1
+    end graph
+  end page
+  begin timeloop # ignore # 1
+#    start 0
+#    stop 1000
+#    step 1
+    timelist range(0, 15, 0.1) + range(15, 500, 1)
+    begin graph #ignore
+      title Air pressure along the tunnel
+      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  11000  12500  *20
+      yrange  -5    32  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  one@*time
+      profile  Pstat  calc  one@*time
+      profile  Ptot   calc  two@*time
+      profile  Pstat   calc  two@*time
+    end graph
+    begin graph #ignore
+      title Air velocity along the tunnel
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      xrange  11000  12500  *20
+      yrange  -0.1    2.0  *10
+      btmargins 0.13  0.43
+      profile  velocity   calc  one@*time
+      profile  velocity   calc  two@*time
+    end graph
+  end timeloop
+end plots

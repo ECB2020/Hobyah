@@ -1,0 +1,344 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that tests the development of road traffic.  Has a twin-tube
+road tunnel, one side of which has an offslip tunnel.
+
+The traffic is set by defining routes, defining traffic types, then
+defining blocks that set stationary traffic in those routes.
+
+Traffic at standstill can use vehicle densities in PCU/lane-km or in
+veh/lane-km.  Both are tested here.  Two routes are told to use traffic
+at 165 PCU/lane-km and the code works out the correct mix of traffic
+from the numbers given - you don't have to figure it out vehicle
+densities at standstill yourself.
+
+There is traffic in five routes:
+
+ * Route 'EBmain' has stationary traffic that starts inside one
+   tunnel  and stops part way along the second tunnel.  The second
+   tunnel is backwards in the route.
+
+ * Route 'EBbranch' has stationary traffic that starts at the node
+   joining the first and second tunnels, fills the second tunnel
+   entirely and stops part way along the third tunnel, which is
+   forwards in the route.
+
+ * Routes 'up' and 'down' pass through the same tunnel (a bidirectional
+   tunnel) but the two routes don't share lanes.
+   Both routes have stationary traffic that forms a queue on either
+   side of a blockage (this can happen with traffic collisions in
+   narrow bidirectional tunnels; vehicles arrive from both directions
+   but can't get past).
+
+ * Route 'Dud' has stationary traffic that starts and stops outside
+   the tunnels.  It is also a check that setting the density of
+   stationary traffic in veh/lane-km gives the same result as setting
+   it in PCU/lane-km. The 'Dud' route and the 'WB' route have the same
+   traffic mix, but in one the 'standstill' keyword uses PCU/lane-km
+   and the other uses veh/lane-km.
+
+Lines written to the screen and the log file verify that the code
+behaves as it should and correctly converts from route chainages to
+tunnel distances.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 1.
+end settings
+
+begin constants
+  myconst   1.2
+#  up_ptl   2.4
+end constants
+
+begin sectypes
+  C+C1    103   55   0.07
+end sectypes
+
+begin tunnel Eastbound1
+#  back 10020 portal 0 C+C1
+#  change 11000  same
+#  fwd  12100 node Turnout  zeta_bf:=0.1  zeta_fb:=0.25
+  back 9500 portal 0 C+C1
+  change 10480  same
+  fwd  11580 node Turnout  zeta_bf:=0.1  zeta_fb:=0.25
+end tunnel
+
+begin tunnel Eastbound2
+  back 12200   portal 0 C+C1
+  fwd  12980   node Turnout  zeta_bf:=0.3  zeta_fb:=0.12
+end tunnel
+
+begin tunnel Offslip1
+  back   400  node turnout C+C1  zeta_bf:=0.22  zeta_fb:=0.49
+  fwd    900  node vent
+end tunnel
+
+begin tunnel Offslip2
+  back   800  node vent C+C1
+  fwd    840  portal 0
+end tunnel
+
+begin tunnel Westbound1
+  back   20 portal 0 C+C1
+  fwd  2880 portal 0
+end tunnel
+
+begin tunnel bidirectional
+  back    0 portal 0 C+C1
+  fwd  3950 portal 0
+end tunnel
+
+begin traffictypes
+  calculate with blockage correction term  # This is a required input, folks!
+  # calculate without blockage correction term
+# keyword   name   area  C_d  PCU/veh
+  vehicle   car_p  2.0   0.35    1
+  vehicle   car_d  2.0   0.35    1
+  vehicle   LCV_p  4.5   0.8     1
+  vehicle   LCV_d  4.5   0.8     1
+  vehicle   HGV    6.0   0.9     3   10   2.5  20  2     mass := 22.0
+  # Set speed limits for HGVs.  These are pairs of a gradient and a
+  # speed.  This is the maximum speed that this type of vehicle can
+  # travel at when it is going uphill on that gradient or a shallower
+  # gradient.  In the line below, vehicles can travel at 120 km/h
+  # on uphill gradients up to and including 4% and 80 km/h up to 10%.
+  # Any number of pairs of speeds and gradients can be entered.  Note
+  # that these are step changes at each speed: up to and including
+  # 0.04 (4%), HGVs can travel at 120 km/h.  At 0.0400001 (4.00001%),
+  # HGVs slow to 90 km/h.
+  speedgradpairs  HGV   120 0.04   90 0.08   80 0.10
+end traffictypes
+
+begin route down
+  origin 0
+  portal 1000
+  begin tunnels
+    bidirectional
+  end tunnels
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          2           1400
+          1           5000
+  end lanes
+end route
+
+begin route up
+  origin 0
+  portal 1000
+  begin tunnels
+    bidirectional
+  end tunnels
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          1           4650
+          2           5000
+  end lanes
+end route
+
+begin route WB
+  origin 9000
+  portal 9500
+  begin tunnels
+    -Westbound1
+  end tunnels
+  begin gradients switcheroo:=true  fractions
+    # chainage to apply    gradient
+    # a gradient up to    (-1 to +1)
+         10020               0
+         10300              -0.04
+         11200              -0.005
+         11900               0.005
+         12100               0.03
+         12880               0.01
+  end gradients
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          2            9500
+          3           11180
+          2           11540
+          4           14500
+  end lanes
+end route
+
+begin route dud
+  # This route is for testing the message written when traffic is
+  # set, but the extents of the traffic are outside the tunnel
+  # complex.
+  origin 9000
+  portal 10000
+  begin tunnels
+    -Westbound1
+  end tunnels
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          2           15000
+  end lanes
+end route
+
+begin route EBmain
+  origin 9000
+  portal 9500
+  begin tunnels
+    Eastbound1 Eastbound2
+  end tunnels
+  begin switcheroo := false   gradients   percentages
+    #  gradient     chainage it
+    # (percent)   applies down to
+         0.0          10000
+        -4.0          10300
+        -0.5          11200
+         0.5          11900
+         3.0          12100
+         1.0          12880
+  end gradients
+  begin speedlimits
+    # speed limit     chainage it
+    #    (km/h)     applies down to
+           80            12880
+  end speedlimits
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          1            9400     # Shared with route "EBbranch2"
+          3           11180
+          1           11540
+          2           14500
+  end lanes
+end route
+
+begin route EBbranch
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          1            500     # Shared with route "EBmain"
+          2           1480
+          1           1840
+          3           5000
+  end lanes
+  origin 0
+  portal 900
+  begin tunnels
+#    Eastbound1 offslip1
+#    offslip2
+    offslip2  offslip1 Eastbound1
+  end tunnels
+  begin gradients fractions
+    0  700      -0.04  1300      -0.005  1800      0.005  4800
+    0.06  5000
+  end gradients
+  begin speedlimits
+    # Pairs of speeds followed by the chainage the speed applies down to.
+    80   1900
+    60   5000
+  end speedlimits
+end route
+
+begin trafficsteady eastbound
+  routes EBmain   EBbranch   WB
+  LCV_p     20       12     2100
+  HGV      300       65      530
+  LCV_d     90       15        0
+  car_p   1800      230      135
+  car_d    450       85      380
+  standstill  EBmain  165 PCU/lane-km  8000   9700
+  standstill  EBbranch  125.056 veh/lane-km  0    2054
+  standstill  WB  123.41 veh/lane-km  up_ptl   down_ptl
+end trafficsteady
+
+begin trafficsteady dud
+  routes     dud
+  car_p     2100
+  car_d      530
+  LCV_p       25
+  LCV_d      110
+  HGV        380
+  standstill   dud  132.89 veh/lane-km  9000    9100 # Never enters the tunnels
+  # 132.89 veh/lane-km equals 165 PCU/lane-km for this traffic mix
+end trafficsteady
+
+begin trafficsteady bi-up
+  routes      up
+  car_p     2100
+  car_d      530
+  LCV_p       25
+  LCV_d      110
+  HGV        380
+  standstill  up  165 PCU/lane-km  2215  5000
+end trafficsteady
+
+begin trafficsteady bi-down
+  routes    down
+  car_p     1900
+  car_d      480
+  LCV_p        0
+  LCV_d      150
+  HGV        580
+  standstill  down  165 PCU/lane-km  0  2205
+end trafficsteady
+
+begin plots
+  begin page # ignore # 1
+    begin graph #ignore
+      #title Air velocity profiles
+      xlabel   Distance (m)
+      ylabel   Traffic flow (veh/hr)
+      yrange  0  4000  200
+      btmargins 0.57  0.87
+      profile car_p_flow  calc  EBmain@1000
+      profile car_d_flow  calc  EBmain@1000
+      profile LCV_p_flow  calc  EBmain@1000
+      profile LCV_d_flow  calc  EBmain@1000
+      profile HGV_flow  calc  EBmain@1000
+      profile car_p_flow  calc  EBbranch@1000
+      profile car_d_flow  calc  EBbranch@1000
+      profile LCV_p_flow  calc  EBbranch@1000
+      profile LCV_d_flow  calc  EBbranch@1000
+      profile HGV_flow  calc  EBbranch@1000
+      profile car_p_flow  calc  WB@1000
+      profile car_d_flow  calc  WB@1000
+      profile LCV_p_flow  calc  WB@1000
+      profile LCV_d_flow  calc  WB@1000
+      profile HGV_flow  calc  WB@1000
+      profile tot_flow  calc  EBmain@1000
+      profile tot_flow  calc  EBbranch@1000
+      profile tot_flow  calc  WB@1000
+    end graph
+    begin graph
+      title Transient air velocities
+      xlabel   Distance (m)
+      ylabel   Traffic density (veh/km)
+      yrange  0  200  *200
+      btmargins 0.13  0.43
+      profile car_p_dens  calc  EBmain@1000
+      profile car_d_dens  calc  EBmain@1000
+      profile LCV_p_dens  calc  EBmain@1000
+      profile LCV_d_dens  calc  EBmain@1000
+      profile HGV_dens  calc  EBmain@1000
+      profile car_p_dens  calc  EBbranch@1000
+      profile car_d_dens  calc  EBbranch@1000
+      profile LCV_p_dens  calc  EBbranch@1000
+      profile LCV_d_dens  calc  EBbranch@1000
+      profile HGV_dens  calc  EBbranch@1000
+      profile car_p_dens  calc  WB@1000
+      profile car_d_dens  calc  WB@1000
+      profile LCV_p_dens  calc  WB@1000
+      profile LCV_d_dens  calc  WB@1000
+      profile HGV_dens  calc  WB@1000
+      profile tot_dens  calc  EBmain@1000
+      profile tot_dens  calc  EBbranch@1000
+      profile tot_dens  calc  WB@1000
+    end graph
+  end page
+end plots
