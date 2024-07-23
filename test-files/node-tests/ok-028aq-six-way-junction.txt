@@ -1,0 +1,157 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the handling of a six-way junction with different
+tunnel orientations.  One six-way junction with six connections:
+    back end,    back end,    back end,    back end,    back end,    back end.
+This has positive air pressure at the portal in the tunnel named "first".
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 300
+end settings
+
+begin sectypes
+  West-C+C  92    65   0.01
+  East-C+C  65    42   0.009
+  Offslip1  41    35   0.032
+  Offslip2  45    38   0.018
+  Offslip3  51    37   0.021
+  Offslip4  31    28   0.016
+end sectypes
+
+begin tunnel first
+  back 10000 node SW     West-C+C   zeta_bf := 0.31 zeta_fb := 0.21
+  fwd  10330 portal 50
+end tunnel
+
+begin tunnel second
+  back 10330 node SW     East-C+C   zeta_bf := 0.41 zeta_fb := 0.51
+  fwd  10590 portal 0
+end tunnel
+
+begin tunnel third
+  back 10330 node SW     Offslip1    zeta_bf := 0.61 zeta_fb := 0.71
+  fwd  10470 portal 0
+end tunnel
+
+begin tunnel fourth
+  back 10330 node SW     Offslip2    zeta_bf := 0.81 zeta_fb := 0.91
+  fwd  10710 portal 0
+end tunnel
+
+begin tunnel fifth
+  fwd  10605 node SW                 zeta_bf := 1.11 zeta_fb := 1.01
+  back 10330 portal -2   Offslip3
+end tunnel
+
+begin tunnel sixth
+  back 10330 node SW     Offslip4    zeta_bf := 1.21 zeta_fb := 1.31
+  fwd  10550 portal -4
+end tunnel
+
+begin route 1st-to-2nd
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   second
+  end tunnels
+end route
+
+begin route 1st-to-3rd
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   third
+  end tunnels
+end route
+
+begin route 1st-to-4th
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   fourth
+  end tunnels
+end route
+
+begin route 1st-to-5th
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   fifth
+  end tunnels
+end route
+
+begin route 1st-to-6th
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   sixth
+  end tunnels
+end route
+
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profiles at the final timestep
+      margins 0.13   0.87   0.57   0.87
+      yrange -8  50  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  1st-to-2nd@1000  lt:=1
+      profile pstat   calc  1st-to-2nd@1000  lt:=10
+      profile ptot    calc  1st-to-3rd@1000  lt:=2
+      profile pstat   calc  1st-to-3rd@1000  lt:=11
+      profile ptot    calc  1st-to-4th@1000  lt:=3
+      profile pstat   calc  1st-to-4th@1000  lt:=12
+      profile ptot    calc  1st-to-5th@1000  lt:=4
+      profile pstat   calc  1st-to-5th@1000  lt:=13
+      profile ptot    calc  1st-to-6th@1000  lt:=5
+      profile pstat   calc  1st-to-6th@1000  lt:=14
+    end graph
+    begin graph
+      title   Transient velocities near the midpoints of the six tunnels
+#      xrange 0  400 *20
+      yrange -2  6  *2
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient -velocity   calc  first@10165
+      transient  velocity   calc  second@10460
+      transient  velocity   calc  third@10400
+      transient  velocity   calc  fourth@10520
+      transient -velocity   calc  fifth@10470
+      transient  velocity   calc  sixth@10440
+    end graph
+    begin graph
+      title   Velocity profiles along routes at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -2  6  *2
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  1st-to-2nd@1000
+      profile  velocity   calc  1st-to-3rd@1000
+      profile  velocity   calc  1st-to-4th@1000
+      profile  velocity   calc  1st-to-5th@1000
+      profile  velocity   calc  1st-to-6th@1000
+    end graph
+  end page
+end plots
