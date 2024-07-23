@@ -1,0 +1,247 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the handling of two way junctions with different
+tunnel orientations.  Four two-way junctions with 4 types of connection:
+    forward end of the first segment, back end of the second (node SW1)
+    forward end of the first segment, forward end of the second (node SW2)
+    back end of the first segment, back end of the second (node SW3)
+    back end of the first segment, forward end of the second (node SW4)
+This has negative air pressure at the portal in the first tunnel of each
+route.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 300
+end settings
+
+begin sectypes
+  West-C+C  92    65   0.01
+  East-C+C  65    42   0.009
+end sectypes
+
+begin tunnel first
+  fwd  10330 node SW1               zeta_bf := 0.31 zeta_fb := 0.21
+  back 10000 portal -50  West-C+C
+end tunnel
+
+begin tunnel second
+  back 10330 node SW1    East-C+C   zeta_bf := 0.41 zeta_fb := 0.51
+  fwd  10590 portal 0
+end tunnel
+
+begin tunnel third
+  fwd  10330 node SW2               zeta_bf := 0.31 zeta_fb := 0.21
+  back 10000 portal -50  West-C+C
+end tunnel
+
+begin tunnel fourth
+  fwd  10590 node SW2               zeta_bf := 0.51 zeta_fb := 0.41
+  back 10330 portal 0    East-C+C
+end tunnel
+
+begin tunnel fifth
+  back 10000 node SW3    West-C+C   zeta_bf := 0.21 zeta_fb := 0.31
+  fwd  10330 portal -50
+end tunnel
+
+begin tunnel sixth
+  back 10330 node SW3    East-C+C   zeta_bf := 0.41 zeta_fb := 0.51
+  fwd  10590 portal 0
+end tunnel
+
+begin tunnel seventh
+  back 10000 node SW4    West-C+C   zeta_bf := 0.21 zeta_fb := 0.31
+  fwd  10330 portal -50
+end tunnel
+
+begin tunnel eighth
+  fwd  10590 node SW4               zeta_bf := 0.51 zeta_fb := 0.41
+  back 10330 portal 0    East-C+C
+end tunnel
+
+begin route 1st
+  origin 0
+  portal 100
+  begin tunnels
+   first
+   second
+  end tunnels
+end route
+
+begin route 2nd
+  origin 0
+  portal 100
+  begin tunnels
+   third
+   fourth
+  end tunnels
+end route
+
+begin route 3rd
+  origin 0
+  portal 100
+  begin tunnels
+   fifth
+   sixth
+  end tunnels
+end route
+
+begin route 4th
+  origin 0
+  portal 100
+  begin tunnels
+   seventh
+   eighth
+  end tunnels
+end route
+
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profiles at the final timestep (fwd end to back end)
+      margins 0.13   0.87   0.57   0.87
+      yrange -51  1  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  1st@1000  # lt:=1
+      profile pstat   calc  1st@1000  # lt:=10
+    end graph
+    begin graph
+      title   Transient velocity near the midpoint of tunnel first
+#      xrange 0  400 *20
+      yrange -6  0  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  first@10165
+    end graph
+    begin graph
+      title   Velocity profile in route one at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -6  0  *1
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  1st@1000
+    end graph
+  end page
+  begin page # ignore # 2
+    begin graph
+      title   Pressure profiles at the final timestep (forward end to forward end)
+      margins 0.13   0.87   0.57   0.87
+      yrange -51  1  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  1st@1000  # lt:=2
+      profile pstat   calc  1st@1000  # lt:=11
+    end graph
+    begin graph
+      title   Transient velocity near the midpoint of tunnel third
+#      xrange 0  400 *20
+      yrange -6  0  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  first@10165  # lt:=2
+    end graph
+    begin graph
+      title   Velocity profile in route two at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -6  0  *1
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  2nd@1000  # lt:=2
+    end graph
+  end page
+  begin page # ignore # 3
+    begin graph
+      title   Pressure profiles at the final timestep (back end to back end)
+      margins 0.13   0.87   0.57   0.87
+      yrange -51  1  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  3rd@1000  # lt:=3
+      profile pstat   calc  3rd@1000  # lt:=12
+    end graph
+    begin graph
+      title   Transient velocity near the midpoint of tunnel fifth
+#      xrange 0  400 *20
+      yrange -6  0  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient -velocity   calc  fifth@10165  # lt:=3
+    end graph
+    begin graph
+      title   Velocity profile in route two at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -6  0  *1
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  3rd@1000  # lt:=3
+    end graph
+  end page
+  begin page # ignore # 4
+    begin graph
+      title   Pressure profiles at the final timestep (back end to forward end)
+      margins 0.13   0.87   0.57   0.87
+      yrange -51  1  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  4th@1000  # lt:=4
+      profile pstat   calc  4th@1000  # lt:=13
+    end graph
+    begin graph
+      title   Transient velocity near the midpoint of tunnel seventh
+#      xrange 0  400 *20
+      yrange -6  0  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient -velocity   calc  seventh@10165  # lt:=4
+    end graph
+    begin graph
+      title   Velocity profile in route fourth at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -6  0  *1
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  4th@1000  # lt:=4
+    end graph
+  end page
+end plots

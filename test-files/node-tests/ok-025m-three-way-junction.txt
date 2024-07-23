@@ -1,0 +1,104 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the handling of a three-way junction with different
+tunnel orientations.  One three-way junction with 3 connections:
+ forward end, forward end,    back end.
+This has positive air pressure at the portal in the tunnel named "first" and
+uses Moody's approximation for friction factor.  It tests the friction
+logic that uses relative roughness eps/D_h.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  frictionapprox Moody
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 300
+end settings
+
+begin sectypes
+  West-C+C  92    65   0.013
+  East-C+C  65    42   0.027
+  Offslip   41    35   0.192
+end sectypes
+
+begin tunnel first
+  fwd  10330 node SW                zeta_bf := 0.21 zeta_fb := 0.31
+  back 10000 portal 50  West-C+C
+end tunnel
+
+begin tunnel second
+  fwd  10590 node SW                zeta_bf := 0.51 zeta_fb := 0.41
+  back 10330 portal 0    East-C+C
+end tunnel
+
+begin tunnel third
+  back 10330 node SW     Offslip    zeta_bf := 0.61 zeta_fb := 0.71
+  fwd  10470 portal 0
+end tunnel
+
+begin route 1st-to-2nd
+  origin 0
+  portal 100
+  begin tunnels
+    first
+   second
+  end tunnels
+end route
+
+begin route 1st-to-3rd
+  origin 0
+  portal 100
+  begin tunnels
+    first
+    third
+  end tunnels
+end route
+
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profile at the final timestep
+      margins 0.13   0.87   0.57   0.87
+      yrange -11  51  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  1st-to-2nd@1000  lt:=1
+      profile pstat   calc  1st-to-2nd@1000  lt:=10
+      profile ptot    calc  1st-to-3rd@1000  lt:=2
+      profile pstat   calc  1st-to-3rd@1000  lt:=11
+    end graph
+    begin graph
+      title   Transient velocity near the midpoints of the three tunnels
+#      xrange 0  400 *20
+      yrange -10  6  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  first@10165
+      transient -velocity   calc  second@10460
+      transient  velocity   calc  third@10400
+    end graph
+    begin graph
+      title   Velocity profiles at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange 3  5.5  *2
+
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Velocity (m/s)
+      profile  velocity   calc  1st-to-2nd@1000
+      profile  velocity   calc  1st-to-3rd@1000
+    end graph
+  end page
+end plots
