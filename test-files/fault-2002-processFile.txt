@@ -6,5 +6,8 @@ but we do not permission to read it.
 begin settings
 end settings
 
+begin tunnel Dopey
+end tunnel
+
 begin plots
 end plots
