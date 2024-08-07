@@ -257,14 +257,6 @@ def ProcessCurves(curve_triples, settings_dict, last_doodad,
                     "ydiv":    "float any null  a divisor on Y", # default 1
                     "xstart":  "float any null  an X start value", # default -inf
                     "xstop":   "float any null  an X stop value", # default +inf
-                    "x2offset": "float any null  an offset in X2",
-                    "y2offset": "float any null  an offset in Y2",
-                    "x2mult":   "float any null  a multiplier on X2",
-                    "y2mult":   "float any null  a multiplier on Y2",
-                    "x2div":    "float any null  a divisor on X2",
-                    "y2div":    "float any null  a divisor on Y2",
-                    "x2start":  "float any null  an X2 start value",
-                    "x2stop":   "float any null  an X2 stop value",
                    }
     # Define dictionaries of optional entries appropriate to each
     # curve type, then add the default optional entries to each.
@@ -7311,97 +7303,157 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
             reverse = False
             descrip = ("SES route " + str(index + 1) + ', from Hobyah route "'
                       + route_name + '"')
-
-        # Add the form number
         if Aur:
-            descrip = "{" + descrip
-            form8A1 = descrip.ljust(80) + " Form 8A}"
+            form8A1 = "{" + descrip.ljust(80) + " Form 8A " + "}"
         else:
-            form8A1 = descrip.ljust(81) + "Form 8A"
+            form8A1 = descrip.ljust(80) + " Form 8A"
+
         # Figure out our form 8C, the tricky one.  Start by getting
         # all the chainages we will need to correctly place changes
         # of gradient and speed limit.  We get the entries and run
         # them through the 'set' function to remove duplicates.
 
-
         gradients, grad_chs = route_dict["gradients"]
         speed_chs = route_dict["speed_chs"]
+
+
         if route_dict["speed_plots"] == "Not set":
             # The route has no speed limits in it.  Set the speed
             # limits to 120 km/h.
             speeds = [120.] * len(speed_chs)
         else:
             speeds = route_dict["speed_plots"]
+
+        origin = route_dict["elevgrad_chs"][0]
+        values, chs = route_dict["radii"][:2]
+        rad_chs, radii = ClipProfile(chs, values, origin)
+        values, chs = route_dict["sectors"][:2]
+        sector_chs, sectors = ClipProfile(chs, values, origin)
+        values, chs = route_dict["coasting"][:2]
+        coast_chs, coasting = ClipProfile(chs, values, origin)
+        values, chs = route_dict["regenfractions"][:2]
+        regen_chs, regenfractions = ClipProfile(chs, values, origin)
+
         # We need to do a little work on the content of 'speeds', which
         # may not be in the format we expect.  We need to double up the
         # first speed and remove the last before we call BothSidesProps.
         speeds = [speeds[0]] + speeds[:-1]
         gradlen = len(grad_chs)
         speedlen = len(speed_chs)
-        chs = list(set(grad_chs + speed_chs))
+        chs = grad_chs + speed_chs + rad_chs + sector_chs + coast_chs
+        # If we are writing to SVS we need to add the regen fraction
+        # stuff.
+        if target == "svs":
+            chs.extend(regen_chs)
+        # Remove duplicates by running the list through 'set' and making
+        # remaking the list.
+        chs = list(set(chs))
+
         if reverse:
             chs.sort(reverse=True)
             # Route origin, count of groups of trains, count of track sections,
             # spawn time of first train, first train type, coasting speed,
             # coasting option.  In reversed routes we can't use negative
-            # numbers, so we start the route at zero.
-            form8A2 = [0.0, 1, len(chs) - 1, 9999, 1, 60.0, 0]
-            offset = chs[0]
+            # numbers, so we'll start the route at zero.
+            origin = chs.pop(0)
+            form8A2 = [0.0, 1, len(chs), 9999, 1, 60.0, 0]
         else:
             chs.sort()
-            origin = chs[0]
-            form8A2 = [origin, 1, len(chs) - 1, 9999, 1, 60.0, 0]
-        origin = chs.pop(0)
+            origin = chs.pop(0)
+            form8A2 = [origin, 1, len(chs), 9999, 1, 60.0, 0]
         # No need for a form 8B as we only have one group of trains
-        # and it is in form 8A.  We make a list of lists of numbers,
-        # one list per line.
+        # and it is in form 8A.
+        # We make a list of lists of numbers for form 8C, one list per
+        # line.
         form8C = []
-        for ch in chs:
-            # Set the chainage and the track radius (straight)
-            if reverse:
-                loc_8c = [origin - ch, 0.0]
-            else:
-                loc_8c = [ch, 0.0]
-            # Now figure out the gradient and speed limits here.
-            gradpair = BothSidesProps(grad_chs, gradients, ch, log)
-            speedpair = BothSidesProps(speed_chs, speeds, ch, log)
-            # We set the gradient, the elevation (always zero) the speed
-            # limit there, the energy sector number (always 1) and the
-            # coasting switch (always 0).  The user can adjust these
-            # in the SES input files as they see fit.
-            if reverse:
-                if math.isclose(gradpair[1], 0.):
-                    grad = -gradpair[1]
-                else:
-                    grad = gradpair[1]
-                loc_8c.extend([-gradpair[1] * 100, 0.0, speedpair[1], 1, 0])
-            else:
-                loc_8c.extend([gradpair[0] * 100, 0.0, speedpair[0], 1, 0])
-            form8C.append(loc_8c)
-
-
-
-        # Set no stops in the route and put one person on the train.
-        form8D = (0, 1)
-
         # Get the data setting the elevations in this route.  We
         # interpolate along these to get elevations at every SES node.
         elevgrad_chs = route_dict["elevgrad_chs"]
         elevations = route_dict["elevations"]
+        if reverse:
+            if origin > elevgrad_chs[-1]:
+                # We extrapolate from the last pair of values.
+                elev_offset = gen.Interpolate(elevgrad_chs[-2], elevgrad_chs[-1],
+                                         elevations[-2], elevations[-1],
+                                         origin, True, log)
+            else:
+                elev_offset = np.interp(origin, elevgrad_chs, elevations)
+            x_text = "xmult:=-1 xoffset:=" + gen.RoundText(origin, 3) + ' )'
+        else:
+            elev_offset = elevations[0]
+            x_mult = 1.0
+            x_offset = 0.0
+            x_text = " )"
+        if math.isclose(elev_offset, 0.0):
+            elev_text = " ( "
+        else:
+            elev_text = " ( yoffset:=" + gen.RoundText(elev_offset, 3)
+
+
+        # Now build a line of text that we can append to the first line
+        # of form 8C in the SES input file to the right of column 81.
+        # This line of text gives the optional arguments needed in the
+        # curve definition to translate the curves from SES so they sit
+        # atop the curves from Hobyah.  This is particularly helpful
+        # when the SES route definition is the reverse of the Hobyah
+        # route definition - the multiplier is always -1 but figuring
+        # out the offset is always a pain.
+        if elev_text == " ( " and x_text == " )":
+            # There are no optional arguments that need to be applied
+            # to get the SES route curves to align with the Hobyah
+            # route curves.
+            offset_text = ' (no curve options needed)'
+        elif elev_text == " ( " or x_text == " )":
+            # We need to set xmult and xoffset, but not yoffset (or
+            # vice-versa).
+            offset_text = elev_text + x_text
+        else:
+            # We need to set all three.
+            offset_text = elev_text + " " + x_text
+
+        # Store the offset_text as the first entry in form 8C.
+        # We append it to the words "Form 8C" after column 81 when we
+        # write the SES input file below.
+        form8C.append(offset_text)
+        for ch in chs:
+            # Set the chainage for this line of entry
+            if reverse:
+                loc_8C = [origin - ch]
+            else:
+                loc_8C = [ch]
+            # Now figure out the gradient and speed limits here.
+            gradpair = BothSidesProps(grad_chs, gradients, ch, log)
+            speedpair = BothSidesProps(speed_chs, speeds, ch, log)
+            radpair = BothSidesProps(rad_chs, radii, ch, log)
+            sectorpair = BothSidesProps(sector_chs, sectors, ch, log)
+            coastpair = BothSidesProps(coast_chs, coasting, ch, log)
+            # We set the gradient, the elevation (always zero) the speed
+            # limit there, the energy sector number, the coasting switch
+            # and the regen braking fraction (SVS only).  The user can
+            # adjust these in the SES input files as they see fit.
+            if reverse:
+                if math.isclose(gradpair[1], 0.):
+                    grad = gradpair[1]
+                else:
+                    grad = -gradpair[1]
+                loc_8C.extend([radpair[1], grad * 100, 0.0, speedpair[1],
+                               sectorpair[1], coastpair[1]])
+            else:
+                loc_8C.extend([radpair[0], gradpair[0] * 100, 0.0, speedpair[0],
+                               sectorpair[0], coastpair[0]])
+            if target == "svs":
+                regenpair = BothSidesProps(regen_chs, regenfractions, ch, log)
+                if reverse:
+                    loc_8C.append(regenpair[1])
+                else:
+                    loc_8C.append(regenpair[0])
+            form8C.append(loc_8C)
+
+        # Set no stops in the route and put one person on the train.
+        form8D = (0, 1)
 
         tunnels_list = route_dict["signed_names"]
-        if reverse:
-            # We need to reverse the list and flip the minus signs in
-            # the tunnel names.
-            tunnels_list.reverse()
-            tunmod_list = []
-            for tun_name in tunnels_list:
-                if tun_name[0] == '-':
-                    tunmod_list.append(tun_name[1:])
-                else:
-                    tunmod_list.append('-' + tun_name)
-        else:
-            tunmod_list = tunnels_list.copy()
+
         # Get the chainage in the route that the tunnels start at and
         # build a list of section/segment numbers.
         if reverse:
@@ -7409,7 +7461,7 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
         else:
             up_ptl_ch = route_dict["tunnel_chs"][0]
         sec_list = []
-        for index, tun_name in enumerate(tunmod_list):
+        for index, tun_name in enumerate(tunnels_list):
             # Get the factors to convert the route chainages to tunnel
             # distances and vise-versa
             (mult, offset) = route_dict["route2tun"][index]
@@ -7515,9 +7567,16 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
                             print('Found two elevations at SES node '
                                    + str(fwd_node) + '!\n'
                                   'First was ' + gen.RoundText(old_elev,4)
-                                   + ', second was ' + gen.RoundText(fwd_elev,4))
+                                   + ', second was '
+                                   + gen.RoundText(fwd_elev,4))
                             gen.OopsIDidItAgain(log)
 
+        # If the SES route is the reverse of the Hobyah route,
+        # we account for that by reversing the order of the segments
+        # and flipping the signs.
+        if reverse:
+            sec_list.reverse()
+            sec_list = [-sec for sec in sec_list]
         form8F = [[len(sec_list), up_ptl_ch], sec_list]
         form8.append((form8A1, form8A2, form8C, form8D, form8F))
 
@@ -7601,10 +7660,10 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
                                                      dir_name)
     if s_ext == '':
         # The user did not set an extension.
-        if version == "open-ses":
+        if target == "open-ses":
             # OpenSES developers like using .INP.
             s_ext = '.INP'
-        if version == "svs":
+        if target == "svs":
             s_ext = '.SIN'
         else:
             # Use .ses for the other program types.
@@ -7960,7 +8019,8 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
 
         # Do form 8C
         if USunits:
-            keys = ("dist1", "dist1", "null", "dist1", "speed2", "null", "null")
+            keys = ("dist1", "dist1", "null", "dist1", "speed2", "null",
+                    "null", "null")
             decpl = [3, 3, 4, 1, 2, 0, 0]
         elif target == "svs":
             # SVS has an extra column of entries for local regen factor.
@@ -7968,25 +8028,20 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
         else:
             decpl = [3, 3, 4, 2, 2, 0, 0]
 
-
+        offset_text = form8C.pop(0)
         for index, values in enumerate(form8C):
             # When we rebuild form 8C, we cannot tell from the output file
             # whether form 8C in the original input file had inputs of gradient
             # or stack height.  I generally use gradients, so we will rebuild
             # the form with the gradients, not the heights.  Competent users
             # who prefer stack height can change it if they wish.
-
-
             if USunits:
                 # Convert the units to US and adjust the count of decimal places.
                 values = [USc.ConvertToUS(keys[i], values[i], False, log)[0]
-                                for i in range(len(keys))]
-            elif target == "svs":
-                # Add a local regen factor of zero.
-                values.append(0.0)
+                                for i in range(len(decpl))]
             if index == 0:
                 line = gen.FormatInpLine(values, decpl, "8C", USunits,
-                                         log, Aur, "Form 8C")
+                                         log, Aur, "Form 8C" + offset_text)
             else:
                 line = gen.FormatInpLine(values, decpl, "8C", USunits, log, Aur)
             gen.WriteOut(line, sesfile)
@@ -8266,42 +8321,6 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
         comment = ""
 
     sesfile.close()
-# data, decpls, form, USunits, log, comment_text = None
-# Route stuff ebmain
-# origin (9000.0, {}, 59)
-# portal (10000.0, {}, 60)
-# begin#61 ('tunnels', '', {}, 61)
-# begin#64 ('gradients', 'percentages', {}, 64)
-# begin#68 ('speedlimits', '', {}, 68)
-# block_index ('ebmain', 58)
-# speedlimits ([110.0, 90.0, 100.0, 110.0, 110.0], [9500.0, 9800.0, 12860.0, 13400.0, inf], 68)
-# speed_chs [9000.0, 9500.0, 9800.0, 12860.0, 13400.0]
-# speed_plots [110.0, 90.0, 100.0, 110.0, 110.0]
-# lane_chs [9000.0, 9500.0, 13400.0]
-# lane_plots [0, 0]
-# tunnel_names ['eastbound1', 'eastbound2']
-# tunnel_chs [10000.0, 12080.0, 12860.0]
-# gradients2 [-0.001, -0.04]
-# elevations [0.0, -0.5, -156.5]
-# elevgrad_chs [9000.0, 9500.0, 13400.0]
-# gradients ([-0.001, -0.001, -0.04], [9000.0, 9500.0, 13400.0])
-# profile ('gradients', 64)
-# route2tun [(1.0, 20.0), (1.0, 20.0)]
-# signed_names ['eastbound1', 'eastbound2']
-# tunnel_dists [(10020.0, 12100.0), (12100.0, 12880.0)]
-
-
-
-# Fan char stuff
-# density (1.2, {}, nan)
-# ses_7b#88 (3000.0, 0.0, 2700.0, 80.0, 2100.0, 160.0, 0.0, 220.0, {'direction': 'reverse'}, 88)
-# ses_7b#89 (12.04, 0.0, 10.84, 169510.0, 8.43, 339021.0, 0.0, 508531.0, {'units': 'us'}, 89)
-# block_index (128, 'begin fanchar  SESfan1', 'begin fanchar  SESfan1')
-# forwards ([0.0, 79.999811096832, 160.00009414110718, 239.9999052379392], [979.6818104389116, 882.0391050795517, 685.9400051495038, 0.0])
-# reverse ([0.0, 80.0, 160.0, 220.0], [979.9999999999997, 881.9999999999998, 685.9999999999998, 0.0])
-# fwd_for_SES [[0.0, 79.999811096832, 160.00009414110718, 239.9999052379392], [2999.0259503231996, 2700.1197094271997, 2099.8163422944, 0.0]]
-# rev_for_SES [[0.0, 80.0, 160.0, 220.0], [3000.0, 2700.0, 2100.0, 0.0]]
-# flowlimits (-47.999981047587845, 299.999881547424, -44.0, 275.0)
     return("SES file written out")
 
 
@@ -23491,6 +23510,7 @@ def PickStepValue(ch_list, prop_list, ch, log):
         print("Mismatched list lengths passed to PickStepValue\n",
               len(ch_list), len(prop_list),
               ch_list, prop_list)
+        raise()
         gen.OopsIDidItAgain(log)
     # print("In PickStepValue", ch_list, prop_list, ch)
     for index, test_ch in enumerate(ch_list):
@@ -23715,17 +23735,10 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
             the same nodes at each end (can't tell which way round to
             put them).
             Aborts with 2314 if a speed limit was zero or less.
-            Aborts with 2315 if there were two 'begin lanes' blocks.
-            Aborts with 2316 if there was a count of lanes that was less
-            than one.
-            Aborts with 2317 if there was a count of lanes that was not
-            an integer.
-            Aborts with 2318 if the extents of the lanes didn't fill the
-            tunnels end to end.
-            Aborts with 2319 if the "begin gradients" sub-block did not
+            Aborts with 2315 if the "begin gradients" sub-block did not
             specify if the gradients were percentages or fractions, it
             started with "begin gradients".
-            Aborts with 2320 if the "begin gradients" sub-block did not
+            Aborts with 2316 if the "begin gradients" sub-block did not
             specify if the gradients were percentages or fractions, it
             specified something else.
     '''
@@ -23739,7 +23752,9 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                       "origin": ("float any dist1 a route origin chainage",),
                       "portal": ("float any dist1 an up portal chainage",),
                       "begin":   (("tunnels", "gradients", "elevations",
-                                   "schedule", "speedlimits", "lanes"),
+                                   "schedule", "speedlimits", "lanes",
+                                   "radii", "sectors", "coasting",
+                                   "regenfractions",),
                                   "QAstr"),
                       "#skip": "discard"  # This catches all other lines
                      }
@@ -23855,21 +23870,44 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
     # Make a dictionary to store the train movement details.
     schedules_dict = {}
 
+    # Process the "begin tunnels" block first, as we need the tunnel
+    # end chainages for the other blocks.
     while tr_index < len(line_triples):
         tr_index += 1
         (line_number, line_data, line_text) = line_triples[tr_index]
         if debug1:
             print("Line1",str(line_number) + ":", line_data)
 
-        # Take any optional arguments out of the line data.  This
+        # Get any optional arguments out of the line text.  This
         # is needed in case someone uses a line of entry like
         #   begin gradients switcheroo :=true  percentages
         # We need to turn it into
         #   begin gradients percentages
         # before processing it.
-        line_data, discard = gen.GetOptionals(line_number, line_data,
+        line_data, optionals = gen.GetOptionals(line_number, line_data,
                                               line_text, file_name,
                                               debug1, log)
+
+        # Many of the blocks allow the user to switch the order of the
+        # values and the chainages.  We build most of the entries we
+        # will pass to ProcessNumberList.  We set the values of
+        # name1 or name2 depending on the value of 'switcheroo'.
+        # The default is value then chainage.  If switcheroo := true
+        # it becomes chainage then value.  The option does not apply
+        # to the "elevations" block, which is always chainage followed
+        # by elevation.
+        if ("switcheroo" in optionals and
+            optionals["switcheroo"]) == "true":
+            rule1 = ">"   # chainage
+            rule2 = ""
+            name1 = "chainages"
+            switcheroo = True
+        else:
+            # This is the default.
+            rule1 = ""
+            rule2 = ">"   # chainage
+            name2 = "chainages"
+            switcheroo = False
 
         words = line_data.split()
         words_low = line_data.lower().split()
@@ -23884,6 +23922,10 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
             tunblock_index = tr_index
         elif words_low[:2] == ["end", "tunnels"]:
             tunnels_block = False
+            # Store the tunnel chainages so we can use it in a test for
+            # lanes ending before the tunnels end.
+            new_route_dict.__setitem__("tunnel_names", tunnel_names)
+            new_route_dict.__setitem__("tunnel_chs", tunnel_chs)
         elif tunnels_block is True:
             # We are at a line between "begin tunnels" and "end tunnels".
             # All of the words on the line should be the names of tunnels
@@ -23951,6 +23993,67 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                 gen.WriteError(2304, err, log)
                 gen.ErrorOnLine2(tr_index, line_triples, log, False)
                 return(None)
+
+    # Now do all the other blocks.
+    tr_index = start_index
+    while tr_index < len(line_triples):
+        tr_index += 1
+        (line_number, line_data, line_text) = line_triples[tr_index]
+        if debug1:
+            print("Line1",str(line_number) + ":", line_data)
+
+        # Get any optional arguments out of the line text.  This
+        # is needed in case someone uses a line of entry like
+        #   begin gradients switcheroo :=true  percentages
+        # We need to turn it into
+        #   begin gradients percentages
+        # before processing it.
+        line_data, optionals = gen.GetOptionals(line_number, line_data,
+                                              line_text, file_name,
+                                              debug1, log)
+
+        # Many of the blocks allow the user to switch the order of the
+        # values and the chainages.  We build most of the entries we
+        # will pass to ProcessNumberList.  We set the values of
+        # name1 or name2 depending on the value of 'switcheroo'.
+        # The default is value then chainage.  If switcheroo := true
+        # it becomes chainage then value.  The option does not apply
+        # to the "elevations" block, which is always chainage followed
+        # by elevation.
+        if ("switcheroo" in optionals and
+            optionals["switcheroo"]) == "true":
+            rule1 = ">"   # chainage
+            rule2 = ""
+            name1 = "chainages"
+            switcheroo = True
+        else:
+            # This is the default.
+            rule1 = ""
+            rule2 = ">"   # chainage
+            name2 = "chainages"
+            switcheroo = False
+
+        words = line_data.split()
+        words_low = line_data.lower().split()
+
+        if words_low[:2] == ["end", "route"]:
+            # We've finished, break out of the loop.
+            break
+        elif words_low[:2] == ["begin", "tunnels"]:
+            tunnels_block = True
+            # Get the index of the "begin tunnels" block in the route
+            # definition in case we need it for an error message later.
+            tunblock_index = tr_index
+        elif words_low[:2] == ["end", "tunnels"]:
+            tunnels_block = False
+            # Store the tunnel chainages so we can use it in a test for
+            # lanes ending before the tunnels end.
+            new_route_dict.__setitem__("tunnel_names", tunnel_names)
+            new_route_dict.__setitem__("tunnel_chs", tunnel_chs)
+        elif tunnels_block is True:
+            # We are at a line between "begin tunnels" and "end tunnels".
+            # We've already read these, so we just pass.
+            pass
         elif words_low[:2] in ( ["begin", "gradients"],
                                 ["begin", "elevations"]):
             # Check if we have already read the profile data and complain if
@@ -23993,7 +24096,7 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                            '> stop using the program until you figure it\n'
                            '> out, as you have bigger problems.'
                           )
-                    gen.WriteError(2319, err, log)
+                    gen.WriteError(2315, err, log)
                     gen.ErrorOnLine(line_number, line_text, log)
                     return(None)
                 elif words_low[2] not in ("percentages", "fractions"):
@@ -24015,7 +24118,7 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                            '> stop using the program until you figure that\n'
                            '> out.'
                           )
-                    gen.WriteError(2320, err, log)
+                    gen.WriteError(2316, err, log)
                     gen.ErrorOnLine(line_number, line_text, log)
                     return(None)
                 elif words_low[2] == "percentages":
@@ -24085,25 +24188,15 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                 #
                 # The first way is the default.  The second is accommodated
                 # by giving "begin gradients" line an optional argument
-                # that can be set to "switcheroo := true".
+                # that can be set to "switcheroo := true".  Most of the
+                # entries were processed at the top of this loop, but we
+                # set two values here.
                 #
-                # Check if the "switcheroo" optional argument was set to True
-                # in the line containing "begin gradients".
-                gr_key = "begin" + "#" + str(prof_index)
-                optionals = new_route_dict[gr_key][-2]
-                if ("switcheroo" in optionals and
-                    optionals["switcheroo"]) == "true":
-                    rule1 = ">"   # chainage
-                    rule2 = ""    # gradient
-                    name1 = "chainages"
+                if switcheroo is True:
                     name2 = "gradients"
-                    switcheroo = True
                 else:
-                    rule1 = ""    # gradient
-                    rule2 = ">"   # chainage
                     name1 = "gradients"
-                    name2 = "chainages"
-                    switcheroo = False
+
                 # Call a subroutine to read the numbers in the block and split
                 # them into two lists.  This returns when it encounters an
                 # "end <block_name>" line.  We can let the gradients be anything
@@ -24168,7 +24261,7 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
                 # elevations block turns up, it triggers error 2305.
                 profile = "gradients"
             else:
-                # We want a list of distances and elevations.
+                # We want a list of chainages and elevations.
                 # Store the index of the line with "begin elevations" on
                 # it and move to the next line.
                 prof_index = tr_index
@@ -24264,17 +24357,28 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
             # We want a list of speeds and chainages they apply up to.
             # This works for both road and rail tunnels.
             spd_index = tr_index
+            tr_index += 1
+            if switcheroo is True:
+                name2 = "speedlimits"
+            else:
+                name1 = "speedlimits"
+
             # Call a subroutine to read the numbers in the block and split
             # them into two lists.  This returns when it encounters an
             # "end <block_name>" line.
-            result = ProcessNumberList(line_triples, tr_index + 1,
-                                        settings_dict, "speedlimits",
-                                       "speed limits", "chainages",
-                                       "", ">", log)
+            result = ProcessNumberList(line_triples, tr_index, settings_dict,
+                                       words_low[1], name1, name2,
+                                       rule1, rule2, log)
             if result is None:
                 return(None)
+
+            if switcheroo:
+                (tr_index, chainages, speeds,
+                 ch_lines, sp_lines) = result
             else:
-                (tr_index, speeds, chainages, sp_lines, ch_lines) = result
+                (tr_index, speeds, chainages,
+                 sp_lines, ch_lines) = result
+
             # Check that none of the speed limits are zero, which
             # would stop all traffic.
             for sp_index, speed in enumerate(speeds):
@@ -24312,108 +24416,65 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
             # a given number of veh/lane-km and the count of lanes
             # can change along the length of a route.
 
-            # Store the index of the line with "begin lanes" for the
-            # error message for duplicate blocks.
-            tr_start = tr_index
-            # Check that this is not a duplicate block.
-            key = 'lanes'
-            if 'lanes' in new_route_dict:
-                descrip = 'setting\n> the count of lanes'
-                old_index = new_route_dict[key][-1]
-                line1_num, discard, line1_text = line_triples[old_index]
-                line2_num, discard, line2_text = line_triples[tr_index]
-                err = ('> Came across duplicate input in "'
-                         + file_name + '".\n'
-                       '> In route "' + route_name
-                        + '" there were two blocks setting\n'
-                       '> the count of lanes.  Please edit the file\n'
-                       '> so that there is only one.'
-                      )
-                gen.WriteError(2315, err, log)
-                gen.ErrorOnTwoLines(line1_num, line1_text,
-                                    line2_num, line2_text, log, False)
-                return(None)
-
-            # Read the numbers in the block.
-            result = ProcessNumberList(line_triples, tr_index + 1,
-                                        settings_dict, "lanes",
-                                       "lanes", "chainages",
-                                       "", ">", log)
+            result = Process8CLists(line_triples, tr_index, settings_dict,
+                                    "lanes", new_route_dict, route_name,
+                                    switcheroo, units, log)
             if result is None:
                 return(None)
             else:
-                (tr_index, lanes, chainages, ln_lines, ch_lines) = result
-            # Check that the counts of lanes are all at least 1 and are
-            # all integers.  Fault if they are not.
-            for lane_index, lane_count in enumerate(lanes):
-                if lane_count < 1:
-                    tr_index = ln_lines[lane_index]
-                    line_num, line_data, line_text = line_triples[tr_index]
-                    err = ('> Came across faulty input in "'
-                             + file_name + '".\n'
-                           '> In route "' + route_name
-                             + '" there was a block of lane \n'
-                           '> counts, one of which was less than one ('
-                             + str(lane_count) + ').\n'
-                           '> Please edit the file to set the lane counts\n'
-                           '> to be integers of one or more.'
-                          )
-                    gen.WriteError(2316, err, log)
-                    gen.ErrorOnLine(line_number, line_text, log, False)
-                    return(None)
-                elif not math.isclose(lane_count, int(lane_count)):
-                    tr_index = ln_lines[lane_index]
-                    line_num, line_data, line_text = line_triples[tr_index]
-                    err = ('> Came across faulty input in "'
-                             + file_name + '".\n'
-                           '> In route "' + route_name
-                             + '" there was a block of lane \n'
-                           '> counts, one of which was not an integer ('
-                             + str(lane_count) + ').\n'
-                           '> Please edit the file to set the lane counts\n'
-                           '> to integers.'
-                          )
-                    gen.WriteError(2317, err, log)
-                    gen.ErrorOnLine(line_number, line_text, log, False)
-                    return(None)
-            # Now check if the last chainage is at or beyond the down
-            # end tunnel portal and fault if it is not.
-            last_ch = chainages[-1]
-            if last_ch < tunnel_chs[-1]:
-                tr_index = ln_lines[-1]
-                line_num, line_data, line_text = line_triples[tr_index]
-                err = ('> Came across faulty input in "'
-                         + file_name + '".\n'
-                       '> In route "' + route_name
-                         + '" there was a block of lane \n'
-                       '> counts.  The last count ended at chainage\n'
-                       '> ' + str(last_ch)
-                         + ', which is before the down daylight\n'
-                       '> portal of the tunnel complex.\n'
-                       '> This means traffic disappears in the middle\n'
-                       '> of the tunnel, which is bad.  Please edit\n'
-                       '> the file to set lanes all the way to the \n'
-                       "> tunnel end (it's at " + str(tunnel_chs[-1]) + ').'
-                      )
-                gen.WriteError(2318, err, log)
-                gen.ErrorOnLine(line_number, line_text, log, False)
-                return(None)
-            # Check that the changes of lanes are at 10 m apart or more.
-            # We want this so that when the lanes in two routes are shared,
-            # it makes it easier to catch mismatches between them.
-            result = CheckRouteChs(chainages, ch_lines, "lane counts",
-                                   "lane", file_name, route_name,
-                                   line_triples, units, log)
+                (tr_index, new_route_dict) = result
+        elif words_low[:2] == ["begin", "radii"]:
+            # We want a list of track radii and the chainages they apply
+            # up to.  This is for train performance calculations in SES;
+            # and the values are used to build SES input form 8C and
+            # written to a new SES input file if there is an "SESdata"
+            # block in the input file.
+            result = Process8CLists(line_triples, tr_index, settings_dict,
+                                    "radii", new_route_dict, route_name,
+                                    switcheroo, units, log)
             if result is None:
                 return(None)
-            # Store the count of lanes, the chainages they apply up to
-            # and the index of the start of the block (in case we
-            # need it for error message 2315 above).
-            lanes = [int(count) for count in lanes]
-            # Extend the lane count to infinity.
-            chainages.append(math.inf)
-            lanes.append(lanes[-1])
-            new_route_dict.__setitem__(key, (lanes, chainages, tr_start))
+            else:
+                (tr_index, new_route_dict) = result
+        elif words_low[:2] == ["begin", "sectors"]:
+            # We want a list of energy sectors and the chainages they apply
+            # up to.  This is for train performance calculations in SES;
+            # and the values are used to build SES input form 8C and
+            # written to a new SES input file if there is an "SESdata"
+            # block in the input file.
+            result = Process8CLists(line_triples, tr_index, settings_dict,
+                                    "sectors", new_route_dict, route_name,
+                                    switcheroo, units, log)
+            if result is None:
+                return(None)
+            else:
+                (tr_index, new_route_dict) = result
+        elif words_low[:2] == ["begin", "coasting"]:
+            # We want a list of coasting rules and the chainages they apply
+            # up to.  This is for train performance calculations in SES;
+            # and the values are used to build SES input form 8C and
+            # written to a new SES input file if there is an "SESdata"
+            # block in the input file.
+            result = Process8CLists(line_triples, tr_index, settings_dict,
+                                    "coasting", new_route_dict, route_name,
+                                    switcheroo, units, log)
+            if result is None:
+                return(None)
+            else:
+                (tr_index, new_route_dict) = result
+        elif words_low[:2] == ["begin", "regenfractions"]:
+            # We want a list of regenerative braking fractions and the
+            # chainages they apply up to.  This is for train performance
+            # calculations in SVS (not SES; just SVS).  The values are
+            # used to build SVS input form 8C and written to a new SVS
+            # input file if there is an "SESdata" block in the input file.
+            result = Process8CLists(line_triples, tr_index, settings_dict,
+                                    "regenfractions", new_route_dict,
+                                    route_name, switcheroo, units, log)
+            if result is None:
+                return(None)
+            else:
+                (tr_index, new_route_dict) = result
         elif words_low[:2] == ["begin", "schedule"]:
             # Get the dictionary key we will use for this schedule.
             sch_name = words_low[2]
@@ -24484,23 +24545,27 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
         # string causes a type mismatch that will alert us.
         # We set the down end of the route just beyond the down end of
         # the tunnel complex.
-        elevgrad_chs = [start, tunnel_chs[-1] + 2 * max_trlen]
+        elevgrad_chs = [start, tunnel_chs[-1] + max_trlen]
         gradients = [0.0, 0.0]
         elevations = [start_elev] * 2
         # We set the index to line_triples to math.nan so we know that
         # the profile has not been set in the input file.
         prof_index = math.nan
 
+    # Get the minimum and maximum chainages, which we use as
+    default_chs = [start, elevgrad_chs[-1]]
     if "speedlimits" not in new_route_dict:
         # Set an entry for the speed limit plot data that indicates
         # that user didn't set one (zero values from the origin to
         # beyond the down end of the tunnels).
         new_route_dict.__setitem__("speedlimits", "Not set")
         # Spoof the speed limits as zero for plotting.
-        new_route_dict.__setitem__("speed_chs", elevgrad_chs)
+        new_route_dict.__setitem__("speed_chs", default_chs)
         new_route_dict.__setitem__("speed_plots", [0.0, 0.0])
     else:
         speeds, chs, discard = new_route_dict["speedlimits"]
+        # Discard any settings that occur before the route origin
+        chs, speeds = ClipProfile(chs, speeds, start)
         # Set an entry for the speed limit plot data that indicates
         # that user didn't set one (zero values from the origin to
         # beyond the down end of the tunnels).
@@ -24511,20 +24576,88 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
         # Set an entry for the lane count plot data that indicates
         # that user didn't set one (zero values from the origin to
         # beyond the down end of the tunnels).
-        new_route_dict.__setitem__("lane_chs", elevgrad_chs)
+        new_route_dict.__setitem__("lane_chs", default_chs)
         new_route_dict.__setitem__("lane_plots", [0, 0])
     else:
         lanes, chs, discard = new_route_dict["lanes"]
+        # Discard any settings that occur before the route origin
+        chs, lanes = ClipProfile(chs, lanes, start)
         # Get suitable lane counts for plotting.  The last entry in
         # 'chs' is math.inf, which isn't practical when plotting.  We
-        # also prepend the origin of the route
+        # also prepend the origin of the route.
         new_route_dict.__setitem__("lane_chs", [start] + chs[:-1])
         new_route_dict.__setitem__("lane_plots", lanes)
 
+    if "radii" not in new_route_dict:
+        # Set an entry for the track radius plot data that indicates
+        # that user didn't set one (zero values from the origin to
+        # beyond the down end of the tunnels).
+        new_route_dict.__setitem__("radii_chs", default_chs)
+        new_route_dict.__setitem__("radii_plots", [0, 0])
+        new_route_dict.__setitem__("radii", ([0, 0], default_chs, math.nan))
+    else:
+        radii, chs, discard = new_route_dict["radii"]
+        # Discard any settings that occur before the route origin
+        chs, radii = ClipProfile(chs, radii, start)
+        # Get suitable track radii for plotting.  The last entry in
+        # 'chs' is math.inf, which isn't practical when plotting.  We
+        # also prepend the origin of the route.
+        new_route_dict.__setitem__("radii_chs", [start] + chs)
+        new_route_dict.__setitem__("radii_plots", radii)
 
-    # Add the lists of the tunnels, gradients and elevations to the dictionary.
-    new_route_dict.__setitem__("tunnel_names", tunnel_names)
-    new_route_dict.__setitem__("tunnel_chs", tunnel_chs)
+    if "sectors" not in new_route_dict:
+        # Set an entry for the track sector plot data that indicates
+        # that user didn't set one (energy sector 1 from the origin to
+        # beyond the down end of the tunnels).
+        new_route_dict.__setitem__("sectors_chs", default_chs)
+        new_route_dict.__setitem__("sectors_plots", [1, 1])
+        new_route_dict.__setitem__("sectors", ([1, 1], default_chs, math.nan))
+    else:
+        sectors, chs, discard = new_route_dict["sectors"]
+        # Discard any settings that occur before the route origin
+        chs, sectors = ClipProfile(chs, sectors, start)
+        # Get suitable track sectors for plotting.  The last entry in
+        # 'chs' is math.inf, which isn't practical when plotting.  We
+        # also prepend the origin of the route.
+        new_route_dict.__setitem__("sectors_chs", [start] + chs)
+        new_route_dict.__setitem__("sectors_plots", sectors)
+
+    if "coasting" not in new_route_dict:
+        # Set an entry for the coasting plot data that indicates
+        # that user didn't set one (zero values from the origin to
+        # beyond the down end of the tunnels).
+        new_route_dict.__setitem__("coasting_chs", default_chs)
+        new_route_dict.__setitem__("coasting_plots", [0, 0])
+        new_route_dict.__setitem__("coasting", ([0, 0], default_chs, math.nan))
+    else:
+        coasting, chs, discard = new_route_dict["coasting"]
+        # Discard any settings that occur before the route origin
+        chs, coasting = ClipProfile(chs, coasting, start)
+        # Get suitable coasting for plotting.  The last entry in
+        # 'chs' is math.inf, which isn't practical when plotting.  We
+        # also prepend the origin of the route.
+        new_route_dict.__setitem__("coasting_chs", [start] + chs)
+        new_route_dict.__setitem__("coasting_plots", coasting)
+
+    if "regenfractions" not in new_route_dict:
+        # Set an entry for the track regenerative braking fractions plot
+        # data that indicates that user didn't set one (zero values from
+        # the origin to beyond the down end of the tunnels).
+        new_route_dict.__setitem__("regenfractions_chs", default_chs)
+        new_route_dict.__setitem__("regenfractions_plots", [0, 0])
+        new_route_dict.__setitem__("regenfractions", ([0, 0], default_chs,
+                                   math.nan))
+    else:
+        regenfractions, chs, discard = new_route_dict["regenfractions"]
+        # Discard any settings that occur before the route origin
+        chs, regenfractions = ClipProfile(chs, regenfractions, start)
+        # Get suitable regen braking fractions for plotting.  The last
+        # entry in 'chs' is math.inf, which isn't practical when
+        # plotting.  We also prepend the origin of the route.
+        new_route_dict.__setitem__("regenfractions_chs", [start] + chs)
+        new_route_dict.__setitem__("regenfractions_plots", regenfractions)
+
+    # Add the lists of the gradients and elevations to the dictionary.
     new_route_dict.__setitem__("gradients2", gradients[1:])
     new_route_dict.__setitem__("elevations", elevations)
     new_route_dict.__setitem__("elevgrad_chs", elevgrad_chs)
@@ -24876,6 +25009,246 @@ def ProcessRoute(line_triples, tr_index, settings_dict, tunnels_dict,
     gen.LogBlock(new_route_dict, "route " + route_name, debug1, log)
     # gen.LogBlock(block_dict, block_name + " " + entity_name, debug1, log)
     return(route_name, new_route_dict)
+
+
+def ClipProfile(chs, values, start):
+    mod_chs = []
+    mod_values = []
+    for ch, value in zip(chs, values):
+        if ch > start:
+            mod_chs.append(ch)
+            mod_values.append(value)
+    return(mod_chs, mod_values)
+
+
+def Process8CLists(line_triples, tr_index, settings_dict, key,
+                      new_route_dict, route_name, switcheroo, units, log):
+    '''Process a sub-block in a route definition that reads integer
+    values.  This was originally written to read counts of lanes as
+    an 'elif' block inside PROC ProcessRoute.  It was split out into
+    a procedure so that it can be used to read counts of lanes, SES
+    energy sector numbers and SES coasting switches, as they are
+    similar.
+    '''
+    file_name = settings_dict["file_name"]
+    tunnel_chs = new_route_dict["tunnel_chs"]
+
+    # Set the arguments we send to ProcessNumberList.
+    if switcheroo is True:
+        rule1 = ">"   # chainage
+        rule2 = ""
+        name1 = "chainages"
+        name2 = key
+    else:
+        rule1 = ""
+        rule2 = ">"   # chainage
+        name1 = key
+        name2 = "chainages"
+
+    # Customise the text of the error messages to the block we are
+    # reading.
+    if key == "lanes":
+        # Set the count of lanes for stationary traffic calculations.
+        descrip1 = 'count of lanes'
+        descrip2 = 'lane \n> counts,'
+        minval = 1
+        maxval = math.inf
+        integers = True
+    elif key == "radii":
+        # This applies to SES input files only.  It is the track radii,
+        # to set in form 8C, with zero being straight track.
+        descrip1 = 'track radii'
+        descrip2 = 'track \n> radii,'
+        minval = 0
+        maxval = math.inf
+        integers = False
+    elif key == "sectors":
+        # This applies to SES input files only.  It is the energy sectors
+        # to assign pieces of track to in form 8C.
+        descrip1 = 'energy sectors'
+        descrip2 = 'energy \n> sectors,'
+        minval = 0
+        maxval = math.inf
+        integers = True
+    elif key == "coasting":
+        descrip1 = 'coasting switches'
+        descrip2 = 'coasting \n> switches,'
+        minval = 0
+        maxval = 1
+        integers = True
+    elif key == "regenfractions":
+        # This applies to SVS input files only.  It is route-based
+        # regenerative braking fraction.
+        descrip1 = 'regen fractions'
+        descrip2 = 'regen \n> fractions,'
+        minval = 0
+        maxval = 1
+        integers = False
+    # elif key == "heatgains":
+    else:
+        # This is heat gains per unit length.  These are turned into
+        # fixed heat gains in form 3D in the line segments that a
+        # route passes through.  These types of entry originate in
+        # the "SESdata" blocks instead of the "route" blocks, so that
+        # different "SESdata" blocks can set different heat gains in
+        # their respective SES input files.
+        descrip1 = 'heat gains'
+        descrip2 = 'heat \n> gains,'
+        minval = -math.inf
+        maxval = math.inf
+        integers = False
+
+    # Store the index of the line with "begin " <keyword> entry
+    # for the error message for duplicate blocks.
+    tr_start = tr_index
+
+    # Read the numbers in the block.
+    result = ProcessNumberList(line_triples, tr_index + 1,
+                               settings_dict, key,
+                               name1, name2, rule1, rule2, log)
+    if result is None:
+        return(None)
+    elif switcheroo:
+        (tr_index, chainages, values, ln_lines, ch_lines) = result
+    else:
+        (tr_index, values, chainages, ln_lines, ch_lines) = result
+    # Check the ranges and insist on integers in some cases.
+    for index, value in enumerate(values):
+        if value < minval:
+            tr_index = ln_lines[index]
+            line_num, line_data, line_text = line_triples[tr_index]
+            if key == "lanes":
+                # The count of lanes has a minimum of 1 and be integers.
+                text1 = 'one ('+ str(value) + ').\n'
+                text2 = 'integers of one or more.'
+            elif key == "sectors":
+                # The energy sectors should be 0 or above and be integers.
+                text1 = 'zero ('+ str(value) + ').\n'
+                text2 = 'integer values zero or above.'
+            elif key == "coasting":
+                # The coasting parameter should be 0 or 1.
+                text1 = 'zero ('+ str(value) + ').\n'
+                text2 = 'integer values zero or one.'
+            elif key == "regenfractions":
+                # The regen fraction can't be less than zero.
+                text1 = 'zero ('+ str(value) + ').\n'
+                text2 = 'real numbers between zero and one.'
+            else:
+                # This is heat gains.  We can't get here because the
+                # minimum is -math.inf, but that could change if
+                # someone alters the limits.
+                text1 = '-math.inf ('+ str(value) + ').\n'
+                text2 = 'real numbers between -math.inf and\n> +math.inf.'
+            err = ('> Came across faulty input in "'
+                     + file_name + '".\n'
+                   '> In route "' + route_name
+                     + '" there was a block of ' + descrip2
+                     + ' one of which was less than ' + text1 +
+                   '> Please edit the file to set the ' + descrip1 + '\n'
+                   '> to be ' + text2
+                  )
+            gen.WriteError(3121, err, log)
+            gen.ErrorOnLine(line_num, line_text, log, False)
+            return(None)
+        elif value > maxval:
+            tr_index = ln_lines[index]
+            line_num, line_data, line_text = line_triples[tr_index]
+            if key in ("lanes", "sectors"):
+                # The count of lanes and the energy sector entry have
+                # no maximum.  We spoof the message, as we can never
+                # actually get here (I think).
+                text1 = 'math.inf ('+ str(value) + ').\n'
+                text2 = 'integers of one or more.'
+            elif key == "coasting":
+                # The coasting parameter should be 0 or 1
+                text1 = 'one ('+ str(value) + ').\n'
+                text2 = 'integer values zero or one.'
+            elif key == "regenfractions":
+                # The coasting parameter should be 0 or 1 and the
+                # regen fraction can't be less than zero.
+                text1 = 'one ('+ str(value) + ').\n'
+                text2 = 'real numbers between zero and one.'
+            else:
+                # This is heat gains.  We can't get here because the
+                # maximum is +math.inf, but that could change if
+                # someone changes the limits.
+                text1 = '+math.inf ('+ str(value) + ').\n'
+                text2 = 'real numbers between -math.inf and\n> +math.inf.'
+            err = ('> Came across faulty input in "'
+                     + file_name + '".\n'
+                   '> In route "' + route_name
+                     + '" there was a block of ' + descrip2
+                     + ' one of which was more than ' + text1 +
+                   '> Please edit the file to set the ' + descrip1 + '\n'
+                   '> to be ' + text2
+                  )
+            gen.WriteError(3122, err, log)
+            gen.ErrorOnLine(line_num, line_text, log, False)
+            return(None)
+        elif integers and not math.isclose(value, int(value)):
+            tr_index = ln_lines[index]
+            line_num, line_data, line_text = line_triples[tr_index]
+            err = ('> Came across faulty input in "'
+                     + file_name + '".\n'
+                   '> In route "' + route_name
+                     + '" there was a block of ' + descrip2
+                     + ' one of which was not an integer ('
+                     + str(value) + ').\n'
+                   '> Please edit the file to set the ' + descrip1 + '\n'
+                   '> to integers.'
+                  )
+            gen.WriteError(3123, err, log)
+            gen.ErrorOnLine(line_num, line_text, log, False)
+            return(None)
+    # We can't have the count of lanes run out before the down portal
+    # so we test for that.  No need for this when doing SES energy
+    # sectors or coasting switches, which can be extended to the route
+    # end like gradient is extended.
+    if key == "lanes":
+        # Now check if the last chainage is at or beyond the down
+        # end tunnel portal and fault if it is not.
+        last_ch = chainages[-1]
+        if last_ch < tunnel_chs[-1]:
+            tr_index = ln_lines[-1]
+            line_num, line_data, line_text = line_triples[tr_index]
+            err = ('> Came across faulty input in "'
+                     + file_name + '".\n'
+                   '> In route "' + route_name
+                     + '" there was a block of lane \n'
+                   '> counts.  The last count ended at chainage\n'
+                   '> ' + str(last_ch)
+                     + ', which is before the down daylight\n'
+                   '> portal of the tunnel complex.\n'
+                   '> This means traffic disappears in the middle\n'
+                   '> of the tunnel, which is bad.  Please edit\n'
+                   '> the file to set lanes all the way to the \n'
+                   "> tunnel end (it's at " + str(tunnel_chs[-1]) + ').'
+                  )
+            gen.WriteError(3124, err, log)
+            gen.ErrorOnLine(line_num, line_text, log, False)
+            return(None)
+        # Check that the changes of lanes are at 10 m apart or more.
+        # We want this so that when the lanes in two routes are shared,
+        # it makes it easier to catch mismatches between them.
+        result = CheckRouteChs(chainages, ch_lines, "lane counts",
+                               "lane", file_name, route_name,
+                               line_triples, units, log)
+        if result is None:
+            return(None)
+    if key in ("lanes", "coasting", "sectors"):
+        # We store the values as integers.
+        values = [int(value) for value in values]
+    # Extend the lane counts and speed limits to infinity so we can
+    # use them in traffic/train calculations.  No need for this with
+    # the stuff we send to SES/SVS input files.
+    if key in ("lanes", "speedlimits"):
+        chainages.append(math.inf)
+        values.append(values[-1])
+    # Store the values, the chainages they apply up to and the index
+    # of the start of the block (we store the index in case we need
+    # it for error message 3121 above).
+    new_route_dict.__setitem__(key, (values, chainages, tr_start))
+    return(tr_index, new_route_dict)
 
 
 def CheckRouteChs(chainages, ch_lines, text1, text2, file_name,
@@ -25575,6 +25948,7 @@ def ProcessNumberList(line_triples, tr_index, settings_dict,
     # Store the index of the line at the start of the list, which we
     # can use for debugging when coding.
     orig_index =  tr_index
+
     while tr_index < len(line_triples):
         (line_number, line_data, line_text) = line_triples[tr_index]
 
@@ -27503,7 +27877,7 @@ def ProcessSettings(line_triples, settings_dict, log):
                       "time_accuracy":  ("int 0+ null   a rise time",),
                       "g": ("float + accel   gravitational acceleration",),
                       "autokeys": (("on", "off"),),
-                      "solver":         ("moc2"),
+                      "solver":   (("moc2",),),
                       "min_area":  ("float + null   a minimum annulus area",),
                       "jetfancounts": (("integers", "nonintegers"),),
                       # To do: solver and max_roughness.
@@ -30178,7 +30552,8 @@ def ProcessFile( arguments ):
     unnamed = ["settings", "testblock", "constants", "plotcontrol",
                "sectypes", "gradients", "elevations", "heights",
                "tunnels", # Routes have lists of tunnels in them
-               "speedlimits", "lanes",
+               "speedlimits", "lanes", "radii", "sectors", "coasting",
+               "regenfractions",
                "sub_testblock", "traffictypes", "jetfantypes",
                "plots", "verbatim", "csv", "image",
                "page", "timeloop", "filesloop", "graph", "image",
@@ -30187,7 +30562,7 @@ def ProcessFile( arguments ):
     duplicables = ["testblock", "constants", "sectypes",
                    "page", "graph", "timeloop", "filesloop",
                    "verbatim", "data", "image", "fanchar",
-                   "schedule", "tunnelclones", "lanes",
+                   "schedule", "tunnelclones",
                    "trafficsteady", "sesdata"
                   ]
     # The code below gets a list of the blocks that cannot be duplicated.
@@ -30196,7 +30571,9 @@ def ProcessFile( arguments ):
     # If a block does not appear in this dictionary then other blocks
     # cannot be nested within blocks of that type.
     nestables = {"route": ("tunnels", "elevations", "gradients",
-                           "schedule", "speedlimits", "lanes",),
+                           "schedule", "speedlimits", "lanes",
+                           "radii", "sectors", "coasting",
+                           "regenfractions",),
                  "plots": ("page", "timeloop", "filesloop"),
                  "page": ("graph", "image"),
                  "timeloop": ("graph", "image", "verbatim"),
@@ -30636,7 +31013,7 @@ def main():
     if not args_hobyah.showerrors:
         # Print a blurb.
         print(#'Hobyah.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-              'Hobyah.py, 21 July 2024\n'
+              'Hobyah.py, 7 August 2024\n'
               'Copyright (C) 2020-2024 Ewan Bennett\n'
               'This is free software, released under the BSD 2-clause open\n'
               'source licence.  See licence.txt for copying conditions.\n\n'

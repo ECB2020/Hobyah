@@ -181,6 +181,82 @@ class Hobyahdata:
                              "x_list": "lane_chs",
                              "y_list": "lane_plots",
                             },
+                # This is track radius, which is not used in Hobyah.
+                # It is written to SES routes in form 8C and is used
+                # in the SES train performance calculation (curved
+                # track adds a small amount of extra resistance due to
+                # the wheels grinding on the curved track).  We include
+                # it as a plot to ensure that the data we pass to SES
+                # is not corrupted.
+                "radius":   {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "not used",
+                             "descrip": "track radius",
+                             "conversion": "dist1",
+                             "signed": False,
+                             "transient": False,
+                             "curve_types": ("profile",),
+                             "complexity": "double_up1",
+                             "var_name": self.routes_dict,
+                             "x_list": "radii_chs",
+                             "y_list": "radii_plots",
+                            },
+                # This assigns energy sectors for traction power
+                # performance calculations to different sections of
+                # track.  It is is not used in Hobyah, only in SES.
+                # Hobyah writes this data to SES form 8C if there are
+                # "SESdata" blocks in the Hobyah input file.
+                "sectors":  {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "not used",
+                             "descrip": "track sectors",
+                             "conversion": "null",
+                             "signed": False,
+                             "transient": False,
+                             "curve_types": ("profile",),
+                             "complexity": "double_up1",
+                             "var_name": self.routes_dict,
+                             "x_list": "sectors_chs",
+                             "y_list": "sectors_plots",
+                            },
+                # This is a coasting allowed/coasting forbidden switch
+                # used in the traction power performance calculations.
+                # It is is not used in Hobyah, only in SES.
+                # Hobyah writes this data to SES form 8C if there are
+                # "SESdata" blocks in the Hobyah input file.
+                "coasting": {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "not used",
+                             "descrip": "coasting rule",
+                             "conversion": "null",
+                             "signed": False,
+                             "transient": False,
+                             "curve_types": ("profile",),
+                             "complexity": "double_up1",
+                             "var_name": self.routes_dict,
+                             "x_list": "coasting_chs",
+                             "y_list": "coasting_plots",
+                            },
+                # This is a location-specific regenerative braking factor
+                # used in the traction power performance calculations.
+                # It is is not used in Hobyah, only in SVS.  Not SES;
+                # just SVS.
+                # Hobyah writes this data to SES form 8C if there are
+                # "SESdata" blocks in the Hobyah input file and the
+                # SES input file type is "SVS".
+                "regenfrac":{"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "not used",
+                             "descrip": "regen braking fraction",
+                             "conversion": "null",
+                             "signed": False,
+                             "transient": False,
+                             "curve_types": ("profile",),
+                             "complexity": "double_up1",
+                             "var_name": self.routes_dict,
+                             "x_list": "regenfractions_chs",
+                             "y_list": "regenfractions_plots",
+                            },
                 "area":     {"versions": (1,),
                              "solver": ("moc2",),
                              "place": 0, # The index to area in segments_consts
@@ -495,6 +571,57 @@ class Hobyahdata:
                              "curve_types": ("transient",),
                              "var_name": self.p_diff_dict,
                             },
+                # These are skeleton properties intrinsic to trains.
+                # "speed":    {"versions": (1,),
+                #              "solver": ("moc2",),
+                #              "place": "train",
+                #              "descrip": "speed of",
+                #              "conversion": "speed2", # km/h and mph
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient",),
+                #              "var_name": self.tr_speeds_bin,
+                #             },
+                # "speedms":  {"versions": (1,),
+                #              "solver": ("moc2",),
+                #              "place": "train",
+                #              "descrip": "speed of",
+                #              "conversion": "speed1", # m/s and fpm
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient",),
+                #              "var_name": self.tr_speeds_bin,
+                #             },
+                # "accel":    {"versions": (1,),
+                #              "solver": ("moc2",),
+                #              "place": "train",
+                #              "descrip": "acceleration of",
+                #              "conversion": "accel",
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient",),
+                #              "var_name": self.tr_accels_bin,
+                #             },
+                # "down_ch":  {"versions": (1,),
+                #              "solver": ("moc2",),
+                #              "place": "train",
+                #              "descrip": "location of the down end of",
+                #              "conversion": "dist1",
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient",),
+                #              "var_name": self.tr_down_bin,
+                #             },
+                # "up_ch":    {"versions": (1,),
+                #              "solver": ("moc2",),
+                #              "place": "train",
+                #              "descrip": "location of the up end of",
+                #              "conversion": "dist1",
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient",),
+                #              "var_name": self.tr_up_bin,
+                #             },
                 # These skeleton properties for traffic in segments.
                 # If a file has a "traffictypes" block with traffic
                 # names in it, "_flow" or "dens" are appended to each

@@ -146,7 +146,7 @@ def main():
 
     # Print a blurb.
     print(#'SESconv.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-          'SESconv.py, 21 July 2024\n'
+          'SESconv.py, 7 August 2024\n'
           'Copyright (C) 2020-2024 Ewan Bennett\n'
           'This is free software, released under the BSD 2-clause open\n'
           'source licence.  See licence.txt for copying conditions.\n\n'
@@ -7846,6 +7846,13 @@ def ProcessFile(arguments):
         PRN_here =  os.access(dir_name + file_stem + ".PRN", os.F_OK)
         OUT_here =  os.access(dir_name + file_stem + ".OUT", os.F_OK)
         TMP_here =  os.access(dir_name + file_stem + ".TMP", os.F_OK)
+        if TMP_here:
+            # We have a .TMP file.  The .TMP file must be the newest
+            # output file because when SES v4.1 writes a .PRN file,
+            # it deletes the .TMP file.
+            print("> Converting the .TMP file.")
+            file_ext = ".TMP"
+            file_name = file_stem + file_ext
         if PRN_here:
             # We specified no extension and the .PRN file exists.  Use it.
             print("> Converting the .PRN file.")
@@ -7855,10 +7862,6 @@ def ProcessFile(arguments):
             # file_name so that the .OUT file is processed.
             print("> Converting the .OUT file.")
             file_ext = ".OUT"
-            file_name = file_stem + file_ext
-        elif TMP_here:
-            print("> Converting the .TMP file.")
-            file_ext = ".TMP"
             file_name = file_stem + file_ext
 
     print("\n> Processing file " + str(file_num) + " of "
@@ -11101,6 +11104,22 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             if debug1:
                 print("Zone", key, "is noninertial")
 
+    if tempopt == 0:
+        # We have a whole set of DataFrames that are full of zeros or
+        # NaNs.  We can safely turn them into something that still exists
+        # but doesn't take up as much space.
+        subseg_walltemps = "Not saved to the output file"
+        subseg_temps = "Not saved to the output file"
+        subseg_humids = "Not saved to the output file"
+        subseg_sens = "Not saved to the output file"
+        subseg_lat = "Not saved to the output file"
+        subseg_denscorr = "Not saved to the output file"
+        subseg_meandenscorr = "Not saved to the output file"
+        # These two are identical to the cold equivalents.  We can
+        # copy them over in classSES.py and not write them to the
+        # output file.
+        subpoint_warmflows = "Not saved to the output file"
+        subpoint_warmvels = "Not saved to the output file"
 
     # Now we return a list of all the subsegment names (e.g. "101-2"
     # and the subpoint keys (e.g. "101-2b") and pandas dataframes of

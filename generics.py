@@ -1043,6 +1043,11 @@ def FormatOnLines(my_list, lastword = "and", width = 45, indent = 3):
     (some routines calling it replace "and" with "or".
     Return the string.  Used to give lists of valid keywords in
     error messages.
+    We also cut out any entries that are "block_index", because those
+    are valid dictionary keys in all blocks but are not the names of
+    tunnels, sectypes, fans, etc.  The moment you publish something to
+    the world and its dog, stuff in your documentation starts leaping
+    out at you and smacking you on the head.
 
         Parameters:
             my_list   []    a list of keywords or numbers.
@@ -1060,6 +1065,15 @@ def FormatOnLines(my_list, lastword = "and", width = 45, indent = 3):
     '''
     len_list = len(my_list)
     pad = ' ' * indent
+    true_list = list(my_list)
+    try:
+        # Most dictionaries have a key named "block_index" that points
+        # to the line that the block started at.  We don't want to include
+        # that in a list of sectype names, tunnel names, route names etc.
+        true_list.remove("block_index")
+    except ValueError:
+        # It doesn't exist in this list.
+        pass
     if len_list == 1:
         line = ">" + pad + str(my_list[0]) + "."
     else:

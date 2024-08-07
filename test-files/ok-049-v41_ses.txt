@@ -1,5 +1,5 @@
 SES VER 4.10        SES 4.1 skeleton file from "ok-049-write-SES-file.txt", a Hobyah input file.        PAGE:     1
-FILE: ok-049-v41.ses                                                          SIMULATION TIME: 22 JUL 2024 12:06:25
+FILE: ok-049-v41.ses                                                          SIMULATION TIME: 07 AUG 2024 10:57:04
                                       UNITED STATES DEPARTMENT OF TRANSPORTATION
                                             FEDERAL TRANSIT ADMINISTRATION
                                  JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
@@ -1616,8 +1616,8 @@ INPUT VERIFICATION FOR LINE SEGMENT  201 -201           Tunnel "Offslip", segmen
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
 LENGTH                                                                                  500.   m
 CROSS SECTION AREA                                                                  103.0016   m^2
-STACK HEIGHT                                                                         -18.806   m
-  GRADE OF LINE SEGMENT                                                                -3.76   percent
+STACK HEIGHT                                                                         -14.204   m
+  GRADE OF LINE SEGMENT                                                                -2.84   percent
                                                 XXXXXXXXXXXXXXX                            1   (SPECIAL 'FIRE' SEGMENT)
 SEGMENT                                                                                                        FORM 3B
  PERIMETERS       54.986                                                           TOTAL PERIMETER      54.986  m
@@ -2478,7 +2478,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2498,7 +2498,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2518,7 +2518,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2538,7 +2538,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2558,7 +2558,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2578,7 +2578,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2598,7 +2598,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2618,7 +2618,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2638,7 +2638,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2658,7 +2658,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2678,7 +2678,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                              0.   m
+STACK HEIGHT                                                                           5.212   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2698,7 +2698,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                           -0.03   m
+STACK HEIGHT                                                                           5.182   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2718,7 +2718,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.091   m
+STACK HEIGHT                                                                           5.121   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2738,7 +2738,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.152   m
+STACK HEIGHT                                                                            5.06   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2758,7 +2758,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.213   m
+STACK HEIGHT                                                                           4.999   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2778,7 +2778,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.274   m
+STACK HEIGHT                                                                           4.938   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2798,7 +2798,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.305   m
+STACK HEIGHT                                                                           4.877   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2818,7 +2818,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.366   m
+STACK HEIGHT                                                                           4.816   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2838,7 +2838,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.427   m
+STACK HEIGHT                                                                           4.755   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2858,7 +2858,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.488   m
+STACK HEIGHT                                                                           4.694   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2878,7 +2878,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                          -0.549   m
+STACK HEIGHT                                                                           4.633   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2898,7 +2898,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                           -0.61   m
+STACK HEIGHT                                                                           4.572   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -2918,7 +2918,7 @@ DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                    
 WALL SURFACE TEMPERATURE                                                                 21.   deg C
 INITIAL AIR DRY-BULB TEMPERATURE                                                         25.   deg C
 INITIAL AIR WET-BULB TEMPERATURE                                                         19.   deg C
-STACK HEIGHT                                                                           -0.64   m
+STACK HEIGHT                                                                           4.572   m
 FAN TYPE                                                                                   0   (NO FAN)        FORM 5C
 SEGMENT CHARACTERISTICS                                                                                        FORM 5D
                                                                     SEGMENT TOTAL HEAD LOSS COEFFICIENTS
@@ -3937,9 +3937,9 @@ FITTED FAN PERFORMANCE CURVE
                        Jet fan static thrust (at 1.2 kg/m^3)                     1100.0   N
 INPUT VERIFICATION FOR TRAIN ROUTE  1   SES route 1, from Hobyah route "ebmain"                                FORM 8A
                                                TRAIN SCHEDULING DATA
-TRAIN SCHEDULING ORIGIN                                                                   0.   m
+TRAIN SCHEDULING ORIGIN                                                             9000.012   m
 NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
-NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    11
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    17
 DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
 MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              60.03   km/h
 ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
@@ -3954,17 +3954,23 @@ INPUT VERIFICATION FOR TRAIN ROUTE  1   SES route 1, from Hobyah route "ebmain" 
 SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
 NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
                  (m)            (m)         (m)              (m)        (percent)       (km/h)
-   1         9500.006       9500.006                          0.            -0.           110.            1
-   2         9600.011        100.005                      -0.488           -0.5           110.            1
-   3         9799.991         200.01                      -1.494           -0.5          89.99            1
-   4         9899.995        100.005                      -2.012           -0.5           100.            1
-   5        10519.989        619.994                     -26.792            -4.           100.            1
-   6        11380.013        859.993                     -35.387            -1.           100.            1
-   7        12639.995       1260.013                     -22.799             1.           100.            1
-   8           12860.        220.005                      -13.99             4.           100.            1
-   9        12979.999           120.                      -9.205             4.           110.            1
-  10        13400.014        420.014                      -9.632           -0.1           110.            1
-  11        13599.993         200.01                      -9.815           -0.1           110.            1
+   1         9199.992       9199.992                          0.            -0.           110.            1        COASTING
+   2         9500.006        300.015                          0.            -0.           110.            0        COASTING
+   3         9600.011        100.005                      -0.488           -0.5           110.            0        COASTING
+   4         9699.986        100.005                      -1.006           -0.5          89.99            0        COASTING
+   5         9799.991        100.005    2999.994          -1.494           -0.5          89.99            0        COASTING
+   6         9899.995        100.005    2999.994          -2.012           -0.5           100.            0        COASTING
+   7        10519.989        619.994    2999.994         -26.792            -4.           100.            0        COASTING
+   8        11199.998        680.009    2999.994         -33.589            -1.           100.            0        COASTING
+   9        11359.987         159.99      15000.         -35.204            -1.           100.            0        COASTING
+  10        11380.013         19.995      15000.         -35.387            -1.           100.            2
+  11        12639.995       1260.013      15000.         -22.799             1.           100.            2
+  12           12860.        220.005      15000.          -13.99             4.           100.            2
+  13        12979.999           120.    5999.988          -9.205             4.           110.            2
+  14        13400.014        420.014    5999.988          -9.632           -0.1           110.            2
+  15        13499.988        100.005                      -9.723           -0.1           110.            2
+  16        13589.996         90.007                      -9.815           -0.1           110.            2
+  17        13599.993          9.997                      -9.815           -0.1           110.            2
 INPUT VERIFICATION FOR TRAIN ROUTE  1   SES route 1, from Hobyah route "ebmain"                                CONTINUED
                                                 SCHEDULED STOPS DATA                                           FORM 8D
 NUMBER OF SCHEDULED STOPS                                                                  0
@@ -4005,51 +4011,57 @@ DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                     
                            127                 127                 12740.    TO      12860.
                         DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
                FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
-    1          0.00       0.0   0.00000    100.25         0         1         0
-    2      31167.98       0.0  -0.00000    100.25         0         0         1
-    3      31496.06       0.0  -0.00500    100.25         0         0         1
-    4      32152.23       0.0  -0.00500     82.02         0         0         1
-    5      32480.31       0.0  -0.00500     91.14         0         0         1
-    6      32808.40       0.0  -0.03997     91.14         0         0         1
-    7      33136.48       0.0  -0.03997     91.14         0         0       129
-    8      33530.18       0.0  -0.03997     91.14         0         0       257
-    9      33727.03       0.0  -0.03997     91.14         0         0       385
-   10      33923.88       0.0  -0.03997     91.14         0         0       513
-   11      34317.58       0.0  -0.03997     91.14         0         0       641
-   12      34514.44       0.0  -0.03997     91.14         0         0       769
-   13      34711.28       0.0  -0.01000     91.14         0         0       769
-   14      35104.98       0.0  -0.01000     91.14         0         0       897
-   15      35498.68       0.0  -0.01000     91.14         0         0      1025
-   16      35892.38       0.0  -0.01000     91.14         0         0      1153
-   17      36286.07       0.0  -0.01000     91.14         0         0      1281
-   18      36679.77       0.0  -0.01000     91.14         0         0      1409
-   19      37073.47       0.0  -0.01000     91.14         0         0      1537
-   20      37335.96       0.0  -0.01000     91.14         0         0      1665
-   21      37467.17       0.0   0.01000     91.14         0         0      1665
-   22      37860.87       0.0   0.01000     91.14         0         0      1793
-   23      38254.57       0.0   0.01000     91.14         0         0      1921
-   24      38648.27       0.0   0.01000     91.14         0         0      2049
-   25      39041.97       0.0   0.01000     91.14         0         0      2177
-   26      39304.44       0.0   0.01000     91.14         0         0      2305
-   27      39435.67       0.0   0.01000     91.14         0         0      2433
-   28      39632.52       0.0   0.01000     91.14         0         0      2561
-   29      39829.37       0.0   0.01000     91.14         0         0      2689
-   30      40223.07       0.0   0.01000     91.14         0         0      2817
-   31      40616.77       0.0   0.01000     91.14         0         0      2945
-   32      41010.47       0.0   0.01000     91.14         0         0      3073
-   33      41404.17       0.0   0.01000     91.14         0         0      3201
-   34      41469.82       0.0   0.01000     91.14         0         0      3329
-   35      41797.87       0.0   0.03997     91.14         0         0      3329
-   36      42191.57       0.0   0.03997     91.14         0         0      3457
-   37      42191.60       0.0   0.03997     91.14         0         0         1
-   38      42585.30       0.0   0.03997    100.25         0         0         1
-   39      43963.25       0.0  -0.00100    100.25         0         0         1
-   40      44619.42       0.0  -0.00100    100.25         0         0         1
-INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch"                              FORM 8A
+    1          0.00       0.0   0.00000   -100.25         0         1         0
+    2      30183.73       0.0  -0.00000   -100.25         0         0         1
+    3      31167.98       0.0  -0.00000   -100.25         0         0         0
+    4      31496.06       0.0  -0.00500   -100.25         0         0         0
+    5      31824.15       0.0  -0.00500    -82.02         0         0         0
+    6      32152.23    9842.5  -0.00500    -82.02         0         0         0
+    7      32480.31    9842.5  -0.00500    -91.14         0         0         0
+    8      32808.40    9842.5  -0.03997    -91.14         0         0         0
+    9      33136.48    9842.5  -0.03997    -91.14         0         0       128
+   10      33530.18    9842.5  -0.03997    -91.14         0         0       256
+   11      33727.03    9842.5  -0.03997    -91.14         0         0       384
+   12      33923.88    9842.5  -0.03997    -91.14         0         0       512
+   13      34317.58    9842.5  -0.03997    -91.14         0         0       640
+   14      34514.44    9842.5  -0.03997    -91.14         0         0       768
+   15      34711.28    9842.5  -0.01000    -91.14         0         0       768
+   16      35104.98    9842.5  -0.01000    -91.14         0         0       896
+   17      35498.68    9842.5  -0.01000    -91.14         0         0      1024
+   18      35892.38    9842.5  -0.01000    -91.14         0         0      1152
+   19      36286.07    9842.5  -0.01000    -91.14         0         0      1280
+   20      36679.77    9842.5  -0.01000    -91.14         0         0      1408
+   21      36745.41    9842.5  -0.01000    -91.14         0         0      1536
+   22      37073.47   49212.6  -0.01000    -91.14         0         0      1536
+   23      37270.34   49212.6  -0.01000    -91.14         0         0      1664
+   24      37335.96   49212.6  -0.01000     91.14         0         0      1666
+   25      37467.17   49212.6   0.01000     91.14         0         0      1666
+   26      37860.87   49212.6   0.01000     91.14         0         0      1794
+   27      38254.57   49212.6   0.01000     91.14         0         0      1922
+   28      38648.27   49212.6   0.01000     91.14         0         0      2050
+   29      39041.97   49212.6   0.01000     91.14         0         0      2178
+   30      39304.44   49212.6   0.01000     91.14         0         0      2306
+   31      39435.67   49212.6   0.01000     91.14         0         0      2434
+   32      39632.52   49212.6   0.01000     91.14         0         0      2562
+   33      39829.37   49212.6   0.01000     91.14         0         0      2690
+   34      40223.07   49212.6   0.01000     91.14         0         0      2818
+   35      40616.77   49212.6   0.01000     91.14         0         0      2946
+   36      41010.47   49212.6   0.01000     91.14         0         0      3074
+   37      41404.17   49212.6   0.01000     91.14         0         0      3202
+   38      41469.82   49212.6   0.01000     91.14         0         0      3330
+   39      41797.87   49212.6   0.03997     91.14         0         0      3330
+   40      42191.57   49212.6   0.03997     91.14         0         0      3458
+   41      42191.60   49212.6   0.03997     91.14         0         0         2
+   42      42585.30   19685.0   0.03997    100.25         0         0         2
+   43      43963.25   19685.0  -0.00100    100.25         0         0         2
+   44      44291.34       0.0  -0.00100    100.25         0         0         2
+   45      44586.61       0.0  -0.00100    100.25         0         0         2
+   46      44619.42       0.0  -0.00100    100.25         0         0         2
+INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch" in reverse                   FORM 8A
                                                TRAIN SCHEDULING DATA
 TRAIN SCHEDULING ORIGIN                                                                   0.   m
 NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
-NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    10
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    19
 DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
 MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              60.03   km/h
 ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
@@ -4058,7 +4070,121 @@ ROUTE COASTING OPTION                                                           
           NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
                                                                  (SECONDS)                 (SECONDS)
              1                   1                 1               9999                      9999
-INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch"                              CONTINUED
+INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch" in reverse                   CONTINUED
+                                                  TRACK SECTION DATA                                           FORM 8C
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+                 (m)            (m)         (m)              (m)        (percent)       (km/h)
+   1          100.005        100.005                       0.091            0.1           110.            2
+   2          210.007        110.002    5999.988           0.213            0.1           110.            2
+   3          519.989        310.012    5999.988           0.518            0.1           110.            2
+   4          639.989           120.    5999.988            0.64            0.1           110.            2
+   5          800.009         159.99      15000.           0.792            0.1           110.            2
+   6          859.993         59.985      15000.           0.853            0.1            80.            2
+   7         1300.002        440.009      15000.         -12.344            -3.            80.            2
+   8         1380.012          80.01      15000.         -14.752            -3.           100.            2
+   9         2120.006        739.993      15000.         -22.128            -1.           100.            2
+  10         2140.001         19.995      15000.         -21.946             1.           100.            2
+  11          2299.99         159.99      15000.          -20.33             1.           100.            0        COASTING
+  12         2979.999        680.009    2999.994         -13.533             1.           100.            0        COASTING
+  13         3599.993        619.994    2999.994          11.247             4.           100.            0        COASTING
+  14         3699.998        100.005    2999.994          11.765            0.5           100.            0        COASTING
+  15         3800.003        100.005    2999.994          12.253            0.5          89.99            0        COASTING
+  16         3900.007        100.005                      12.771            0.5          89.99            0        COASTING
+  17         4000.012        100.005                      13.259            0.5           110.            0        COASTING
+  18         4299.996        300.015                      13.259            -0.           110.            0        COASTING
+  19         4500.006         200.01                      13.259            -0.           110.            1        COASTING
+INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch" in reverse                   CONTINUED
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+NUMBER OF SCHEDULED STOPS                                                                  0
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                        1
+INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch" in reverse                   CONTINUED
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                             21
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                          920.008   m
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER                 (m)               (m)
+                           201                 201                920.008    TO    1420.002
+                          -120                -120               1420.002    TO    1479.987
+                          -119                -119               1479.987    TO    1520.007
+                          -118                -118               1520.007    TO    1599.987
+                          -117                -117               1599.987    TO    1719.986
+                          -116                -116               1719.986    TO    1839.986
+                          -115                -115               1839.986    TO    1959.986
+                          -114                -114               1959.986    TO    2079.986
+                          -113                -113               2079.986    TO    2199.985
+                          -112                -112               2199.985    TO    2319.985
+                          -111                -111               2319.985    TO    2439.985
+                          -110                -110               2439.985    TO    2559.985
+                          -109                -109               2559.985    TO    2679.984
+                          -108                -108               2679.984    TO    2799.984
+                          -107                -107               2799.984    TO    2919.984
+                          -106                -106               2919.984    TO    3039.984
+                          -105                -105               3039.984    TO    3159.984
+                          -104                -104               3159.984    TO    3219.999
+                          -103                -103               3219.999    TO    3279.983
+                          -102                -102               3279.983    TO    3399.983
+                          -101                -101               3399.983    TO    3499.988
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  2
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+    1          0.00       0.0   0.00000    100.25         0         1         0
+    2        328.08       0.0   0.00100    100.25         0         0         2
+    3        688.98   19685.0   0.00100    100.25         0         0         2
+    4       1706.04   19685.0   0.00100    100.25         0         0         2
+    5       2099.74   19685.0   0.00100    100.25         0         0         2
+    6       2624.67   49212.6   0.00100    100.25         0         0         2
+    7       2821.52   49212.6   0.00100     72.91         0         0         2
+    8       3018.37   49212.6  -0.02999     72.91         0         0         2
+    9       4265.09   49212.6  -0.02999     72.91         0         0      3586
+   10       4527.56   49212.6  -0.02999     91.14         0         0      3586
+   11       4658.79   49212.6  -0.01000     91.14         0         0      3586
+   12       4855.64   49212.6  -0.01000     91.14         0         0     -2562
+   13       4986.87   49212.6  -0.01000     91.14         0         0     -2434
+   14       5249.34   49212.6  -0.01000     91.14         0         0     -2306
+   15       5643.04   49212.6  -0.01000     91.14         0         0     -2178
+   16       6036.74   49212.6  -0.01000     91.14         0         0     -2050
+   17       6430.44   49212.6  -0.01000     91.14         0         0     -1922
+   18       6824.14   49212.6  -0.01000     91.14         0         0     -1794
+   19       6955.38   49212.6  -0.01000     91.14         0         0     -1666
+   20       7021.00   49212.6   0.01000     91.14         0         0     -1666
+   21       7217.84   49212.6   0.01000    -91.14         0         0     -1664
+   22       7545.93   49212.6   0.01000    -91.14         0         0     -1536
+   23       7611.54    9842.5   0.01000    -91.14         0         0     -1536
+   24       8005.24    9842.5   0.01000    -91.14         0         0     -1408
+   25       8398.94    9842.5   0.01000    -91.14         0         0     -1280
+   26       8792.64    9842.5   0.01000    -91.14         0         0     -1152
+   27       9186.34    9842.5   0.01000    -91.14         0         0     -1024
+   28       9580.04    9842.5   0.01000    -91.14         0         0      -896
+   29       9776.90    9842.5   0.01000    -91.14         0         0      -768
+   30       9973.75    9842.5   0.03997    -91.14         0         0      -768
+   31      10367.45    9842.5   0.03997    -91.14         0         0      -640
+   32      10564.29    9842.5   0.03997    -91.14         0         0      -512
+   33      10761.14    9842.5   0.03997    -91.14         0         0      -384
+   34      11154.84    9842.5   0.03997    -91.14         0         0      -256
+   35      11482.92    9842.5   0.03997    -91.14         0         0      -128
+   36      11811.02    9842.5   0.03997    -91.14         0         0         0
+   37      12139.11    9842.5   0.00500    -91.14         0         0         0
+   38      12467.19    9842.5   0.00500    -82.02         0         0         0
+   39      12795.28       0.0   0.00500    -82.02         0         0         0
+   40      13123.36       0.0   0.00500   -100.25         0         0         0
+   41      14107.61       0.0  -0.00000   -100.25         0         0         0
+   42      14763.78       0.0  -0.00000   -100.25         0         0         1
+INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain"                                FORM 8A
+                                               TRAIN SCHEDULING DATA
+TRAIN SCHEDULING ORIGIN                                                             9000.012   m
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    11
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              60.03   km/h
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+             1                   1                 1               9999                      9999
+INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain"                                CONTINUED
                                                   TRACK SECTION DATA                                           FORM 8C
  TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
 SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
@@ -4070,43 +4196,47 @@ NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE 
    4         9899.995        100.005                      -2.012           -0.5           100.            1
    5        10519.989        619.994                     -26.792            -4.           100.            1
    6        11380.013        859.993                     -35.387            -1.           100.            1
-   7        12120.006        739.993                     -28.011             1.           100.            1
-   8        12710.008        590.001                      -4.389             4.           100.            1
-   9        12999.994        289.987                      -4.115            0.1           100.            1
-  10        13400.014        399.989                      -3.719            0.1           100.            1
-INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch"                              CONTINUED
+   7        12639.995       1260.013                     -22.159           1.05           100.            1
+   8           12860.        220.005                     -13.381             4.           100.            1
+   9        12979.999           120.                      -8.565             4.          89.99            1
+  10        13400.014        420.014                      -8.992           -0.1          89.99            1
+  11        13599.993         200.01                      -9.205           -0.1          89.99            1
+INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain"                                CONTINUED
                                                 SCHEDULED STOPS DATA                                           FORM 8D
 NUMBER OF SCHEDULED STOPS                                                                  0
 NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                        1
-INPUT VERIFICATION FOR TRAIN ROUTE  2   SES route 2, from Hobyah route "ebbranch"                              CONTINUED
+INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain"                                CONTINUED
                                           SECTION SEQUENCING FOR ROUTE                                         FORM 8F
-NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                             21
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                             24
 DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                           10000.   m
                                 SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
                           SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
                           NUMBER              NUMBER                 (m)               (m)
-                           101                 101                 10000.    TO   10100.005
-                           102                 102              10100.005    TO   10220.005
-                           103                 103              10220.005    TO    10279.99
-                           104                 104               10279.99    TO   10340.005
-                           105                 105              10340.005    TO   10460.004
-                           106                 106              10460.004    TO   10580.004
-                           107                 107              10580.004    TO   10700.004
-                           108                 108              10700.004    TO   10820.004
-                           109                 109              10820.004    TO   10940.004
-                           110                 110              10940.004    TO   11060.003
-                           111                 111              11060.003    TO   11180.003
-                           112                 112              11180.003    TO   11300.003
-                           113                 113              11300.003    TO   11420.003
-                           114                 114              11420.003    TO   11540.002
-                           115                 115              11540.002    TO   11660.002
-                           116                 116              11660.002    TO   11780.002
-                           117                 117              11780.002    TO   11900.002
-                           118                 118              11900.002    TO   11979.981
-                           119                 119              11979.981    TO   12020.001
-                           120                 120              12020.001    TO   12079.986
-                          -201                -201              12079.986    TO    12579.98
-                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  2
+                           301                 301                 10000.    TO   10100.005
+                           302                 302              10100.005    TO   10220.005
+                           303                 303              10220.005    TO   10340.005
+                           304                 304              10340.005    TO   10460.004
+                           305                 305              10460.004    TO   10580.004
+                           306                 306              10580.004    TO   10700.004
+                           307                 307              10700.004    TO   10820.004
+                           308                 308              10820.004    TO   10940.004
+                           309                 309              10940.004    TO   11060.003
+                           310                 310              11060.003    TO   11180.003
+                           311                 311              11180.003    TO   11300.003
+                           312                 312              11300.003    TO   11420.003
+                           313                 313              11420.003    TO   11540.002
+                           314                 314              11540.002    TO   11660.002
+                           315                 315              11660.002    TO   11780.002
+                           316                 316              11780.002    TO   11900.002
+                           317                 317              11900.002    TO   12020.001
+                           318                 318              12020.001    TO   12140.001
+                           319                 319              12140.001    TO   12260.001
+                           320                 320              12260.001    TO   12380.001
+                           321                 321              12380.001    TO      12500.
+                           322                 322                 12500.    TO      12620.
+                           323                 323                 12620.    TO      12740.
+                           324                 324                 12740.    TO      12860.
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  3
                FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
     1          0.00       0.0   0.00000    100.25         0         1         0
     2      31167.98       0.0  -0.00000    100.25         0         0         1
@@ -4114,136 +4244,37 @@ DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                     
     4      32152.23       0.0  -0.00500     82.02         0         0         1
     5      32480.31       0.0  -0.00500     91.14         0         0         1
     6      32808.40       0.0  -0.03997     91.14         0         0         1
-    7      33136.48       0.0  -0.03997     91.14         0         0       129
-    8      33530.18       0.0  -0.03997     91.14         0         0       257
-    9      33727.03       0.0  -0.03997     91.14         0         0       385
-   10      33923.88       0.0  -0.03997     91.14         0         0       513
-   11      34317.58       0.0  -0.03997     91.14         0         0       641
-   12      34514.44       0.0  -0.03997     91.14         0         0       769
-   13      34711.28       0.0  -0.01000     91.14         0         0       769
-   14      35104.98       0.0  -0.01000     91.14         0         0       897
-   15      35498.68       0.0  -0.01000     91.14         0         0      1025
-   16      35892.38       0.0  -0.01000     91.14         0         0      1153
-   17      36286.07       0.0  -0.01000     91.14         0         0      1281
-   18      36679.77       0.0  -0.01000     91.14         0         0      1409
-   19      37073.47       0.0  -0.01000     91.14         0         0      1537
-   20      37335.96       0.0  -0.01000     91.14         0         0      1665
-   21      37467.17       0.0   0.01000     91.14         0         0      1665
-   22      37860.87       0.0   0.01000     91.14         0         0      1793
-   23      38254.57       0.0   0.01000     91.14         0         0      1921
-   24      38648.27       0.0   0.01000     91.14         0         0      2049
-   25      39041.97       0.0   0.01000     91.14         0         0      2177
-   26      39304.44       0.0   0.01000     91.14         0         0      2305
-   27      39435.67       0.0   0.01000     91.14         0         0      2433
-   28      39632.52       0.0   0.01000     91.14         0         0      2561
-   29      39763.78       0.0   0.01000     91.14         0         0     -3585
-   30      41272.94       0.0   0.03997     91.14         0         0     -3585
-   31      41699.48       0.0   0.03997     91.14         0         0         1
-   32      42650.92       0.0   0.00100     91.14         0         0         1
-   33      43963.25       0.0   0.00100     91.14         0         0         1
-INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain" in reverse                     FORM 8A
-                                               TRAIN SCHEDULING DATA
-TRAIN SCHEDULING ORIGIN                                                                   0.   m
-NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
-NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                    11
-DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
-MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              60.03   km/h
-ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
-                                             TRAIN GROUP INFORMATION                                           FORM 8B
-          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
-          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
-                                                                 (SECONDS)                 (SECONDS)
-             1                   1                 1               9999                      9999
-INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain" in reverse                     CONTINUED
-                                                  TRACK SECTION DATA                                           FORM 8C
- TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
-SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
-NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
-                 (m)            (m)         (m)              (m)        (percent)       (km/h)
-   1           200.01         200.01                       0.213            0.1          89.99            1
-   2          619.994        420.014                        0.61            0.1          89.99            1
-   3          739.993           120.                      -4.176            -4.          89.99            1
-   4          959.998        220.005                     -12.984            -4.           100.            1
-   5         2220.011       1260.013                     -26.213          -1.05           100.            1
-   6         3080.004        859.993                     -17.617             1.           100.            1
-   7         3699.998        619.994                       7.193             4.           100.            1
-   8         3800.003        100.005                       7.681            0.5           100.            1
-   9         4000.012         200.01                       8.687            0.5          89.99            1
-  10         4099.987        100.005                       9.205            0.5           110.            1
-  11        13599.993       9500.006                       9.205             0.           110.            1
-INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain" in reverse                     CONTINUED
-                                                SCHEDULED STOPS DATA                                           FORM 8D
-NUMBER OF SCHEDULED STOPS                                                                  0
-NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                        1
-INPUT VERIFICATION FOR TRAIN ROUTE  3   SES route 3, from Hobyah route "wbmain" in reverse                     CONTINUED
-                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
-NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                             24
-DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                          739.993   m
-                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
-                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
-                          NUMBER              NUMBER                 (m)               (m)
-                          -324                -324                739.993    TO     859.993
-                          -323                -323                859.993    TO     979.993
-                          -322                -322                979.993    TO    1099.993
-                          -321                -321               1099.993    TO    1219.992
-                          -320                -320               1219.992    TO    1339.992
-                          -319                -319               1339.992    TO    1459.992
-                          -318                -318               1459.992    TO    1579.992
-                          -317                -317               1579.992    TO    1699.992
-                          -316                -316               1699.992    TO    1819.991
-                          -315                -315               1819.991    TO    1939.991
-                          -314                -314               1939.991    TO    2059.991
-                          -313                -313               2059.991    TO    2179.991
-                          -312                -312               2179.991    TO     2299.99
-                          -311                -311                2299.99    TO     2419.99
-                          -310                -310                2419.99    TO     2539.99
-                          -309                -309                2539.99    TO     2659.99
-                          -308                -308                2659.99    TO    2779.989
-                          -307                -307               2779.989    TO    2899.989
-                          -306                -306               2899.989    TO    3019.989
-                          -305                -305               3019.989    TO    3139.989
-                          -304                -304               3139.989    TO    3259.988
-                          -303                -303               3259.988    TO    3379.988
-                          -302                -302               3379.988    TO    3499.988
-                          -301                -301               3499.988    TO    3599.993
-                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  3
-               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
-    1          0.00       0.0   0.00000     82.02         0         1         0
-    2        656.17       0.0   0.00100     82.02         0         0         1
-    3       2034.12       0.0   0.00100     82.02         0         0         1
-    4       2427.82       0.0  -0.03997     82.02         0         0         1
-    5       2821.52       0.0  -0.03997     91.14         0         0     -6657
-    6       3149.61       0.0  -0.03997     91.14         0         0     -6529
-    7       3215.22       0.0  -0.01050     91.14         0         0     -6529
-    8       3608.92       0.0  -0.01050     91.14         0         0     -6401
-    9       4002.62       0.0  -0.01050     91.14         0         0     -6273
-   10       4396.32       0.0  -0.01050     91.14         0         0     -6145
-   11       4790.02       0.0  -0.01050     91.14         0         0     -6017
-   12       5183.72       0.0  -0.01050     91.14         0         0     -5889
-   13       5577.42       0.0  -0.01050     91.14         0         0     -5761
-   14       5971.12       0.0  -0.01050     91.14         0         0     -5633
-   15       6364.82       0.0  -0.01050     91.14         0         0     -5505
-   16       6758.52       0.0  -0.01050     91.14         0         0     -5377
-   17       7152.22       0.0  -0.01050     91.14         0         0     -5249
-   18       7283.46       0.0  -0.01050     91.14         0         0     -5121
-   19       7545.92       0.0   0.01000     91.14         0         0     -5121
-   20       7939.62       0.0   0.01000     91.14         0         0     -4993
-   21       8333.32       0.0   0.01000     91.14         0         0     -4865
-   22       8727.02       0.0   0.01000     91.14         0         0     -4737
-   23       9120.72       0.0   0.01000     91.14         0         0     -4609
-   24       9514.42       0.0   0.01000     91.14         0         0     -4481
-   25       9908.12       0.0   0.01000     91.14         0         0     -4353
-   26      10104.99       0.0   0.01000     91.14         0         0     -4225
-   27      10301.82       0.0   0.03997     91.14         0         0     -4225
-   28      10695.52       0.0   0.03997     91.14         0         0     -4097
-   29      11089.22       0.0   0.03997     91.14         0         0     -3969
-   30      11482.92       0.0   0.03997     91.14         0         0     -3841
-   31      11811.00       0.0   0.03997     91.14         0         0     -3713
-   32      12139.11       0.0   0.03997     91.14         0         0         1
-   33      12467.19       0.0   0.00500     91.14         0         0         1
-   34      13123.36       0.0   0.00500     82.02         0         0         1
-   35      13451.44       0.0   0.00500    100.25         0         0         1
-   36      44619.42       0.0   0.00000    100.25         0         0         1
+    7      33136.48       0.0  -0.03997     91.14         0         0      3713
+    8      33530.18       0.0  -0.03997     91.14         0         0      3841
+    9      33923.88       0.0  -0.03997     91.14         0         0      3969
+   10      34317.57       0.0  -0.03997     91.14         0         0      4097
+   11      34514.44       0.0  -0.03997     91.14         0         0      4225
+   12      34711.27       0.0  -0.01000     91.14         0         0      4225
+   13      35104.97       0.0  -0.01000     91.14         0         0      4353
+   14      35498.67       0.0  -0.01000     91.14         0         0      4481
+   15      35892.37       0.0  -0.01000     91.14         0         0      4609
+   16      36286.07       0.0  -0.01000     91.14         0         0      4737
+   17      36679.77       0.0  -0.01000     91.14         0         0      4865
+   18      37073.47       0.0  -0.01000     91.14         0         0      4993
+   19      37335.96       0.0  -0.01000     91.14         0         0      5121
+   20      37467.17       0.0   0.01050     91.14         0         0      5121
+   21      37860.87       0.0   0.01050     91.14         0         0      5249
+   22      38254.57       0.0   0.01050     91.14         0         0      5377
+   23      38648.27       0.0   0.01050     91.14         0         0      5505
+   24      39041.96       0.0   0.01050     91.14         0         0      5633
+   25      39435.66       0.0   0.01050     91.14         0         0      5761
+   26      39829.36       0.0   0.01050     91.14         0         0      5889
+   27      40223.06       0.0   0.01050     91.14         0         0      6017
+   28      40616.76       0.0   0.01050     91.14         0         0      6145
+   29      41010.46       0.0   0.01050     91.14         0         0      6273
+   30      41404.16       0.0   0.01050     91.14         0         0      6401
+   31      41469.82       0.0   0.01050     91.14         0         0      6529
+   32      41797.86       0.0   0.03997     91.14         0         0      6529
+   33      42191.56       0.0   0.03997     91.14         0         0      6657
+   34      42191.60       0.0   0.03997     91.14         0         0         1
+   35      42585.30       0.0   0.03997     82.02         0         0         1
+   36      43963.25       0.0  -0.00100     82.02         0         0         1
+   37      44619.42       0.0  -0.00100     82.02         0         0         1
 INPUT VERIFICATION FOR TRAIN TYPE 1   A rough, blocky, inefficient train                                       FORM 9A
 TOTAL NUMBER OF CARS PER TRAIN                                                             8
 NUMBER OF POWERED CARS PER TRAIN                                                           6
@@ -6368,7 +6399,7 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
   127 -127             0.       0.       25.       25.       25.       25.       25.       25.
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  201 -201             0.       0.       25.       25.       25.       25.       25.       25.       25.       25.
+  201 -201            -0.      -0.       25.       25.       25.       25.       25.       25.       25.       25.
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
                                          25.       25.       25.       25.       25.       25.       25.       25.
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
@@ -6440,35 +6471,35 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113
   908 -908            -0.      -0.    24.889
                                       0.0113
-  909 -909            -0.      -0.    24.889
+  909 -909             0.       0.    24.889
                                       0.0113
-  910 -910            -0.      -0.    24.889
+  910 -910             0.       0.    24.889
                                       0.0113
-  911 -911            -0.      -0.    24.889
+  911 -911             0.       0.    24.889
                                       0.0113
-  912 -912            -0.      -0.    24.944
+  912 -912             0.       0.    24.944
                                       0.0113
-  913 -913            -0.      -0.    24.944
+  913 -913             0.       0.    24.944
                                       0.0113
-  914 -914            -0.      -0.    24.944
+  914 -914             0.       0.    24.944
                                       0.0113
-  915 -915            -0.      -0.    24.889
+  915 -915             0.       0.    24.889
                                       0.0113
-  916 -916            -0.      -0.    24.889
+  916 -916             0.       0.    24.889
                                       0.0113
-  917 -917            -0.      -0.    24.889
+  917 -917             0.       0.    24.889
                                       0.0113
-  918 -918            -0.      -0.    24.889
+  918 -918             0.       0.    24.889
                                       0.0113
-  919 -919            -0.      -0.    24.889
+  919 -919             0.       0.    24.889
                                       0.0113
-  920 -920            -0.      -0.    24.889
+  920 -920             0.       0.    24.889
                                       0.0113
-  921 -921            -0.      -0.    24.889
+  921 -921             0.       0.    24.889
                                       0.0113
-  922 -922            -0.      -0.    24.889
+  922 -922             0.       0.    24.889
                                       0.0113
-  923 -923            -0.      -0.    24.889
+  923 -923             0.       0.    24.889
                                       0.0113
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
@@ -6960,7 +6991,7 @@ TIME      4.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          127 -127 -  5            0.            0.          24.978     0.01126
          127 -127 -  6            0.            0.          24.978     0.01126
    500.  201 -201     (TUNNEL)                  Tunnel "Offslip", segment 1 of 1
-         201 -201 -  1            0.            0.          24.978     0.01126          0.        0.
+         201 -201 -  1            0.            0.          24.978     0.01126         -0.       -0.
          201 -201 -  2            0.            0.          24.978     0.01126
          201 -201 -  3            0.            0.          24.978     0.01126
          201 -201 -  4            0.            0.          24.978     0.01126
@@ -7171,33 +7202,33 @@ TIME      4.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
     30.  909 -909     (VENTILATION SHAFT)       Tunnel "XP9", segment 1 of 1
          909 -909 -  1                                      24.844     0.01126         -0.       -0.
     30.  910 -910     (VENTILATION SHAFT)       Tunnel "XP10", segment 1 of 1
-         910 -910 -  1                                      24.844     0.01126         -0.       -0.
+         910 -910 -  1                                      24.844     0.01126          0.        0.
     30.  911 -911     (VENTILATION SHAFT)       Tunnel "XP11", segment 1 of 1
-         911 -911 -  1                                      24.844     0.01126         -0.       -0.
+         911 -911 -  1                                      24.844     0.01126          0.        0.
     30.  912 -912     (VENTILATION SHAFT)       Tunnel "XP12", segment 1 of 1
-         912 -912 -  1                                      24.933     0.01126         -0.       -0.
+         912 -912 -  1                                      24.933     0.01126          0.        0.
     30.  913 -913     (VENTILATION SHAFT)       Tunnel "XP13", segment 1 of 1
-         913 -913 -  1                                      24.933     0.01126         -0.       -0.
+         913 -913 -  1                                      24.933     0.01126          0.        0.
     30.  914 -914     (VENTILATION SHAFT)       Tunnel "XP14", segment 1 of 1
-         914 -914 -  1                                      24.933     0.01126         -0.       -0.
+         914 -914 -  1                                      24.933     0.01126          0.        0.
     30.  915 -915     (VENTILATION SHAFT)       Tunnel "XP15", segment 1 of 1
-         915 -915 -  1                                      24.844     0.01126         -0.       -0.
+         915 -915 -  1                                      24.844     0.01126          0.        0.
     30.  916 -916     (VENTILATION SHAFT)       Tunnel "XP16", segment 1 of 1
-         916 -916 -  1                                      24.844     0.01126         -0.       -0.
+         916 -916 -  1                                      24.844     0.01126          0.        0.
     30.  917 -917     (VENTILATION SHAFT)       Tunnel "XP17", segment 1 of 1
-         917 -917 -  1                                      24.844     0.01126         -0.       -0.
+         917 -917 -  1                                      24.844     0.01126          0.        0.
     30.  918 -918     (VENTILATION SHAFT)       Tunnel "XP18", segment 1 of 1
-         918 -918 -  1                                      24.844     0.01126         -0.       -0.
+         918 -918 -  1                                      24.844     0.01126          0.        0.
     30.  919 -919     (VENTILATION SHAFT)       Tunnel "XP19", segment 1 of 1
-         919 -919 -  1                                      24.844     0.01126         -0.       -0.
+         919 -919 -  1                                      24.844     0.01126          0.        0.
     30.  920 -920     (VENTILATION SHAFT)       Tunnel "XP20", segment 1 of 1
-         920 -920 -  1                                      24.844     0.01126         -0.       -0.
+         920 -920 -  1                                      24.844     0.01126          0.        0.
     30.  921 -921     (VENTILATION SHAFT)       Tunnel "XP21", segment 1 of 1
-         921 -921 -  1                                      24.844     0.01126         -0.       -0.
+         921 -921 -  1                                      24.844     0.01126          0.        0.
     30.  922 -922     (VENTILATION SHAFT)       Tunnel "XP22", segment 1 of 1
-         922 -922 -  1                                      24.844     0.01126         -0.       -0.
+         922 -922 -  1                                      24.844     0.01126          0.        0.
     30.  923 -923     (VENTILATION SHAFT)       Tunnel "XP23", segment 1 of 1
-         923 -923 -  1                                      24.844     0.01126         -0.       -0.
+         923 -923 -  1                                      24.844     0.01126          0.        0.
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
                               (deg C)               (W)            (W)
@@ -7556,21 +7587,21 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113    0.0113
   120 -120             0.       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  121 -121          0.001       0.    24.944    24.944    24.944
+  121 -121             0.       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  122 -122          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  122 -122             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  123 -123          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  123 -123             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  124 -124          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  124 -124             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  125 -125          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  125 -125             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  126 -126          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  126 -126             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  127 -127          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  127 -127             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  201 -201             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
+  201 -201            -0.      -0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
                                       24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
@@ -7644,33 +7675,33 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113
   909 -909            -0.      -0.    24.833
                                       0.0113
-  910 -910            -0.      -0.    24.833
+  910 -910             0.       0.    24.833
                                       0.0113
-  911 -911            -0.      -0.    24.833
+  911 -911             0.       0.    24.833
                                       0.0113
-  912 -912            -0.      -0.    24.889
+  912 -912             0.       0.    24.889
                                       0.0113
-  913 -913            -0.      -0.    24.889
+  913 -913             0.       0.    24.889
                                       0.0113
-  914 -914            -0.      -0.    24.889
+  914 -914             0.       0.    24.889
                                       0.0113
-  915 -915            -0.      -0.    24.833
+  915 -915             0.       0.    24.833
                                       0.0113
-  916 -916            -0.      -0.    24.833
+  916 -916             0.       0.    24.833
                                       0.0113
-  917 -917            -0.      -0.    24.833
+  917 -917             0.       0.    24.833
                                       0.0113
-  918 -918            -0.      -0.    24.833
+  918 -918             0.       0.    24.833
                                       0.0113
-  919 -919            -0.      -0.    24.833
+  919 -919             0.       0.    24.833
                                       0.0113
-  920 -920            -0.      -0.    24.833
+  920 -920             0.       0.    24.833
                                       0.0113
-  921 -921            -0.      -0.    24.833
+  921 -921             0.       0.    24.833
                                       0.0113
-  922 -922            -0.      -0.    24.833
+  922 -922             0.       0.    24.833
                                       0.0113
-  923 -923            -0.      -0.    24.833
+  923 -923             0.       0.    24.833
                                       0.0113
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
@@ -8062,107 +8093,107 @@ TIME      6.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          111 -111 -  5            0.            0.          24.961     0.01126
          111 -111 -  6            0.            0.          24.961     0.01126
    120.  112 -112     (TUNNEL)                  Tunnel "Eastbound1", segment 12 of 2
-         112 -112 -  1            0.            0.          24.961     0.01126          0.        0.
+         112 -112 -  1            0.            0.          24.961     0.01126       0.001        0.
          112 -112 -  2            0.            0.          24.961     0.01126
          112 -112 -  3            0.            0.          24.961     0.01126
          112 -112 -  4            0.            0.          24.961     0.01126
          112 -112 -  5            0.            0.          24.961     0.01126
          112 -112 -  6            0.            0.          24.961     0.01126
    120.  113 -113     (TUNNEL)                  Tunnel "Eastbound1", segment 13 of 2
-         113 -113 -  1            0.            0.          24.961     0.01126          0.        0.
+         113 -113 -  1            0.            0.          24.961     0.01126       0.001        0.
          113 -113 -  2            0.            0.          24.961     0.01126
          113 -113 -  3            0.            0.          24.961     0.01126
          113 -113 -  4            0.            0.          24.961     0.01126
          113 -113 -  5            0.            0.          24.961     0.01126
          113 -113 -  6            0.            0.          24.961     0.01126
    120.  114 -114     (TUNNEL)                  Tunnel "Eastbound1", segment 14 of 2
-         114 -114 -  1            0.            0.          24.961     0.01126          0.        0.
+         114 -114 -  1            0.            0.          24.961     0.01126       0.001        0.
          114 -114 -  2            0.            0.          24.961     0.01126
          114 -114 -  3            0.            0.          24.961     0.01126
          114 -114 -  4            0.            0.          24.961     0.01126
          114 -114 -  5            0.            0.          24.961     0.01126
          114 -114 -  6            0.            0.          24.961     0.01126
    120.  115 -115     (TUNNEL)                  Tunnel "Eastbound1", segment 15 of 2
-         115 -115 -  1            0.            0.          24.961     0.01126          0.        0.
+         115 -115 -  1            0.            0.          24.961     0.01126       0.001        0.
          115 -115 -  2            0.            0.          24.961     0.01126
          115 -115 -  3            0.            0.          24.961     0.01126
          115 -115 -  4            0.            0.          24.961     0.01126
          115 -115 -  5            0.            0.          24.961     0.01126
          115 -115 -  6            0.            0.          24.961     0.01126
    120.  116 -116     (TUNNEL)                  Tunnel "Eastbound1", segment 16 of 2
-         116 -116 -  1            0.            0.          24.961     0.01126          0.        0.
+         116 -116 -  1            0.            0.          24.961     0.01126       0.001        0.
          116 -116 -  2            0.            0.          24.961     0.01126
          116 -116 -  3            0.            0.          24.961     0.01126
          116 -116 -  4            0.            0.          24.961     0.01126
          116 -116 -  5            0.            0.          24.961     0.01126
          116 -116 -  6            0.            0.          24.961     0.01126
    120.  117 -117     (TUNNEL)                  Tunnel "Eastbound1", segment 17 of 2
-         117 -117 -  1            0.            0.          24.961     0.01126          0.        0.
+         117 -117 -  1            0.            0.          24.961     0.01126       0.001        0.
          117 -117 -  2            0.            0.          24.961     0.01126
          117 -117 -  3            0.            0.          24.961     0.01126
          117 -117 -  4            0.            0.          24.961     0.01126
          117 -117 -  5            0.            0.          24.961     0.01126
          117 -117 -  6            0.            0.          24.961     0.01126
     80.  118 -118     (TUNNEL)                  Tunnel "Eastbound1", segment 18 of 2
-         118 -118 -  1            0.            0.          24.961     0.01126          0.        0.
+         118 -118 -  1            0.            0.          24.961     0.01126       0.001        0.
          118 -118 -  2            0.            0.          24.961     0.01126
          118 -118 -  3            0.            0.          24.961     0.01126
          118 -118 -  4            0.            0.          24.961     0.01126
     40.  119 -119     (TUNNEL)                  Tunnel "Eastbound1", segment 19 of 2
-         119 -119 -  1            0.            0.          24.961     0.01126          0.        0.
+         119 -119 -  1            0.            0.          24.961     0.01126       0.001        0.
          119 -119 -  2            0.            0.          24.961     0.01126
     60.  120 -120     (TUNNEL)                  Tunnel "Eastbound1", segment 20 of 2
-         120 -120 -  1            0.            0.          24.961     0.01126          0.        0.
+         120 -120 -  1            0.            0.          24.961     0.01126       0.001        0.
          120 -120 -  2            0.            0.          24.961     0.01126
          120 -120 -  3            0.            0.          24.961     0.01126
     60.  121 -121     (TUNNEL)                  Tunnel "Eastbound2", segment 1 of 7
-         121 -121 -  1            0.            0.          24.961     0.01126       0.001        0.
+         121 -121 -  1            0.            0.          24.961     0.01126          0.        0.
          121 -121 -  2            0.            0.          24.961     0.01126
          121 -121 -  3            0.            0.          24.961     0.01126
    120.  122 -122     (TUNNEL)                  Tunnel "Eastbound2", segment 2 of 7
-         122 -122 -  1            0.            0.          24.961     0.01126       0.001        0.
+         122 -122 -  1            0.            0.          24.961     0.01126          0.        0.
          122 -122 -  2            0.            0.          24.961     0.01126
          122 -122 -  3            0.            0.          24.961     0.01126
          122 -122 -  4            0.            0.          24.961     0.01126
          122 -122 -  5            0.            0.          24.961     0.01126
          122 -122 -  6            0.            0.          24.961     0.01126
    120.  123 -123     (TUNNEL)                  Tunnel "Eastbound2", segment 3 of 7
-         123 -123 -  1            0.            0.          24.961     0.01126       0.001        0.
+         123 -123 -  1            0.            0.          24.961     0.01126          0.        0.
          123 -123 -  2            0.            0.          24.961     0.01126
          123 -123 -  3            0.            0.          24.961     0.01126
          123 -123 -  4            0.            0.          24.961     0.01126
          123 -123 -  5            0.            0.          24.961     0.01126
          123 -123 -  6            0.            0.          24.961     0.01126
    120.  124 -124     (TUNNEL)                  Tunnel "Eastbound2", segment 4 of 7
-         124 -124 -  1            0.            0.          24.961     0.01126       0.001        0.
+         124 -124 -  1            0.            0.          24.961     0.01126          0.        0.
          124 -124 -  2            0.            0.          24.961     0.01126
          124 -124 -  3            0.            0.          24.961     0.01126
          124 -124 -  4            0.            0.          24.961     0.01126
          124 -124 -  5            0.            0.          24.961     0.01126
          124 -124 -  6            0.            0.          24.961     0.01126
    120.  125 -125     (TUNNEL)                  Tunnel "Eastbound2", segment 5 of 7
-         125 -125 -  1            0.            0.          24.961     0.01126       0.001        0.
+         125 -125 -  1            0.            0.          24.961     0.01126          0.        0.
          125 -125 -  2            0.            0.          24.961     0.01126
          125 -125 -  3            0.            0.          24.961     0.01126
          125 -125 -  4            0.            0.          24.961     0.01126
          125 -125 -  5            0.            0.          24.961     0.01126
          125 -125 -  6            0.            0.          24.961     0.01126
    120.  126 -126     (TUNNEL)                  Tunnel "Eastbound2", segment 6 of 7
-         126 -126 -  1            0.            0.          24.961     0.01126       0.001        0.
+         126 -126 -  1            0.            0.          24.961     0.01126          0.        0.
          126 -126 -  2            0.            0.          24.961     0.01126
          126 -126 -  3            0.            0.          24.961     0.01126
          126 -126 -  4            0.            0.          24.961     0.01126
          126 -126 -  5            0.            0.          24.961     0.01126
          126 -126 -  6            0.            0.          24.961     0.01126
    120.  127 -127     (TUNNEL)                  Tunnel "Eastbound2", segment 7 of 7
-         127 -127 -  1            0.            0.          24.961     0.01126       0.001        0.
+         127 -127 -  1            0.            0.          24.961     0.01126          0.        0.
          127 -127 -  2            0.            0.          24.961     0.01126
          127 -127 -  3            0.            0.          24.961     0.01126
          127 -127 -  4            0.            0.          24.961     0.01126
          127 -127 -  5            0.            0.          24.961     0.01126
          127 -127 -  6            0.            0.          24.961     0.01126
    500.  201 -201     (TUNNEL)                  Tunnel "Offslip", segment 1 of 1
-         201 -201 -  1            0.            0.          24.961     0.01126       0.001        0.
+         201 -201 -  1            0.            0.          24.961     0.01126      -0.001       -0.
          201 -201 -  2            0.            0.          24.961     0.01126
          201 -201 -  3            0.            0.          24.961     0.01126
          201 -201 -  4            0.            0.          24.961     0.01126
@@ -8188,83 +8219,83 @@ TIME      6.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          201 -201 - 24            0.            0.          24.961     0.01126
          201 -201 - 25            0.            0.          24.961     0.01126
    100.  301 -301     (TUNNEL)                  Tunnel "Westbound1", segment 1 of 24
-         301 -301 -  1            0.            0.          24.961     0.01126          0.        0.
+         301 -301 -  1            0.            0.          24.961     0.01126       0.001        0.
          301 -301 -  2            0.            0.          24.961     0.01126
          301 -301 -  3            0.            0.          24.961     0.01126
          301 -301 -  4            0.            0.          24.961     0.01126
          301 -301 -  5            0.            0.          24.961     0.01126
    120.  302 -302     (TUNNEL)                  Tunnel "Westbound1", segment 2 of 24
-         302 -302 -  1            0.            0.          24.961     0.01126          0.        0.
+         302 -302 -  1            0.            0.          24.961     0.01126       0.001        0.
          302 -302 -  2            0.            0.          24.961     0.01126
          302 -302 -  3            0.            0.          24.961     0.01126
          302 -302 -  4            0.            0.          24.961     0.01126
          302 -302 -  5            0.            0.          24.961     0.01126
          302 -302 -  6            0.            0.          24.961     0.01126
    120.  303 -303     (TUNNEL)                  Tunnel "Westbound1", segment 3 of 24
-         303 -303 -  1            0.            0.          24.961     0.01126          0.        0.
+         303 -303 -  1            0.            0.          24.961     0.01126       0.001        0.
          303 -303 -  2            0.            0.          24.961     0.01126
          303 -303 -  3            0.            0.          24.961     0.01126
          303 -303 -  4            0.            0.          24.961     0.01126
          303 -303 -  5            0.            0.          24.961     0.01126
          303 -303 -  6            0.            0.          24.961     0.01126
    120.  304 -304     (TUNNEL)                  Tunnel "Westbound1", segment 4 of 24
-         304 -304 -  1            0.            0.          24.961     0.01126          0.        0.
+         304 -304 -  1            0.            0.          24.961     0.01126       0.001        0.
          304 -304 -  2            0.            0.          24.961     0.01126
          304 -304 -  3            0.            0.          24.961     0.01126
          304 -304 -  4            0.            0.          24.961     0.01126
          304 -304 -  5            0.            0.          24.961     0.01126
          304 -304 -  6            0.            0.          24.961     0.01126
    120.  305 -305     (TUNNEL)                  Tunnel "Westbound1", segment 5 of 24
-         305 -305 -  1            0.            0.          24.961     0.01126          0.        0.
+         305 -305 -  1            0.            0.          24.961     0.01126       0.001        0.
          305 -305 -  2            0.            0.          24.961     0.01126
          305 -305 -  3            0.            0.          24.961     0.01126
          305 -305 -  4            0.            0.          24.961     0.01126
          305 -305 -  5            0.            0.          24.961     0.01126
          305 -305 -  6            0.            0.          24.961     0.01126
    120.  306 -306     (TUNNEL)                  Tunnel "Westbound1", segment 6 of 24
-         306 -306 -  1            0.            0.          24.961     0.01126          0.        0.
+         306 -306 -  1            0.            0.          24.961     0.01126       0.001        0.
          306 -306 -  2            0.            0.          24.961     0.01126
          306 -306 -  3            0.            0.          24.961     0.01126
          306 -306 -  4            0.            0.          24.961     0.01126
          306 -306 -  5            0.            0.          24.961     0.01126
          306 -306 -  6            0.            0.          24.961     0.01126
    120.  307 -307     (TUNNEL)                  Tunnel "Westbound1", segment 7 of 24
-         307 -307 -  1            0.            0.          24.961     0.01126          0.        0.
+         307 -307 -  1            0.            0.          24.961     0.01126       0.001        0.
          307 -307 -  2            0.            0.          24.961     0.01126
          307 -307 -  3            0.            0.          24.961     0.01126
          307 -307 -  4            0.            0.          24.961     0.01126
          307 -307 -  5            0.            0.          24.961     0.01126
          307 -307 -  6            0.            0.          24.961     0.01126
    120.  308 -308     (TUNNEL)                  Tunnel "Westbound1", segment 8 of 24
-         308 -308 -  1            0.            0.          24.961     0.01126          0.        0.
+         308 -308 -  1            0.            0.          24.961     0.01126       0.001        0.
          308 -308 -  2            0.            0.          24.961     0.01126
          308 -308 -  3            0.            0.          24.961     0.01126
          308 -308 -  4            0.            0.          24.961     0.01126
          308 -308 -  5            0.            0.          24.961     0.01126
          308 -308 -  6            0.            0.          24.961     0.01126
    120.  309 -309     (TUNNEL)                  Tunnel "Westbound1", segment 9 of 24
-         309 -309 -  1            0.            0.          24.961     0.01126          0.        0.
+         309 -309 -  1            0.            0.          24.961     0.01126       0.001        0.
          309 -309 -  2            0.            0.          24.961     0.01126
          309 -309 -  3            0.            0.          24.961     0.01126
          309 -309 -  4            0.            0.          24.961     0.01126
          309 -309 -  5            0.            0.          24.961     0.01126
          309 -309 -  6            0.            0.          24.961     0.01126
    120.  310 -310     (TUNNEL)                  Tunnel "Westbound1", segment 10 of 2
-         310 -310 -  1            0.            0.          24.961     0.01126          0.        0.
+         310 -310 -  1            0.            0.          24.961     0.01126       0.001        0.
          310 -310 -  2            0.            0.          24.961     0.01126
          310 -310 -  3            0.            0.          24.961     0.01126
          310 -310 -  4            0.            0.          24.961     0.01126
          310 -310 -  5            0.            0.          24.961     0.01126
          310 -310 -  6            0.            0.          24.961     0.01126
    120.  311 -311     (TUNNEL)                  Tunnel "Westbound1", segment 11 of 2
-         311 -311 -  1            0.            0.          24.961     0.01126          0.        0.
+         311 -311 -  1            0.            0.          24.961     0.01126       0.001        0.
          311 -311 -  2            0.            0.          24.961     0.01126
          311 -311 -  3            0.            0.          24.961     0.01126
          311 -311 -  4            0.            0.          24.961     0.01126
          311 -311 -  5            0.            0.          24.961     0.01126
          311 -311 -  6            0.            0.          24.961     0.01126
    120.  312 -312     (TUNNEL)                  Tunnel "Westbound1", segment 12 of 2
-         312 -312 -  1            0.            0.          24.961     0.01126          0.        0.
+         312 -312 -  1            0.            0.          24.961     0.01126       0.001        0.
          312 -312 -  2            0.            0.          24.961     0.01126
          312 -312 -  3            0.            0.          24.961     0.01126
          312 -312 -  4            0.            0.          24.961     0.01126
@@ -8299,56 +8330,56 @@ TIME      6.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          316 -316 -  5            0.            0.          24.961     0.01126
          316 -316 -  6            0.            0.          24.961     0.01126
    120.  317 -317     (TUNNEL)                  Tunnel "Westbound1", segment 17 of 2
-         317 -317 -  1            0.            0.          24.961     0.01126       0.001        0.
+         317 -317 -  1            0.            0.          24.961     0.01126          0.        0.
          317 -317 -  2            0.            0.          24.961     0.01126
          317 -317 -  3            0.            0.          24.961     0.01126
          317 -317 -  4            0.            0.          24.961     0.01126
          317 -317 -  5            0.            0.          24.961     0.01126
          317 -317 -  6            0.            0.          24.961     0.01126
    120.  318 -318     (TUNNEL)                  Tunnel "Westbound1", segment 18 of 2
-         318 -318 -  1            0.            0.          24.961     0.01126       0.001        0.
+         318 -318 -  1            0.            0.          24.961     0.01126          0.        0.
          318 -318 -  2            0.            0.          24.961     0.01126
          318 -318 -  3            0.            0.          24.961     0.01126
          318 -318 -  4            0.            0.          24.961     0.01126
          318 -318 -  5            0.            0.          24.961     0.01126
          318 -318 -  6            0.            0.          24.961     0.01126
    120.  319 -319     (TUNNEL)                  Tunnel "Westbound1", segment 19 of 2
-         319 -319 -  1            0.            0.          24.961     0.01126       0.001        0.
+         319 -319 -  1            0.            0.          24.961     0.01126          0.        0.
          319 -319 -  2            0.            0.          24.961     0.01126
          319 -319 -  3            0.            0.          24.961     0.01126
          319 -319 -  4            0.            0.          24.961     0.01126
          319 -319 -  5            0.            0.          24.961     0.01126
          319 -319 -  6            0.            0.          24.961     0.01126
    120.  320 -320     (TUNNEL)                  Tunnel "Westbound1", segment 20 of 2
-         320 -320 -  1            0.            0.          24.961     0.01126       0.001        0.
+         320 -320 -  1            0.            0.          24.961     0.01126          0.        0.
          320 -320 -  2            0.            0.          24.961     0.01126
          320 -320 -  3            0.            0.          24.961     0.01126
          320 -320 -  4            0.            0.          24.961     0.01126
          320 -320 -  5            0.            0.          24.961     0.01126
          320 -320 -  6            0.            0.          24.961     0.01126
    120.  321 -321     (TUNNEL)                  Tunnel "Westbound1", segment 21 of 2
-         321 -321 -  1            0.            0.          24.961     0.01126       0.001        0.
+         321 -321 -  1            0.            0.          24.961     0.01126          0.        0.
          321 -321 -  2            0.            0.          24.961     0.01126
          321 -321 -  3            0.            0.          24.961     0.01126
          321 -321 -  4            0.            0.          24.961     0.01126
          321 -321 -  5            0.            0.          24.961     0.01126
          321 -321 -  6            0.            0.          24.961     0.01126
    120.  322 -322     (TUNNEL)                  Tunnel "Westbound1", segment 22 of 2
-         322 -322 -  1            0.            0.          24.961     0.01126       0.001        0.
+         322 -322 -  1            0.            0.          24.961     0.01126          0.        0.
          322 -322 -  2            0.            0.          24.961     0.01126
          322 -322 -  3            0.            0.          24.961     0.01126
          322 -322 -  4            0.            0.          24.961     0.01126
          322 -322 -  5            0.            0.          24.961     0.01126
          322 -322 -  6            0.            0.          24.961     0.01126
    120.  323 -323     (TUNNEL)                  Tunnel "Westbound1", segment 23 of 2
-         323 -323 -  1            0.            0.          24.961     0.01126       0.001        0.
+         323 -323 -  1            0.            0.          24.961     0.01126          0.        0.
          323 -323 -  2            0.            0.          24.961     0.01126
          323 -323 -  3            0.            0.          24.961     0.01126
          323 -323 -  4            0.            0.          24.961     0.01126
          323 -323 -  5            0.            0.          24.961     0.01126
          323 -323 -  6            0.            0.          24.961     0.01126
    120.  324 -324     (TUNNEL)                  Tunnel "Westbound1", segment 24 of 2
-         324 -324 -  1            0.            0.          24.961     0.01126       0.001        0.
+         324 -324 -  1            0.            0.          24.961     0.01126          0.        0.
          324 -324 -  2            0.            0.          24.961     0.01126
          324 -324 -  3            0.            0.          24.961     0.01126
          324 -324 -  4            0.            0.          24.961     0.01126
@@ -8373,33 +8404,33 @@ TIME      6.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
     30.  909 -909     (VENTILATION SHAFT)       Tunnel "XP9", segment 1 of 1
          909 -909 -  1                                      24.772     0.01126         -0.       -0.
     30.  910 -910     (VENTILATION SHAFT)       Tunnel "XP10", segment 1 of 1
-         910 -910 -  1                                      24.772     0.01126         -0.       -0.
+         910 -910 -  1                                      24.772     0.01126          0.        0.
     30.  911 -911     (VENTILATION SHAFT)       Tunnel "XP11", segment 1 of 1
-         911 -911 -  1                                      24.772     0.01126         -0.       -0.
+         911 -911 -  1                                      24.772     0.01126          0.        0.
     30.  912 -912     (VENTILATION SHAFT)       Tunnel "XP12", segment 1 of 1
-         912 -912 -  1                                        24.9     0.01126         -0.       -0.
+         912 -912 -  1                                        24.9     0.01126          0.        0.
     30.  913 -913     (VENTILATION SHAFT)       Tunnel "XP13", segment 1 of 1
-         913 -913 -  1                                        24.9     0.01126         -0.       -0.
+         913 -913 -  1                                        24.9     0.01126          0.        0.
     30.  914 -914     (VENTILATION SHAFT)       Tunnel "XP14", segment 1 of 1
-         914 -914 -  1                                        24.9     0.01126         -0.       -0.
+         914 -914 -  1                                        24.9     0.01126          0.        0.
     30.  915 -915     (VENTILATION SHAFT)       Tunnel "XP15", segment 1 of 1
-         915 -915 -  1                                      24.772     0.01126         -0.       -0.
+         915 -915 -  1                                      24.772     0.01126          0.        0.
     30.  916 -916     (VENTILATION SHAFT)       Tunnel "XP16", segment 1 of 1
-         916 -916 -  1                                      24.772     0.01126         -0.       -0.
+         916 -916 -  1                                      24.772     0.01126          0.        0.
     30.  917 -917     (VENTILATION SHAFT)       Tunnel "XP17", segment 1 of 1
-         917 -917 -  1                                      24.772     0.01126         -0.       -0.
+         917 -917 -  1                                      24.772     0.01126          0.        0.
     30.  918 -918     (VENTILATION SHAFT)       Tunnel "XP18", segment 1 of 1
-         918 -918 -  1                                      24.772     0.01126         -0.       -0.
+         918 -918 -  1                                      24.772     0.01126          0.        0.
     30.  919 -919     (VENTILATION SHAFT)       Tunnel "XP19", segment 1 of 1
-         919 -919 -  1                                      24.772     0.01126         -0.       -0.
+         919 -919 -  1                                      24.772     0.01126          0.        0.
     30.  920 -920     (VENTILATION SHAFT)       Tunnel "XP20", segment 1 of 1
-         920 -920 -  1                                      24.772     0.01126         -0.       -0.
+         920 -920 -  1                                      24.772     0.01126          0.        0.
     30.  921 -921     (VENTILATION SHAFT)       Tunnel "XP21", segment 1 of 1
-         921 -921 -  1                                      24.772     0.01126         -0.       -0.
+         921 -921 -  1                                      24.772     0.01126          0.        0.
     30.  922 -922     (VENTILATION SHAFT)       Tunnel "XP22", segment 1 of 1
-         922 -922 -  1                                      24.772     0.01126         -0.       -0.
+         922 -922 -  1                                      24.772     0.01126          0.        0.
     30.  923 -923     (VENTILATION SHAFT)       Tunnel "XP23", segment 1 of 1
-         923 -923 -  1                                      24.772     0.01126         -0.       -0.
+         923 -923 -  1                                      24.772     0.01126          0.        0.
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
                               (deg C)               (W)            (W)
@@ -8758,21 +8789,21 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113    0.0113
   120 -120          0.001       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  121 -121          0.001       0.    24.944    24.944    24.944
+  121 -121             0.       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  122 -122          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  122 -122             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  123 -123          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  123 -123             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  124 -124          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  124 -124             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  125 -125          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  125 -125             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  126 -126          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  126 -126             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  127 -127          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  127 -127             0.       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  201 -201          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
+  201 -201         -0.001      -0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
                                       24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
@@ -8846,33 +8877,33 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113
   909 -909            -0.      -0.    24.722
                                       0.0113
-  910 -910            -0.      -0.    24.722
+  910 -910             0.       0.    24.722
                                       0.0113
-  911 -911            -0.      -0.    24.722
+  911 -911             0.       0.    24.722
                                       0.0113
-  912 -912            -0.      -0.    24.889
+  912 -912             0.       0.    24.889
                                       0.0113
-  913 -913            -0.      -0.    24.889
+  913 -913             0.       0.    24.889
                                       0.0113
-  914 -914            -0.      -0.    24.889
+  914 -914             0.       0.    24.889
                                       0.0113
-  915 -915            -0.      -0.    24.722
+  915 -915             0.       0.    24.722
                                       0.0113
-  916 -916            -0.      -0.    24.722
+  916 -916             0.       0.    24.722
                                       0.0113
-  917 -917            -0.      -0.    24.722
+  917 -917             0.       0.    24.722
                                       0.0113
-  918 -918            -0.      -0.    24.722
+  918 -918             0.       0.    24.722
                                       0.0113
-  919 -919            -0.      -0.    24.722
+  919 -919             0.       0.    24.722
                                       0.0113
-  920 -920            -0.      -0.    24.722
+  920 -920             0.       0.    24.722
                                       0.0113
-  921 -921            -0.      -0.    24.722
+  921 -921             0.       0.    24.722
                                       0.0113
-  922 -922            -0.      -0.    24.722
+  922 -922             0.       0.    24.722
                                       0.0113
-  923 -923            -0.      -0.    24.722
+  923 -923             0.       0.    24.722
                                       0.0113
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
@@ -9292,79 +9323,79 @@ TIME      8.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          115 -115 -  5            0.            0.           24.95     0.01126
          115 -115 -  6            0.            0.           24.95     0.01126
    120.  116 -116     (TUNNEL)                  Tunnel "Eastbound1", segment 16 of 2
-         116 -116 -  1            0.            0.           24.95     0.01126       0.001        0.
+         116 -116 -  1            0.            0.           24.95     0.01126       0.002        0.
          116 -116 -  2            0.            0.           24.95     0.01126
          116 -116 -  3            0.            0.           24.95     0.01126
          116 -116 -  4            0.            0.           24.95     0.01126
          116 -116 -  5            0.            0.           24.95     0.01126
          116 -116 -  6            0.            0.           24.95     0.01126
    120.  117 -117     (TUNNEL)                  Tunnel "Eastbound1", segment 17 of 2
-         117 -117 -  1            0.            0.           24.95     0.01126       0.001        0.
+         117 -117 -  1            0.            0.           24.95     0.01126       0.002        0.
          117 -117 -  2            0.            0.           24.95     0.01126
          117 -117 -  3            0.            0.           24.95     0.01126
          117 -117 -  4            0.            0.           24.95     0.01126
          117 -117 -  5            0.            0.           24.95     0.01126
          117 -117 -  6            0.            0.           24.95     0.01126
     80.  118 -118     (TUNNEL)                  Tunnel "Eastbound1", segment 18 of 2
-         118 -118 -  1            0.            0.           24.95     0.01126       0.001        0.
+         118 -118 -  1            0.            0.           24.95     0.01126       0.002        0.
          118 -118 -  2            0.            0.           24.95     0.01126
          118 -118 -  3            0.            0.           24.95     0.01126
          118 -118 -  4            0.            0.           24.95     0.01126
     40.  119 -119     (TUNNEL)                  Tunnel "Eastbound1", segment 19 of 2
-         119 -119 -  1            0.            0.           24.95     0.01126       0.001        0.
+         119 -119 -  1            0.            0.           24.95     0.01126       0.002        0.
          119 -119 -  2            0.            0.           24.95     0.01126
     60.  120 -120     (TUNNEL)                  Tunnel "Eastbound1", segment 20 of 2
-         120 -120 -  1            0.            0.           24.95     0.01126       0.001        0.
+         120 -120 -  1            0.            0.           24.95     0.01126       0.002        0.
          120 -120 -  2            0.            0.           24.95     0.01126
          120 -120 -  3            0.            0.           24.95     0.01126
     60.  121 -121     (TUNNEL)                  Tunnel "Eastbound2", segment 1 of 7
-         121 -121 -  1            0.            0.           24.95     0.01126       0.002        0.
+         121 -121 -  1            0.            0.           24.95     0.01126       0.001        0.
          121 -121 -  2            0.            0.           24.95     0.01126
          121 -121 -  3            0.            0.           24.95     0.01126
    120.  122 -122     (TUNNEL)                  Tunnel "Eastbound2", segment 2 of 7
-         122 -122 -  1            0.            0.           24.95     0.01126       0.002        0.
+         122 -122 -  1            0.            0.           24.95     0.01126       0.001        0.
          122 -122 -  2            0.            0.           24.95     0.01126
          122 -122 -  3            0.            0.           24.95     0.01126
          122 -122 -  4            0.            0.           24.95     0.01126
          122 -122 -  5            0.            0.           24.95     0.01126
          122 -122 -  6            0.            0.           24.95     0.01126
    120.  123 -123     (TUNNEL)                  Tunnel "Eastbound2", segment 3 of 7
-         123 -123 -  1            0.            0.           24.95     0.01126       0.002        0.
+         123 -123 -  1            0.            0.           24.95     0.01126       0.001        0.
          123 -123 -  2            0.            0.           24.95     0.01126
          123 -123 -  3            0.            0.           24.95     0.01126
          123 -123 -  4            0.            0.           24.95     0.01126
          123 -123 -  5            0.            0.           24.95     0.01126
          123 -123 -  6            0.            0.           24.95     0.01126
    120.  124 -124     (TUNNEL)                  Tunnel "Eastbound2", segment 4 of 7
-         124 -124 -  1            0.            0.           24.95     0.01126       0.002        0.
+         124 -124 -  1            0.            0.           24.95     0.01126       0.001        0.
          124 -124 -  2            0.            0.           24.95     0.01126
          124 -124 -  3            0.            0.           24.95     0.01126
          124 -124 -  4            0.            0.           24.95     0.01126
          124 -124 -  5            0.            0.           24.95     0.01126
          124 -124 -  6            0.            0.           24.95     0.01126
    120.  125 -125     (TUNNEL)                  Tunnel "Eastbound2", segment 5 of 7
-         125 -125 -  1            0.            0.           24.95     0.01126       0.002        0.
+         125 -125 -  1            0.            0.           24.95     0.01126       0.001        0.
          125 -125 -  2            0.            0.           24.95     0.01126
          125 -125 -  3            0.            0.           24.95     0.01126
          125 -125 -  4            0.            0.           24.95     0.01126
          125 -125 -  5            0.            0.           24.95     0.01126
          125 -125 -  6            0.            0.           24.95     0.01126
    120.  126 -126     (TUNNEL)                  Tunnel "Eastbound2", segment 6 of 7
-         126 -126 -  1            0.            0.           24.95     0.01126       0.002        0.
+         126 -126 -  1            0.            0.           24.95     0.01126       0.001        0.
          126 -126 -  2            0.            0.           24.95     0.01126
          126 -126 -  3            0.            0.           24.95     0.01126
          126 -126 -  4            0.            0.           24.95     0.01126
          126 -126 -  5            0.            0.           24.95     0.01126
          126 -126 -  6            0.            0.           24.95     0.01126
    120.  127 -127     (TUNNEL)                  Tunnel "Eastbound2", segment 7 of 7
-         127 -127 -  1            0.            0.           24.95     0.01126       0.002        0.
+         127 -127 -  1            0.            0.           24.95     0.01126       0.001        0.
          127 -127 -  2            0.            0.           24.95     0.01126
          127 -127 -  3            0.            0.           24.95     0.01126
          127 -127 -  4            0.            0.           24.95     0.01126
          127 -127 -  5            0.            0.           24.95     0.01126
          127 -127 -  6            0.            0.           24.95     0.01126
    500.  201 -201     (TUNNEL)                  Tunnel "Offslip", segment 1 of 1
-         201 -201 -  1            0.            0.           24.95     0.01126       0.001        0.
+         201 -201 -  1            0.            0.           24.95     0.01126      -0.001       -0.
          201 -201 -  2            0.            0.           24.95     0.01126
          201 -201 -  3            0.            0.           24.95     0.01126
          201 -201 -  4            0.            0.           24.95     0.01126
@@ -9575,33 +9606,33 @@ TIME      8.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
     30.  909 -909     (VENTILATION SHAFT)       Tunnel "XP9", segment 1 of 1
          909 -909 -  1                                        24.7     0.01126         -0.       -0.
     30.  910 -910     (VENTILATION SHAFT)       Tunnel "XP10", segment 1 of 1
-         910 -910 -  1                                        24.7     0.01126         -0.       -0.
+         910 -910 -  1                                        24.7     0.01126          0.        0.
     30.  911 -911     (VENTILATION SHAFT)       Tunnel "XP11", segment 1 of 1
-         911 -911 -  1                                        24.7     0.01126         -0.       -0.
+         911 -911 -  1                                        24.7     0.01126          0.        0.
     30.  912 -912     (VENTILATION SHAFT)       Tunnel "XP12", segment 1 of 1
-         912 -912 -  1                                      24.867     0.01126         -0.       -0.
+         912 -912 -  1                                      24.867     0.01126          0.        0.
     30.  913 -913     (VENTILATION SHAFT)       Tunnel "XP13", segment 1 of 1
-         913 -913 -  1                                      24.867     0.01126         -0.       -0.
+         913 -913 -  1                                      24.867     0.01126          0.        0.
     30.  914 -914     (VENTILATION SHAFT)       Tunnel "XP14", segment 1 of 1
-         914 -914 -  1                                      24.867     0.01126         -0.       -0.
+         914 -914 -  1                                      24.867     0.01126          0.        0.
     30.  915 -915     (VENTILATION SHAFT)       Tunnel "XP15", segment 1 of 1
-         915 -915 -  1                                        24.7     0.01126         -0.       -0.
+         915 -915 -  1                                        24.7     0.01126          0.        0.
     30.  916 -916     (VENTILATION SHAFT)       Tunnel "XP16", segment 1 of 1
-         916 -916 -  1                                        24.7     0.01126         -0.       -0.
+         916 -916 -  1                                        24.7     0.01126          0.        0.
     30.  917 -917     (VENTILATION SHAFT)       Tunnel "XP17", segment 1 of 1
-         917 -917 -  1                                        24.7     0.01126         -0.       -0.
+         917 -917 -  1                                        24.7     0.01126          0.        0.
     30.  918 -918     (VENTILATION SHAFT)       Tunnel "XP18", segment 1 of 1
-         918 -918 -  1                                        24.7     0.01126         -0.       -0.
+         918 -918 -  1                                        24.7     0.01126          0.        0.
     30.  919 -919     (VENTILATION SHAFT)       Tunnel "XP19", segment 1 of 1
-         919 -919 -  1                                        24.7     0.01126         -0.       -0.
+         919 -919 -  1                                        24.7     0.01126          0.        0.
     30.  920 -920     (VENTILATION SHAFT)       Tunnel "XP20", segment 1 of 1
-         920 -920 -  1                                        24.7     0.01126         -0.       -0.
+         920 -920 -  1                                        24.7     0.01126          0.        0.
     30.  921 -921     (VENTILATION SHAFT)       Tunnel "XP21", segment 1 of 1
-         921 -921 -  1                                        24.7     0.01126         -0.       -0.
+         921 -921 -  1                                        24.7     0.01126          0.        0.
     30.  922 -922     (VENTILATION SHAFT)       Tunnel "XP22", segment 1 of 1
-         922 -922 -  1                                        24.7     0.01126         -0.       -0.
+         922 -922 -  1                                        24.7     0.01126          0.        0.
     30.  923 -923     (VENTILATION SHAFT)       Tunnel "XP23", segment 1 of 1
-         923 -923 -  1                                        24.7     0.01126         -0.       -0.
+         923 -923 -  1                                        24.7     0.01126          0.        0.
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
                               (deg C)               (W)            (W)
@@ -9920,61 +9951,61 @@ TIME      9.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
    SYSTEM            AIR     AIR     TEMPERATURE (deg C)
 PARTITIONING        FLOW     VEL.    -------------------
                    (m^3/s)   (m/s)   HUMIDITY    (kg/kg)
-  101 -101          0.001       0.    24.944    24.944    24.944    24.944    24.944
+  101 -101          0.002       0.    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113
-  102 -102          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  102 -102          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  103 -103          0.001       0.    24.944    24.944    24.944
+  103 -103          0.002       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  104 -104          0.001       0.    24.944    24.944    24.944
+  104 -104          0.002       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  105 -105          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  105 -105          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  106 -106          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  106 -106          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  107 -107          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  107 -107          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  108 -108          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  108 -108          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  109 -109          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  109 -109          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  110 -110          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  110 -110          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  111 -111          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  111 -111          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  112 -112          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  112 -112          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  113 -113          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  113 -113          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  114 -114          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  114 -114          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  115 -115          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  115 -115          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  116 -116          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  116 -116          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  117 -117          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  117 -117          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  118 -118          0.001       0.    24.944    24.944    24.944    24.944
+  118 -118          0.002       0.    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113
-  119 -119          0.001       0.    24.944    24.944
+  119 -119          0.002       0.    24.944    24.944
                                       0.0113    0.0113
-  120 -120          0.001       0.    24.944    24.944    24.944
+  120 -120          0.002       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  121 -121          0.003       0.    24.944    24.944    24.944
+  121 -121          0.001       0.    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113
-  122 -122          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  122 -122          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  123 -123          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  123 -123          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  124 -124          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  124 -124          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  125 -125          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  125 -125          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  126 -126          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  126 -126          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  127 -127          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  127 -127          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  201 -201          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
+  201 -201         -0.002      -0.    24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
                                       24.944    24.944    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
@@ -9982,53 +10013,53 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
                                       24.944
                                       0.0113
-  301 -301          0.001       0.    24.944    24.944    24.944    24.944    24.944
+  301 -301          0.002       0.    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113
-  302 -302          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  302 -302          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  303 -303          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  303 -303          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  304 -304          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  304 -304          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  305 -305          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  305 -305          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  306 -306          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  306 -306          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  307 -307          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  307 -307          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  308 -308          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  308 -308          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  309 -309          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  309 -309          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  310 -310          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  310 -310          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  311 -311          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  311 -311          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  312 -312          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  312 -312          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  313 -313          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  313 -313          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
   314 -314          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  315 -315          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  315 -315          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  316 -316          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  316 -316          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  317 -317          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  317 -317          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  318 -318          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  318 -318          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  319 -319          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  319 -319          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  320 -320          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  320 -320          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  321 -321          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  321 -321          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  322 -322          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  322 -322          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  323 -323          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  323 -323          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
-  324 -324          0.002       0.    24.944    24.944    24.944    24.944    24.944    24.944
+  324 -324          0.001       0.    24.944    24.944    24.944    24.944    24.944    24.944
                                       0.0113    0.0113    0.0113    0.0113    0.0113    0.0113
   901 -901             0.       0.    24.667
                                       0.0113
@@ -10048,33 +10079,33 @@ PARTITIONING        FLOW     VEL.    -------------------
                                       0.0113
   909 -909            -0.      -0.    24.667
                                       0.0113
-  910 -910            -0.      -0.    24.667
+  910 -910             0.       0.    24.667
                                       0.0113
-  911 -911            -0.      -0.    24.667
+  911 -911             0.       0.    24.667
                                       0.0113
-  912 -912            -0.      -0.    24.833
+  912 -912             0.       0.    24.833
                                       0.0113
-  913 -913            -0.      -0.    24.833
+  913 -913             0.       0.    24.833
                                       0.0113
-  914 -914            -0.      -0.    24.833
+  914 -914             0.       0.    24.833
                                       0.0113
-  915 -915            -0.      -0.    24.667
+  915 -915             0.       0.    24.667
                                       0.0113
-  916 -916            -0.      -0.    24.667
+  916 -916             0.       0.    24.667
                                       0.0113
-  917 -917            -0.      -0.    24.667
+  917 -917             0.       0.    24.667
                                       0.0113
-  918 -918            -0.      -0.    24.667
+  918 -918             0.       0.    24.667
                                       0.0113
-  919 -919            -0.      -0.    24.667
+  919 -919             0.       0.    24.667
                                       0.0113
-  920 -920            -0.      -0.    24.667
+  920 -920             0.       0.    24.667
                                       0.0113
-  921 -921            -0.      -0.    24.667
+  921 -921             0.       0.    24.667
                                       0.0113
-  922 -922            -0.      -0.    24.667
+  922 -922             0.       0.    24.667
                                       0.0113
-  923 -923            -0.      -0.    24.667
+  923 -923             0.       0.    24.667
                                       0.0113
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
@@ -10494,79 +10525,79 @@ TIME     10.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          115 -115 -  5            0.            0.          24.939     0.01126
          115 -115 -  6            0.            0.          24.939     0.01126
    120.  116 -116     (TUNNEL)                  Tunnel "Eastbound1", segment 16 of 2
-         116 -116 -  1            0.            0.          24.939     0.01126       0.002        0.
+         116 -116 -  1            0.            0.          24.939     0.01126       0.003        0.
          116 -116 -  2            0.            0.          24.939     0.01126
          116 -116 -  3            0.            0.          24.939     0.01126
          116 -116 -  4            0.            0.          24.939     0.01126
          116 -116 -  5            0.            0.          24.939     0.01126
          116 -116 -  6            0.            0.          24.939     0.01126
    120.  117 -117     (TUNNEL)                  Tunnel "Eastbound1", segment 17 of 2
-         117 -117 -  1            0.            0.          24.939     0.01126       0.001        0.
+         117 -117 -  1            0.            0.          24.939     0.01126       0.003        0.
          117 -117 -  2            0.            0.          24.939     0.01126
          117 -117 -  3            0.            0.          24.939     0.01126
          117 -117 -  4            0.            0.          24.939     0.01126
          117 -117 -  5            0.            0.          24.939     0.01126
          117 -117 -  6            0.            0.          24.939     0.01126
     80.  118 -118     (TUNNEL)                  Tunnel "Eastbound1", segment 18 of 2
-         118 -118 -  1            0.            0.          24.939     0.01126       0.001        0.
+         118 -118 -  1            0.            0.          24.939     0.01126       0.003        0.
          118 -118 -  2            0.            0.          24.939     0.01126
          118 -118 -  3            0.            0.          24.939     0.01126
          118 -118 -  4            0.            0.          24.939     0.01126
     40.  119 -119     (TUNNEL)                  Tunnel "Eastbound1", segment 19 of 2
-         119 -119 -  1            0.            0.          24.939     0.01126       0.001        0.
+         119 -119 -  1            0.            0.          24.939     0.01126       0.003        0.
          119 -119 -  2            0.            0.          24.939     0.01126
     60.  120 -120     (TUNNEL)                  Tunnel "Eastbound1", segment 20 of 2
-         120 -120 -  1            0.            0.          24.939     0.01126       0.001        0.
+         120 -120 -  1            0.            0.          24.939     0.01126       0.003        0.
          120 -120 -  2            0.            0.          24.939     0.01126
          120 -120 -  3            0.            0.          24.939     0.01126
     60.  121 -121     (TUNNEL)                  Tunnel "Eastbound2", segment 1 of 7
-         121 -121 -  1            0.            0.          24.939     0.01126       0.003        0.
+         121 -121 -  1            0.            0.          24.939     0.01126       0.001        0.
          121 -121 -  2            0.            0.          24.939     0.01126
          121 -121 -  3            0.            0.          24.939     0.01126
    120.  122 -122     (TUNNEL)                  Tunnel "Eastbound2", segment 2 of 7
-         122 -122 -  1            0.            0.          24.939     0.01126       0.003        0.
+         122 -122 -  1            0.            0.          24.939     0.01126       0.001        0.
          122 -122 -  2            0.            0.          24.939     0.01126
          122 -122 -  3            0.            0.          24.939     0.01126
          122 -122 -  4            0.            0.          24.939     0.01126
          122 -122 -  5            0.            0.          24.939     0.01126
          122 -122 -  6            0.            0.          24.939     0.01126
    120.  123 -123     (TUNNEL)                  Tunnel "Eastbound2", segment 3 of 7
-         123 -123 -  1            0.            0.          24.939     0.01126       0.003        0.
+         123 -123 -  1            0.            0.          24.939     0.01126       0.001        0.
          123 -123 -  2            0.            0.          24.939     0.01126
          123 -123 -  3            0.            0.          24.939     0.01126
          123 -123 -  4            0.            0.          24.939     0.01126
          123 -123 -  5            0.            0.          24.939     0.01126
          123 -123 -  6            0.            0.          24.939     0.01126
    120.  124 -124     (TUNNEL)                  Tunnel "Eastbound2", segment 4 of 7
-         124 -124 -  1            0.            0.          24.939     0.01126       0.003        0.
+         124 -124 -  1            0.            0.          24.939     0.01126       0.001        0.
          124 -124 -  2            0.            0.          24.939     0.01126
          124 -124 -  3            0.            0.          24.939     0.01126
          124 -124 -  4            0.            0.          24.939     0.01126
          124 -124 -  5            0.            0.          24.939     0.01126
          124 -124 -  6            0.            0.          24.939     0.01126
    120.  125 -125     (TUNNEL)                  Tunnel "Eastbound2", segment 5 of 7
-         125 -125 -  1            0.            0.          24.939     0.01126       0.003        0.
+         125 -125 -  1            0.            0.          24.939     0.01126       0.001        0.
          125 -125 -  2            0.            0.          24.939     0.01126
          125 -125 -  3            0.            0.          24.939     0.01126
          125 -125 -  4            0.            0.          24.939     0.01126
          125 -125 -  5            0.            0.          24.939     0.01126
          125 -125 -  6            0.            0.          24.939     0.01126
    120.  126 -126     (TUNNEL)                  Tunnel "Eastbound2", segment 6 of 7
-         126 -126 -  1            0.            0.          24.939     0.01126       0.003        0.
+         126 -126 -  1            0.            0.          24.939     0.01126       0.001        0.
          126 -126 -  2            0.            0.          24.939     0.01126
          126 -126 -  3            0.            0.          24.939     0.01126
          126 -126 -  4            0.            0.          24.939     0.01126
          126 -126 -  5            0.            0.          24.939     0.01126
          126 -126 -  6            0.            0.          24.939     0.01126
    120.  127 -127     (TUNNEL)                  Tunnel "Eastbound2", segment 7 of 7
-         127 -127 -  1            0.            0.          24.939     0.01126       0.003        0.
+         127 -127 -  1            0.            0.          24.939     0.01126       0.001        0.
          127 -127 -  2            0.            0.          24.939     0.01126
          127 -127 -  3            0.            0.          24.939     0.01126
          127 -127 -  4            0.            0.          24.939     0.01126
          127 -127 -  5            0.            0.          24.939     0.01126
          127 -127 -  6            0.            0.          24.939     0.01126
    500.  201 -201     (TUNNEL)                  Tunnel "Offslip", segment 1 of 1
-         201 -201 -  1            0.            0.          24.939     0.01126       0.002        0.
+         201 -201 -  1            0.            0.          24.939     0.01126      -0.002       -0.
          201 -201 -  2            0.            0.          24.939     0.01126
          201 -201 -  3            0.            0.          24.939     0.01126
          201 -201 -  4            0.            0.          24.939     0.01126
@@ -10738,21 +10769,21 @@ TIME     10.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
          321 -321 -  5            0.            0.          24.939     0.01126
          321 -321 -  6            0.            0.          24.939     0.01126
    120.  322 -322     (TUNNEL)                  Tunnel "Westbound1", segment 22 of 2
-         322 -322 -  1            0.            0.          24.939     0.01126       0.002        0.
+         322 -322 -  1            0.            0.          24.939     0.01126       0.001        0.
          322 -322 -  2            0.            0.          24.939     0.01126
          322 -322 -  3            0.            0.          24.939     0.01126
          322 -322 -  4            0.            0.          24.939     0.01126
          322 -322 -  5            0.            0.          24.939     0.01126
          322 -322 -  6            0.            0.          24.939     0.01126
    120.  323 -323     (TUNNEL)                  Tunnel "Westbound1", segment 23 of 2
-         323 -323 -  1            0.            0.          24.939     0.01126       0.002        0.
+         323 -323 -  1            0.            0.          24.939     0.01126       0.001        0.
          323 -323 -  2            0.            0.          24.939     0.01126
          323 -323 -  3            0.            0.          24.939     0.01126
          323 -323 -  4            0.            0.          24.939     0.01126
          323 -323 -  5            0.            0.          24.939     0.01126
          323 -323 -  6            0.            0.          24.939     0.01126
    120.  324 -324     (TUNNEL)                  Tunnel "Westbound1", segment 24 of 2
-         324 -324 -  1            0.            0.          24.939     0.01126       0.002        0.
+         324 -324 -  1            0.            0.          24.939     0.01126       0.001        0.
          324 -324 -  2            0.            0.          24.939     0.01126
          324 -324 -  3            0.            0.          24.939     0.01126
          324 -324 -  4            0.            0.          24.939     0.01126
@@ -10777,33 +10808,33 @@ TIME     10.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
     30.  909 -909     (VENTILATION SHAFT)       Tunnel "XP9", segment 1 of 1
          909 -909 -  1                                      24.628     0.01126         -0.       -0.
     30.  910 -910     (VENTILATION SHAFT)       Tunnel "XP10", segment 1 of 1
-         910 -910 -  1                                      24.628     0.01126         -0.       -0.
+         910 -910 -  1                                      24.628     0.01126          0.        0.
     30.  911 -911     (VENTILATION SHAFT)       Tunnel "XP11", segment 1 of 1
-         911 -911 -  1                                      24.628     0.01126         -0.       -0.
+         911 -911 -  1                                      24.628     0.01126          0.        0.
     30.  912 -912     (VENTILATION SHAFT)       Tunnel "XP12", segment 1 of 1
-         912 -912 -  1                                      24.833     0.01126         -0.       -0.
+         912 -912 -  1                                      24.833     0.01126          0.        0.
     30.  913 -913     (VENTILATION SHAFT)       Tunnel "XP13", segment 1 of 1
-         913 -913 -  1                                      24.833     0.01126         -0.       -0.
+         913 -913 -  1                                      24.833     0.01126          0.        0.
     30.  914 -914     (VENTILATION SHAFT)       Tunnel "XP14", segment 1 of 1
-         914 -914 -  1                                      24.833     0.01126         -0.       -0.
+         914 -914 -  1                                      24.833     0.01126          0.        0.
     30.  915 -915     (VENTILATION SHAFT)       Tunnel "XP15", segment 1 of 1
-         915 -915 -  1                                      24.628     0.01126         -0.       -0.
+         915 -915 -  1                                      24.628     0.01126          0.        0.
     30.  916 -916     (VENTILATION SHAFT)       Tunnel "XP16", segment 1 of 1
-         916 -916 -  1                                      24.628     0.01126         -0.       -0.
+         916 -916 -  1                                      24.628     0.01126          0.        0.
     30.  917 -917     (VENTILATION SHAFT)       Tunnel "XP17", segment 1 of 1
-         917 -917 -  1                                      24.628     0.01126         -0.       -0.
+         917 -917 -  1                                      24.628     0.01126          0.        0.
     30.  918 -918     (VENTILATION SHAFT)       Tunnel "XP18", segment 1 of 1
-         918 -918 -  1                                      24.628     0.01126         -0.       -0.
+         918 -918 -  1                                      24.628     0.01126          0.        0.
     30.  919 -919     (VENTILATION SHAFT)       Tunnel "XP19", segment 1 of 1
-         919 -919 -  1                                      24.628     0.01126         -0.       -0.
+         919 -919 -  1                                      24.628     0.01126          0.        0.
     30.  920 -920     (VENTILATION SHAFT)       Tunnel "XP20", segment 1 of 1
-         920 -920 -  1                                      24.628     0.01126         -0.       -0.
+         920 -920 -  1                                      24.628     0.01126          0.        0.
     30.  921 -921     (VENTILATION SHAFT)       Tunnel "XP21", segment 1 of 1
-         921 -921 -  1                                      24.628     0.01126         -0.       -0.
+         921 -921 -  1                                      24.628     0.01126          0.        0.
     30.  922 -922     (VENTILATION SHAFT)       Tunnel "XP22", segment 1 of 1
-         922 -922 -  1                                      24.628     0.01126         -0.       -0.
+         922 -922 -  1                                      24.628     0.01126          0.        0.
     30.  923 -923     (VENTILATION SHAFT)       Tunnel "XP23", segment 1 of 1
-         923 -923 -  1                                      24.628     0.01126         -0.       -0.
+         923 -923 -  1                                      24.628     0.01126          0.        0.
            SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
         PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
                               (deg C)               (W)            (W)
