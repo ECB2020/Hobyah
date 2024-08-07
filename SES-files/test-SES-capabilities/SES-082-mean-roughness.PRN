@@ -1,0 +1,3831 @@
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,
+                         to illustrate an oddity in SES: SES calculates friction using the mean
+                         roughness height despite knowing how to do a perimeter-weighted calculation.
+                         Friction factor calculated from entries in the input and output files:
+                                   A = 92 m^2
+                                   S = 45 m
+                                 D_h = 4 * A / S = 4 * 92 / 45 = 8.1778 m
+                                   L = 750 m (in segment 102)
+                                 rho = 1.2 kg/m^3   (in the form 1F printout)
+                                  DP = 3.923 Pa     (in segment 102 at the final timestep)
+                                   v = 1.617 m/s    (in segment 102 at the final timestep)
+                                  DP = 0.5 rho v^2 lambda L / D_h
+                           -> lambda = 2 D_h DP / (L rho v^2)
+                                     = 2 * 8.1778 * 3.923 / (750 * 1.2 * 1.617^2)
+                                     = 0.0273
+                         From the printout of form 3C:
+                             Fully turbulent friction factor (from average roughness)   0.027
+                             Average of individual wall friction factors                0.0227
+                         So SES must be calculating with the friction factor from mean roughness.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           3
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+
+                            NUMBER OF LINE SEGMENTS                               2                            FORM 1D
+
+                            TOTAL NUMBER OF SECTIONS                              2
+
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+
+                            NUMBER OF NODES                                       3
+
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+
+                            NUMBER OF FAN TYPES                                   0
+
+
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 1
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+
+                            NUMBER OF IMPULSE FAN TYPES                           1
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        69.9   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        62.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.92   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07491   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01002   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              64.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                69.8   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                62.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01006   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              65.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    69.8   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    62.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01006   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              65.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                              9.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            102              1               0.
+
+                          102             102            103              1               0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     5
+
+
+                      INTERNAL-EXTERNAL SECTION-NODE REFERENCE TABLES
+
+
+   INTERNAL                 EXTERNAL                 BACKWARD                   FORWARD
+   SECTION                  SECTION                  AERO NODE                 AERO NODE
+   --------                 --------                 ---------                 ---------
+                            (TABL11)                 (TABL12)                  (TABL13)
+
+       1                      101                        1                         2
+       2                      102                        2                         3
+
+
+
+
+   INTERNAL                 EXTERNAL             NO. OF SECTIONS           INTERNAL SECTIONS
+     NODE                     NODE               ADJACENT TO NODE          ADJACENT TO NODE*
+   --------                 --------             ----------------          -----------------
+                            (TABL15)                 (TABL16)                  (TABL17)
+
+       1                      101                        1                  -1
+       2                      102                        2                   1   -2
+       3                      103                        1                   2
+
+                   * NOTE - ORDER OF ENTRIES MAY BE CHANGED BY JINS
+
+
+
+
+   EXTERNAL                 INTERNAL                 INTERNAL
+   SECTION                  SECTION                    NODE
+   OR NODE                  (TABL14)                 (TABL19)
+   --------                 --------                 --------
+
+     101                        1                        1
+     102                        2                        2
+     103                        0                        3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     6
+
+
+                                       LOOP TABLE
+
+ LOOP     EXTERNAL NUMBERS OF SECTIONS
+          ----------------------------------------------------
+NUMBER    INTERNAL NUMBERS OF SECTIONS-CONTAINED IN ARRAY LOOP
+
+   1      -101 -102
+            -1   -2
+
+
+
+
+
+   HALF-BANDWIDTH OF AERODYNAMIC RESPONSE MATRIX =  1
+
+   ARRAY BLP DATA     1 ELEMENTS REQUIRED
+                  20000 ELEMENTS AVAILABLE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     7
+
+
+                                              CONTINUITY TABLE
+
+INTERNAL  EXTERNAL  STORAGE LOCATIONS   LOOPS THAT PASS THROUGH SECTION - SIGN SHOWS DIRECTION WITH RESPECT TO SECTION
+SECTION   SECTION     IN ARRAY LKAN
+NUMBER    NUMBER      FROM       TO
+
+   1       101           1        1     -1
+
+   2       102           2        2     -1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     8
+
+
+                TABLES OF LOOPS PASSING THROUGH BRANCHED JUNCTIONS
+
+
+        INTERNAL  EXTERNAL   LOOP      FROM SECTION         TO SECTION
+          NODE      NODE    NUMBER  INTERNAL  EXTERNAL  INTERNAL  EXTERNAL
+         NUMBER    NUMBER            NUMBER    NUMBER    NUMBER    NUMBER
+
+
+            1       101     STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+            2       102     STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+            3       103     STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+
+
+
+                                                    FLOW INITIALIZATION CHECK
+
+
+    INTERNAL SECTION AIRFLOW RATE (CFM)
+    -----------------------------------
+
+              0.0         0.0
+
+
+
+    LOOP AIRFLOW RATE (CFS)
+    -----------------------
+
+           -0.000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     9
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Short tunnel with a jet fan and fric                   FORM 3A
+
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+
+LENGTH                                                                               2460.63   FT
+
+CROSS SECTION AREA                                                                     990.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         73.8    73.8                                                   TOTAL PERIMETER       147.6  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.1640  0.0033                                                   ROUGHNESS LENGTH     0.0837  FT
+
+   HYDRAULIC DIAMETER                                                                   26.8   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0270
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     30
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    30             69.9            69.9           62.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    10
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Short tunnel with friction only                        FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                               2460.63   FT
+
+CROSS SECTION AREA                                                                     990.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         73.8    73.8                                                   TOTAL PERIMETER       147.6  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.1640  0.0033                                                   ROUGHNESS LENGTH     0.0837  FT
+
+   HYDRAULIC DIAMETER                                                                   26.8   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0270
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     30
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    30             69.9            69.9           62.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    11
+
+
+                                    SUBSEGMENTS ADJACENT TO THE NODE
+
+
+
+   INTERNAL            EXTERNAL            NO. OF SECTIONS                SUBSEGMENTS ADJACENT TO NODE
+     NODE                NODE              ADJACENT TO NODE         (ORDER OF ENTRIES MAY BE CHANGED BY JINS)
+   --------            --------            ----------------         -----------------------------------------
+                       (TABL15)                (TABL16)                             (TABL18)
+
+
+
+       1                 101                       1                         1
+
+       2                 102                       2                        30     31
+
+       3                 103                       1                        60
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    12
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        69.9   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        62.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01002   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    13
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              103                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        69.9   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        62.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01002   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    14
+
+
+                                    DUMP OF TABLES RELATED TO AERO AND THERMO PHENOMENA
+
+
+
+                                                                      (ORDER OF ENTRIES MAY HAVE BEEN CHANGED BY JINS)
+   INTERNAL            EXTERNAL            NO. OF SECTIONS             INTERNAL SECTIONS              SUBSEGMENTS
+     NODE                NODE              ADJACENT TO NODE            ADJACENT TO NODE             ADJACENT TO NODE
+   --------            --------            ----------------            -----------------            ----------------
+                       (TABL15)                (TABL16)                    (TABL17)                     (TABL18)
+
+
+       1                 101                       1                   -1
+                                                                                                      1
+       2                 102                       2                    1   -2
+                                                                                                     30   31
+       3                 103                       1                    2
+                                                                                                     60
+
+
+
+
+   INTERNAL            EXTERNAL                       (BACKWARD THERMO SUBNODE)                  (FORWARD THERMO SUBNODE)
+   SECTION             SECTION                           NUMBER       BRANCH                        NUMBER      BRANCH
+   --------            --------            --------   -----------   -----------       --------   -----------  -----------
+                       (TABL11)            (TABL20)                                   (TABL21)
+
+
+       1                 101                   65           1            1               129          2            1
+
+       2                 102                  130           2            2               193          3            1
+
+
+
+FIRST DUMP OF TABL1
+
+
+    1    1    1    1
+
+
+
+FIRST DUMP OF TABL2
+
+
+    0
+
+
+
+COMBINED DUMP OF TABL1 AND TABL2
+
+   1   0
+
+   1   0
+
+   1   0
+
+
+
+FIRST DUMP OF TABL23
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    15
+
+
+    1    1    1    1
+
+
+
+FIRST DUMP OF COAEND
+
+     0.0000
+
+
+
+COMBINED DUMP OF TABL23 AND COAEND
+
+    1    0
+
+    1    0
+
+    1    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    16
+
+
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+
+
+
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+
+                       IMPULSE FAN VOLUME FLOW RATE                           63979.5   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.70
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   5905.5   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    9999.0   SEC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    17
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+
+
+                                               TRAIN SCHEDULING DATA
+
+
+TRAIN SCHEDULING ORIGIN                                                                  0.0   FT
+
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                               9999   SECONDS
+
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                               42.0   MPH
+
+ROUTE COASTING OPTION                                                                      1   ACCELERATE FROM
+                                                                                               MINIMUM SPEED
+
+
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+
+
+             1                   1                 1               9999                      9999
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    18
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                  TRACK SECTION DATA                                           FORM 8C
+
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+               (FEET)                      (FEET)          (FEET)       (PERCENT)        (MPH)
+
+
+   1           5150.0         5150.0                         0.0           0.00          49.71            1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    19
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+
+NUMBER OF SCHEDULED STOPS                                                                  0
+
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                        2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    20
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+
+
+
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                              0.0   FT
+
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER               (FEET)            (FEET)
+
+
+                           101                 101                    0.0    TO      2460.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    21
+
+
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
+
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+
+    1          0.00       0.0   0.00000     72.91         0         2         0
+    2       2460.63       0.0   0.00000     72.91         0         0       129
+    3       5150.00       0.0   0.00000     72.91         0         0         1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    22
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+
+
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+
+TOTAL LENGTH OF TRAIN                                                                  705.4   FT
+
+FRONTAL AREA OF TRAIN                                                                 130.24   SQ FT
+
+PERIMETER OF CAR                                                                       44.95   FT              FORM 9B
+
+SKIN FRICTION COEFFICIENT                                                             0.0230
+
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                              0.00   SQ FT
+
+FRONT OF TRAIN DRAG COEFFICIENT                                                       0.6000
+
+TRAIN HEAT DATA                                                                                                FORM 9C
+
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    67560.4   BTU/HR PER CAR
+
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                     3305.0   BTU/HR PER CAR
+
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR        410.0   BTU/HR PER PATRON
+
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR           97.0   BTU/HR PER PATRON
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                         17.0   KW PER CAR
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.140   KW PER PATRON
+
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                          920.2              763.7   LB
+
+       EFFECTIVE DIAMETER OF AN ELEMENT                               2.9                1.6   IN.
+
+       EFFECTIVE SURFACE AREA FOR CONVECTION                         32.4               21.5   SQ FT
+
+       EFFECTIVE SURFACE AREA FOR RADIATION                          31.2               25.8   SQ FT
+
+       EMISSIVITY OF RESISTANCE ELEMENT                              0.82               0.90
+
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                          0.120              0.220   BTU/LB-DEG F
+
+       INITIAL GRID TEMPERATURES                                    300.0              782.0   DEG F
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    23
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+AVERAGE EMPTY CAR WEIGHT                                                                46.7   TONS            FORM 9E
+
+NUMBER OF MOTORS PER POWERED CAR                                                          2.
+
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                        1.18   LBS/TON
+
+                                           SECOND                                     116.00   LBS
+
+                                           THIRD                                      0.0408   LBS/TON-MPH
+
+ACCELERATION RESISTANCE OF ROTATING PARTS                                                9.1   (LBS/TON)/(MPH/SEC)
+
+                      MOTOR TYPE   A pair of 19 kN, 210 kW motors                                              FORM 9F
+
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+
+       WHEEL DIAMETER                                                33.1               33.0   IN.
+
+       GEAR RATIO                                                     4.4                4.3
+
+       SUPPLY VOLTAGE                                              1500.0             1499.0   VOLTS
+
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                   740.0   VOLTS/MOTOR
+
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+
+       TRAIN SPEED                22.7        22.8        46.2        70.8                     MPH             FORM 9G
+
+       TRACTIVE EFFORT          8334.3      8334.3      4154.2      2713.7                     LBS
+
+       MOTOR CURRENT             392.0       390.0       366.0       358.0                     AMPS
+
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    24
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+
+       LINE CURRENT               80.8       832.0       791.0       789.0       770.0         AMPS/POWERED CAR
+
+
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                             90.0   PERCENT
+
+SPEED U1                                                                                49.1   MPH
+
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                           94.0   PERCENT
+
+REGENERATIVE BRAKING EFFECTIVENESS                                                      22.0   PERCENT
+
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+
+
+
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+   (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)  .  (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)
+                                                                .
+     0.0           8170.             392.              81.      .   55.0           3490.             363.             782.
+     5.0           8170.             392.             243.      .   60.0           3200.             361.             778.
+    10.0           8170.             392.             405.      .   65.0           2954.             360.             775.
+    15.0           8170.             392.             568.      .   70.0           2743.             358.             771.
+    20.0           8170.             392.             730.      .   75.0           2560.             357.             768.
+    25.0           7608.             387.             784.      .   80.0           2399.             357.             766.
+    30.0           6361.             379.             784.      .   85.0           2258.             356.             763.
+    35.0           5465.             374.             784.      .   90.0           2132.             355.             761.
+    40.0           4789.             370.             784.      .   95.0           2019.             354.             758.
+    45.0           4261.             367.             784.      .  100.0           1917.             354.             756.
+    50.0           3837.             365.             784.      .  105.0           1825.             353.             755.
+
+
+INTERNAL MOTOR RESISTANCE                                                              0.001   OHMS/MOTOR      FORM 9I
+
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                      2.9   MPH/SEC         FORM 9J
+
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                           2.5   MPH/SEC
+
+SPEED V1                                                                                20.0   MPH
+
+NORMAL DECELERATION RATE AT SPEED V2                                                     2.0   MPH/SEC
+
+SPEED V2                                                                                72.0   MPH
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    25
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1         30        100.00         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5           3000.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    26
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+
+MAXIMUM SIMULATION TIME                                                              3000.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    27
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    28
+
+
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.00000   102  0.00000
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
+  102 -102            0.0      0.0
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    29
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+
+
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01640   102 -0.01640
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        86649.9     87.5
+  102 -102        86649.9     87.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    30
+
+
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01619   102 -0.01619
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       160501.0    162.1
+  102 -102       160501.0    162.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    31
+
+
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01604   102 -0.01604
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       216109.9    218.2
+  102 -102       216109.9    218.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    32
+
+
+TIME    400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01593   102 -0.01593
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       254205.3    256.7
+  102 -102       254205.3    256.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    33
+
+
+TIME    500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01586   102 -0.01586
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       278642.8    281.4
+  102 -102       278642.8    281.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    34
+
+
+TIME    600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01581   102 -0.01581
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       293664.5    296.5
+  102 -102       293664.5    296.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    35
+
+
+TIME    700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01579   102 -0.01579
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       302657.4    305.6
+  102 -102       302657.4    305.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    36
+
+
+TIME    800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01577   102 -0.01577
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       307956.2    311.0
+  102 -102       307956.2    311.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    37
+
+
+TIME    900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01577   102 -0.01577
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       311049.1    314.1
+  102 -102       311049.1    314.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    38
+
+
+TIME   1000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01576   102 -0.01576
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       312844.5    315.9
+  102 -102       312844.5    315.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    39
+
+
+TIME   1100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01576   102 -0.01576
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       313883.4    317.0
+  102 -102       313883.4    317.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    40
+
+
+TIME   1200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01576   102 -0.01576
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       314483.4    317.6
+  102 -102       314483.4    317.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    41
+
+
+TIME   1300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       314829.6    317.9
+  102 -102       314829.6    317.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    42
+
+
+TIME   1400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315029.3    318.1
+  102 -102       315029.3    318.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    43
+
+
+TIME   1500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315144.3    318.2
+  102 -102       315144.3    318.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    44
+
+
+TIME   1600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315210.6    318.3
+  102 -102       315210.6    318.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    45
+
+
+TIME   1700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315248.8    318.3
+  102 -102       315248.8    318.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    46
+
+
+TIME   1800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315270.8    318.4
+  102 -102       315270.8    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    47
+
+
+TIME   1900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315283.5    318.4
+  102 -102       315283.5    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    48
+
+
+TIME   2000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315290.8    318.4
+  102 -102       315290.8    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    49
+
+
+TIME   2100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315295.1    318.4
+  102 -102       315295.1    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    50
+
+
+TIME   2200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315297.5    318.4
+  102 -102       315297.5    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    51
+
+
+TIME   2300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315298.8    318.4
+  102 -102       315298.8    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    52
+
+
+TIME   2400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315299.7    318.4
+  102 -102       315299.7    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    53
+
+
+TIME   2500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.2    318.4
+  102 -102       315300.2    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    54
+
+
+TIME   2600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.4    318.4
+  102 -102       315300.4    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    55
+
+
+TIME   2700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.6    318.4
+  102 -102       315300.6    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    56
+
+
+TIME   2800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.7    318.4
+  102 -102       315300.7    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    57
+
+
+TIME   2900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.7    318.4
+  102 -102       315300.7    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    58
+
+
+TIME   3000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+                        SECTION PRESSURE CHANGES  ( SECTION NUMBER AND TOTAL PRESSURE CHANGE - IN. WG )
+                        -------------------------------------------------------------------------------
+
+   101  0.01575   102 -0.01575
+
+
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       315300.7    318.4
+  102 -102       315300.7    318.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:    59
+
+
+                                            END OF SIMULATION

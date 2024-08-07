@@ -1,0 +1,50 @@
+SES file for raising a fault in SESconv.py.
+This SES file has been edited to trigger an error in SESconv.py
+in which it finds a character that isn't a space before a slice
+that contains a number.
+17.       7         2020
+1         1         1         0         0         0         0         0          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
+1         1         0         2         1         0         1         0          lsegs  sects  vsegs nodes use1  use0   fires  fans
+1         1         0         1         0         1         0         0          routes trtyp  zones fcark trns  JFs    write  read
+29.444    23.333    101.288   23.889    18.333    29.444    23.333    16.111     DB1    WB1    P_atm AMDB  AMWB  PMDB   PMWB   annamp
+68.039    0.        0.        0.        0.        0.        1         0.2        mass   cpBst  cpBmv cpAst cpAmv speed  firopt emiss
+101       101       102       1         0.                                       Form 2A
+101       9         losses at back end                                           Form 3A
+1524.     17.652    0.        1
+15.24
+60.96
+0.        0.        30.       30.       0.        50        0
+1         50        29.444    29.444    23.333
+Fire                                    101       26                             Form 4A
+15        0         90.       9999.     831.111   16.723
+101       0         3                                                            Form 6A
+0.        0.
+102       0         3
+0.        0.
+333.332   0.75      29.698    0.        9999.                                    Form 7C
+Route 1                                                                          Form 8A
+0.        1         1         5000.     1         40.234    0
+1828.8    15240.    0.        0.        80.47     0         0                    Form 8C
+0         500
+1         0.                                                                     Form 8F
+101
+Chopper, no flywheel, line Ohms=zero    10        6         243.84    12.096     Form 9A totcars, pwdcars, length, area
+13.7      0.023     0.        0.6                                                perim, Darcy_f, bogies, noseloss
+19782.289 0.        134.986   0.        17.       0.065                          sens & lat/car, sens & lat/pax, kW/car & pax
+800.      0.        40.64     40.64     1.997     1.997     2.397     2.397      accel & decel: mass, diam, areas (conv & rad)
+0.9       0.9       501.9696  501.9696  276.667   526.667                        accel & decel: emissivity, specheat, temp
+42.366    2         5.7859    515.99    0.124309  9.649                          mass, mtrs/car, A1(N/t), A2(N), B, rot_mass
+2 no. 28 kN, 250 kW motors              840.74    840.74                         motor descrip, 2 wheel diameters
+4.4       4.4       1500.     1500.     750.                                     2 gear ratios, 3 voltages (3rd is discarded)
+34.923    35.084    78.053    116.034                                            Train speeds
+55332.235 55332.235 24999.857 16665.682                                          Motor tractive efforts
+392.      392.      392.      392.                                               Motor amps
+2                                                                                1 = cams (no forms 9H, 9J-9L), 2 = choppers
+80.8      581.      582.      583.      584.                                     Form 9H Line amps
+92.       79.019    95.       20.       1                                        effic1, speed, effic2, regen, 2=flywheels
+0.        0.        0.        0.        0.3                                      Choppers: 4 zeros & 1 motor ohms (0.001-0.3)
+1.296     1.118     32.187    0.894     115.873                                  accel, decel<V1, V1, decel>V1, max V
+2.778     1                                                                      Form 12A
+100       5.        0         0         1         5                              count seconds abbrev ECZs aero & thermo cycles
+5         5.        10        2                                                  timestep, runtime, train cycles, wall cycles
+

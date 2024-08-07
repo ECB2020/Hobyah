@@ -1,0 +1,7726 @@
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file with short tunnel and vent shaft.
+
+                         Case without any routes in the file.
+
+                                    DESIGN TIME 1700 HRS   JULY       2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              0     BYPASS
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+
+                            NUMBER OF LINE SEGMENTS                               4                            FORM 1D
+
+                            TOTAL NUMBER OF SECTIONS                              5
+
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+
+                            NUMBER OF NODES                                       6
+
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+
+                            NUMBER OF FAN TYPES                                   0
+
+
+                            NUMBER OF TRAIN ROUTES                                0                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 0
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+
+                            NUMBER OF IMPULSE FAN TYPES                           2
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.91   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07281   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                75.0   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                65.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01088   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    85.0   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    74.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                              9.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            102              1               0.
+
+                          102             102            103              1               0.
+
+                          103             103            104              1               0.
+
+                          104             104            105              1               0.
+
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+
+                          901             103            901                              0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     5
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Left side tunnel (jet fan)                             FORM 3A
+
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+
+LENGTH                                                                               1000.00   FT
+
+CROSS SECTION AREA                                                                     190.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         50.0                                                           TOTAL PERIMETER        50.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   15.2   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     12
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    12             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     6
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Left side of cavern                                    FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                500.00   FT
+
+CROSS SECTION AREA                                                                     700.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        150.0                                                           TOTAL PERIMETER       150.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   18.7   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      6
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     6             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     7
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  103 -103           Right side of cavern                                   FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                500.00   FT
+
+CROSS SECTION AREA                                                                     700.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        150.0                                                           TOTAL PERIMETER       150.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   18.7   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      6
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     6             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     8
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  104 -104            Right side tunnel (jet fan)                           FORM 3A
+
+LINE SEGMENT TYPE                                                                         10   (SPECIAL TUNNEL)
+
+LENGTH                                                                               1000.00   FT
+
+CROSS SECTION AREA                                                                     190.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         50.0                                                           TOTAL PERIMETER        50.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   15.2   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    1.00                 0.50
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     12
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    12             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:     9
+
+
+INPUT VERIFICATION FOR VENTILATION SHAFT  901 -901     Cavern shaft                                            FORM 5A
+
+SECTION TYPE                                                                               1   (VENTILATION SHAFT)
+
+NUMBER OF SEGMENTS IN THIS VENT SHAFT                                                      1                   FORM 5B
+
+NUMBER OF SUBSEGMENTS IN RESULTING EQUIVALENT VENT SHAFT                                   1
+
+GRATE FREE AREA                                                                        500.0   SQ FT
+
+DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                           1500.   FPM
+
+WALL SURFACE TEMPERATURE                                                                82.0   DEG F
+
+INITIAL AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F
+
+INITIAL AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+STACK HEIGHT                                                                            80.0   FT
+
+SEGMENT CHARACTERISTICS                                                                                        FORM 5D
+                                                                    SEGMENT TOTAL HEAD LOSS COEFFICIENTS
+
+                LENGTH          AREA         PERIMETER          FORWARD    FORWARD       BACKWARD   BACKWARD
+                 (FT)          (SQ FT)          (FT)            POSITIVE   NEGATIVE      POSITIVE   NEGATIVE
+
+        1        80.0           300.0           80.0              1.50       1.50          0.00       0.00
+
+EQUIVALENT VENTILATION SHAFT PROPERTIES
+
+     LENGTH                   80.0   FT                          TOTAL HEAD CHANGE COEFFICIENTS
+
+     AREA                    300.0   SQ FT                POSITIVE FLOW           1.50
+
+     PERIMETER                80.0   FT                   NEGATIVE FLOW           1.50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    10
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    11
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              103                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+NODE NUMBER                                                                              104                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    12
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              105                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              901                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    13
+
+
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+
+
+
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+
+                       IMPULSE FAN VOLUME FLOW RATE                           90000.0   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                  -5900.0   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    9999.0   SEC
+
+
+
+                       IMPULSE FAN TYPE                                                   2                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                             10
+
+                       IMPULSE FAN VOLUME FLOW RATE                           90000.0   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   5900.0   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    9999.0   SEC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    14
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1        100          5.00         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5            500.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    15
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+
+MAXIMUM SIMULATION TIME                                                               500.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    16
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    17
+
+
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
+  102 -102            0.0      0.0
+  103 -103            0.0      0.0
+  104 -104            0.0      0.0
+  901 -901            0.0      0.0
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    18
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+
+
+TIME      5.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -26169.0   -137.7
+  102 -102       -26169.0    -37.4
+  103 -103        26169.0     37.4
+  104 -104        26169.0    137.7
+  901 -901       -52337.9   -174.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    19
+
+
+TIME     10.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -50388.0   -265.2
+  102 -102       -50388.0    -72.0
+  103 -103        50388.0     72.0
+  104 -104        50388.0    265.2
+  901 -901      -100775.9   -335.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    20
+
+
+TIME     15.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -71574.2   -376.7
+  102 -102       -71574.2   -102.2
+  103 -103        71574.2    102.2
+  104 -104        71574.2    376.7
+  901 -901      -143148.3   -477.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    21
+
+
+TIME     20.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -89266.0   -469.8
+  102 -102       -89266.0   -127.5
+  103 -103        89266.0    127.5
+  104 -104        89266.0    469.8
+  901 -901      -178531.9   -595.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    22
+
+
+TIME     25.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -103475.4   -544.6
+  102 -102      -103475.4   -147.8
+  103 -103       103475.4    147.8
+  104 -104       103475.4    544.6
+  901 -901      -206950.8   -689.8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    23
+
+
+TIME     30.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -114535.2   -602.8
+  102 -102      -114535.2   -163.6
+  103 -103       114535.2    163.6
+  104 -104       114535.2    602.8
+  901 -901      -229070.4   -763.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    24
+
+
+TIME     35.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -122934.9   -647.0
+  102 -102      -122934.9   -175.6
+  103 -103       122934.9    175.6
+  104 -104       122934.9    647.0
+  901 -901      -245869.9   -819.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    25
+
+
+TIME     40.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -129196.3   -680.0
+  102 -102      -129196.3   -184.6
+  103 -103       129196.3    184.6
+  104 -104       129196.3    680.0
+  901 -901      -258392.7   -861.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    26
+
+
+TIME     45.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -133799.1   -704.2
+  102 -102      -133799.1   -191.1
+  103 -103       133799.1    191.1
+  104 -104       133799.1    704.2
+  901 -901      -267598.2   -892.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    27
+
+
+TIME     50.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -137147.9   -721.8
+  102 -102      -137147.9   -195.9
+  103 -103       137147.9    195.9
+  104 -104       137147.9    721.8
+  901 -901      -274295.9   -914.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    28
+
+
+TIME     55.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -139566.3   -734.6
+  102 -102      -139566.3   -199.4
+  103 -103       139566.3    199.4
+  104 -104       139566.3    734.6
+  901 -901      -279132.7   -930.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    29
+
+
+TIME     60.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -141303.3   -743.7
+  102 -102      -141303.3   -201.9
+  103 -103       141303.4    201.9
+  104 -104       141303.4    743.7
+  901 -901      -282606.7   -942.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    30
+
+
+TIME     65.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -142546.1   -750.2
+  102 -102      -142546.1   -203.6
+  103 -103       142546.1    203.6
+  104 -104       142546.1    750.2
+  901 -901      -285092.2   -950.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    31
+
+
+TIME     70.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -143432.8   -754.9
+  102 -102      -143432.8   -204.9
+  103 -103       143432.8    204.9
+  104 -104       143432.8    754.9
+  901 -901      -286865.6   -956.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    32
+
+
+TIME     75.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -144064.2   -758.2
+  102 -102      -144064.2   -205.8
+  103 -103       144064.2    205.8
+  104 -104       144064.2    758.2
+  901 -901      -288128.3   -960.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    33
+
+
+TIME     80.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -144513.1   -760.6
+  102 -102      -144513.1   -206.4
+  103 -103       144513.1    206.4
+  104 -104       144513.1    760.6
+  901 -901      -289026.2   -963.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    34
+
+
+TIME     85.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -144832.0   -762.3
+  102 -102      -144832.0   -206.9
+  103 -103       144832.0    206.9
+  104 -104       144832.0    762.3
+  901 -901      -289664.0   -965.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    35
+
+
+TIME     90.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145058.3   -763.5
+  102 -102      -145058.3   -207.2
+  103 -103       145058.3    207.2
+  104 -104       145058.3    763.5
+  901 -901      -290116.7   -967.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    36
+
+
+TIME     95.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145218.9   -764.3
+  102 -102      -145218.9   -207.5
+  103 -103       145218.9    207.5
+  104 -104       145218.9    764.3
+  901 -901      -290437.8   -968.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    37
+
+
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145332.8   -764.9
+  102 -102      -145332.8   -207.6
+  103 -103       145332.8    207.6
+  104 -104       145332.8    764.9
+  901 -901      -290665.6   -968.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    38
+
+
+TIME    105.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145413.6   -765.3
+  102 -102      -145413.6   -207.7
+  103 -103       145413.6    207.7
+  104 -104       145413.6    765.3
+  901 -901      -290827.2   -969.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    39
+
+
+TIME    110.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145470.8   -765.6
+  102 -102      -145470.8   -207.8
+  103 -103       145470.8    207.8
+  104 -104       145470.8    765.6
+  901 -901      -290941.6   -969.8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    40
+
+
+TIME    115.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145511.4   -765.8
+  102 -102      -145511.4   -207.9
+  103 -103       145511.4    207.9
+  104 -104       145511.4    765.8
+  901 -901      -291022.8   -970.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    41
+
+
+TIME    120.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145540.2   -766.0
+  102 -102      -145540.2   -207.9
+  103 -103       145540.2    207.9
+  104 -104       145540.2    766.0
+  901 -901      -291080.3   -970.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    42
+
+
+TIME    125.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145560.5   -766.1
+  102 -102      -145560.5   -207.9
+  103 -103       145560.5    207.9
+  104 -104       145560.5    766.1
+  901 -901      -291121.1   -970.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    43
+
+
+TIME    130.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145575.0   -766.2
+  102 -102      -145575.0   -208.0
+  103 -103       145575.0    208.0
+  104 -104       145575.0    766.2
+  901 -901      -291149.9   -970.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    44
+
+
+TIME    135.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145585.2   -766.2
+  102 -102      -145585.2   -208.0
+  103 -103       145585.2    208.0
+  104 -104       145585.2    766.2
+  901 -901      -291170.4   -970.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    45
+
+
+TIME    140.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145592.5   -766.3
+  102 -102      -145592.5   -208.0
+  103 -103       145592.5    208.0
+  104 -104       145592.5    766.3
+  901 -901      -291184.9   -970.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    46
+
+
+TIME    145.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145597.6   -766.3
+  102 -102      -145597.6   -208.0
+  103 -103       145597.6    208.0
+  104 -104       145597.6    766.3
+  901 -901      -291195.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    47
+
+
+TIME    150.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145601.2   -766.3
+  102 -102      -145601.2   -208.0
+  103 -103       145601.2    208.0
+  104 -104       145601.2    766.3
+  901 -901      -291202.5   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    48
+
+
+TIME    155.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145603.8   -766.3
+  102 -102      -145603.8   -208.0
+  103 -103       145603.8    208.0
+  104 -104       145603.8    766.3
+  901 -901      -291207.7   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    49
+
+
+TIME    160.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145605.6   -766.3
+  102 -102      -145605.6   -208.0
+  103 -103       145605.6    208.0
+  104 -104       145605.6    766.3
+  901 -901      -291211.3   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    50
+
+
+TIME    165.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145607.0   -766.4
+  102 -102      -145607.0   -208.0
+  103 -103       145607.0    208.0
+  104 -104       145607.0    766.4
+  901 -901      -291213.9   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    51
+
+
+TIME    170.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145607.9   -766.4
+  102 -102      -145607.9   -208.0
+  103 -103       145607.9    208.0
+  104 -104       145607.9    766.4
+  901 -901      -291215.8   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    52
+
+
+TIME    175.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145608.5   -766.4
+  102 -102      -145608.5   -208.0
+  103 -103       145608.5    208.0
+  104 -104       145608.5    766.4
+  901 -901      -291217.0   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    53
+
+
+TIME    180.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.0   -766.4
+  102 -102      -145609.0   -208.0
+  103 -103       145609.0    208.0
+  104 -104       145609.0    766.4
+  901 -901      -291218.0   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    54
+
+
+TIME    185.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.3   -766.4
+  102 -102      -145609.3   -208.0
+  103 -103       145609.3    208.0
+  104 -104       145609.3    766.4
+  901 -901      -291218.6   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    55
+
+
+TIME    190.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.5   -766.4
+  102 -102      -145609.5   -208.0
+  103 -103       145609.5    208.0
+  104 -104       145609.5    766.4
+  901 -901      -291219.1   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    56
+
+
+TIME    195.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.7   -766.4
+  102 -102      -145609.7   -208.0
+  103 -103       145609.7    208.0
+  104 -104       145609.7    766.4
+  901 -901      -291219.4   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    57
+
+
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.8   -766.4
+  102 -102      -145609.8   -208.0
+  103 -103       145609.8    208.0
+  104 -104       145609.8    766.4
+  901 -901      -291219.6   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    58
+
+
+TIME    205.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145609.9   -766.4
+  102 -102      -145609.9   -208.0
+  103 -103       145609.9    208.0
+  104 -104       145609.9    766.4
+  901 -901      -291219.8   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    59
+
+
+TIME    210.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.0   -766.4
+  102 -102      -145610.0   -208.0
+  103 -103       145610.0    208.0
+  104 -104       145610.0    766.4
+  901 -901      -291219.9   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    60
+
+
+TIME    215.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.0   -766.4
+  102 -102      -145610.0   -208.0
+  103 -103       145610.0    208.0
+  104 -104       145610.0    766.4
+  901 -901      -291220.0   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    61
+
+
+TIME    220.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.0   -766.4
+  102 -102      -145610.0   -208.0
+  103 -103       145610.0    208.0
+  104 -104       145610.0    766.4
+  901 -901      -291220.1   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    62
+
+
+TIME    225.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.0   -766.4
+  102 -102      -145610.0   -208.0
+  103 -103       145610.0    208.0
+  104 -104       145610.0    766.4
+  901 -901      -291220.1   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    63
+
+
+TIME    230.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.0   -766.4
+  102 -102      -145610.0   -208.0
+  103 -103       145610.0    208.0
+  104 -104       145610.0    766.4
+  901 -901      -291220.1   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    64
+
+
+TIME    235.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.1   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    65
+
+
+TIME    240.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    66
+
+
+TIME    245.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    67
+
+
+TIME    250.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    68
+
+
+TIME    255.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    69
+
+
+TIME    260.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    70
+
+
+TIME    265.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    71
+
+
+TIME    270.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    72
+
+
+TIME    275.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    73
+
+
+TIME    280.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    74
+
+
+TIME    285.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    75
+
+
+TIME    290.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    76
+
+
+TIME    295.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    77
+
+
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    78
+
+
+TIME    305.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    79
+
+
+TIME    310.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    80
+
+
+TIME    315.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    81
+
+
+TIME    320.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    82
+
+
+TIME    325.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    83
+
+
+TIME    330.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    84
+
+
+TIME    335.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    85
+
+
+TIME    340.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    86
+
+
+TIME    345.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    87
+
+
+TIME    350.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    88
+
+
+TIME    355.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    89
+
+
+TIME    360.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    90
+
+
+TIME    365.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    91
+
+
+TIME    370.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    92
+
+
+TIME    375.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    93
+
+
+TIME    380.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    94
+
+
+TIME    385.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    95
+
+
+TIME    390.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    96
+
+
+TIME    395.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    97
+
+
+TIME    400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    98
+
+
+TIME    405.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:    99
+
+
+TIME    410.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   100
+
+
+TIME    415.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   101
+
+
+TIME    420.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   102
+
+
+TIME    425.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   103
+
+
+TIME    430.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   104
+
+
+TIME    435.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   105
+
+
+TIME    440.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   106
+
+
+TIME    445.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   107
+
+
+TIME    450.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   108
+
+
+TIME    455.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   109
+
+
+TIME    460.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   110
+
+
+TIME    465.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   111
+
+
+TIME    470.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   112
+
+
+TIME    475.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   113
+
+
+TIME    480.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   114
+
+
+TIME    485.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   115
+
+
+TIME    490.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   116
+
+
+TIME    495.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   117
+
+
+TIME    500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101      -145610.1   -766.4
+  102 -102      -145610.1   -208.0
+  103 -103       145610.1    208.0
+  104 -104       145610.1    766.4
+  901 -901      -291220.2   -970.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-056-no-routes.ses                                                   SIMULATION TIME: 21 JUL 2024 14:59:38
+       SES VER 4.10                      SES v4.1 file with short tunnel and vent shaft.                       PAGE:   118
+
+
+                                            END OF SIMULATION

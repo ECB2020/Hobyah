@@ -1,0 +1,73 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has a files block that has numbered nicknames and shows how
+their nicknames ("file1" and "file2" in this case) are used to plot
+curves.
+
+The file also has an instruction to Hobyah to generate .png files
+from the output and store them in a subfolder named "images".
+
+begin settings
+  version 1
+  runtype plot
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+end settings
+
+begin constants
+  left_edge   0.13  # Graph margins
+  mid1_edge   0.46
+  mid2_edge   0.62
+  right_edge  0.95
+end constants
+
+begin files numbered
+  SES-005-impl-impl-5.sbn
+  SES-041-fire-1.sbn
+end files
+
+begin plots
+  pngtrim  False    dpi := 300
+  begin page # ignore # 1
+    begin graph # ignore
+      title   Train speed vs time
+      lrmargins left_edge mid1_edge
+      verbatim set key bottom right
+      xrange 0  400 *20
+      yrange 0  82  *1
+      xlabel   Time (sec)
+      ylabel   Train speed (km/h)
+      transient speed   file1  train1@0
+    end graph
+    begin graph # ignore
+      title   Train speed vs distance
+      lrmargins mid2_edge right_edge
+      xrange *0  8500 1000
+      xlabel   Distance (m)
+      transient speed   file1  train1@0  xaxis :=chainage
+    end graph
+  end page
+
+  begin page # ignore # 2
+    begin graph # ignore
+      title   Warm volume flow vs time
+      lrmargins left_edge mid1_edge
+      verbatim set key bottom right
+      xrange 0  400 *20
+      yrange -150  100  *1
+      xlabel   Time (sec)
+      ylabel   "Volume flow (m^3/s)"
+      transient qwarm   file2  120-3
+      transient qwarm   file2  route1@5500
+    end graph
+    begin graph # ignore
+      title   Warm volume flow along a route vs. distance
+      lrmargins mid2_edge right_edge
+      xrange *0  7000 1000
+      xlabel   Distance (m)
+      profile qwarm   file2  route1@900
+    end graph
+  end page
+end plots

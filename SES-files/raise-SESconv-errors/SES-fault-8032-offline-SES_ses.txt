@@ -1,0 +1,24 @@
+SES VER 204.4                   offline-SES file for raising a fault in SESconv.py.                     PAGE:     1
+FILE: SES-fault-4032-offline-SES.ses                                          SIMULATION TIME: 24 NOV 2022 09:02:17
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         offline-SES file for raising a fault in SESconv.py.
+                         This file runs fine, and the .PRN file has been edited to corrupt the
+                         version of offline-SES so as to raise an error about the version in
+                         the .PRN file being not a number instead of 204.1.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 204.4
+                offline-SES input file version                             204.xx

@@ -1,0 +1,24 @@
+SES VER 4.10                        SES file for raising a fault in SESconv.py.                         PAGE:     1
+FILE: SES-triggers-4061-reads-past-EOL.ses                                    SIMULATION TIME: 28 AUG 2021 19:07:12
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES file for raising a fault in SESconv.py.
+                         This SES file has been edited to trigger an error in SESconv.py
+                         in which it tries to read a number beyond the end of the line.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C

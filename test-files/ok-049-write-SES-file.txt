@@ -1,0 +1,529 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A test file for writing SES input files based on a relatively complex
+Hobyah geometry.
+
+It illustrates how a twin-tube road tunnel with an off-slip road and
+two dozen cross-passages (4 Hobyah "tunnel" blocks and one "tunnelclones"
+block) can be turned into an SES input file with 76 sections, 54 nodes
+and 76 segments, as well as having route definitions copied over into
+SES routes and into the segment stack heights.
+
+This version includes blocks in the route definitions that test each
+form of SES/SVS form 8C input (track radius, energy sector number,
+coasting switch, regenerative braking fraction) with the "switcheroo"
+options on and off, to ensure they work as intended.
+
+The second, third and fourth pages of the plots compare the route profiles
+and speed limits in Hobyah routes, SES routes and SES elevations set by
+stack heights.  Pages 5 to 7 show the track radius, energy sector number
+and coasting switch from Hobyah with the equivalent profile from the
+SES output on top, just to check that they are being copied over to
+the SES input file correctly.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 5.
+end settings
+
+# begin plotcontrol
+#   aero range(0, duration, 100)
+# end plotcontrol
+
+begin sectypes
+# Name    area  perim   +roughness,
+#                        -fricfac
+  C+C1    103    55       0.07
+  C+C2    103    55      -0.008
+  mined    92    51       0.005
+  closed  0.47   2.5      -0.000001  # SES vent segments have minimum area 5 ft^2
+  open    2.5    5.7      -0.000001
+  LEP     3.6    7.8      0.03
+end sectypes
+
+begin tunnel Eastbound1
+  back 10020 portal 0 C+C1
+  change  10300   mined
+  change  12000   C+C1
+  joins "startstepcount(10120, 120, 17)"  XP*eb
+  fwd  12100 node Turnout  zeta_bf:=0.1  zeta_fb:=0.25
+  SESpragmat  101  line  route:=EBmain # When writing SES files, number the segments
+                                       # in the range 101-199 and make them line segments.
+end tunnel
+
+begin tunnel Eastbound2
+  back 12100   node Turnout C+C1  zeta_bf:=0.3  zeta_fb:=0.12
+  joins startstepcount(12160,120,6)  XP*eb  start:=18
+  fwd  12880   portal 20
+  SESpragmat  101  line  # When writing SES files, number the segments
+                         # in the range 101-199 (same as the tunnel
+                         # Eastbound1) and make them line segments.
+end tunnel
+
+begin tunnel Offslip  # This tunnel is reversed in its route, as a test
+  back   400  portal 20  C+C2
+  fwd    900  node turnout  zeta_bf:=0.22  zeta_fb:=0.49
+  SESpragmat  201  line
+end tunnel
+
+begin tunnel Westbound1
+  back 10020 portal 25 C+C1
+  join 10120 XP1wb
+  joins "[10240] + range(10360, 12761, 120)" XP*wb  start := 2
+  fwd  12880 portal 0
+  SESpragmat  301  line
+end tunnel
+
+begin tunnel XP1 # One cross-passage
+  back    0  node XP1wb closed  zeta_bf:=2.4  zeta_fb:=2.4
+  fwd    30  node XP1eb
+  SESpragmat  901  vent  # When writing SES files, number the segments
+                          # in the range 901-999 and make them vent segments
+end tunnel
+
+begin tunnelclones  XP*  # These are XP2 to XP23
+  back  0  node XP*wb sectypes   zeta_bf:=2.4  zeta_fb:=2.4
+  fwd  30  node XP*eb
+  numbering  "range(2, 23.1, 1)"
+  sectypes "[closed]*10 + [open]*3 + [closed]*9"
+
+  SESpragmat  901  vent  # When writing SES files, number the segments
+                         # in the range 901-999 (same as the tunnel XP1)
+                         # make them vent segments
+end tunnelclones
+
+begin route EBmain
+  origin 9000  elevation:=5.2
+  portal 10000
+  begin tunnels
+    Eastbound1 Eastbound2  # 2860 m long
+  end tunnels
+  begin gradients percentages
+#  gradient    chainage it
+# (percent)  applies down to
+    -0.0          9500
+    -0.5          9900
+    -4           10520
+    -1           11380
+    +1           12640
+    +4           12980
+    -0.1         13600
+  end gradients
+  begin speedlimits
+#  speed limit    chainage it
+#    (km/h)     applies down to
+      110           9600
+       90           9800
+      100          12860
+      110          13400
+  end speedlimits
+  begin radii   # Not used in Hobyah; for writing form 8C in SES
+#  radius     chainage it
+#    (m)    applies down to
+      0.         9700
+   3000.        11200
+  15000.        12860
+   6000.        13400
+      0.        13500
+  end radii
+  begin sectors   # Not used in Hobyah; for writing form 8C in SES
+#  energy     chainage it
+#  sector   applies down to
+      1          9200
+      0         11360
+      2         13590
+  end sectors
+  begin coasting   # Not used in Hobyah; for writing form 8C in SES
+#  coasting     chainage it
+#   switch   applies down to
+      0          8500
+      1         11360
+      0         13600
+  end coasting
+  begin regenfractions   # Not used in Hobyah; for writing form 8C in SVS
+#   regen       chainage it
+#  fraction   applies down to
+     0.24           9700
+     0.13          11360
+     0.32          13600
+  end regenfractions
+end route
+
+begin route EBbranch
+  origin 9000  elevation:=5.2
+  portal 10000
+  begin tunnels
+    Eastbound1 offslip   # 2580 m
+  end tunnels
+  begin gradients fractions  switcheroo:=true
+#               gradient before
+#  chainage   that chainage (0-1)
+     9500          -0.0
+     9900          -0.005
+    10520          -0.04
+    11380          -0.01
+    12120          +0.01
+    12640          +0.03
+    12980          -0.001
+  end gradients
+  begin speedlimits  switcheroo:=true
+#             speed limit before
+#  chainage   that chainage (km/h)
+     9600            110
+     9800             90
+     12200           100
+     12700            80
+     13400           110
+  end speedlimits
+  begin radii  switcheroo:=true
+#                radius before
+#  chainage   that chainage (m)
+    9700              0.
+   11200           3000.
+   12860          15000.
+   13400           6000.
+   13500              0.
+  end radii
+  begin sectors  switcheroo:=true
+#             energy sector before
+#  chainage    that chainage (m)
+     9200            1
+    11360            0
+    13290            2
+  end sectors
+  begin coasting  switcheroo:=true
+#           coasting switch before
+#  chainage    that chainage (m)
+     8500             0
+    11360             1
+    13400             0
+  end coasting
+  begin regenfractions  switcheroo:=true
+#   regen       chainage it
+#  fraction   applies down to
+     9700          0.24
+    11360          0.13
+    13000          0.32
+  end regenfractions
+end route
+
+begin route WBmain
+  origin 9000
+  portal 10000
+  begin tunnels
+    Westbound1
+  end tunnels
+  begin gradients percentages
+    -0.0   9500
+    -0.5   9900
+    -4     10520
+    -1     11380
+    +1.05  12640
+    +4     12980
+    -0.1   13600
+  end gradients
+  begin speedlimits
+    110   9600
+     90   9800
+    100   12860
+     90   13400
+  end speedlimits
+end route
+
+
+begin jetfantypes
+  unidirectional   JFtype1   1230   0.75   31.2
+  reversible       JFtype2   1200   0.75   30.9     1185   0.75   -30.6
+end jetfantypes
+
+
+begin fanchar  SESfan1
+  # four pairs of pressure and volume flow
+  ses_7B   3000 0    2700     80   2100    160    0    220  direction:=forwards
+  # You can choose to use US units instead, even in a file in SI units
+  ses_7B  7.708 0   6.937 135610   5.396 271220   0  372920  units:=US
+
+#  density 1.2  # This is the default
+#  limits  -30   250
+end fanchar
+
+begin data  fan_curve2
+    Q,  P_tot
+    0, 3000
+   10, 2200
+   20, 1700
+   30, 1500
+   40, 1900
+   50, 2200
+   60, 2100
+   80, 1800
+  100, 1450
+  120, 1050
+  140, 500
+  153, 0
+end data
+
+begin fanchar  fan1
+  Datasource fan_curve2  Q  P_tot    direction:= reverse
+  SES_7B   3000  0    2300  100    800  200    0  225   direction:= forwards
+end fanchar
+
+begin files numbered
+  ok-049-v41.sbn
+end files
+
+begin SESdata
+  #  target offline-ses  # Sets which type of SES input file to write.
+  #  filename  ok-049-off
+  #  target aurecon-ses
+  #  filename  ok-049-aur
+  #  target svs
+  #  filename  ok-049-svs
+    target 4.1
+    filename  ok-049-v41
+  #  target openses
+  #  filename  ok-049-v43
+
+  form1B 17   7    2024
+
+  form1F 25.       19.       p_atm     23.5      18.73     28.78     20.17     4.6
+
+  form1G 75        10.       12.2      14.5      12.8      96.6      1         0.2
+
+               # wall   DB    WB
+  3temperatures   21.   25.   19.
+
+  form3F    0.25    25.    0.934  4.903E-7    0.242  2.581E-7    19.
+
+  # Set an unsteady heat load.  We choose a location in a tunnel or route
+  # and the program turns it into a segment number and subsegment number.
+  #
+  4A_locn   ebmain   10900   A2W design fire
+
+  # The heat load and start and stop times.  The units can be "MW",
+  # "watts" or "BTU/hr" (without quotes) in any type of file.  The
+  # units text needs to be included before the start and stop times.
+  #
+  4B_heat  50  0  MW  20  9999
+
+  # When an unsteady heat load is run in a fire run, a flame temperature
+  # and flame surface area (for radiative heat transfer).  We allow the
+  # surface area to be an area or an area per unit heat gain, i.e.
+  # "m^2", "ft^2", "m^2/MW", "ft^2/MW" needs to be at the end.
+  # m^2/MW is recommended.
+  #
+  4C_flames  1090   1.11  m^2/MW
+
+  # Can only use the name of a fan characteristic that has its curves
+  # defined by the "ses_7B" keyword, not taken from a datasource.
+#  form7AB  fan1
+  form7AB  SESfan1
+
+  # Can use the name of a jet fan type, direction and start/stop time
+  form7C1  JFtype1  forwards  15  1800
+  form7C1  JFtype2  forwards  15  1800
+  form7C1  JFtype2  reverse  15  1800
+  # Can also use the numbers in form 7C.  Only difference is you need
+  # give the units of the first number.  It can be a thrust ("N" or
+  # "lbf", both at 1.2 kg/m^3) or a volume flow ("m^3/s" or "cfm").
+  form7C2   1100 N  0.75  29.2  10  1800
+
+
+  # Copy a Hobyah route definition into an SES route.  The SES route
+  # can be reversed in relation to the Hobyah route because trains in
+  # SES can only go down the route.
+  form8 EBmain
+  form8 EBbranch  orientation:=reverse
+  form8 WBmain
+
+end SESdata
+
+
+begin plots
+#end plots
+  begin page # 1
+    begin graph
+      title Air velocity profiles
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.57  0.87
+      profile velocity  calc  EBmain@1000
+      profile velocity  calc  EBbranch@1000
+      profile velocity  calc  Westbound1@1000
+    end graph
+    begin graph
+      title Transient air velocities
+      xlabel   Time (s)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+      transient velocity  calc  EBmain@11500
+      transient velocity  calc  Westbound1@11500
+    end graph
+  end page
+  begin page # 2
+    begin graph
+      title Route elevation/speed profiles from Hobyah
+      xlabel   Distance (m)
+      ylabel   Elevation (m)
+      y2label  Speed (km/h)
+      xrange  8800  13800  *1000
+      yrange  -37  50  10
+      y2range  50  120  10
+      verbatim set key top right maxrows 3
+#       btmargins 0.57  0.87
+      profile elevations  calc  EBmain@0
+      profile elevations  calc  EBbranch@0
+      profile elevations  calc  WBmain@0
+      profile speedlimits  calc  EBmain@0   lt:=10  lw:=4  axes:=x1y2
+      profile speedlimits  calc  EBbranch@0 lt:=11  lw:=3  axes:=x1y2
+      profile speedlimits  calc  WBmain@0   lt:=12  lw:=2  axes:=x1y2
+    end graph
+  end page
+  begin page # 3
+    begin graph
+      title Route elevation/speed profiles in SES, copied to SES form 8C from Hobyah's "SESdata" block
+      xlabel   Distance (m)
+      ylabel   Elevation (m)
+      y2label  Speed (km/h)
+      xrange  8800  13800  *1000
+      yrange  -37  50  10
+      y2range  50  120  10
+      verbatim set key top right maxrows 3
+#      btmargins 0.57  0.87
+      profile elevations  file1  route1@0   yoffset:= 5.2
+      profile elevations  file1  route2@0   xmult:=-1   xoffset:=13500   yoffset:= -7.96
+      profile elevations  file1  route3@0
+      profile speedlimits  file1  route1@0   lt:=10  lw:=4  axes:=x1y2
+      profile speedlimits  file1  route2@0   lt:=11  lw:=3  axes:=x1y2   xmult:=-1   xoffset:=13500
+      profile speedlimits  file1  route3@0   lt:=12  lw:=2  axes:=x1y2
+    end graph
+  end page
+  begin page # 4
+    begin graph
+      title Segment elevation profiles from SES, copied to SES forms 3B and 5B from Hobyah's "SESdata" block
+      xlabel   Distance (m)
+      ylabel   Elevation (m)
+      xrange  8800  13800  *1000
+      yrange  -37  50  10
+#      btmargins 0.57  0.87
+      profile stacks  file1  route1@0   yoffset:= 5.2
+      profile stacks  file1  route2@0   xmult:=-1   xoffset:=13500   yoffset:= -7.96
+      profile stacks  file1  route3@0
+    end graph
+  end page
+  begin page # 5
+    begin graph
+      title Route radius profiles in Hobyah and SES, route EBmain
+      xlabel   Distance (m)
+      ylabel   Radius (m)
+      xrange  8800  13800  *1000
+      yrange  -100  *15000  *10
+      verbatim set key top right maxrows 3
+      btmargins 0.7  0.87
+      profile radius  calc  EBmain@0
+      profile radius  file1  route1@0   lt:=10  lw:=4
+    end graph
+    begin graph
+      title Route radius profiles in Hobyah and SES, route EBbranch
+      btmargins 0.4  0.57
+      profile radius  calc  EBbranch@0  lt:=2
+      profile radius  file1  route2@0   lt:=11  lw:=4   xmult:=-1   xoffset:=13500
+    end graph
+    begin graph
+      title Route radius profiles in Hobyah and SES, WBmain (no radii set)
+      btmargins 0.1  0.27
+      yrange  -100  100  *10
+      profile radius  calc  WBmain@0  lt:=3
+      profile radius  file1  route3@0   lt:=12  lw:=4
+    end graph
+  end page
+  begin page # 6
+    begin graph
+      title Route coasting switch profiles in Hobyah and SES, route EBmain
+      xlabel   Distance (m)
+      ylabel   Coasting switch (0 or 1)
+      xrange  8800  13800  *1000
+      yrange  -0.1   1.1    *10
+      verbatim set key top right maxrows 3
+      btmargins 0.7  0.87
+      profile coasting  calc  EBmain@0
+      profile coasting  file1  route1@0   lt:=10  lw:=4
+    end graph
+    begin graph
+      title Route coasting switch profiles in Hobyah and SES, route EBbranch
+      btmargins 0.4  0.57
+      profile coasting  calc  EBbranch@0  lt:=2
+      profile coasting  file1  route2@0   lt:=11  lw:=4   xmult:=-1   xoffset:=13500
+    end graph
+    begin graph
+      title Route coasting switch profiles in Hobyah and SES, WBmain
+      btmargins 0.1  0.27
+      profile coasting  calc  WBmain@0  lt:=3
+      profile coasting  file1  route3@0   lt:=12  lw:=4
+    end graph
+  end page
+  begin page # 7
+    begin graph
+      title Route energy sector profiles in Hobyah and SES, route EBmain
+      xlabel   Distance (m)
+      ylabel   Energy sector number
+      xrange  8800  13800  *1000
+      yrange  0   *10    1
+      verbatim set key top right maxrows 3
+      btmargins 0.7  0.87
+      profile sectors  calc  EBmain@0
+      profile sectors  file1  route1@0   lt:=10  lw:=4
+    end graph
+    begin graph
+      title Route energy sector profiles in Hobyah and SES, route EBbranch
+      btmargins 0.4  0.57
+      profile sectors  calc  EBbranch@0  lt:=2
+      profile sectors  file1  route2@0   lt:=11  lw:=4   xmult:=-1   xoffset:=13500
+    end graph
+    begin graph
+      title Route energy sector profiles in Hobyah and SES, WBmain
+      btmargins 0.1  0.27
+      profile sectors  calc  WBmain@0  lt:=3
+      profile sectors  file1  route3@0   lt:=12  lw:=4
+    end graph
+  end page
+  begin page # 8
+    begin graph
+      title Route regen braking profiles in Hobyah, route EBmain
+      xlabel   Distance (m)
+      ylabel   Regenerative braking fraction (0-1)
+      xrange  8800  13800  *1000
+      yrange  -0.05  1.05    *1
+      verbatim set key top right maxrows 3
+      btmargins 0.7  0.87
+      profile regenfrac  calc  EBmain@0
+      # profile regenfrac  file1  route1@0   lt:=10  lw:=4
+    end graph
+    begin graph
+      title Route regen braking profiles in Hobyah, route EBbranch
+      btmargins 0.4  0.57
+      profile regenfrac  calc  EBbranch@0  lt:=2
+      # profile regenfrac  file1  route2@0   lt:=11  lw:=4   xmult:=-1   xoffset:=13500
+    end graph
+    begin graph
+      title Route regen braking profiles in Hobyah, WBmain
+      btmargins 0.1  0.27
+      profile regenfrac  calc  WBmain@0  lt:=3
+      # profile regenfrac  file1  route3@0   lt:=12  lw:=4
+    end graph
+  end page
+end plots
+
+
+begin tunnel LEP   # LEP = Longitudinal Egress Passage, an escape corridor
+  back   400  q_inflow 0  LEP
+  fwd    900  portal 0
+  SESpragmat  401  line
+end tunnel
+

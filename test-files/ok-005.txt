@@ -1,0 +1,25 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has all the mandatory entries in the settings block
+and the minimum entries in a file with runtype "calc",
+namely a sectype and a tunnel
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  aero_step 0.1
+  aero_time 200
+end settings
+
+begin sectypes
+  large    78   65   0.005
+end sectypes
+
+begin tunnel tunnel_name
+  back 0 portal 0.0  large
+  fwd  2000 portal 0.0
+end tunnel
+
+begin plots
+end plots

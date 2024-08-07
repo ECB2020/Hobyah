@@ -1,0 +1,332 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that verifies the development of road traffic.  It has three tunnels.
+
+Two have blocks of stationary traffic 80 m long (the length of two cells
+in the MoC calculation). Other losses (portal losses and friction)
+are minimised.  The first tunnel has the block of traffic start and end
+at gridpoints (the locations at which the program calculates its values
+of celerity and velocity).  The second tunnel has the block of traffic
+start halfway between gridpoints.  This is to check for grid-independence
+with blocks of traffic drag.
+
+The third tunnel has the equivalent loss of the traffic drag set as
+friction instead, as a check.
+
+Discussion of tunnels one and two (which have blocks of traffic)
+----------------------------------------------------------------
+
+The following is a hand calculation that replicates the program's traffic
+drag calculation.
+
+  There are three types of traffic: cars, light commercial vehicles (LCV)
+  and heavy goods vehicles (HGV).
+
+  The routes that the traffic is in (routes one and two) have the following
+  "flowrates" of traffic: 1600 cars/hr, 205 LCVs/hr and 291 HGVs/hr.
+  The traffic density in both routes is 165 PCU/lane-km: one car is 1 PCU,
+  one LCV is also 1 PCU and 1 HGV is 3 PCU (below 10 km/h).
+
+  The mean PCU value is
+            1*1600 + 1*205 + 3*291   2678
+            ---------------------- = ---- = 1.277767 PCU/veh
+              1600 + 205 + 291       2096
+
+  The routes have two lanes (see the definitions of routes one and two).
+
+  The density of traffic is 165 PCU/lane-km (see the trafficsteady
+  block named "stopped").
+  165 PCU/lane-km * 2 lanes = 330 PCU/km.
+  This is equivalent to 330 / 1.277767 = 258.2823 veh/km.
+
+  The mix of vehicles is as follows (see the trafficsteady block "stopped"):
+
+    cars: 1600 / 2096 * 258.2823 = 197.1621 cars/km
+    LCVs:  205 / 2096 * 258.2823 =  25.2614 LCVs/km
+    HGVs:  291 / 2096 * 258.2823 =  35.8588 HGVs/km
+
+  The block of stationary traffic is 80 m long (0.08 km), so the following
+  counts of vehicles are in the tunnel:
+
+    cars: 1600 / 2096 * 258.2823 * 0.08 = 15.7730 cars
+    LCVs:  205 / 2096 * 258.2823 * 0.08 =  2.0209 LCVs
+    HGVs:  291 / 2096 * 258.2823 * 0.08 =  2.8687 HGVs
+
+  The "traffictypes" block sets the properties of traffic types, as
+  follows:
+   * Cars have drag factor 0.4 and area 2 m^2,
+   * LCVs have drag factor 0.9 and area 4 m^2,
+   * HGVs have drag factor 1.0 and area 6 m^2.
+  The blockage correction term (1 - A_veh/A_tunnel)^2 is not being used:
+  the drag factors are assumed to already account for it.
+
+
+  The block of traffic is in a tunnel of area 103 m^2.  The dimensionless
+  drag coefficient of the block of traffic is calculated as follows:
+
+               0.4 * 2 * 15.7730  +  0.9 * 4 * 2.0209  +  1.0 * 6 * 2.8687
+  zeta_traff = -----------------------------------------------------------
+                              103
+
+               12.6184  +  7.2753  +  17.2122
+             = ------------------------------
+                           103
+
+             = 0.36025 on 103 m^2.
+
+  In the program's printout (sent to the screen and to the log file)
+  it records the value as drag factor zeta per metre of tunnel length.
+  In this case it is 0.36095 / 80 = 0.00450314 zeta/m.
+
+  The tables of data printed to the screen during the run and stored in
+  the log file match the above calculation.
+
+
+In tunnel two, the block of traffic happens to start and stop exactly
+at the gridpoints (the gridpoints are spaced 40 m apart).
+
+In tunnel three the block of traffic starts and stops halfway between
+the gridpoints.  The purpose of this difference is to test whether the
+location of a block of traffic affects the calculated results.
+
+
+The results (page 1 of the pdf file plotted by this run) shows that
+all is well.  The pressure profiles only differ across the gridpoints
+next to the ends of the blocks of traffic and the air velocities in
+tunnels one and two outside the traffic blocks match as follows:
+
+* air velocity at the left end of tunnel one is 13.601616 m/s
+* air velocity at the left end of tunnel two is 13.601621 m/s
+
+The difference is 0.00004%, so we can conclude that the drag of blocks
+of stationary traffic are independent of the location of the traffic
+with respect to the gridpoints.
+
+Discussion of tunnel three
+--------------------------
+
+The third tunnel has a friction factor that is mimics the drag of the
+block of stationary traffic.
+
+Friction and fixed losses have been minimised in the tunnels, setting
+a fixed Darcy friction factor of 0.00000001 (negligible) and turning
+off the portal losses.  The tunnels have an area of 103 m^2 and a
+perimeter of 55 m.
+
+The friction in the sectype used to mimic the traffic has been
+calculated as follows:
+
+lambda = 0.00000001 + 4 * 0.00450314 / 55 * 103 = 0.03373262
+
+The tunnel that has an 80 m long segment with high friction (instead
+of traffic drag) differs from the tunnels with traffic drag as follows:
+
+* air velocity at the left end of the tunnels with traffic drag are
+  13.601616 m/s and 13.601621 m/s
+* air velocity at the left end of tunnel three is 13.605539 m/s
+
+The difference between these is 0.03%, which is low enough to confirm
+that the traffic drag is behaving as it ought to.
+
+Discussion of mass flows
+------------------------
+
+The mass flow through the tunnels is slightly above 1680 kg/s.
+The graph on page 2 of the printout was generated to illustrate an
+imbalance in the calculation.  It shows the mass flows left after
+subtracting 1680 kg/s and multiplying what remains by 1000 (to turn
+it into g/s).
+
+All three show slight changes in mass flow, which is a concern.
+
+In the tunnels with stationary traffic there is a slight drop in
+mass flow (0.17 g/s in the first tunnel and 0.13 g/s in the second).
+This represents a mismatch of 0.01%.
+
+Using a shorter timestep (0.01 seconds instead of 0.1) leads to a
+reduction in the mismatch (0.016 g/s) and also makes the two tunnels
+have exactly the same calculated mass flows.
+
+
+In the tunnel with a section of high friction instead of traffic,
+there is a rise in mass flow: 1.05 g/s.  This is a mismatch of
+0.06%.
+
+Using a shorter timestep (0.01 seconds instead of 0.1) also leads
+to a reduction in the mass imbalance: 0.114 g/s instead of 1.05 g/s.
+
+We can conclude from this that the mass flow imbalances are due
+to grid size.  The shorter the timestep, the shorter the cells
+and the lower the mismatches are.  Given that we have mismatches
+of 0.06% mass flow with a  timestep of 0.1 seconds, that is
+considered acceptable.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 1500.
+end settings
+
+begin sectypes
+  C+C2    103   55   -0.00000001  # Negligible fixed friction factor
+  C+C3    103   55   -0.03373262  # Traffic drag added to friction.
+end sectypes
+
+begin tunnel first
+  back   0 portal  20  C+C2   zeta_in := 0  zeta_out := 0
+  fwd  280 portal -20   zeta_in := 0  zeta_out := 0
+end tunnel
+
+begin tunnel second
+  back   0 portal  20  C+C2   zeta_in := 0  zeta_out := 0
+  fwd  280 portal -20   zeta_in := 0  zeta_out := 0
+end tunnel
+
+begin tunnel third
+  back   0 portal  20  C+C2   zeta_in := 0  zeta_out := 0
+  change 80.0 C+C3
+  change 160.00 C+C2
+  fwd  280 portal -20   zeta_in := 0  zeta_out := 0
+end tunnel
+
+begin traffictypes
+  calculate without blockage correction term
+# keyword   name   area  C_d  PCU/veh
+  vehicle   car    2.0   0.4    1
+  vehicle   LCV    4.0   0.9    1
+  vehicle   HGV    6.0   1.0    3   10   2
+end traffictypes
+
+begin route one
+  origin 9000
+  portal 10000
+  begin tunnels
+    first
+  end tunnels
+  begin lanes
+     2    15000
+  end lanes
+end route
+
+begin route two
+  origin 9000
+  portal 10000
+  begin tunnels
+    second
+  end tunnels
+  begin lanes
+     2    15000
+  end lanes
+end route
+
+begin trafficsteady stopped
+    routes  one    two
+    car    1600   1600
+    LCV     205    205
+    HGV     291    291
+    standstill  one  165 PCU/lane-km  10065.0   10145.0
+    standstill  two  165 PCU/lane-km  10080.0   10160.0
+end trafficsteady
+
+begin plots
+  begin page # ignore # 1
+    begin graph #ignore
+      title Air velocity profile with stationary traffic
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      xrange  9999  10281  20
+      yrange  13.601  13.608  *200
+      btmargins 0.57  0.87
+      begin verbatim
+        set key bottom right
+        y1 = 13.6076
+        y2 = y1 - 0.0004
+        y3 = y2 - 0.0006
+        y4 = y3 - 0.0006
+        y5 = y3 + 0.0003
+        y6 = y4 + 0.0003
+        set label 1 "{/*0.6 Gridpoint}" at first 10000, y1 centre
+        set object 1 circle center 10000, y2 size 0.3
+        set label 2 "{/*0.6 Gridpoint}" at first 10040, y1 centre
+        set object 2 circle center 10040, y2 size 0.3
+        set label 3 "{/*0.6 Gridpoint}" at first 10080, y1 centre
+        set object 3 circle center 10080, y2 size 0.3
+        set label 4 "{/*0.6 Gridpoint}" at first 10120, y1 centre
+        set object 4 circle center 10120, y2 size 0.3
+        set label 5 "{/*0.6 Gridpoint}" at first 10160, y1 centre
+        set object 5 circle center 10160, y2 size 0.3
+        set label 6 "{/*0.6 Gridpoint}" at first 10200, y1 centre
+        set object 6 circle center 10200, y2 size 0.3
+        set label 7 "{/*0.6 Gridpoint}" at first 10240, y1 centre
+        set object 7 circle center 10240, y2 size 0.3
+        set label 8 "{/*0.6 Gridpoint}" at first 10280, y1 centre
+        set object 8 circle center 10280, y2 size 0.3
+        set arrow 1 from first 10060.0, y3 to 10140.0, y3 heads lc 1
+        set label 9 "{/*0.6 Extent of stationary traffic on route one}" \
+          at first 10100, y5 centre
+        set arrow 2 from first 10080.0, y4 to 10160.00, y4 heads lc 2
+        set label 10 "{/*0.6 Extent of stationary traffic on route two}" \
+          at first 10120, y6 centre
+      end verbatim
+      profile velocity  calc one@-1
+      profile velocity  calc two@-1
+      profile velocity  calc third@-1 xoffset:=10000
+    end graph
+    begin graph #ignore
+      title Air pressure profile with stationary traffic
+      xlabel   Distance (m)
+      ylabel   Air pressure (Pa)
+      yrange  -22  22  10
+      btmargins 0.13  0.43
+      begin verbatim
+        set key top right
+        y1 = +5
+        y2 = y1 - 2.5
+        set label 1 "{/*0.6 Gridpoint}" at first 10000, y1 centre
+        set object 1 circle center 10000, y2 size 0.3
+        set label 2 "{/*0.6 Gridpoint}" at first 10040, y1 centre
+        set object 2 circle center 10040, y2 size 0.3
+        set label 3 "{/*0.6 Gridpoint}" at first 10080, y1 centre
+        set object 3 circle center 10080, y2 size 0.3
+        set label 4 "{/*0.6 Gridpoint}" at first 10120, y1 centre
+        set object 4 circle center 10120, y2 size 0.3
+        set label 5 "{/*0.6 Gridpoint}" at first 10160, y1 centre
+        set object 5 circle center 10160, y2 size 0.3
+        set label 6 "{/*0.6 Gridpoint}" at first 10200, y1 centre
+        set object 6 circle center 10200, y2 size 0.3
+        set label 7 "{/*0.6 Gridpoint}" at first 10240, y1 centre
+        set object 7 circle center 10240, y2 size 0.3
+        set label 8 "{/*0.6 Gridpoint}" at first 10280, y1 centre
+        set object 8 circle center 10280, y2 size 0.3
+        unset arrow 1
+        unset arrow 2
+        unset label 9
+        unset label 10
+      end verbatim
+      profile ptot  calc one@-1
+      profile ptot  calc two@-1
+      profile ptot  calc third@-1 xoffset:=10000
+    end graph
+  end page
+  begin page # ignore # 2
+    begin graph #ignore
+      title Mass flow imbalances (after subtracting 1680 kg/s)
+      xlabel   Distance (m)
+      ylabel   Mass flow imbalance (g/s)
+      xrange  9999  10281  20
+      yrange  *13.601  *13.608  *200
+      verbatim set key centre right
+      btmargins 0.57  0.87
+      profile massflow  calc one@-1 yoffset:=-1680000 ymult:=1000
+      profile massflow  calc two@-1 yoffset:=-1680000 ymult:=1000
+      profile massflow  calc third@-1 xoffset:=10000 yoffset:=-1680000 ymult:=1000
+    end graph
+  end page
+end plots
+

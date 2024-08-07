@@ -1,0 +1,767 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the processing of fans.  There is a tunnel
+(representing a ventilation adit) that is served by three fans in parallel
+(in their own separate tunnels, with fan isolation dampers that finish
+opening before the fans start up).  The three fans are identical and have
+an exaggeratedly deep stall hump in their total pressure characteristics.
+
+This file illustrates how a fan can get stuck in a bad part of its
+flow-total pressure characteristic (to the left of the stall hump).
+
+The layout of the tunnels and losses is as per the following ASCII art.
+
+        System
+      resistance      Dampers               Fans
+      -----------------------------------------------------------------
+         ####             |                    /\         ## Fan
+         ####          D1 |                 F1 ||-==      ## resist-
+         ####             |                    \/         ## ance
+         ####             -----------------------------------
+ Inlet   ####             |    ## Fan          /\                      Outlet
++20 Pa   ####          D2 |    ## resist-   F2 ||-==                    0 Pa
+         ####             |    ## ance         \/
+         ####             -----------------------------------
+         ####             |                    /\         ## Fan
+         ####          D3 |                 F3 ||-==      ## resist-
+         ####             |                    \/         ## ance
+      -----------------------------------------------------------------
+
+
+The best way to understand what is happening is to run the file then
+open the pdf file "ok-032-parallel-fans-lp1.pdf".  Treat that pdf file
+as a flip book and flip back and forwards through its pages.
+
+At 20 seconds fan isolation damper D1 opens, taking 10 seconds fully open.
+A slight pressure difference starts an airflow.
+
+At 40 seconds fan F1 starts up, taking 15 seconds to get to speed.
+That fan draws air through the system resistance with a negligible amount
+of airflow through isolation dampers D2 and D3 (which have a small amount
+of leakage when closed).
+
+At 80 seconds fan isolation damper D2 opens, taking 10 seconds fully open.
+Fan F1 starts drawing air backwards through damper D2.
+
+At 100 seconds fan F2 starts up, taking 15 seconds to get to speed.
+Fan F2 eventually ends up at the same point on its characteristic as fan F1.
+
+At 140 seconds fan isolation damper D3 opens, taking 10 seconds fully open.
+Fans F1 and F2 start drawing air backwards through damper D3.
+
+At 160 seconds fan F3 starts up, taking 15 seconds to get to speed.
+When fan F3 is at full speed, pressure rise across the fans is such that
+fan F3 cannot cross the base of the stall hump and stays in stall.
+
+
+This is a dangerous part of the characteristic for fan F3 to operate in:
+
+ * Airflow around the blades is terrible (look up "rotating stall" online)
+   so the stresses on the blades are much higher than usual.  If it runs
+   in stall for a long time the blades will fatigue, crack and may
+   eventually break.
+
+ * If (as is usual in modern tunnel ventilation fans) the fan is driven
+   directly by a motor that is cooled by the airstream, the motor may
+   overheat in the low airflow.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  header underfoot
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 200
+#  images hidden
+end settings
+
+begin data  deep-stall-hump
+# This is a block of data that defines a fan characteristic that
+# has a significant stall hump between 30 m^3/s and 50 m^3/s.
+    Q, P_tot
+    0, 2250
+   10, 2000
+   20, 1700
+   30, 1500
+   40, 1900
+   50, 2150
+   60, 2050
+   80, 1800
+  100, 1450
+  120, 1050
+  132,  673
+end data
+
+begin data  typical-stall-hump
+# This characteristic has a more realistic (flatter) hump than the
+# characteristic in the data block above.
+    Q, P_tot
+    0, 2500
+   10, 2300
+   20, 1950
+   30, 1800
+   40, 1900
+   50, 2150
+   60, 2050
+   80, 1800
+  100, 1450
+  120, 1050
+  132,  673
+end data
+
+begin fanchar  my_char
+  datasource  deep-stall-hump  Q  P_tot
+#  datasource  typical-stall-hump  Q  P_tot
+  diameter 2.24
+end fanchar
+
+begin sectypes
+  systemduct   40     25   -0.036   # area  perimeter  lambda
+  fanduct  10.2     12.8   0.012
+end sectypes
+
+begin tunnel system_res
+  back  10000 portal +20   systemduct    # +20 Pa gauge air pressure.
+  loss1 10030   20.0    30   56  # area  zeta_bf  zeta_fb
+  fwd   10100 node plenum
+end tunnel
+
+
+begin tunnel outlet
+  back  10200 node discharge  systemduct
+  fwd   10250 portal 0  # 0 Pa air pressure at the portal
+end tunnel
+
+
+begin data D1_ops
+# This is the transient resistance of a damper, set by damper area and
+# pressure loss factors (k-factors) for positive and negative flow.
+   time,   area,    zeta+,    zeta-
+    0.0,    0.2,     4.2,      3.7
+   20.0,    0.2,     4.2,      3.1
+   30.0,   10.2,     0.9,      0.9
+end data
+
+begin data fan1ops
+# This block of data sets the operation of fan F1.  A list of times
+# and fan fractional speeds.
+#     T,     speed
+    0.0,    0.0
+   40.0,    0.0
+   55.0,    1.0
+  200.0,    1.0
+  205.0,    0.9
+  220.0,    0.9
+  225.0,    1.0
+end data
+
+begin tunnel fan1_duct
+  back     100  node plenum fanduct
+  damper1  140  D1  D1_ops  time  area  zeta+  zeta-
+  fan2     160  F1  my_char  fan1ops   1   2
+  loss1    180  20   10  10
+  fwd      200  node discharge
+end tunnel
+
+begin data D2_ops
+# This is the transient resistance of a damper, set by Atkinson
+# resistance (0.5 * rho * zeta / area**2).  The pressure drop at
+# standard air density is calculated by multiplying the figures
+# by the square of volume flow in m^3/s.
+# This definition runs out at 82 seconds.  When the runtime goes higher
+# than 82 seconds, the resistance remains at the last value in the list.
+   time,   atk1
+    0.0,   63.0
+   80.0,   63.0
+   82.0,   0.00519
+end data
+
+begin data fan2ops
+# This block of data sets the operation of fan F2.
+     T,     speed
+    0.0,    0.0
+  100.0,    0.0
+  115.0,    1.0
+  200.0,    1.0
+  205.0,    0.9
+  220.0,    0.9
+  225.0,    1.0
+end data
+
+begin tunnel fan2_duct
+  back    1100 node plenum fanduct
+  loss2   1120  0.015  0.015
+  damper2 1140  D2  D2_ops  time  atk1  atk1
+  fan2    1160  F2  my_char  fan2ops   T   speed
+  fwd     1200 node discharge
+end tunnel
+
+begin data D3ops
+# This block of data sets the operation of isolation damper D3.
+     T,     area,   zeta
+    0.0,    0.2,     4.2
+  140.0,    0.2,     4.2
+  150.0,   17.0,     2.1
+  160.0,   17.0,     2.1
+  175.0,   17.0,     2.1
+end data
+
+begin tunnel fan3_duct
+  back    10100 node plenum fanduct
+  damper1 10140  D3  D3ops  T  area  zeta  zeta
+  fan1    10160  F3  my_char  1.0  start:=160
+  loss1   10180  20   10  10
+  fwd     10200 node discharge
+end tunnel
+
+begin route first
+  origin 0
+  portal 10000
+  begin tunnels
+    system_res  fan1_duct   outlet
+  end tunnels
+end route
+
+begin route second
+  origin 0
+  portal 10000
+  begin tunnels
+    system_res  fan2_duct   outlet
+  end tunnels
+end route
+
+begin route third
+  origin 0
+  portal 10000
+  begin tunnels
+    system_res  fan3_duct   outlet
+  end tunnels
+end route
+
+begin constants
+  bigT   2
+  smallT  0.5
+  tinyT  0.1
+  # This list of times is used for the print timestep and the plot times
+  # in a timeloop block.  It has a big timestep when not much is happening
+  # and a small timestep when fans are turning off and on.
+  fan_times range(0, 39.9, bigT) + range(40, 54.9, smallT) + range(55, 99.9, bigT) + range(100, 114.9, smallT) + range(115, 159.9, bigT) + range(160, 176.9, smallT) + range(177, 199.9, bigT) + [200, 204] #+ range(203, 205.9, tinyT) + range(206, 250, bigT)
+
+  # These numbers are used for the graph extents on a squashed 3 by 2 graph grid.
+  left  0.11
+  mid1x 0.41
+  mid2x 0.59
+  right 0.89
+  base  0.12
+  mid1y 0.325
+  mid2y 0.43
+  mid3y  0.67
+  mid4y  0.79
+  top  0.98
+  x1  0.11
+  x2 0.368
+  x3 0.372
+  x4 0.63
+  x5 0.634
+  x6 0.892
+end constants
+
+begin plotcontrol
+  aero   fan_times
+end plotcontrol
+
+begin plots
+#  pagesize none
+#  pngtrim False
+  begin timeloop # ignore # 1
+#    start 0
+#    stop 250
+#    step 10
+    timelist fan_times
+
+    begin image
+#      begin verbatim
+        # Set a custom terminal, page size, linewidth and text size
+#        unset multiplot
+#        set terminal gif animate delay 100 size 1024, 768  linewidth 1 font "default, 10" enhanced
+#        set output outpath.outstem."gif"
+#        set terminal png size 1024, 768  linewidth 1 \
+#                         font "default, 9.5" enhanced
+#        set output outpath.outstem."png"
+#        set multiplot
+#      end verbatim
+      leftbase   0.93  0.03      border:=on
+      width    0.02
+      verbatim set xlabel "{/*0.2Hobyah.py}" offset 0, 1.15
+      filename    ../icon-Hobyah-tiny-BW.png
+    end image
+
+    begin graph # ignore
+      title   "Transient volume flows in the system" offset 0,-0.5
+      xrange 0  200 *20
+      yrange -240  380  *1
+      margins mid2x  right  0.45  0.65
+      begin verbatim
+        set key top centre maxrows 2 width -3.8
+        set xtics ("0" 0, "20" 20, "40" 40, "80" 80, "100" 100, "140" 140, "160" 160, "200" 200)
+      end verbatim
+      xlabel   Time (sec)
+      ylabel   "Volume flow (m^3/s)"
+      transient  volflow   calc  system_res@10001  xstop:=*time "{/*0.65 Through inlet}"
+      transient  volflow   calc  fan1_duct@159  xstop:=*time    "{/*0.65 Through damper 1}"
+      transient  volflow   calc  second@10159  xstop:=*time     "{/*0.65 Through damper 2}"
+      transient  volflow   calc  fan3_duct@10159  xstop:=*time  "{/*0.65 Through damper 3}"
+    end graph
+
+    begin graph # ignore
+      title   State of fan 1
+      margins x1  x2    base  mid1y
+      xrange -80   160  *2
+      yrange  0  3200  *2
+      begin verbatim
+        set key top right samplen 3
+      end verbatim
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan total pressure rise (Pa)
+      fandata  fanchar   calc  F1@999 lt:=6 lw:=0 nokey
+      fandata  system   calc  F1@*time lt:=4
+      fandata  fanchar   calc  F1@*time lt:=1
+    end graph
+    begin graph # ignore
+      title   State of fan 2
+      lrmargins x3  x4
+      ylabel ""
+      begin verbatim
+        set ytics ("" 0, "" 500, "" 1000, "" 1500, "" 2000, "" 2500, "" 3000)
+      end verbatim
+      fandata  fanchar   calc  F2@999 lt:=6 lw:=0 nokey
+      fandata  system   calc  F2@*time lt:=4
+      fandata  fanchar   calc  F2@*time lt:=2
+    end graph
+    begin graph # ignore
+      title   State of fan 3
+      lrmargins x5  x6
+      begin verbatim
+        # Title at the top of the page
+        set label "{/*3 How not to run fans in parallel}" at screen 0.5, 0.92 centre
+
+        # Box enclosing the schematic.
+        set object rectangle from screen 0.48, 0.71 to screen 0.88, 0.89
+
+        # Labels in the schematic
+        set label "{/*0.7 Inlet}" at screen 0.5, 0.81 left
+        set label "{/*0.7 +20 Pa}" at screen 0.5, 0.795 left
+        set label "{/*0.7 Outlet}" at screen 0.85, 0.81 right
+        set label "{/*0.7 0 Pa}" at screen 0.85, 0.795 right
+        set label "{/*0.7 Fan 1}" at screen 0.721, 0.848 left
+        set label "{/*0.7 Fan 2}" at screen 0.721, 0.803 left
+        set label "{/*0.7 Fan 3}" at screen 0.721, 0.758 left
+        set label "{/*0.7 Damper 1}" at screen 0.662, 0.848 right
+        set label "{/*0.7 Damper 2}" at screen 0.662, 0.803 right
+        set label "{/*0.7 Damper 3}" at screen 0.662, 0.758 right
+        set label "{/*1.0 This flipbook illustrates a problem that can occur when you try to}" at screen 0.05, 0.87 left
+        set label "{/*1.0 run fans in parallel that are unsuitable for running in parallel.}" at screen 0.05, 0.8475 left
+#        set label "{/*1.0 compatible characteristics.}" at screen 0.05, 0.825 left
+
+        set label "{/*1.0 Consider three identical fans with isolation dampers, in parallel:}" at screen 0.05, 0.78 left
+        set arrow from screen 0.45, 0.779 to screen 0.48, 0.779 head
+        set label "{/*1.0 The fans have a Q-P_{tot} characteristic with a bad stall hump.}" at screen 0.05, 0.7575 left
+
+        set label "{/*1.0 The fans are started sequentially.  Fans 1 and 2 get to suitable}" at screen 0.05, 0.7125 left
+        set label "{/*1.0 parts of their characteristics.  Fan 3 can't get out of stall.}" at screen 0.05, 0.69 left
+
+        xoffset = 0.07
+        set label "{/*1.0 At 20 seconds, damper 1 opens}" at screen xoffset, 0.645 left
+        set label "{/*1.0 At 40 seconds, fan 1 starts}" at screen xoffset, 0.6 left
+        set label "{/*1.0 At 80 seconds, damper 2 opens}" at screen xoffset, 0.555 left
+        set label "{/*1.0 At 100 seconds, fan 2 starts}" at screen xoffset, 0.51 left
+        set label "{/*1.0 At 140 seconds, damper 3 opens}" at screen xoffset, 0.465 left
+        set label "{/*1.0 At 160 seconds, fan 3 starts}" at screen xoffset, 0.42 left
+
+        # Tunnel walls
+        set object rectangle from screen 0.5, 0.87 to screen 0.85, 0.875 fc black
+        set object rectangle from screen 0.5, 0.725 to screen 0.85, 0.73 fc black
+
+        # Fan axes
+        #set arrow from screen 0.61, 0.845 to screen 0.74, 0.845 nohead
+        #set arrow from screen 0.61, 0.80 to screen 0.74, 0.80 nohead
+        #set arrow from screen 0.61, 0.755 to screen 0.74, 0.755 nohead
+
+        # Left fanroom wall and fan isolation dampers
+        x1 = 0.67
+        wlth = 0.003
+        x2 = x1 + wlth
+        set object rectangle from screen x1, 0.8615 to screen x2, 0.87 fc black
+        set object rectangle from screen x1, 0.8165 to screen x2, 0.8285 fc black
+        set object rectangle from screen x1, 0.7715 to screen x2, 0.7835 fc black
+        set object rectangle from screen x1, 0.73 to screen x2, 0.7385 fc black
+
+
+        # Right fanroom wall
+        x1 = 0.752
+        x2 = x1 + wlth
+        set object rectangle from screen x1, 0.8615 to screen x2, 0.87 fc black
+        set object rectangle from screen x1, 0.8165 to screen x2, 0.8285 fc black
+        set object rectangle from screen x1, 0.7715 to screen x2, 0.7835 fc black
+        set object rectangle from screen x1, 0.73 to screen x2, 0.7385 fc black
+
+        # Change the colour of rectangles to blue
+        set linestyle 2 lc "blue"
+#        set style rectangle ls 2
+        # Inlet fittings, fans bodies and outlet fittings
+        evx = 0.032
+        fanx = 0.015
+        evy = 0.033
+        fany = 0.021
+        damx = -0.007
+        dy = 0.5 * (evy - fany)
+        x1 = 0.673
+        y1 = 0.8285
+        # This polygon is a stereotype of a fully reversible fan, with
+        # a decent evasee on both ends and a fan isolation damper on the
+        # left.  This is the fan at the top.
+        set object poly from screen x1 + evx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          to screen x1, y1 + evy \
+                          to screen x1, y1 \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + 2*evx + fanx, y1 \
+                          to screen x1 + 2*evx + fanx, y1 + evy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          fc "blue"
+        # Fan isolation damper
+        left = x1 - wlth + 0.8 * damx
+        right = x1 - wlth + 0.2 * damx
+        set object poly from screen x1 - wlth, y1 \
+                          to screen x1 - wlth, y1 + evy \
+                          to screen x1 - wlth + damx, y1 + evy \
+                          to screen x1 - wlth + damx, y1 \
+                          to screen x1 - wlth, y1 \
+                          fc "red"
+        # Damper blades
+        y11 = y1 + 0.1167 * evy#  0.15, 0.3, 0.45, m
+        y12 = y1 + 0.2167 * evy
+        y13 = y1 + 0.3333 * evy
+        y14 = y1 + 0.4333 * evy
+        y15 = y1 + 0.55 * evy
+        y16 = y1 + 0.65 * evy
+        y17 = y1 + 0.7667 * evy
+        y18 = y1 + 0.8667 * evy
+        set arrow from screen left, y11 to screen right, y12 nohead lc "red"
+        set arrow from screen right, y13 to screen left, y14 nohead lc "red"
+        set arrow from screen left, y15 to screen right, y16 nohead lc "red"
+        set arrow from screen right, y17 to screen left, y18 nohead lc "red"
+        # This is the fan and damper in the middle.
+        y1 = 0.7835
+        set object poly from screen x1 + evx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          to screen x1, y1 + evy \
+                          to screen x1, y1 \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + 2*evx + fanx, y1 \
+                          to screen x1 + 2*evx + fanx, y1 + evy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          fc "blue"
+        set object poly from screen x1 - wlth, y1 \
+                          to screen x1 - wlth, y1 + evy \
+                          to screen x1 - wlth + damx, y1 + evy \
+                          to screen x1 - wlth + damx, y1 \
+                          to screen x1 - wlth, y1 \
+                          fc "red"
+        left = x1 - wlth + 0.8 * damx
+        right = x1 - wlth + 0.2 * damx
+        set object poly from screen x1 - wlth, y1 \
+                          to screen x1 - wlth, y1 + evy \
+                          to screen x1 - wlth + damx, y1 + evy \
+                          to screen x1 - wlth + damx, y1 \
+                          to screen x1 - wlth, y1 \
+                          fc "red"
+        # Damper blades
+        y11 = y1 + 0.1167 * evy#  0.15, 0.3, 0.45, m
+        y12 = y1 + 0.2167 * evy
+        y13 = y1 + 0.3333 * evy
+        y14 = y1 + 0.4333 * evy
+        y15 = y1 + 0.55 * evy
+        y16 = y1 + 0.65 * evy
+        y17 = y1 + 0.7667 * evy
+        y18 = y1 + 0.8667 * evy
+        set arrow from screen left, y11 to screen right, y12 nohead lc "red"
+        set arrow from screen right, y13 to screen left, y14 nohead lc "red"
+        set arrow from screen left, y15 to screen right, y16 nohead lc "red"
+        set arrow from screen right, y17 to screen left, y18 nohead lc "red"
+        # This is the fan and damper at the bottom
+        y1 = 0.7385
+        set object poly from screen x1 + evx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          to screen x1, y1 + evy \
+                          to screen x1, y1 \
+                          to screen x1 + evx, y1 + dy \
+                          to screen x1 + evx + fanx, y1 + dy \
+                          to screen x1 + 2*evx + fanx, y1 \
+                          to screen x1 + 2*evx + fanx, y1 + evy \
+                          to screen x1 + evx + fanx, y1 + dy + fany \
+                          to screen x1 + evx, y1 + dy + fany \
+                          fc "blue"
+        set object poly from screen x1 - wlth, y1 \
+                          to screen x1 - wlth, y1 + evy \
+                          to screen x1 - wlth + damx, y1 + evy \
+                          to screen x1 - wlth + damx, y1 \
+                          to screen x1 - wlth, y1 \
+                          fc "red"
+        left = x1 - wlth + 0.8 * damx
+        right = x1 - wlth + 0.2 * damx
+        set object poly from screen x1 - wlth, y1 \
+                          to screen x1 - wlth, y1 + evy \
+                          to screen x1 - wlth + damx, y1 + evy \
+                          to screen x1 - wlth + damx, y1 \
+                          to screen x1 - wlth, y1 \
+                          fc "red"
+        # Damper blades
+        y11 = y1 + 0.1167 * evy#  0.15, 0.3, 0.45, m
+        y12 = y1 + 0.2167 * evy
+        y13 = y1 + 0.3333 * evy
+        y14 = y1 + 0.4333 * evy
+        y15 = y1 + 0.55 * evy
+        y16 = y1 + 0.65 * evy
+        y17 = y1 + 0.7667 * evy
+        y18 = y1 + 0.8667 * evy
+        set arrow from screen left, y11 to screen right, y12 nohead lc "red"
+        set arrow from screen right, y13 to screen left, y14 nohead lc "red"
+        set arrow from screen left, y15 to screen right, y16 nohead lc "red"
+        set arrow from screen right, y17 to screen left, y18 nohead lc "red"
+
+        # Setting out lines
+#        set arrow from screen 0.61, 0.79 to screen 0.74, 0.79 nohead
+#        set arrow from screen 0.61, 0.71 to screen 0.74, 0.71 nohead
+
+
+      end verbatim
+      fandata  fanchar   calc  F3@999 lt:=6 lw:=0 nokey
+      fandata  system   calc  F3@*time lt:=4
+      fandata  fanchar   calc  F3@*time lt:=3
+    end graph
+  end timeloop
+
+  begin page # ignore # 1
+    begin graph
+      title  Total pressure profiles at last timestep
+      btmargins 0.57   0.87
+      xrange 10000  10250  *1
+      yrange -2400   200  *1
+      verbatim set key bottom right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptot    calc  first@9999  lt:=1
+      profile ptot    calc  second@9999  lt:=2
+      profile ptot    calc  third@9999  lt:=3
+    end graph
+    begin graph
+      title   Static pressure profiles at last timestep
+      btmargins 0.13   0.43
+      profile pstat    calc  first@9999  lt:=1
+      profile pstat    calc  second@9999  lt:=2
+      profile pstat    calc  third@9999  lt:=3
+    end graph
+  end page
+
+  begin page # ignore # 2
+    begin graph # ignore
+      title   State of fan 1 (P_t)
+      margins x1  x2    0.48  0.685
+      xrange -80   160  *2
+      yrange  0  3200  *2
+      begin verbatim
+        set key top right samplen 3
+      end verbatim
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan total pressure rise (Pa)
+      fandata  system   calc  F1@9999 lt:=4
+      fandata  fanchar   calc  F1@9999 lt:=1
+    end graph
+    begin graph # ignore
+      title   State of fan 2 (P_t)
+      margins x3  x4    0.48  0.685
+      ylabel ""
+      begin verbatim
+        set ytics ("" 0, "" 500, "" 1000, "" 1500, "" 2000, "" 2500, "" 3000)
+      end verbatim
+      fandata  system   calc  F2@9999 lt:=4
+      fandata  fanchar   calc  F2@9999 lt:=2
+    end graph
+    begin graph # ignore
+      title   State of fan 3 (P_t)
+      margins x5  x6    0.48  0.685
+      ylabel ""
+      begin verbatim
+        set ytics ("" 0, "" 500, "" 1000, "" 1500, "" 2000, "" 2500, "" 3000)
+      end verbatim
+      fandata  system   calc  F3@9999 lt:=4
+      fandata  fanchar   calc  F3@9999 lt:=3
+    end graph
+    begin graph # ignore
+      title   State of fan 1 (P_s)
+      margins x1  x2    base  mid1y
+      xrange -80   160  *2
+      yrange  -50  3200  *2
+      begin verbatim
+        set key top right samplen 3
+      end verbatim
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan static pressure rise (Pa)
+      fandata  system-cursed   calc  F1@9999 lt:=4
+      fandata  fanchar-cursed   calc  F1@9999 lt:=1
+    end graph
+    begin graph # ignore
+      title   State of fan 2 (P_s)
+      margins x3  x4    base  mid1y
+      ylabel ""
+      begin verbatim
+        set ytics ("" 0, "" 500, "" 1000, "" 1500, "" 2000, "" 2500, "" 3000)
+      end verbatim
+      fandata  system-cursed   calc  F2@9999 lt:=4
+      fandata  fanchar-cursed   calc  F2@9999 lt:=2
+    end graph
+    begin graph # ignore
+      title   State of fan 3 (P_s)
+      margins x5  x6    base  mid1y
+      ylabel ""
+      begin verbatim
+        set ytics ("" 0, "" 500, "" 1000, "" 1500, "" 2000, "" 2500, "" 3000)
+      end verbatim
+      fandata  system-cursed   calc  F3@9999 lt:=4
+      fandata  fanchar-cursed   calc  F3@9999 lt:=3
+    end graph
+  end page
+
+  begin page # ignore # 3
+    begin graph # ignore
+      title   Pressures across the three fans
+      btmargins mid4y  top
+      xlabel   "Time (s)"
+      yrange -200 1800  *1
+      begin verbatim
+        set key top left
+        set xtics ("0" 0, "20" 20, "40" 40, "80" 80, "100" 100, "140" 140, "160" 160, "200" 200)
+      end verbatim
+      ylabel   Fan total pressure rise (Pa)
+      transient  pdiff   calc  F1@0
+      transient  pdiff   calc  F2@0
+      transient  pdiff   calc  F3@0
+    end graph
+    begin graph # ignore
+      title   Pressures across the three motorised dampers
+      btmargins mid2y  mid3y
+      xlabel   "Time (s)"
+      ylabel   Damper pressure change (Pa)
+      transient  pdiff   calc  D1@0
+      transient  pdiff   calc  D2@0
+      transient  pdiff   calc  D3@0
+    end graph
+    begin graph # ignore
+      title   Pressures across the fan assembly losses
+      btmargins base  mid1y
+      xlabel   "Time (s)"
+      ylabel   Damper pressure change (Pa)
+      transient  pdiff   calc  D1@0
+      transient  pdiff   calc  D2@0
+      transient  pdiff   calc  D3@0
+    end graph
+  end page
+
+  begin timeloop  ignore # 2
+    start 0
+    stop 250
+    step 1
+ #   timelist time_list
+
+    begin graph# ignore
+      title   Transient volume flows in the system
+      xrange 0  250 *20
+      yrange -240  430  *1
+      margins 0.13   0.43   0.57   0.87
+      xlabel   Time (sec)
+      ylabel   "Volume flow (m^3/s)"
+      transient  volflow   calc  fan1_duct@159  xstop:=*time
+      transient  volflow   calc    second@10159   xstop:=*time
+      transient  volflow   calc  fan3_duct@10159  xstop:=*time
+      transient  volflow   calc  outlet@10201  xstop:=*time
+      transient  pdiff     calc  d1@0  xstop:=*time
+      transient  pdiff     calc  d2@0  xstop:=*time
+      transient  pdiff     calc  F1@0  xstop:=*time
+      transient  pdiff     calc  F2@0  xstop:=*time
+    end graph
+
+    begin graph # ignore
+      title   Characteristics and fan duty points
+      margins 0.57   0.87   0.57   0.87
+      xrange -80   160  *2
+      yrange  0  4000  *2
+      begin verbatim
+        set key top right
+      end verbatim
+      xlabel   "Volume flow (m^3/s)"
+      ylabel   Fan total pressure rise (Pa)
+      fandata  system   calc  F1@*time lt:=5
+      fandata  fanchar   calc  F1@*time lt:=1
+      fandata  system   calc  F2@*time lt:=4
+      fandata  fanchar   calc  F2@*time lt:=2
+      fandata  system   calc  F3@*time lt:=13
+      fandata  fanchar   calc  F3@*time lt:=3
+    end graph
+    begin graph # ignore
+      title   Type 1 dampers, areas and pressure loss factors
+      margins 0.13   0.43   0.13   0.43
+      xrange  0  250 *20
+      yrange  0  26  *1
+      xlabel   Time (s)
+      ylabel   "Area (m^2) and k-factor (-)"
+      transient  area   calc  D1@*time   xstop:=*time
+      transient  area   calc  D3@*time   xstop:=*time
+      transient  zeta_bf   calc  D1@*time   xstop:=*time
+      transient  zeta_bf   calc  D3@*time   xstop:=*time
+    end graph
+    begin graph # ignore
+      title   Type 1 and type 2 dampers, resistance to airflow
+      margins 0.57   0.87   0.28   0.43
+      xrange  0  250 *20
+      yrange  -2  125  20
+#      verbatim set logscale y
+      xlabel   ""
+      ylabel   "Resistance (N-s^2/m^8)" offset 0, -4
+      transient  R_bf  calc  D1@*time   xstop:=*time '{/*0.65Resistance at damper "d1" (type "damper1")}'
+      transient  R_bf  calc  D2@*time   xstop:=*time '{/*0.65Resistance at damper "d2" (type "damper2")}'
+      transient  R_bf  calc  D3@*time   xstop:=*time '{/*0.65Resistance at damper "d3" (type "damper1")}'
+    end graph
+    begin graph # ignore
+      title  ""
+#      title  "Detail of resistance" offset 0, -2.5
+      margins 0.57   0.87   0.13   0.24
+      xrange  0  250 *20
+      yrange  -0.001  0.05  0.01
+#      verbatim set logscale y
+      verbatim unset key
+      xlabel   Time (s)
+      ylabel   ""
+      transient  R_bf  calc  D1@*time   xstop:=*time
+      transient  R_bf  calc  D2@*time   xstop:=*time
+      transient  R_bf  calc  D3@*time   xstop:=*time
+    end graph
+  end timeloop
+end plots

@@ -1,0 +1,58 @@
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES file for raising a fault in SESconv.py.
+
+                         This file has no header line or footer line (which is OK since
+
+                         it is a .TMP file).  SESconv tries to gin up a fake footer from
+
+                         the version number that comes after "NEW YORK CITY, NEW YORK"
+
+                         in the PBQD credits, but can't find it.  This is likely to be
+
+                         raised when .PRN or .TMP files not created by SES are fed to
+
+                         SESconv.py.
+
+                                    DESIGN TIME 1700 HRS   JULY       2090
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+
+                                            END OF SIMULATION

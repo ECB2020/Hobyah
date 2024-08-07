@@ -1,0 +1,225 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that verifies the development of road traffic.  Has three tunnels
+tunnel and three types of traffic.
+In the first tunnel the traffic moves at constant speed and
+fills the tunnel end to end.
+In the other two tunnels the traffic is a block of stationary traffic
+80 m long (the length of two cells in the MoC calculation).  Other
+losses (portal losses and friction) are minimised.
+In the second tunnel the block of stationary traffic starts and stops
+at gridpoints.
+In the third tunnel the block of stationary traffic starts and stops
+halfway between gridpoints.
+The results of the second and third tunnel should be the same; if they
+aren't something is wrong with the logic used to calculate the traffic
+drag.
+
+The calculation excludes the block correction term.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 400.
+end settings
+
+begin sectypes
+  C+C1    103   55   -0.036
+  C+C2    103   55   -0.00000001
+end sectypes
+
+begin tunnel first
+  back 10000 portal  0  C+C1
+  fwd  13000 portal  0
+end tunnel
+
+begin tunnel second
+  back   0 portal  20  C+C2   zeta_in := 0  zeta_out := 0
+  fwd  200 portal -20   zeta_in := 0  zeta_out := 0
+end tunnel
+
+begin tunnel third
+  back   0 portal  20  C+C2   zeta_in := 0  zeta_out := 0
+  fwd  200 portal -20   zeta_in := 0  zeta_out := 0
+end tunnel
+
+begin traffictypes
+  calculate without blockage correction term
+# keyword   name   area  C_d  PCU/veh
+  vehicle   car    2.0   0.4    1
+  vehicle   LCV    4.0   0.9    1
+  vehicle   HGV    6.0   1.0    3   10   2
+end traffictypes
+
+begin route one
+  origin 9000
+  portal 10000
+  begin tunnels
+    first
+  end tunnels
+end route
+
+begin route two
+  origin 9000
+  portal 10000
+  begin tunnels
+    second
+  end tunnels
+  begin lanes
+     2    15000
+  end lanes
+end route
+
+begin route three
+  origin 9000
+  portal 10000
+  begin tunnels
+    third
+  end tunnels
+  begin lanes
+     2    15000
+  end lanes
+end route
+
+begin trafficsteady both
+    routes one       two      three
+    car   1800       1600      1600
+    LCV    220        205       205
+    HGV    300        291       291
+    moving  one  90 # km/h
+    standstill  two  165 PCU/lane-km  10040.01   10119.99
+    standstill  three  165 PCU/lane-km  10060.01   10139.99
+#    standstill  two  165 PCU/lane-km  10040.0   10120
+#    standstill  three  165 PCU/lane-km  10060.0   10140
+end trafficsteady
+
+begin plots
+  begin timeloop  ignore
+    start 0
+    stop 400
+    step 2
+    begin graph #ignore
+      title Air velocity profiles
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      xrange  *0  *4000  *200
+      yrange  -6  6  1
+      btmargins 0.13  0.87
+      profile velocity  calc one@*time
+    end graph
+  end timeloop
+  begin page # ignore # 1
+    begin graph #ignore
+      title Traffic flow profiles
+      xlabel   Distance (m)
+      ylabel   Traffic flow (veh/hr)
+      xrange  *10000  *13000  *500
+      yrange  *0  *4000  *200
+      btmargins 0.57  0.87
+      profile car_flow  calc  one@-1
+      profile LCV_flow  calc  one@-1
+      profile HGV_flow  calc  one@-1
+      profile tot_flow  calc  one@-1
+    end graph
+    begin graph
+      title Traffic density profiles
+      xlabel   Distance (m)
+      ylabel   Traffic density (veh/km)
+      yrange  *0  *200  *200
+      btmargins 0.13  0.43
+      profile car_dens  calc  one@-1
+      profile LCV_dens  calc  one@-1
+      profile HGV_dens  calc  one@-1
+      profile tot_dens  calc  one@-1
+      profile tot_dens  calc  two@-1
+      profile tot_dens  calc  three@-1
+    end graph
+  end page
+  begin page # ignore # 2
+    begin graph #ignore
+      #title Air velocity profile from moving traffic
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      xrange  *0  *4000  *200
+      yrange  *0  *4000  *200
+      btmargins 0.57  0.87
+      profile velocity  calc one@-1
+    end graph
+    begin graph #ignore
+      #title Mass flow profile with moving traffic
+      xlabel   Distance (m)
+      ylabel   Mass flow (kg/s)
+      xrange  10000  10200  20
+      yrange  *-50  *21  *10
+      btmargins 0.13  0.43
+      profile massflow  calc one@-1
+    end graph
+  end page
+  begin page # ignore # 3
+    begin graph #ignore
+      title Air pressure profile with stationary traffic (low dt)
+      xlabel   Distance (m)
+      ylabel   Air pressure (Pa)
+      xrange  10000  10200  20
+      yrange  -50  21  10
+      btmargins 0.57  0.87
+      profile ptot  calc two@-1
+      profile pstat  calc two@-1  lt:=3
+      profile ptot  calc three@-1 lt:=2
+      profile pstat  calc three@-1 lt:=4
+    end graph
+    begin graph #ignore
+      title Air velocity profile with stationary traffic (low dt)
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+#      yrange  *6.07  *6.13  *200
+      yrange  13.59  13.65  *200
+#      yrange  14.71  14.64  *200
+      begin verbatim
+        set key bottom right
+        y1 = 13.645
+        y2 = y1 - 0.006
+        y3 = y2 - 0.004
+        y4 = y2 + 0.002
+        y5 = y3 + 0.002
+        set label "{/*0.6 Gridpoint}" at first 10000, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10020, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10040, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10060, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10080, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10100, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10120, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10140, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10160, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10180, y1 centre
+        set label "{/*0.6 Gridpoint}" at first 10200, y1 centre
+        set arrow from first 10040.01, y2 to 10119.99, y2 heads lc 1
+        set label "{/*0.6 Extent of stationary traffic on route two}" \
+          at first 10080, y4 centre
+        set arrow from first 10060.01, y3 to 10139.99, y3 heads lc 2
+        set label "{/*0.6 Extent of stationary traffic on route three}" \
+          at first 10100, y5 centre
+      end verbatim
+      btmargins 0.13  0.43
+      profile velocity  calc two@-1
+      profile velocity  calc three@-1
+    end graph
+  end page
+  begin page # ignore # 4
+    begin graph #ignore
+      title Mass flow profile with stationary traffic (low dt)
+      xlabel   Distance (m)
+      ylabel   Mass flow (kg/s)
+      xrange  10000  10200  20
+      yrange  1678  1685  *10
+      btmargins 0.57  0.87
+      profile massflow  calc two@-1
+      profile massflow  calc three@-1
+    end graph
+  end page
+end plots

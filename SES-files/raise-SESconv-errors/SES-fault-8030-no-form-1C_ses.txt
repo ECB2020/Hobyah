@@ -1,0 +1,28 @@
+SES VER 4.10            SES file for raising a fault in SESconv.py.                                     PAGE:     1
+FILE: SES-triggers-4030.ses                                                   SIMULATION TIME: 27 JUL 2021 15:28:54
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES file for raising a fault in SESconv.py.
+                         This file has a header line and a footer line but the line that
+                         signals the start of form 1C is missing, which causes SESconv.py
+                         to raise an error message.
+                                    DESIGN TIME 1700 HRS   JULY       2090
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              1     YES
+                            HUMIDITY DISPLAY OPTION                               1     HUMIDITY RATIO
+                                            END OF SIMULATION

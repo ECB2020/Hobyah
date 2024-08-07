@@ -1,0 +1,67 @@
+       SES VER 4.10                      SES file for triggering error 4026 (dud form 1B)                      PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES file for triggering error 8026 (dud form 1B)
+
+                         The line for form 1B has extra entries in it, which means it is
+
+                         probably a line of comment text that happens to match the test
+
+                         for        DESIGN TIME.
+
+                                    DESIGN TIME 1700 HRS   JULY       2023  extra text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-fault-4026-dud-form-1B.ses                                          SIMULATION TIME: 15 JUL 2020 07:50:29

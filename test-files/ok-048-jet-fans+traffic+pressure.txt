@@ -1,0 +1,256 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file combines friction, wind pressure, road traffic drag
+and jet fan thrust, to check the calculation of road traffic
+drag across multiple segments.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 500.
+end settings
+
+begin sectypes
+  ITU    64   34   -0.036
+end sectypes
+
+begin tunnel first
+  back 11000 portal  10  ITU
+  fwd  12300 portal  0
+  jetfans1   11410   up_JF01  2  rev2  1.0
+  jetfans1   12000   up_JF02  4  rev2  1.0
+end tunnel
+
+begin tunnel second
+  back 11000 portal  10  ITU
+  change 11200  same
+  change 11470  same
+  fwd  12300 portal  0
+  jetfans1   11410   down_JF01  2  rev1  1.0
+  jetfans1   12000   down_JF02  4  rev1  1.0
+end tunnel
+
+begin tunnel third
+  back 11000 portal  10  ITU
+  fwd  12300 portal  0
+end tunnel
+
+begin tunnel fourth
+  back 11000 portal  10  ITU
+  fwd  12300 portal  0
+  jetfans1   11410   WB_JF01  2  rev1  1.0
+  jetfans1   12000   WB_JF02  4  rev1  1.0
+end tunnel
+
+begin jetfantypes
+  #   type        name    T   eta   u_j     T   eta   u_j
+  reversible      REV1  1050  0.7  29.8   1050  0.7  -29.8  jetlength:=0.1
+  reversible      rev2  1050  0.7  29.8   1050  0.7  -29.8  jetlength:=200.0
+end jetfantypes
+
+begin traffictypes
+  calculate with blockage correction term
+# keyword   name   area  C_d  PCU/veh
+  vehicle   car    2.0   0.35    1
+  vehicle   LCV    4.5   0.8     1
+  vehicle   HGV    6.0   0.9     3   10   2.5  20  2
+end traffictypes
+
+begin route up
+  origin 9000
+  portal 10970
+  begin tunnels
+    first
+  end tunnels
+  begin lanes
+    # lane count     chainage it
+    #   (> 0)      applies down to
+          2             15000
+  end lanes
+end route
+
+begin trafficsteady second
+  routes   up     down    eastbound
+  car     1800    1800       1800
+  LCV       20      20         20
+  HGV      300     300        300
+  #standstill  up  165 PCU/lane-km  up_ptl   down_ptl
+  moving   up  60
+  moving   down  60
+  moving   eastbound  60
+end trafficsteady
+
+begin route down
+  origin 9000
+  portal 10970
+  begin tunnels
+    second
+  end tunnels
+end route
+
+begin route eastbound
+  origin 9000
+  portal 10970
+  begin tunnels
+    third
+  end tunnels
+end route
+
+begin route westbound
+  origin 9000
+  portal 10970
+  begin tunnels
+    fourth
+  end tunnels
+end route
+
+#begin plotcontrol
+#    aero range(0, 5, 0.1) + range(5, 1000, 1)
+#end plotcontrol
+
+begin plots
+  begin page # ignore # 1
+    begin graph #ignore
+      title Air pressure along the tunnel
+      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  10900  12300  *20
+      yrange  *0    *100  10
+      verbatim set key top left
+      btmargins 0.72  0.88
+      profile  Ptot  calc  up@-1
+#      profile  Pstat calc  up@-1
+      profile  Ptot  calc  down@-1 #yoffset :=1
+#      profile  Pstat calc  down@-1 #yoffset :=1
+    end graph
+    begin graph #ignore
+      title Mass flow fluctuation (g/s) with short jet fan plumes (after subtracting 450 kg/s)
+      xlabel   Distance (m)
+      ylabel   Mass flow fluctuation (g/s)
+#      yrange  450568.6 450569  0.1
+      yrange  897.2  897.6  0.1
+      verbatim set key top right
+      btmargins 0.44  0.6
+      profile  massflow  calc  down@-1 ymult:= 1000 yoffset:=-435000   lt:=2
+    end graph
+    begin graph #ignore
+      title Mass flow fluctuation (g/s) with long jet fan plumes (after subtracting 450 kg/s)
+      btmargins 0.14  0.32
+#      yrange  450553.8 450554.2  0.1
+      yrange  883.2  883.6  0.1
+      profile  massflow  calc  up@-1  ymult:= 1000 yoffset:=-435000
+    end graph
+  end page
+  begin page # ignore # 2
+    begin graph #ignore
+      title Air pressure along the tunnel
+#      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  10900  12300  *20
+      yrange  -50    40  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  up@-1
+      profile  Pstat  calc  up@-1
+    end graph
+    begin graph #ignore
+      title Air velocity along the tunnel
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+#      yrange  5.866  5.869  *0
+      yrange  3.8  5.9  0.2
+      profile  velocity   calc  up@-1
+      profile  velocity   calc  up@4999.0
+    end graph
+  end page
+  begin page # ignore # 3
+    begin graph #ignore
+      title Air pressure along the tunnel
+      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  10900  12300  *20
+      yrange  -50    40  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  down@-1
+      profile  Pstat  calc  down@-1
+    end graph
+    begin graph #ignore
+      title Air velocity along the tunnel
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+      yrange  3.8  5.9  0.2
+      profile  velocity   calc  down@-1
+      profile  velocity   calc  down@4999.0
+    end graph
+  end page
+  begin page # ignore # 4
+    begin graph #ignore
+      title Air pressure along the tunnel
+#      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  10900  12300  *20
+      yrange  -50    40  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  eastbound@-1
+      profile  Pstat  calc  eastbound@-1
+    end graph
+    begin graph #ignore
+      title Air velocity along the tunnel
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+      yrange  3.8  5.9  0.2
+      profile  velocity   calc  eastbound@-1
+      profile  velocity   calc  eastbound@4999.0
+    end graph
+  end page
+  begin page # ignore # 4
+    begin graph #ignore
+      title Air pressure along the tunnel
+#      xlabel   Distance (m)
+      ylabel   Gauge pressure (Pa)
+      xrange  10900  12300  *20
+      yrange  -50    40  *10
+      btmargins 0.57  0.87
+      profile  Ptot   calc  westbound@-1
+      profile  Pstat  calc  westbound@-1
+    end graph
+    begin graph #ignore
+      title Air velocity along the tunnel
+      xlabel   Distance (m)
+      ylabel   Air velocity (m/s)
+      btmargins 0.13  0.43
+      yrange  3.8  5.9  0.2
+      profile  velocity   calc  westbound@-1
+      profile  velocity   calc  westbound@4999.0
+    end graph
+  end page
+end plots
+
+
+
+begin trafficsteady first
+  routes   down
+  LCV       12
+  HGV       65
+  car      230
+  moving   down  60
+end trafficsteady
+
+begin trafficsteady second
+  routes   up
+  car     1800
+  LCV       20
+  HGV      300
+  #standstill  up  165 PCU/lane-km  up_ptl   down_ptl
+  moving   up  60
+end trafficsteady
+
+
+

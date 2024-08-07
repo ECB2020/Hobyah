@@ -1,0 +1,84 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This has one tunnel that is 50.2 km long, just to see how long a calculation
+could take and how long it takes to calculate densities and pressures in
+classHobyah.
+
+It also has two sections, one with a fixed friction factor and one with
+a roughness height (meaning that friction factor is calculated on every
+characteristic).  Fixed friction runs about 30% faster, see the timing
+stats at the end.
+
+begin settings # comment text
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  units SI
+  P_atm 101325
+  rho_atm 1.2
+  aero_step 0.1
+  aero_time 1 # 700 # Use 700 seconds when timing, 1 when
+end settings
+
+#begin plotcontrol
+# aero [500]
+#end plotcontrol
+
+begin sectypes
+  RT    42.2   26.2  0.02
+#  RT    42.2   26.2  -0.0066
+end sectypes
+
+begin tunnel Chantunn
+  back 0 portal 90   RT
+  fwd  50193 portal 0
+end tunnel
+
+begin plots
+end plots
+
+
+---Running in Python with Fricfac and interp functions in Fortran, with roughness height---
+tester@Mac-mini test-files % time ../Hobyah.py ok-014-long-tunnel
+> Processing file 1 of 1, "ok-014-long-tunnel.txt".
+>
+[0.0, 'portal', 90.0, 'RT', '', {}, 17] [50193.0, 'portal', 0.0, '', {}, 18]
+> Finished processing file 1.
+../Hobyah.py ok-014-long-tunnel  177.29s user 0.55s system 99% cpu 2:57.89 total
+tester@Mac-mini test-files %
+
+---Running in Python only, with roughness height---
+tester@Mac-mini test-files % time ../Hobyah.py ok-014-long-tunnel
+> Processing file 1 of 1, "ok-014-long-tunnel.txt".
+>
+[0.0, 'portal', 90.0, 'RT', '', {}, 17] [50193.0, 'portal', 0.0, '', {}, 18]
+> Finished processing file 1.
+../Hobyah.py ok-014-long-tunnel  591.15s user 1.18s system 99% cpu 9:52.52 total
+tester@Mac-mini test-files %
+
+---Running in Python only, with roughness height---
+tester@Mac-mini test-files % time ../Hobyah.py ok-014-long-tunnel
+> Processing file 1 of 1, "ok-014-long-tunnel.txt".
+>
+> Finished processing file 1.
+../Hobyah.py ok-014-long-tunnel  342.16s user 0.79s system 100% cpu 5:41.08 total
+
+---Running in Python only, with fixed friction factor---
+tester@Mac-mini test-files % time ../Hobyah.py ok-014-long-tunnel
+> Processing file 1 of 1, "ok-014-long-tunnel.txt".
+>
+> Finished processing file 1.
+../Hobyah.py ok-014-long-tunnel  238.99s user 0.93s system 100% cpu 3:58.03 total
+tester@Mac-mini test-files %
+
+---Running in Python with Fricfac function in Fortran, with roughness height---
+tester@Mac-mini test-files % time ../Hobyah.py ok-014-long-tunnel
+> Processing file 1 of 1, "ok-014-long-tunnel.txt".
+>
+[0.0, 'portal', 90.0, 'RT', '', {}, 17] [50193.0, 'portal', 0.0, '', {}, 18]
+> Finished processing file 1.
+../Hobyah.py ok-014-long-tunnel  236.11s user 0.64s system 99% cpu 3:56.86 total
+tester@Mac-mini test-files %

@@ -1,0 +1,2248 @@
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file for testing a branch in SESconv.py.
+
+                         This file has no sections or segments, just a train route with a train in
+
+                         the open air.  It is not a good idea to use SES to model train performance
+
+                         now that train performance programs like OpenTrack, TRAIN etc. exist.
+
+                         This test file exercises a corner case, just to ensure that a suitable
+
+                         error message is raised by SESconv.py when it processes this SES file's
+
+                         output file.
+
+                                    DESIGN TIME 1700 HRS   JULY       2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           2
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+                            AN ENTRY OF ZERO (0) HAS BEEN MADE FOR EACH OF THE FOLLOWING:
+
+                               NUMBER OF LINE SEGMENTS
+
+                               NUMBER OF VENTILATION SHAFTS
+
+                               NUMBER OF SECTIONS
+
+                               NUMBER OF NODES
+
+                               NUMBER OF BRANCHED JUNCTIONS.
+
+                            THIS INDICATES AN AT GRADE TRAIN PERFORMANCE SIMULATION ONLY
+
+
+
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 1
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+
+                            NUMBER OF IMPULSE FAN TYPES                           0
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.91   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07281   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                75.0   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                65.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01088   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    85.0   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    74.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                             29.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     4
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+
+
+                                               TRAIN SCHEDULING DATA
+
+
+TRAIN SCHEDULING ORIGIN                                                                  0.0   FT
+
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                                  1   SECONDS
+
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                               25.0   MPH
+
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+
+
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+
+
+             1                   1                 1                  1                         1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     5
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                  TRACK SECTION DATA                                           FORM 8C
+
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+               (FEET)                      (FEET)          (FEET)       (PERCENT)        (MPH)
+
+
+   1           6000.0         6000.0     50000.0             0.0           0.00          50.00            0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     6
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+
+NUMBER OF SCHEDULED STOPS                                                                  0
+
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     7
+
+
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
+
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+
+    1          0.00       0.0   0.00000     73.33         0       500         0
+    2       6000.00   50000.0   0.00000     73.33         0         0         0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     8
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+
+
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+
+TOTAL LENGTH OF TRAIN                                                                  800.0   FT
+
+FRONTAL AREA OF TRAIN                                                                 130.20   SQ FT
+
+PERIMETER OF CAR                                                                       44.94   FT              FORM 9B
+
+SKIN FRICTION COEFFICIENT                                                             0.0230
+
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                              0.00   SQ FT
+
+FRONT OF TRAIN DRAG COEFFICIENT                                                       0.6000
+
+TRAIN HEAT DATA                                                                                                FORM 9C
+
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    67560.0   BTU/HR PER CAR
+
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                        0.0   BTU/HR PER CAR
+
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR        461.0   BTU/HR PER PATRON
+
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR            0.0   BTU/HR PER PATRON
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                         17.0   KW PER CAR
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.065   KW PER PATRON
+
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                         1763.7                0.0   LB
+
+       EFFECTIVE DIAMETER OF AN ELEMENT                               1.6                1.6   IN.
+
+       EFFECTIVE SURFACE AREA FOR CONVECTION                         21.5               21.5   SQ FT
+
+       EFFECTIVE SURFACE AREA FOR RADIATION                          25.8               25.8   SQ FT
+
+       EMISSIVITY OF RESISTANCE ELEMENT                              0.90               0.90
+
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                          0.120              0.120   BTU/LB-DEG F
+
+       INITIAL GRID TEMPERATURES                                    530.0              980.0   DEG F
+
+A VALUE OF ZERO FOR THE DECELERATION GRID RESISTANCE ELEMENT WEIGHT INDICATES THAT THE HEAT GENERATED FROM TRAIN
+BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     9
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+AVERAGE EMPTY CAR WEIGHT                                                                46.7   TONS            FORM 9E
+
+NUMBER OF MOTORS PER POWERED CAR                                                          2.
+
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                        1.18   LBS/TON
+
+                                           SECOND                                     116.00   LBS
+
+                                           THIRD                                      0.0408   LBS/TON-MPH
+
+ACCELERATION RESISTANCE OF ROTATING PARTS                                                8.8   (LBS/TON)/(MPH/SEC)
+
+                      MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
+
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+
+       WHEEL DIAMETER                                                33.1               33.1   IN.
+
+       GEAR RATIO                                                     4.4                4.4
+
+       SUPPLY VOLTAGE                                              1500.0             1500.0   VOLTS
+
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                   750.0   VOLTS/MOTOR
+
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+
+       TRAIN SPEED                21.7        21.8        48.5        72.1                     MPH             FORM 9G
+
+       TRACTIVE EFFORT         12439.2     12439.2      5620.2      3746.6                     LBS
+
+       MOTOR CURRENT             392.0       392.0       392.0       392.0                     AMPS
+
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    10
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+
+       LINE CURRENT               80.8       581.0       582.0       583.0       584.0         AMPS/POWERED CAR
+
+
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                             92.0   PERCENT
+
+SPEED U1                                                                                49.1   MPH
+
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                           95.0   PERCENT
+
+REGENERATIVE BRAKING EFFECTIVENESS                                                      20.0   PERCENT
+
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+
+
+
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+   (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)  .  (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)
+                                                                .
+     0.0          12439.             392.              81.      .   55.0           4946.             392.             583.
+     5.0          12439.             392.             196.      .   60.0           4526.             392.             584.
+    10.0          12439.             392.             311.      .   65.0           4169.             392.             584.
+    15.0          12439.             392.             427.      .   70.0           3863.             392.             584.
+    20.0          12439.             392.             542.      .   75.0           3597.             392.             584.
+    25.0          10881.             392.             582.      .   80.0           3364.             392.             584.
+    30.0           9091.             392.             582.      .   85.0           3158.             392.             584.
+    35.0           7800.             392.             582.      .   90.0           2975.             392.             584.
+    40.0           6825.             392.             583.      .   95.0           2810.             392.             585.
+    45.0           6062.             392.             583.      .  100.0           2663.             392.             585.
+    50.0           5449.             392.             583.      .  105.0           2529.             392.             585.
+
+
+INTERNAL MOTOR RESISTANCE                                                              0.300   OHMS/MOTOR      FORM 9I
+
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                      2.9   MPH/SEC         FORM 9J
+
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                           2.5   MPH/SEC
+
+SPEED V1                                                                                20.0   MPH
+
+NORMAL DECELERATION RATE AT SPEED V2                                                     2.0   MPH/SEC
+
+SPEED V2                                                                                72.0   MPH
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    11
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1        500          1.00         0         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5            500.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    12
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+
+MAXIMUM SIMULATION TIME                                                                20.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    14
+
+
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    15
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+
+
+TIME      1.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    16
+
+
+TIME      2.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1      1.92   2.76      2.90        5.    2.22       12260.      389.     141.        0.    530.0    980.0   1.093   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       1265170.            0.              0.   613.231     0.000     9.412     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    17
+
+
+TIME      3.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1      8.09   5.65      2.90       23.    2.22       12266.      389.     207.        0.    530.0    980.0   1.163   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       1859076.            0.              0.   658.574     0.000    19.959     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    18
+
+
+TIME      4.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1     18.51   8.55      2.90       51.    2.22       12273.      389.     273.        0.    530.0    980.0   1.234   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       2453800.            0.              0.   704.021     0.000    31.166     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    19
+
+
+TIME      5.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1     33.18  11.45      2.90       92.    2.22       12282.      390.     339.        0.    530.0    980.0   1.305   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       3049489.            0.              0.   749.584     0.000    43.038     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    20
+
+
+TIME      6.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1     52.11  14.36      2.90      145.    2.22       12291.      390.     405.        0.    530.0    980.0   1.378   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       3646292.            0.              0.   795.273     0.000    55.579     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    21
+
+
+TIME      7.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1     75.29  17.26      2.90      210.    2.22       12302.      390.     472.        0.    530.0    980.0   1.452   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       4244352.            0.              0.   841.101     0.000    68.793     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    22
+
+
+TIME      8.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    102.72  20.16      2.90      286.    2.22       12313.      390.     538.        0.    530.0    980.0   1.527   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       4843815.            0.              0.   887.078     0.000    82.683     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    23
+
+
+TIME      9.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    134.41  23.03      2.78      373.    2.22       11825.      392.     582.        0.    530.0    980.0   1.589   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5237201.            0.              0.   922.255     0.000    97.133     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    24
+
+
+TIME     10.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    170.14  25.65      2.49      463.    2.22       10634.      392.     582.        0.    530.0    980.0   1.606   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5236592.            0.              0.   922.209     0.000   110.898     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    25
+
+
+TIME     11.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    209.53  28.03      2.28      553.    2.22        9743.      392.     582.        0.    530.0    980.0   1.622   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5236930.            0.              0.   922.235     0.000   123.862     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    26
+
+
+TIME     12.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    252.26  30.21      2.11      642.    2.22        9044.      392.     582.        0.    530.0    980.0   1.638   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5237662.            0.              0.   922.290     0.000   136.211     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    27
+
+
+TIME     13.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    298.08  32.24      1.97      731.    2.22        8477.      392.     582.        0.    530.0    980.0   1.653   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5238554.            0.              0.   922.358     0.000   148.069     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    28
+
+
+TIME     14.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    346.77  34.15      1.85      820.    2.22        8006.      392.     582.        0.    530.0    980.0   1.667   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5239497.            0.              0.   922.430     0.000   159.523     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    29
+
+
+TIME     15.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    398.18  35.94      1.75      909.    2.22        7605.      392.     582.        0.    530.0    980.0   1.681   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5240440.            0.              0.   922.501     0.000   170.636     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    30
+
+
+TIME     16.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    452.17  37.65      1.67      998.    2.22        7260.      392.     582.        0.    530.0    980.0   1.695   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5241357.            0.              0.   922.571     0.000   181.457     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    31
+
+
+TIME     17.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    508.59  39.28      1.59     1086.    2.22        6958.      392.     582.        0.    530.0    980.0   1.708   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5242236.            0.              0.   922.638     0.000   192.025     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    32
+
+
+TIME     18.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    567.35  40.84      1.53     1173.    2.22        6691.      392.     583.        0.    530.0    980.0   1.721   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5243074.            0.              0.   922.701     0.000   202.369     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    33
+
+
+TIME     19.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    628.35  42.33      1.47     1261.    2.22        6453.      392.     583.        0.    530.0    980.0   1.734   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5243869.            0.              0.   922.761     0.000   212.514     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    34
+
+
+TIME     20.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    691.50  43.77      1.41     1348.    2.22        6239.      392.     583.        0.    530.0    980.0   1.746   0.315
+
+      R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+
+  1   1 1   2      202500.       5244621.            0.              0.   922.819     0.000   222.481     0.000     0.315   0.0000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    35
+
+
+                                            END OF SIMULATION

@@ -1,0 +1,719 @@
+SES VER 4.10        SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,        PAGE:     1
+FILE: SES-082-mean-roughness.ses                                              SIMULATION TIME: 21 JUL 2024 14:59:56
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES v4.1 file with a tunnel with 50% rough perimeter & 50% smooth perimeter,
+                         to illustrate an oddity in SES: SES calculates friction using the mean
+                         roughness height despite knowing how to do a perimeter-weighted calculation.
+                         Friction factor calculated from entries in the input and output files:
+                                   A = 92 m^2
+                                   S = 45 m
+                                 D_h = 4 * A / S = 4 * 92 / 45 = 8.1778 m
+                                   L = 750 m (in segment 102)
+                                 rho = 1.2 kg/m^3   (in the form 1F printout)
+                                  DP = 3.923 Pa     (in segment 102 at the final timestep)
+                                   v = 1.617 m/s    (in segment 102 at the final timestep)
+                                  DP = 0.5 rho v^2 lambda L / D_h
+                           -> lambda = 2 D_h DP / (L rho v^2)
+                                     = 2 * 8.1778 * 3.923 / (750 * 1.2 * 1.617^2)
+                                     = 0.0273
+                         From the printout of form 3C:
+                             Fully turbulent friction factor (from average roughness)   0.027
+                             Average of individual wall friction factors                0.0227
+                         So SES must be calculating with the friction factor from mean roughness.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           3
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0
+                            NUMBER OF LINE SEGMENTS                               2                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              2
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+                            NUMBER OF NODES                                       3
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+                            NUMBER OF FAN TYPES                                   0
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           1
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      21.056   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      16.667   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101321.8   Pa
+  AMBIENT AIR DENSITY                                                                    1.2   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01002   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              64.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                 21.   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              16.667   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01006   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              65.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                     21.   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  16.667   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01006   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              65.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                               5.   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+                          102             102            103              1               0.
+                      INTERNAL-EXTERNAL SECTION-NODE REFERENCE TABLES
+   INTERNAL                 EXTERNAL                 BACKWARD                   FORWARD
+   SECTION                  SECTION                  AERO NODE                 AERO NODE
+   --------                 --------                 ---------                 ---------
+                            (TABL11)                 (TABL12)                  (TABL13)
+       1                      101                        1                         2
+       2                      102                        2                         3
+   INTERNAL                 EXTERNAL             NO. OF SECTIONS           INTERNAL SECTIONS
+     NODE                     NODE               ADJACENT TO NODE          ADJACENT TO NODE*
+   --------                 --------             ----------------          -----------------
+                            (TABL15)                 (TABL16)                  (TABL17)
+       1                      101                        1                  -1
+       2                      102                        2                   1   -2
+       3                      103                        1                   2
+                   * NOTE - ORDER OF ENTRIES MAY BE CHANGED BY JINS
+   EXTERNAL                 INTERNAL                 INTERNAL
+   SECTION                  SECTION                    NODE
+   OR NODE                  (TABL14)                 (TABL19)
+   --------                 --------                 --------
+     101                        1                        1
+     102                        2                        2
+     103                        0                        3
+                                       LOOP TABLE
+ LOOP     EXTERNAL NUMBERS OF SECTIONS
+          ----------------------------------------------------
+NUMBER    INTERNAL NUMBERS OF SECTIONS-CONTAINED IN ARRAY LOOP
+   1      -101 -102
+            -1   -2
+   HALF-BANDWIDTH OF AERODYNAMIC RESPONSE MATRIX =  1
+   ARRAY BLP DATA     1 ELEMENTS REQUIRED
+                  20000 ELEMENTS AVAILABLE
+                                              CONTINUITY TABLE
+INTERNAL  EXTERNAL  STORAGE LOCATIONS   LOOPS THAT PASS THROUGH SECTION - SIGN SHOWS DIRECTION WITH RESPECT TO SECTION
+SECTION   SECTION     IN ARRAY LKAN
+NUMBER    NUMBER      FROM       TO
+   1       101           1        1     -1
+   2       102           2        2     -1
+                TABLES OF LOOPS PASSING THROUGH BRANCHED JUNCTIONS
+        INTERNAL  EXTERNAL   LOOP      FROM SECTION         TO SECTION
+          NODE      NODE    NUMBER  INTERNAL  EXTERNAL  INTERNAL  EXTERNAL
+         NUMBER    NUMBER            NUMBER    NUMBER    NUMBER    NUMBER
+            1       101     STRAIGHT-THROUGH JUNCTION OR PORTAL
+            2       102     STRAIGHT-THROUGH JUNCTION OR PORTAL
+            3       103     STRAIGHT-THROUGH JUNCTION OR PORTAL
+                                                    FLOW INITIALIZATION CHECK
+    INTERNAL SECTION AIRFLOW RATE (CFM)
+    -----------------------------------
+              0.0         0.0
+    LOOP AIRFLOW RATE (CFS)
+    -----------------------
+           -0.000
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Short tunnel with a jet fan and fric                   FORM 3A
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+LENGTH                                                                                  750.   m
+CROSS SECTION AREA                                                                  92.00188   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS       22.494  22.494                                                   TOTAL PERIMETER      44.988  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.04999 0.00101                                                   ROUGHNESS LENGTH    0.02551  m
+   HYDRAULIC DIAMETER                                                                  8.169   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                            0.027
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     30
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    30           21.056          21.056         16.667
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Short tunnel with friction only                        FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                  750.   m
+CROSS SECTION AREA                                                                  92.00188   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS       22.494  22.494                                                   TOTAL PERIMETER      44.988  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.04999 0.00101                                                   ROUGHNESS LENGTH    0.02551  m
+   HYDRAULIC DIAMETER                                                                  8.169   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                            0.027
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     30
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    30           21.056          21.056         16.667
+                                    SUBSEGMENTS ADJACENT TO THE NODE
+   INTERNAL            EXTERNAL            NO. OF SECTIONS                SUBSEGMENTS ADJACENT TO NODE
+     NODE                NODE              ADJACENT TO NODE         (ORDER OF ENTRIES MAY BE CHANGED BY JINS)
+   --------            --------            ----------------         -----------------------------------------
+                       (TABL15)                (TABL16)                             (TABL18)
+       1                 101                       1                         1
+       2                 102                       2                        30     31
+       3                 103                       1                        60
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      21.056   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      16.667   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01002   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              103                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      21.056   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      16.667   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01002   kg/kg OF DRY AIR
+                                    DUMP OF TABLES RELATED TO AERO AND THERMO PHENOMENA
+                                                                      (ORDER OF ENTRIES MAY HAVE BEEN CHANGED BY JINS)
+   INTERNAL            EXTERNAL            NO. OF SECTIONS             INTERNAL SECTIONS              SUBSEGMENTS
+     NODE                NODE              ADJACENT TO NODE            ADJACENT TO NODE             ADJACENT TO NODE
+   --------            --------            ----------------            -----------------            ----------------
+                       (TABL15)                (TABL16)                    (TABL17)                     (TABL18)
+       1                 101                       1                   -1
+                                                                                                      1
+       2                 102                       2                    1   -2
+                                                                                                     30   31
+       3                 103                       1                    2
+                                                                                                     60
+   INTERNAL            EXTERNAL                       (BACKWARD THERMO SUBNODE)                  (FORWARD THERMO SUBNODE)
+   SECTION             SECTION                           NUMBER       BRANCH                        NUMBER      BRANCH
+   --------            --------            --------   -----------   -----------       --------   -----------  -----------
+                       (TABL11)            (TABL20)                                   (TABL21)
+       1                 101                   65           1            1               129          2            1
+       2                 102                  130           2            2               193          3            1
+FIRST DUMP OF TABL1
+    1    1    1    1
+FIRST DUMP OF TABL2
+    0
+COMBINED DUMP OF TABL1 AND TABL2
+   1   0
+   1   0
+   1   0
+FIRST DUMP OF TABL23
+    1    1    1    1
+FIRST DUMP OF COAEND
+     0.0000
+COMBINED DUMP OF TABL23 AND COAEND
+    1    0
+    1    0
+    1    0
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+                       IMPULSE FAN VOLUME FLOW RATE                            30.195   m^3/s
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)                0.7
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                      30.   m/s
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON         0.   SEC
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF     9999.   SEC
+                       Jet fan static thrust (at 1.2 kg/m^3)                     1087.0   N
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+                                               TRAIN SCHEDULING DATA
+TRAIN SCHEDULING ORIGIN                                                                   0.   m
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              67.59   km/h
+ROUTE COASTING OPTION                                                                      1   ACCELERATE FROM
+                                                                                               MINIMUM SPEED
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+             1                   1                 1               9999                      9999
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                  TRACK SECTION DATA                                           FORM 8C
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+                 (m)            (m)         (m)              (m)        (percent)       (km/h)
+   1          1569.72        1569.72                          0.             0.            80.            1
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+NUMBER OF SCHEDULED STOPS                                                                  0
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                        2
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                               0.   m
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER                 (m)               (m)
+                           101                 101                     0.    TO     749.991
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+    1          0.00       0.0   0.00000     72.91         0         2         0
+    2       2460.63       0.0   0.00000     72.91         0         0       129
+    3       5150.00       0.0   0.00000     72.91         0         0         1
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+TOTAL LENGTH OF TRAIN                                                                215.006   m
+FRONTAL AREA OF TRAIN                                                                12.0997   m^2
+PERIMETER OF CAR                                                                      13.701   m               FORM 9B
+SKIN FRICTION COEFFICIENT                                                              0.023
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                                0.   m^2
+FRONT OF TRAIN DRAG COEFFICIENT                                                          0.6
+TRAIN HEAT DATA                                                                                                FORM 9C
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    19782.4   W      PER CAR
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                      967.7   W      PER CAR
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR        120.1   W      PER PATRON
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR           28.4   W      PER PATRON
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                          17.   KW PER CAR
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                        0.14   KW PER PATRON
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                          417.4              346.4   kg
+       EFFECTIVE DIAMETER OF AN ELEMENT                            0.0737             0.0406   m
+       EFFECTIVE SURFACE AREA FOR CONVECTION                         3.01              1.997   m^2
+       EFFECTIVE SURFACE AREA FOR RADIATION                         2.899              2.397   m^2
+       EMISSIVITY OF RESISTANCE ELEMENT                              0.82                0.9
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                         501.97            920.278   J/kg-K
+       INITIAL GRID TEMPERATURES                                  148.889            416.667   deg C
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+AVERAGE EMPTY CAR WEIGHT                                                              42.366   tonnes          FORM 9E
+NUMBER OF MOTORS PER POWERED CAR                                                           2
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0058   N/kg
+                                                                                 =    5.7859   N/tonne
+                                                                                 =     1.180   lb/ton
+                                           SECOND                                       516.   N
+                                           THIRD                                    0.000448   N/(kg-m/s)
+                                                                              =    0.4475111   N/(tonne-m/s)
+                                                                              = 0.1243086364   N/(tonne-kph)
+                                                                              =  0.000124309   N/(kg-kph)
+                                                                              =      0.04080   lb/ton-mph
+ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.98   % tare mass
+                                                                                 =   4227.26   kg/car
+                                                                                 =     9.100   (lb/ton)/(mph/s)
+                      MOTOR TYPE   A pair of 19 kN, 210 kW motors                                              FORM 9F
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+       WHEEL DIAMETER                                              0.8407             0.8382   m
+       GEAR RATIO                                                     4.4                4.3
+       SUPPLY VOLTAGE                                               1500.              1499.   VOLTS
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                    740.   VOLTS/MOTOR
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+       TRAIN SPEED              36.532      36.693      74.352     113.942                     km/h             FORM 9G
+       TRACTIVE EFFORT        37072.76    37072.76    18478.77    12071.12                     N
+       MOTOR CURRENT              392.        390.        366.        358.                     AMPS
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+       LINE CURRENT               80.8        832.        791.        789.        770.         AMPS/POWERED CAR
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                              90.   percent
+SPEED U1                                                                              79.019   km/h
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                            94.   percent
+REGENERATIVE BRAKING EFFECTIVENESS                                                       22.   percent
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+  (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)  . (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)
+                                                                .
+      0.         36341.9             392.              81.      . 88.514         15524.3             363.             782.
+   8.047         36341.9             392.             243.      . 96.561         14234.3             361.             778.
+  16.093         36341.9             392.             405.      . 104.61          13140.             360.             775.
+   24.14         36341.9             392.             568.      . 112.65         12201.5             358.             771.
+  32.187         36341.9             392.             730.      .  120.7         11387.4             357.             768.
+  40.234          33842.             387.             784.      . 128.75         10671.3             357.             766.
+   48.28         28295.1             379.             784.      . 136.79         10044.1             356.             763.
+  56.327         24309.5             374.             784.      . 144.84          9483.6             355.             761.
+  64.374         21302.5             370.             784.      . 152.89          8980.9             354.             758.
+   72.42         18953.8             367.             784.      . 160.93          8527.2             354.             756.
+  80.467         17067.8             365.             784.      . 168.98           8118.             353.             755.
+INTERNAL MOTOR RESISTANCE                                                              0.001   OHMS/MOTOR      FORM 9I
+Hobyah freebie: a table of traction efficiencies
+                                    Power delivered at wheel-rail interface
+    Traction efficiency = ----------------------------------------------------------
+                          Power delivered at wheel-rail interface + loss in traction
+
+ Speed     Tractive     Power at      Loss in       Efficiency
+            effort       wheels      traction      of traction
+(km/h)    (N/train)     (W/train)    (W/train)         (%)
+   0.00     436103             0        74695          0.00
+   8.05     436103        974777       220398         81.56
+  16.09     436103       1949555       366101         84.19
+  24.14     436103       2924332       512703         85.08
+  32.19     436103       3899110       658406         85.55
+  40.23     406104       4538621       706927         86.52
+  48.28     339541       4553654       706853         86.56
+  56.33     291714       4564273       706808         86.59
+  64.37     255630       4571074       706772         86.61
+  72.42     227446       4575488       706746         86.62
+  80.47     204814       4577994       424676         91.51
+  88.51     186291       4580380       423580         91.54
+  96.56     170811       4581573       421404         91.58
+ 104.61     157680       4581812       419776         91.61
+ 112.65     146417       4581812       417600         91.65
+ 120.70     136649       4581573       415973         91.68
+ 128.75     128055       4579664       414894         91.69
+ 136.79     120529       4579903       413266         91.72
+ 144.84     113803       4578710       412178         91.74
+ 152.89     107771       4576920       410551         91.77
+ 160.93     102327       4574414       409472         91.78
+ 168.98      97416       4572625       408924         91.79
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                    1.296   m/s^2           FORM 9J
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                         1.118   m/s^2
+SPEED V1                                                                              32.187   km/h
+NORMAL DECELERATION RATE AT SPEED V2                                                   0.894   m/s^2
+SPEED V2                                                                             115.873   km/h
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+TEMPERATURE TABULATION INCREMENT                                                       2.778   deg C
+NUMBER OF CONTROL GROUPS                                                                   1
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+     1         30          100.         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5             3000.
+                                                   PROGRAM CONTROLS                                            FORM 13
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+MAXIMUM SIMULATION TIME                                                                3000.   SECONDS
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101       0.   102       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101             0.       0.
+  102 -102             0.       0.
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    4.085   102   -4.085
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         40.894    0.445
+  102 -102         40.894    0.445
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    4.033   102   -4.033
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         75.748    0.823
+  102 -102         75.748    0.823
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.995   102   -3.995
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        101.993    1.108
+  102 -102        101.993    1.108
+TIME    400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.968   102   -3.968
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        119.972    1.304
+  102 -102        119.972    1.304
+TIME    500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.951   102   -3.951
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        131.505     1.43
+  102 -102        131.505     1.43
+TIME    600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.938   102   -3.938
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        138.594    1.506
+  102 -102        138.594    1.506
+TIME    700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.933   102   -3.933
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        142.838    1.552
+  102 -102        142.838    1.552
+TIME    800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.928   102   -3.928
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        145.339     1.58
+  102 -102        145.339     1.58
+TIME    900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.928   102   -3.928
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        146.799    1.596
+  102 -102        146.799    1.596
+TIME   1000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.926   102   -3.926
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        147.646    1.605
+  102 -102        147.646    1.605
+TIME   1100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.926   102   -3.926
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.136     1.61
+  102 -102        148.136     1.61
+TIME   1200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.926   102   -3.926
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         148.42    1.613
+  102 -102         148.42    1.613
+TIME   1300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.583    1.615
+  102 -102        148.583    1.615
+TIME   1400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.677    1.616
+  102 -102        148.677    1.616
+TIME   1500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.732    1.616
+  102 -102        148.732    1.616
+TIME   1600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.763    1.617
+  102 -102        148.763    1.617
+TIME   1700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.781    1.617
+  102 -102        148.781    1.617
+TIME   1800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.791    1.617
+  102 -102        148.791    1.617
+TIME   1900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.797    1.617
+  102 -102        148.797    1.617
+TIME   2000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.801    1.617
+  102 -102        148.801    1.617
+TIME   2100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.803    1.617
+  102 -102        148.803    1.617
+TIME   2200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.804    1.617
+  102 -102        148.804    1.617
+TIME   2300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.804    1.617
+  102 -102        148.804    1.617
+TIME   2400.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   2500.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   2600.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   2700.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   2800.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   2900.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+TIME   3000.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+               Section pressure changes at system air density ( section number and total pressure change - Pa )
+               ------------------------------------------------------------------------------------------------
+   101    3.923   102   -3.923
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        148.805    1.617
+  102 -102        148.805    1.617
+                                            END OF SIMULATION

@@ -1,0 +1,241 @@
+SES VER 4.10                        SES file for raising a fault in SESconv.py.                         PAGE:     1
+FILE: SES-fault-8161-zero-for-branches.ses                                    SIMULATION TIME: 28 JUN 2024 10:42:06
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         SES file for raising a fault in SESconv.py.
+                         A file that has junctions that have pressure losses, but the count of
+                         branched junctions is set to zero, so the pressures across junctions
+                         are all set to zero.
+                                    DESIGN TIME 1700 HRS   JULY       2020
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0
+                            NUMBER OF LINE SEGMENTS                               4                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              5
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+                            NUMBER OF NODES                                       6
+                            NUMBER OF BRANCHED JUNCTIONS                          0
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+                            NUMBER OF FAN TYPES                                   0
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       2
+                            NUMBER OF IMPULSE FAN TYPES                           2
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      29.444   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                                  1.166   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  23.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                            16.11   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+                          102             102            103              1               0.
+                          103             103            104              1               0.
+                          104             104            105              1               0.
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+                          901             103            901                              0.
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Left side tunnel (jet fan)                             FORM 3A
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+LENGTH                                                                                 304.8   m
+CROSS SECTION AREA                                                                  17.65158   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        15.24                                                           TOTAL PERIMETER       15.24  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  4.633   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                     0.5                   1.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     15
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    15           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Left side of cavern                                    FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 152.4   m
+CROSS SECTION AREA                                                                  65.03213   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        45.72                                                           TOTAL PERIMETER       45.72  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                    5.7   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                      6
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     6           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  103 -103           Right side of cavern                                   FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                 152.4   m
+CROSS SECTION AREA                                                                  65.03213   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        45.72                                                           TOTAL PERIMETER       45.72  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                    5.7   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                      6
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     6           29.444          29.444         23.333
+INPUT VERIFICATION FOR LINE SEGMENT  104 -104            Right side tunnel (jet fan)                           FORM 3A
+LINE SEGMENT TYPE                                                                         10   (SPECIAL TUNNEL)
+LENGTH                                                                                 304.8   m
+CROSS SECTION AREA                                                                  17.65158   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        15.24                                                           TOTAL PERIMETER       15.24  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  4.633   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      1.                  0.5
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     15
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    15           29.444          29.444         23.333
+INPUT VERIFICATION FOR VENTILATION SHAFT  901 -901     Cavern shaft                                            FORM 5A
+SECTION TYPE                                                                               1   (VENTILATION SHAFT)
+NUMBER OF SEGMENTS IN THIS VENT SHAFT                                                      1                   FORM 5B
+NUMBER OF SUBSEGMENTS IN RESULTING EQUIVALENT VENT SHAFT                                   1
+GRATE FREE AREA                                                                      46.4515   m^2
+DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                            7.62   m/s
+WALL SURFACE TEMPERATURE                                                              27.778   deg C
+INITIAL AIR DRY-BULB TEMPERATURE                                                      29.444   deg C
+INITIAL AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+STACK HEIGHT                                                                          24.384   m
+SEGMENT CHARACTERISTICS                                                                                        FORM 5D
+                                                                    SEGMENT TOTAL HEAD LOSS COEFFICIENTS
+                LENGTH          AREA         PERIMETER          FORWARD    FORWARD       BACKWARD   BACKWARD
+                 (m)            (m^2)           (m)             POSITIVE   NEGATIVE      POSITIVE   NEGATIVE
+        1      24.384         27.8709         24.384               1.5        1.5            0.         0.
+EQUIVALENT VENTILATION SHAFT PROPERTIES
+     LENGTH                 24.384   m                           TOTAL HEAD CHANGE COEFFICIENTS
+     AREA                  27.8709   m^2                  POSITIVE FLOW            1.5
+     PERIMETER              24.384   m                    NEGATIVE FLOW            1.5
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              103                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      3   'T' JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+BRANCH NUMBER  1                                                         SECTION NUMBER  102
+BRANCH NUMBER  2                                                         SECTION NUMBER  103
+BRANCH NUMBER  3                                                         SECTION NUMBER  901
+JUNCTION ASPECT RATIO                                                                     1.
+NODE NUMBER                                                                              104                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              105                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              901                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR

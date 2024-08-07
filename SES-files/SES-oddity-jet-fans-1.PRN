@@ -1,0 +1,8254 @@
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file for illustrating undocumented behaviour of jet fans.
+
+                         A contrived example for a set of notes on some oddities in SES.
+
+                         Jet fans are located at the back end of the segment and experience
+
+                         the conditions in the annulus around any trains crossing the back
+
+                         end boundary.
+
+                         In this file the trains do not cross boundaries and the airflow
+
+                         in the tunnels is symmetric.
+
+                                    DESIGN TIME 1700 HRS   JULY       2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+
+                            NUMBER OF LINE SEGMENTS                               4                            FORM 1D
+
+                            TOTAL NUMBER OF SECTIONS                              5
+
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+
+                            NUMBER OF NODES                                       6
+
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+
+                            NUMBER OF FAN TYPES                                   0
+
+
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 1
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       2
+
+                            NUMBER OF IMPULSE FAN TYPES                           2
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.91   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07281   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                75.0   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                65.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01088   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    85.0   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    74.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                             29.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            102              1               0.
+
+                          102             102            103              1               0.
+
+                          103             103            104              1               0.
+
+                          104             104            105              1               0.
+
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+
+                          901             103            901                              0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     5
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Left side tunnel (jet fan)                             FORM 3A
+
+LINE SEGMENT TYPE                                                                          9   (SPECIAL TUNNEL)
+
+LENGTH                                                                               1000.00   FT
+
+CROSS SECTION AREA                                                                     190.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         50.0                                                           TOTAL PERIMETER        50.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   15.2   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     15
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    15             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     6
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  102 -102           Left side of cavern                                    FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                500.00   FT
+
+CROSS SECTION AREA                                                                     700.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        150.0                                                           TOTAL PERIMETER       150.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   18.7   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      6
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     6             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     7
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  103 -103           Right side of cavern                                   FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                                500.00   FT
+
+CROSS SECTION AREA                                                                     700.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS        150.0                                                           TOTAL PERIMETER       150.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   18.7   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01071
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0387
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                      6
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU     6             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     8
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  104 -104            Right side tunnel (jet fan)                           FORM 3A
+
+LINE SEGMENT TYPE                                                                         10   (SPECIAL TUNNEL)
+
+LENGTH                                                                               1000.00   FT
+
+CROSS SECTION AREA                                                                     190.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         50.0                                                           TOTAL PERIMETER        50.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   15.2   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    1.00                 0.50
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     15
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    15             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:     9
+
+
+INPUT VERIFICATION FOR VENTILATION SHAFT  901 -901     Cavern shaft                                            FORM 5A
+
+SECTION TYPE                                                                               1   (VENTILATION SHAFT)
+
+NUMBER OF SEGMENTS IN THIS VENT SHAFT                                                      1                   FORM 5B
+
+NUMBER OF SUBSEGMENTS IN RESULTING EQUIVALENT VENT SHAFT                                   1
+
+GRATE FREE AREA                                                                        500.0   SQ FT
+
+DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                           1500.   FPM
+
+WALL SURFACE TEMPERATURE                                                                82.0   DEG F
+
+INITIAL AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F
+
+INITIAL AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+STACK HEIGHT                                                                            80.0   FT
+
+SEGMENT CHARACTERISTICS                                                                                        FORM 5D
+                                                                    SEGMENT TOTAL HEAD LOSS COEFFICIENTS
+
+                LENGTH          AREA         PERIMETER          FORWARD    FORWARD       BACKWARD   BACKWARD
+                 (FT)          (SQ FT)          (FT)            POSITIVE   NEGATIVE      POSITIVE   NEGATIVE
+
+        1        80.0           300.0           80.0              1.50       1.50          0.00       0.00
+
+EQUIVALENT VENTILATION SHAFT PROPERTIES
+
+     LENGTH                   80.0   FT                          TOTAL HEAD CHANGE COEFFICIENTS
+
+     AREA                    300.0   SQ FT                POSITIVE FLOW           1.50
+
+     PERIMETER                80.0   FT                   NEGATIVE FLOW           1.50
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    10
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    11
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              103                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+NODE NUMBER                                                                              104                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    12
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              105                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              901                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    13
+
+
+                                      INPUT VERIFICATION OF IMPULSE FAN DATA
+
+
+
+                       IMPULSE FAN TYPE                                                   1                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                              9
+
+                       IMPULSE FAN VOLUME FLOW RATE                           90000.0   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                  -5900.0   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    9999.0   SEC
+
+
+
+                       IMPULSE FAN TYPE                                                   2                    FORM 7C
+                       FOR LINE SEGMENT TYPE                                             10
+
+                       IMPULSE FAN VOLUME FLOW RATE                           90000.0   CFM
+
+                       IMPULSE FAN PRESSURE EFFICIENCY
+                       (RATIO OF ACTUAL/THEORETICAL PRESSURE RISE)               0.75
+
+                       IMPULSE FAN NOZZLE DISCHARGE VELOCITY                   5900.0   FPM
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES ON        0.0   SEC
+
+                       SIMULATION TIME AFTER WHICH IMPULSE FAN SWITCHES OFF    9999.0   SEC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    14
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+
+
+                                               TRAIN SCHEDULING DATA
+
+
+TRAIN SCHEDULING ORIGIN                                                                  0.0   FT
+
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                               5000   SECONDS
+
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                               25.0   MPH
+
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+
+
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+
+
+             1                   1                 1               5000                      5000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    15
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                  TRACK SECTION DATA                                           FORM 8C
+
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+               (FEET)                      (FEET)          (FEET)       (PERCENT)        (MPH)
+
+
+   1           6000.0         6000.0     50000.0             0.0           0.00          50.00            0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    16
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+
+NUMBER OF SCHEDULED STOPS                                                                  0
+
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    17
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+
+
+
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              4
+
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                              0.0   FT
+
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER               (FEET)            (FEET)
+
+
+                           101                 101                    0.0    TO      1000.0
+
+                           102                 102                 1000.0    TO      1500.0
+
+                           103                 103                 1500.0    TO      2000.0
+
+                           104                 104                 2000.0    TO      3000.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    18
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+
+
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+
+TOTAL LENGTH OF TRAIN                                                                  800.0   FT
+
+FRONTAL AREA OF TRAIN                                                                 130.20   SQ FT
+
+PERIMETER OF CAR                                                                       44.94   FT              FORM 9B
+
+SKIN FRICTION COEFFICIENT                                                             0.0230
+
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                              0.00   SQ FT
+
+FRONT OF TRAIN DRAG COEFFICIENT                                                       0.6000
+
+TRAIN HEAT DATA                                                                                                FORM 9C
+
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    67560.0   BTU/HR PER CAR
+
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                        0.0   BTU/HR PER CAR
+
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR        461.0   BTU/HR PER PATRON
+
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR            0.0   BTU/HR PER PATRON
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                         17.0   KW PER CAR
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.065   KW PER PATRON
+
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                         1763.7                0.0   LB
+
+       EFFECTIVE DIAMETER OF AN ELEMENT                               1.6                1.6   IN.
+
+       EFFECTIVE SURFACE AREA FOR CONVECTION                         21.5               21.5   SQ FT
+
+       EFFECTIVE SURFACE AREA FOR RADIATION                          25.8               25.8   SQ FT
+
+       EMISSIVITY OF RESISTANCE ELEMENT                              0.90               0.90
+
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                          0.120              0.120   BTU/LB-DEG F
+
+       INITIAL GRID TEMPERATURES                                    530.0              980.0   DEG F
+
+A VALUE OF ZERO FOR THE DECELERATION GRID RESISTANCE ELEMENT WEIGHT INDICATES THAT THE HEAT GENERATED FROM TRAIN
+BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    19
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+AVERAGE EMPTY CAR WEIGHT                                                                46.7   TONS            FORM 9E
+
+NUMBER OF MOTORS PER POWERED CAR                                                          2.
+
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                        1.18   LBS/TON
+
+                                           SECOND                                     116.00   LBS
+
+                                           THIRD                                      0.0408   LBS/TON-MPH
+
+ACCELERATION RESISTANCE OF ROTATING PARTS                                                8.8   (LBS/TON)/(MPH/SEC)
+
+                      MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
+
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+
+       WHEEL DIAMETER                                                33.1               33.1   IN.
+
+       GEAR RATIO                                                     4.4                4.4
+
+       SUPPLY VOLTAGE                                              1500.0             1500.0   VOLTS
+
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                   750.0   VOLTS/MOTOR
+
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+
+       TRAIN SPEED                21.7        21.8        48.5        72.1                     MPH             FORM 9G
+
+       TRACTIVE EFFORT         12439.2     12439.2      5620.2      3746.6                     LBS
+
+       MOTOR CURRENT             392.0       392.0       392.0       392.0                     AMPS
+
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    20
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+
+
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+
+       LINE CURRENT               80.8       581.0       582.0       583.0       584.0         AMPS/POWERED CAR
+
+
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                             92.0   PERCENT
+
+SPEED U1                                                                                49.1   MPH
+
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                           95.0   PERCENT
+
+REGENERATIVE BRAKING EFFECTIVENESS                                                      20.0   PERCENT
+
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+
+
+
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+   (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)  .  (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)
+                                                                .
+     0.0          12439.             392.              81.      .   55.0           4946.             392.             583.
+     5.0          12439.             392.             196.      .   60.0           4526.             392.             584.
+    10.0          12439.             392.             311.      .   65.0           4169.             392.             584.
+    15.0          12439.             392.             427.      .   70.0           3863.             392.             584.
+    20.0          12439.             392.             542.      .   75.0           3597.             392.             584.
+    25.0          10881.             392.             582.      .   80.0           3364.             392.             584.
+    30.0           9091.             392.             582.      .   85.0           3158.             392.             584.
+    35.0           7800.             392.             582.      .   90.0           2975.             392.             584.
+    40.0           6825.             392.             583.      .   95.0           2810.             392.             585.
+    45.0           6062.             392.             583.      .  100.0           2663.             392.             585.
+    50.0           5449.             392.             583.      .  105.0           2529.             392.             585.
+
+
+INTERNAL MOTOR RESISTANCE                                                              0.300   OHMS/MOTOR      FORM 9I
+
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                      2.9   MPH/SEC         FORM 9J
+
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                           2.5   MPH/SEC
+
+SPEED V1                                                                                20.0   MPH
+
+NORMAL DECELERATION RATE AT SPEED V2                                                     2.0   MPH/SEC
+
+SPEED V2                                                                                72.0   MPH
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    21
+
+
+                                   INPUT VERIFICATION OF TRAIN INITIALIZATION DATA                             FORM 10
+
+
+NUMBER OF TRAINS IN OPERATION AT INITIALIZATION    2
+
+                                                                       ACCELERATION   DECELERATION      REMAINING
+TRAIN         LOCATION        TRAIN         ROUTE           TRAIN          GRID           GRID            DWELL
+NUMBER        ON ROUTE        SPEED         NUMBER          TYPE       TEMPERATURE    TEMPERATURE         TIME       COASTING
+               (FEET)         (MPH)                                      (DEG F)        (DEG F)         (SECONDS)
+
+
+
+   1           999.00          0.00           1               1           85.00          85.00            900.0
+
+   2          2801.00          0.00           1               1           85.00          85.00            900.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    22
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1        100          5.00         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5            500.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    23
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+
+MAXIMUM SIMULATION TIME                                                               500.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    25
+
+
+TIME      0.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00        0.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00        0.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
+  102 -102            0.0      0.0
+  103 -103            0.0      0.0
+  104 -104            0.0      0.0
+  901 -901            0.0      0.0
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    26
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+
+
+TIME      5.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      151.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -151.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -10483.0    -55.2
+  102 -102       -10483.0    -15.0
+  103 -103        10483.0     15.0
+  104 -104        10483.0     55.2
+  901 -901       -20966.0    -69.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    27
+
+
+TIME     10.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      161.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -161.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -18221.6    -95.9
+  102 -102       -18221.6    -26.0
+  103 -103        18221.6     26.0
+  104 -104        18221.6     95.9
+  901 -901       -36443.2   -121.5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    28
+
+
+TIME     15.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      170.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -170.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -22754.4   -119.8
+  102 -102       -22754.4    -32.5
+  103 -103        22754.4     32.5
+  104 -104        22754.4    119.8
+  901 -901       -45508.8   -151.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    29
+
+
+TIME     20.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      175.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -175.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -25063.4   -131.9
+  102 -102       -25063.4    -35.8
+  103 -103        25063.4     35.8
+  104 -104        25063.4    131.9
+  901 -901       -50126.9   -167.1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    30
+
+
+TIME     25.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      177.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -177.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -26156.2   -137.7
+  102 -102       -26156.2    -37.4
+  103 -103        26156.2     37.4
+  104 -104        26156.2    137.7
+  901 -901       -52312.5   -174.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    31
+
+
+TIME     30.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      178.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -178.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -26655.4   -140.3
+  102 -102       -26655.4    -38.1
+  103 -103        26655.4     38.1
+  104 -104        26655.4    140.3
+  901 -901       -53310.8   -177.7
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    32
+
+
+TIME     35.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -26879.7   -141.5
+  102 -102       -26879.7    -38.4
+  103 -103        26879.7     38.4
+  104 -104        26879.7    141.5
+  901 -901       -53759.4   -179.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    33
+
+
+TIME     40.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -26979.8   -142.0
+  102 -102       -26979.8    -38.5
+  103 -103        26979.8     38.5
+  104 -104        26979.8    142.0
+  901 -901       -53959.5   -179.9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    34
+
+
+TIME     45.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27024.2   -142.2
+  102 -102       -27024.2    -38.6
+  103 -103        27024.2     38.6
+  104 -104        27024.2    142.2
+  901 -901       -54048.5   -180.2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    35
+
+
+TIME     50.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27044.0   -142.3
+  102 -102       -27044.0    -38.6
+  103 -103        27044.0     38.6
+  104 -104        27044.0    142.3
+  901 -901       -54088.0   -180.3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    36
+
+
+TIME     55.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27052.8   -142.4
+  102 -102       -27052.8    -38.6
+  103 -103        27052.8     38.6
+  104 -104        27052.8    142.4
+  901 -901       -54105.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    37
+
+
+TIME     60.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27056.6   -142.4
+  102 -102       -27056.6    -38.7
+  103 -103        27056.6     38.7
+  104 -104        27056.6    142.4
+  901 -901       -54113.3   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    38
+
+
+TIME     65.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27058.4   -142.4
+  102 -102       -27058.4    -38.7
+  103 -103        27058.4     38.7
+  104 -104        27058.4    142.4
+  901 -901       -54116.7   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    39
+
+
+TIME     70.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.1   -142.4
+  102 -102       -27059.1    -38.7
+  103 -103        27059.1     38.7
+  104 -104        27059.1    142.4
+  901 -901       -54118.2   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    40
+
+
+TIME     75.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.5   -142.4
+  102 -102       -27059.5    -38.7
+  103 -103        27059.5     38.7
+  104 -104        27059.5    142.4
+  901 -901       -54118.9   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    41
+
+
+TIME     80.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.6   -142.4
+  102 -102       -27059.6    -38.7
+  103 -103        27059.6     38.7
+  104 -104        27059.6    142.4
+  901 -901       -54119.2   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    42
+
+
+TIME     85.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.4   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    43
+
+
+TIME     90.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.4   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    44
+
+
+TIME     95.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.4   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    45
+
+
+TIME    100.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    46
+
+
+TIME    105.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    47
+
+
+TIME    110.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    48
+
+
+TIME    115.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    49
+
+
+TIME    120.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    50
+
+
+TIME    125.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    51
+
+
+TIME    130.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    52
+
+
+TIME    135.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    53
+
+
+TIME    140.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    54
+
+
+TIME    145.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    55
+
+
+TIME    150.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    56
+
+
+TIME    155.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    57
+
+
+TIME    160.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    58
+
+
+TIME    165.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    59
+
+
+TIME    170.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    60
+
+
+TIME    175.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    61
+
+
+TIME    180.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    62
+
+
+TIME    185.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    63
+
+
+TIME    190.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    64
+
+
+TIME    195.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    65
+
+
+TIME    200.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    66
+
+
+TIME    205.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    67
+
+
+TIME    210.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    68
+
+
+TIME    215.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    69
+
+
+TIME    220.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    70
+
+
+TIME    225.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    71
+
+
+TIME    230.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    72
+
+
+TIME    235.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    73
+
+
+TIME    240.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    74
+
+
+TIME    245.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    75
+
+
+TIME    250.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    76
+
+
+TIME    255.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    77
+
+
+TIME    260.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    78
+
+
+TIME    265.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    79
+
+
+TIME    270.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    80
+
+
+TIME    275.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    81
+
+
+TIME    280.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    82
+
+
+TIME    285.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    83
+
+
+TIME    290.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    84
+
+
+TIME    295.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    85
+
+
+TIME    300.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    86
+
+
+TIME    305.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    87
+
+
+TIME    310.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    88
+
+
+TIME    315.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    89
+
+
+TIME    320.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    90
+
+
+TIME    325.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    91
+
+
+TIME    330.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    92
+
+
+TIME    335.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    93
+
+
+TIME    340.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    94
+
+
+TIME    345.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    95
+
+
+TIME    350.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    96
+
+
+TIME    355.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    97
+
+
+TIME    360.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    98
+
+
+TIME    365.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:    99
+
+
+TIME    370.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   100
+
+
+TIME    375.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   101
+
+
+TIME    380.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   102
+
+
+TIME    385.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   103
+
+
+TIME    390.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   104
+
+
+TIME    395.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   105
+
+
+TIME    400.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   106
+
+
+TIME    405.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   107
+
+
+TIME    410.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   108
+
+
+TIME    415.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   109
+
+
+TIME    420.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   110
+
+
+TIME    425.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   111
+
+
+TIME    430.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   112
+
+
+TIME    435.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   113
+
+
+TIME    440.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   114
+
+
+TIME    445.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   115
+
+
+TIME    450.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   116
+
+
+TIME    455.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   117
+
+
+TIME    460.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   118
+
+
+TIME    465.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   119
+
+
+TIME    470.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   120
+
+
+TIME    475.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   121
+
+
+TIME    480.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   122
+
+
+TIME    485.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   123
+
+
+TIME    490.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   124
+
+
+TIME    495.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   125
+
+
+TIME    500.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00      179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00     -179.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       -27059.7   -142.4
+  102 -102       -27059.7    -38.7
+  103 -103        27059.7     38.7
+  104 -104        27059.7    142.4
+  901 -901       -54119.5   -180.4
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-oddity-jet-fans-1.ses                                               SIMULATION TIME: 23 MAY 2024 12:18:34
+       SES VER 4.10             SES v4.1 file for illustrating undocumented behaviour of jet fans.             PAGE:   126
+
+
+                                            END OF SIMULATION

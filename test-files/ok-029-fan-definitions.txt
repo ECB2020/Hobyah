@@ -1,0 +1,201 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+This file created to test the processing of fans.
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Fanning
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.02
+  aero_time 50
+end settings
+
+begin data  fan_curve1
+    Q,  P_tot
+    0, 3000
+   10, 2200
+   20, 1700
+   30, 1500
+   40,
+   50, 2200
+   60, 2100
+   80, 1800
+  100, 1450
+  120, 1050
+  140, 500
+  153, 0
+end data
+
+
+begin data  fan_curve2
+    Q,  P_tot
+    0, 3000
+   10, 2200
+   20, 1700
+   30, 1500
+   40, 1900
+   50, 2200
+   60, 2100
+   80, 1800
+  100, 1450
+  120, 1050
+  140, 500
+  153, 0
+end data
+
+
+begin data  fan_curve3
+    Q,  P_tot
+    0, 3000
+   10, 2200
+   20, 1700
+   30, 1500
+   40, 1900
+   50, 2200
+   60, 2100
+   80, 1800
+  100, 1450
+  120, 1050
+  140, 500
+  153, 0
+end data
+
+
+begin data  fan_curve4
+#    Q,  P_tot
+    0, 3000
+   10, 2200
+   20, 1700
+   30, 1500
+   40, 1900
+   50, 2200
+   60, 2100
+   80, 1800
+  100, 1450
+  120,
+  140, 500
+  153, 0
+end data
+
+begin csv
+  fancurve5   fan_curve5.csv
+end csv
+
+begin fanchar  fan1
+  Datasource fan_curve2  Q  P_tot    direction:= reverse
+  SES_7B   3000  0    2300  100    800  200    0  225   direction:= forwards
+end fanchar
+
+begin fanchar  fan2
+  density 1.15 # This is kg/m^3 because the main units of the file are SI.
+  Datasource fancurve5  4  5    direction:= reverse
+  SES_7B   8.5  0    6.7  210000    3.1  420000    0  480000  units:=US  direction:= forwards
+end fanchar
+
+begin fanchar  fan3
+  Datasource fancurve5  1  3    direction := forwards
+  Datasource fancurve5  1  3    direction := reverse
+end fanchar
+
+begin fanchar  fan4
+  density  1.13
+  Datasource fancurve5  1  3    direction := reverse
+end fanchar
+
+begin sectypes
+  ventshaft  20    20   -0.03
+end sectypes
+
+begin tunnel ventshaft
+  back 10000 portal 0   ventshaft
+  fan1 10040 myfan fan3  1   runup:=45  rundown:= 45
+#  loss1  10330   40.   40.
+  fwd  10330 portal 0   zeta_out := 60.4  zeta_in := 60.9
+end tunnel
+
+begin plotcontrol
+  aero range(0, duration, 0.2)
+end plotcontrol
+
+begin plots
+  begin page # ignore # 1
+    begin graph
+      title   Pressure profile at the final timestep
+      margins 0.13   0.87   0.57   0.87
+      yrange *-11  *51  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptotabs    calc  ventshaft@1000  lt:=2
+      profile pstatabs   calc  ventshaft@1000  lt:=11
+    end graph
+    begin graph
+      title   Transient velocity at the two ends of the tunnel
+#      xrange 0  400 *20
+      yrange *-10  *6  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  ventshaft@10000
+      transient  velocity   calc  ventshaft@10330
+    end graph
+    begin graph
+      title   Volume flow profile at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange *0  *5  *2
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Volume flow (m^3/s)"
+      profile  volflow   calc  ventshaft@1000
+    end graph
+  end page
+
+
+  begin timeloop ignore # 1
+    start 0
+    stop 50
+    step 0.2
+    begin graph
+      title   Pressure profile
+      margins 0.13   0.87   0.57   0.87
+      yrange 100825  102825  *1
+      verbatim set key top right
+      xlabel   Distance (m)
+      ylabel   Pressure (Pa)
+      profile ptotabs    calc  ventshaft@*time  lt:=2
+      profile pstatabs   calc  ventshaft@*time  lt:=11
+    end graph
+    begin graph
+      title   Transient velocity near the midpoints of the three tunnels
+#      xrange 0  400 *20
+      yrange -8  8  *1
+      verbatim set key bottom right
+      verbatim set ytics auto
+      margins 0.13   0.43   0.13   0.43
+      xlabel   Time (sec)
+      ylabel   Velocity (m/s)
+      transient  velocity   calc  ventshaft@10000
+      transient  velocity   calc  ventshaft@10330
+    end graph
+    begin graph
+      title   Volume flow profile at the final timestep
+      margins 0.57   0.87   0.13   0.43
+      yrange -150  150  *2
+      begin verbatim
+        set ytics auto
+        set key bottom right
+      end verbatim
+      xlabel   Distance (m)
+      ylabel   Volume flow (m^3/s)"
+      profile  volflow   calc  ventshaft@*time
+    end graph
+  end timeloop
+end plots

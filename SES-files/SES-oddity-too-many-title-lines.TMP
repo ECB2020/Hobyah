@@ -1,0 +1,35 @@
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION     
+                                            FEDERAL TRANSIT ADMINISTRATION           
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES file for demonstrating a bug in SES v4.1, which allocated 20 lines of       
+                         title text to form 1A. If you use all 20 lines, it assumes that the 20th        
+                         line is form 1B.                                                                
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is a line of comment text.                                                 
+                         This is the 20th line of comment text.  SES v4.1 reads it as form 1B and chokes.

@@ -1,21 +1,48 @@
 Test input file for Hobyah, a 1D tunnel vent program
-June 2020
+July 2024
 This file has two sub-blocks with the same name in
 different blocks, so it is OK and does not fault.
 
 begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 10
 end settings
 
+begin sectypes
+  C+C  70    45   0.030     Cut and cover tunnel
+end sectypes
+
 begin tunnel dopey
-  begin gradients
-  end gradients
+  back    0 portal 0 C+C
+  fwd  1000 portal 20
 end tunnel
 
 begin tunnel sleepy
-  begin gradients
-  end gradients
+  back    0 portal 0 C+C
+  fwd  1000 portal 30
 end tunnel
+
+begin route up
+  origin 0
+  portal 100
+  begin tunnels
+    dopey
+  end tunnels
+end route
+
+begin route down
+  origin 0
+  portal 100
+  begin tunnels
+    sleepy
+  end tunnels
+end route
 
 begin plots
 end plots
-
