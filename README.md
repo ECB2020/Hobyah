@@ -4,6 +4,8 @@ A 1D tunnel ventilation calculation program and plotter.
 First example to look at is "ok-032-fans-in-parallel-animation.gif" in the "documentation" folder.
 Second example to look at is "ok-012-timeloop-animation.gif" in the "documentation" folder.
 
+Read the "Hobyah-User-Guide.pdf" in the documentation folder for more details.
+
 Main features:
   1) Builds a 1D tunnel network with area changes, pressure differences, fixed flowrates, fans, jet fans, dampers and traffic.
   2) Solves compressible isentropic flow in the network by the method of characteristics and stores the results in text and binary form.
