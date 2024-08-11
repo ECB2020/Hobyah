@@ -2650,7 +2650,7 @@ def SubstituteAt(where, prog_type, trans_curve, settings_dict,
             # Fixed properties don't need to have a time entry in either
             # program, return it unchanged.
             location = where
-        elif prog_type == "Hobyah":
+        elif prog_type[:6] == "Hobyah":
             # Transient location identifiers in Hobyah must have the "@",
             # so we fault.
             err = ('> Tried to plot a curve in "' + file_name + '",\n'
@@ -31013,7 +31013,7 @@ def main():
     if not args_hobyah.showerrors:
         # Print a blurb.
         print(#'Hobyah.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-              'Hobyah.py, 7 August 2024\n'
+              'Hobyah.py, 11 August 2024\n'
               'Copyright (C) 2020-2024 Ewan Bennett\n'
               'This is free software, released under the BSD 2-clause open\n'
               'source licence.  See licence.txt for copying conditions.\n\n'
