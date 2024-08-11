@@ -1,0 +1,298 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+August 2024
+This file illustrates a way of getting around one of Hobyah's inbuilt
+limits - the fact that no more than six segments may come together at
+a node or join.
+
+This example file has a vent site with six fans and a connection to a
+road tunnel.
+
+Ideally we would have one node with seven air paths connected to it.
+But the maximum count of air paths at a node in Hobyah is six, so we
+need a workaround.  The workaround is to have two short tunnels with
+minimal losses each feeding three fans, as per the ASCII art below.
+
+One node ("In1") connects an adit from the road tunnel to the two
+intermediate tunnels.  The other end of the first intermediate
+tunnel connects to the first three fans and the other end of the second
+intermediate tunnel connects to the second three fans.
+
+
+          Node "In1"             Node "out1"
+     (three connections)     (four connections)
+               |                     |
+               v                     v
+
+               ---------------------------------------------------
+               |                                 Fanduct1
+               |                     /----------------------------
+               |                     |
+    ___________|                     \----------------------------
+   |                Intermediate1                Fanduct2
+   |                                 /----------------------------
+   |                                 |
+   |                                 \----------------------------
+   |                                             Fanduct3
+   |    A      /-------------------------------------------------
+   |    d      \-------------------------------------------------
+   |    i                                        Fanduct4
+   |    t                            /----------------------------
+   |                                 |
+   |                                 \----------------------------
+   |               Intermediate2                 Fanduct5
+   |                                 /----------------------------
+   |                                 |
+   |                                 \----------------------------
+   |                                             Fanduct6
+   |           /--------------------------------------------------
+   |           |
+   |           |                     ^
+   |           |                     |
+   |           |              Node "Out2"
+   |           |            (four connections)
+   |           |
+
+
+If the intermediate tunnels are short, given no end losses and minimal
+fixed friction factor, the pressure change across the two intermediate
+tunnels will be tiny.  The system behaves as if the six fans and the
+adit all connect to one node.
+
+And if the six fans all discharge into a common plenum the same workaround
+can be used on a plenum at the discharge side of the fans.
+
+
+This calculation runs five extract fans at 100 m^3/s.  Fan 5 trips out,
+at which point the standby fan (fan 3) starts up and takes over its
+duty.  The sequence of fan and damper operations as the standby fan
+takes over is an unusual one that was worth modelling to see how it
+performs.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.05
+  aero_time 100
+end settings
+
+begin data  typical-stall-hump
+# This characteristic has a realistic (relatively flat) hump.
+    Q, P_tot
+    0, 2500
+   10, 2300
+   20, 1950
+   30, 1800
+   40, 1900
+   50, 2150
+   60, 2050
+   80, 1800
+  100, 1450
+  120, 1050
+  132,  673
+end data
+
+begin fanchar  my_char
+  datasource  typical-stall-hump  Q  P_tot
+  diameter 2.24
+end fanchar
+
+begin sectypes
+  roadtunnel   85    63     -0.036
+  polnadit    110    25      0.010
+  glassy       50    25.1   -0.0000000001  tiny friction factor
+  fanduct      10.2  12.8    0.002
+  atmduct      40    25     -0.036
+end sectypes
+
+begin tunnel roadspace
+  back  10000  portal 0   roadtunnel
+  join  13370  poln-offtake
+  fwd   13440  portal 0
+end tunnel
+
+begin tunnel adit
+  back  0  node  poln-offtake   polnadit
+  loss1 20  30  5.9   5.9
+  fwd   40  node  In1  zeta_bf:=4.5  zeta_fb:=3.2
+end tunnel
+
+begin tunnel Interim1
+  # This tunnel has no pressure loss factors at the ends and a low
+  # friction factor.
+  back   0  node In1   glassy  zeta_in:=0.0  zeta_out:=0.0
+  fwd   20  node Out1          zeta_in:=0.0  zeta_out:=0.0
+end tunnel
+
+begin tunnel Interim2  # another lossless tunnel
+  back   0  node In1   glassy  zeta_in:=0.0  zeta_out:=0.0
+  fwd   20  node Out2          zeta_in:=0.0  zeta_out:=0.0
+end tunnel
+
+begin tunnel fan1_duct
+  back      0 node Out1 fanduct
+  damper1  20  D1  basefanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F1  my_char  basefanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+begin tunnel fan2_duct
+  back      0 node Out1 fanduct
+  damper1  20  D2  basefanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F2  my_char  basefanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+begin tunnel fan3_duct  # Standby fan, turns on after fan 5 trips
+  back      0 node Out1 fanduct
+  damper1  20  D3  standbyfanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F3  my_char  standbyfanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+begin tunnel fan4_duct
+  back      0 node Out2 fanduct
+  damper1  20  D4  basefanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F4  my_char  basefanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+begin tunnel fan5_duct  # This fan trips out
+  back      0 node Out2 fanduct
+  damper1  20  D5  failfanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F5  my_char  failfanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+begin tunnel fan6_duct
+  back      0 node Out2 fanduct
+  damper1  20  D6  basefanops  T  area  zeta_bf  zeta_fb
+  fan2     40  F6  my_char  basefanops  T  speed
+  loss1    60  20   10  10
+  fwd      80 portal 0
+end tunnel
+
+
+begin data basefanops
+# This block of data sets the operation of fans F1-F4 and dampers D1-D4.
+     T,    speed,    area,   zeta_bf,  zeta_fb
+    0.0,    0.0,      0.1,     2.4,      2.4
+   10.0,    0.0,      0.1,     2.4,      2.4
+   20.0,    0.5,      0.1,     2.4,      2.4
+   30.0,    1.0,     12.,      1.1,      1.1
+   60.0,    1.0,     12.,      1.1,      1.1
+   70.0,    0.5,      0.1,     2.4,      2.4
+   85.0,    0.5,      0.1,     2.4,      2.4
+   90.0,    1.0,     12.,      1.1,      1.1
+end data
+
+begin data failfanops
+# This block of data sets the operation of fan F5 and damper F5.  This
+# is a fan that trips out at 50 seconds due to high vibration (or
+# some other reason).  After it trips out, fan F6 starts up and takes
+# over its duty.
+     T,    speed,    area,   zeta_bf,  zeta_fb
+    0.0,    0.0,      0.1,     2.4,      2.4
+   10.0,    0.0,      0.1,     2.4,      2.4
+   20.0,    0.5,      0.1,     2.4,      2.4
+   30.0,    1.0,     12.,      1.1,      1.1
+   50.0,    1.0,     12.,      1.1,      1.1  # Fan trips out
+   60.0,    0.1,     12.,      1.1,      1.1  # Control system closes the damper
+   70.0,    0.0,      0.1,     2.4,      2.4
+end data
+
+begin data standbyfanops
+# This block of data sets the operation of fan F6 and damper F6.  This
+# is a fan that starts up when fan F5 trips out
+     T,    speed,    area,   zeta_bf,  zeta_fb
+    0.0,    0.0,      0.1,     2.4,      2.4
+   70.0,    0.0,      0.1,     2.4,      2.4
+   80.0,    0.5,      0.1,     2.4,      2.4
+   85.0,    0.5,      0.1,     2.4,      2.4
+   90.0,    1.0,     12.,      1.1,      1.1
+end data
+
+begin plotcontrol
+  aero range(0, 100.1, 0.2)
+end plotcontrol
+
+begin plots
+  begin page # 1 # ignore
+    begin graph
+      title   Volume flow in the adit
+      margins  0.13  0.43    0.57  0.87
+      xrange  *0   *400  *1
+      yrange *0   600  *1
+      verbatim set key top right
+      xlabel   Time (s)
+      ylabel   "Volume flow (m^3/s)"
+      transient  volflow  calc  adit@15
+    end graph
+    begin graph
+      title   Volume flow through the four working fans
+      margins  0.57  0.87    0.57  0.87
+      xrange  *0   *400  *1
+      yrange  -100   130  *1
+      transient  volflow  calc  fan1_duct@15
+    end graph
+    begin graph
+      title   Volume flow through the fan that trips out
+      margins  0.13  0.43    0.13  0.43
+      transient  volflow  calc  fan5_duct@15
+    end graph
+    begin graph
+      title   Volume flow through the standby fan
+      margins  0.57  0.87    0.13  0.43
+      transient  volflow  calc  fan3_duct@15
+    end graph
+  end page
+
+  begin timeloop # ignore
+    timelist range(0, 20, 1) + range(20, 30, 0.2) + range(30, 50, 1) + range(50, 100.1, 0.2)
+    begin graph
+      title   Volume flow in the adit
+      margins  0.13  0.43    0.57  0.87
+      xrange  *0   *400  *1
+      yrange *0   750  *1
+      verbatim set key top right
+      xlabel   Time (s)
+      ylabel   "Volume flow (m^3/s)"
+      transient  volflow  calc  adit@15 lt:=6  lw:=0
+      transient  volflow  calc  adit@15 lt:=2  lw:=2  xstop:= *time
+    end graph
+    begin graph
+      title   System/fan characteristics at the four working fans
+      margins  0.57  0.87    0.57  0.87
+      xlabel "Volume flow (m^3/s)"
+      ylabel Total pressure (Pa)
+      xrange  -150   150  *1
+      yrange    0   3000  *1
+      fandata  fanchar  calc  F1@*time
+      fandata  system  calc  F1@*time
+    end graph
+    begin graph
+      title   System/fan characteristic of the fan that trips out
+      margins  0.13  0.43    0.13  0.43
+      fandata  fanchar  calc  F5@*time
+      fandata  system  calc  F5@*time
+    end graph
+    begin graph
+      title   System/fan characteristic of the standby fan
+      margins  0.57  0.87    0.13  0.43
+      fandata  fanchar  calc  F3@*time
+      fandata  system  calc  F3@*time
+    end graph
+  end timeloop
+
+end plots
+
+
