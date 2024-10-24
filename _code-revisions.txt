@@ -1,0 +1,153 @@
+Record of changes to Hobyah.py, SEScon.py and their associated programs
+*----------------------------------------------------------------------
+
+This file is a list of changes to the software in the Hobyah suite, in
+date order.  The order of entry is as follows:
+
+Changes to the two principal scripts:
+    Hobyah.py
+    SESconv.py,
+
+The secondary scripts/programs:
+    classHobyah.py
+    classSES.py
+    compressible.f95
+    generics.py
+    syntax.py
+    UScustomary.py
+
+The tertiary scripts:
+    _error-statements.py
+    generate-batch-files.py
+
+The spreadsheets:
+    slug-flow-quadratics.ods
+
+The most recent changes to each file can be jumped to by searching for "*-"
+(without double quotes).
+
+
+Hobyah.py
+*--------
+24 October 2024
+---------------
+Added a Windows executable file "Hobyah.exe" and a standalone installation
+of Python in the subfolder "_internal" that the .exe file uses.
+
+Added code to allow the script to be compiled into a Windows executable
+file by the PyInstaller module and work with the multiprocessing module.
+
+Added code to set the time and date of compilation manually, to bypass
+a feature that does not work in executables compiled by the PyInstaller
+module.  This is commented out in development code, but is uncommented
+and updated in code uploaded to github.  The values are set in the
+variable called "script_date".
+
+Added print statements to identify whether the script succeeded in
+loading the Fortran compressible flow routines (the binaries compiled
+from compressible.f95 by f2py).
+
+Corrected a bug in the processing of transient curves that caused error
+6124 to not be raised when processing transient curves plotted from
+.hbn files.
+
+Corrected a bug in the processing of transient curves from SES files
+in which the distance along a route was set by a constant, not a number.
+The name of the constant used to appear in the autokey instead of the
+value of the constant.
+
+
+SESconv.py
+*---------
+24 October 2024
+---------------
+Added a Windows executable file "SESconv.exe" with a standalone installation
+of Python in the subfolder "_internal" that the .exe file uses.
+
+Added code to allow the script to be compiled into a Windows executable
+file by the PyInstaller module and make the multiprocessing module work
+with PyInstaller.
+
+Added code to set the time and date of compilation manually, to bypass
+a feature that does not work in executables compiled by the PyInstaller
+module.  This is commented out in development code, but is uncommented
+and updated in code uploaded to github.  The values are set in the
+variable called "script_date".
+
+
+classHobyah.py
+*-------------
+No changes.
+
+
+classSES.py
+*----------
+24 October 2024
+---------------
+Modified calls in "WriteInputFile" to include the Boolean 'aur' in
+some calls to "FormatInpLine" so that the optional comment is not
+treated as the Boolean.
+Modified "WriteInputFile" to only include the comment "Form 4A" at
+the first instance of form 4 instead of all instances.
+Modified "WriteInputFile" to turn off temperature derating in SVS
+form 7C instead of having it on (mostly because IP2SI2IP.EXE turns
+it off - not because I think temperature derating being off by
+default is a good choice).
+Corrected a bug in the writing of form 8E in which the counts of
+decimal places were only set for files in US units.
+Modified the comment for the fourth line of form 9G to account for
+SVS train control option 3.
+
+compressible.f95
+*---------------
+24 October 2024
+---------------
+Corrected an error in the comments.
+
+
+generics.py
+*----------
+
+
+syntax.py
+*--------
+
+
+UScustomary.py
+*-------------
+
+
+generate-batch-files.py
+*----------------------
+
+
+_error-statements.py
+*-------------------
+This is an ancillary script that will only be of interest to those
+who want to dig into the evidence validation requirement 2 in the
+verification and validation document.  Requirement 2 reads:
+  "Some errors don’t have test files.  Document why those error
+   messages have no test files."
+The reasons are documented in the code comments on each line of the
+definition of the variable named "no_testfile".  That's the only
+reason to upload this script: to let people read the comments on each
+line of entry in the definition of the "no_testfile".
+
+
+slug-flow-quadratics.ods
+*-----------------------
+July 2023
+---------
+Corrected an error in the traffic blockage.  Changed the calculation and
+notes to match the verification document.
+
+Mar 2021
+--------
+No change to the calculation.  Altered the text descriptions of the
+range and sanity checks to the correct rows.
+
+Dec 2020
+--------
+Corrected the selection of which quadratic to use at slow vehicle speeds,
+added a note about density 1.2 kg/m3.
+

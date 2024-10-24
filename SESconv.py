@@ -58,6 +58,7 @@ import pickle
 import datetime
 import re
 import pathlib         # Supersedes some functions in module 'os', apparently
+import multiprocessing
 
 try:
     import numpy as np
@@ -144,9 +145,38 @@ def main():
 
     # If we get here, we have at least one file to process.
 
+    # Get some QA data before we start processing them.
+    # First get name of this script (if it has one) and the last time it
+    # was modified (in human-readable form).  This does not work if we
+    # have imported Hobyah.py in a Terminal session, so we catch the
+    # exception and set generic stuff.
+    try:
+        script_name = os.path.basename(__file__)
+        script_data = pathlib.Path(__file__)
+        script_since = datetime.datetime.fromtimestamp(script_data.stat().st_ctime)
+        script_date = gen.TimePlusDate(script_since) # e.g. "08:31 on 1 Sep 2020"
+    except NameError:
+        # We are probably running in a Python session under Terminal
+        # or inside an IDE.
+        script_name = "No script"
+        script_date = "No date/time"
+    except FileNotFoundError:
+        # We are running the executable compiled by PyInstaller, which has
+        # tried to find the script inside a temporary folder it created
+        # when PyInstaller was run.  We set them directly (must remember
+        # to edit the date each time I upload).
+        script_name = "SESconv.py"
+        script_date = "13:32 on 24 Oct 2024"
+
+    # Uncomment this and set the correct time and date before upload
+    # to GitHub, so that users complaining about a bug can correctly
+    # identify which version of the program they are using.  If we
+    # didn't do this, the date and time would be the date and time
+    # that the user downloaded it from github.
+    script_date = "13:32 on 24 Oct 2024"
+
     # Print a blurb.
-    print(#'SESconv.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-          'SESconv.py, 7 August 2024\n'
+    print('SESconv.py, ' + script_date.split(sep = 'on ')[1] + '\n'
           'Copyright (C) 2020-2024 Ewan Bennett\n'
           'This is free software, released under the BSD 2-clause open\n'
           'source licence.  See licence.txt for copying conditions.\n\n'
@@ -189,19 +219,6 @@ def main():
         return()
 
 
-    # Get some QA data before we start processing them.
-    # First get name of this script (if it has one).
-    try:
-        script_name = os.path.basename(__file__)
-        script_data = pathlib.Path(__file__)
-        script_since = datetime.datetime.fromtimestamp(script_data.stat().st_ctime)
-        script_date = gen.TimePlusDate(script_since) # e.g. "08:31 on 1 Sep 2020"
-    except NameError:
-        # We are probably running in a Python session under Terminal
-        # or inside an IDE.
-        script_name = "No script"
-        script_date = "No date/time"
-
     options_dict.__setitem__("script_name", script_name)
     options_dict.__setitem__("script_date", script_date)
 
@@ -228,7 +245,6 @@ def main():
                     gen.PauseIfLast(index + 1, file_count)
         else:
             # Run them all in parallel, using as many cores as are available.
-            import multiprocessing
             corestouse = multiprocessing.cpu_count()
             my_pool = multiprocessing.Pool(processes = corestouse)
             my_pool.map(ProcessFile,runargs)
@@ -11346,5 +11362,9 @@ def PopulateControlled(key, misc_sens, misc_lat, steady_sens, steady_lat,
            HVAC_sens, HVAC_lat, HVAC_total)
 
 if __name__ == "__main__":
+    # The following line is needed to solve a conflict between the
+    # pyinstaller module and the multiprocessing module on Windows.  See
+    #  https://github.com/pyinstaller/pyinstaller/wiki/Recipe-Multiprocessing
+    multiprocessing.freeze_support()
     main()
 

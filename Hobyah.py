@@ -93,17 +93,28 @@ import multiprocessing
 import operator         # sort lists according to values in a sub-list.
 
 try:
-    # Try to get numpy, pandas, scipy and some Fortran in at the top level.
+    # Try to get numpy, pandas and scipy in at the top level.
     import numpy as np
     import pandas as pd
     import scipy.optimize
-    import compressible as ftn # Fortran compressible flow routines inside f2py
 except (ModuleNotFoundError, ImportError):
     # We let this pass.  We complain about it if we need it later, after
     # we've opened the first logfile and can write the complaint to it.
     # Also, we only need scipy and compressible if we are running a
     # method of characteristics calculation; they may not be needed.
     pass
+try:
+    # Try to get the Fortran compressible flow routines.
+    import compressible as ftn
+except (ModuleNotFoundError, ImportError):
+    # We let this pass.  We complain about it if we need it later, after
+    # we've opened the first logfile and can write the complaint to it.
+    # Also, we only need scipy and compressible if we are running a
+    # method of characteristics calculation; they may not be needed.
+    # We set a Boolean here that we use in main() to print a message.
+    imported_ftn = False
+else:
+    imported_ftn = True
 
 # Create a counter for the gnuplot polygon and label numbers at the top level.
 # It's incremented in different routines that use it as a global, which is
@@ -768,9 +779,18 @@ def ProcessCurves(curve_triples, settings_dict, last_doodad,
                         # At this point we know that the location exists at
                         # a fixed location in the file and either have the
                         # key to access it in a pandas database or the string
-                        # "open_air".  Get the data.
-                        result = bdat.GetTransientData(prop, where, where3,
-                                                       line_text, graph_units)
+                        # "open_air".  Get the data.  We can pass the value
+                        # "where" to classHobyah, but we need to pass
+                        # the value "where2" to classSES in case the user
+                        # has used a constant for the distance or time in
+                        # where.
+
+                        if bdat.prog_type[:6] == "Hobyah":
+                            result = bdat.GetTransientData(prop, where, where3,
+                                                           line_text, graph_units)
+                        else:
+                            result = bdat.GetTransientData(prop, where2, where3,
+                                                           line_text, graph_units)
                         if result is None:
                             return(None)
                         else:
@@ -6242,6 +6262,10 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
             tr_index        int             Where to start reading the SESdata
                                             block.
             settings_dict   {}              Dictionary of the run settings.
+            files_dict      {}              The dictionary of the contents
+                                            of binary files.  We need it
+                                            for the data in the file with
+                                            the nickname "calc".
             log             handle          The handle of the logfile.
 
         Returns:
@@ -8322,9 +8346,6 @@ def ProcessSESData(line_triples, tr_index, settings_dict, files_dict, log):
 
     sesfile.close()
     return("SES file written out")
-
-
-
 
 
 def AllocateCounter(counters, index):
@@ -30126,7 +30147,6 @@ def CheckRangeAndSI(word, expected, toSI, err_lines, line_number, line_text,
         constant = True
         (word, const_text, const_number) = result
 
-
     # Set the autoscale flag to False.  We may set it True if we are
     # processing axis extents or intervals ("*float" num_type).
     autoscale = False
@@ -30705,6 +30725,8 @@ def ProcessFile( arguments ):
     # such as the resistance of platform screen doors as they open
     # and close.
     #
+    if debug1:
+        print("Processing userdata", result, type(result))
     result = GetBegins(line_triples, begin_lines, "data",
                        0, math.inf, file_name, debug1, log)
     if result is None:
@@ -30734,6 +30756,8 @@ def ProcessFile( arguments ):
     # We only expect only one csv block.  If we find it we add their
     # contents to the user data dictionary (each .csv file is treated
     # as if it were a data block.
+    if debug1:
+        print("Processing csv", result, type(result))
     result = GetBegins(line_triples, begin_lines, "csv",
                        0, 1, file_name, debug1, log)
     if result is None:
@@ -30978,6 +31002,22 @@ def main():
         # or inside an IDE.
         script_name = "No script"
         script_date = "No date/time"
+    except FileNotFoundError:
+        # We are running the executable compiled by PyInstaller, which has
+        # tried to find the script inside a temporary folder it created
+        # when PyInstaller was run.  We set them directly (must remember
+        # to edit the date each time I upload).
+        script_name = "Hobyah.py"
+        script_date = "13:32 on 24 Oct 2024"
+
+    # Uncomment this and set the correct time and date before upload
+    # to GitHub, so that users complaining about a bug can correctly
+    # identify which version of the program they are using.  If we
+    # didn't do this, the date and time would be the date and time
+    # that the user downloaded the file from github, which we don't
+    # want.
+    script_date = "13:32 on 24 Oct 2024"
+
 
     # Next get the user's name and a QA string (user, date of
     # the run and time of the run).
@@ -30985,7 +31025,6 @@ def main():
 
 
     # Print the program name and disclaimer.
-
     if args_hobyah.file_name == []:
         # There were no files.  Print the help text, pause if we
         # are running on Windows, then exit.
@@ -31012,8 +31051,7 @@ def main():
 
     if not args_hobyah.showerrors:
         # Print a blurb.
-        print(#'Hobyah.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-              'Hobyah.py, 11 August 2024\n'
+        print('Hobyah.py, ' + script_date.split(sep = 'on ')[1] + '\n'
               'Copyright (C) 2020-2024 Ewan Bennett\n'
               'This is free software, released under the BSD 2-clause open\n'
               'source licence.  See licence.txt for copying conditions.\n\n'
@@ -31051,7 +31089,7 @@ def main():
             my_pool = multiprocessing.Pool(processes = corestouse)
             my_pool.map(ProcessFile,runargs)
     else:
-        # We only have one output file to process.  Best to not bother with
+        # We only have one file to process.  Best to not bother with
         # the overhead the multiprocessing library adds.
         ProcessFile( (args_hobyah.file_name[0], 1, 1, settings_dict) )
     return()
@@ -31059,6 +31097,19 @@ def main():
 
 
 if __name__ == "__main__":
+    # Write to the screen to let the user know if the routine managed to
+    # import the fortran routines or not.  We do it here in this if block
+    # so that it only gets printed once during parallel runs.
+    if imported_ftn is False:
+        print("Failed to import the Fortran compressible flow routines,\n"
+              "using the Python routines instead.")
+    else:
+        print("Imported the Fortran compressible flow routines")
+
+    # The following line is needed to solve a conflict between the
+    # pyinstaller module and the multiprocessing module on Windows.  See
+    #  https://github.com/pyinstaller/pyinstaller/wiki/Recipe-Multiprocessing
+    multiprocessing.freeze_support()
     main()
 
 # This comment is here so I can play around with Excel sheet names, which

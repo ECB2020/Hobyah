@@ -25,6 +25,9 @@ begin constants
   min_vel  -3
   max_vel  7        # Highest air velocity on the Y axes
   time1     483.2
+  maxtime  9999
+  Hob_const1 10061
+  Hob_const2 654
   dist1SI     5029 # distance in SI units
   dist2SI     7000 # distance in SI units
   dist1US  16499.3 # distance in US units
@@ -669,13 +672,35 @@ begin plots
       yrange 0 3000 *20
       xlabel   "Volume flow (m^3/s)"
       ylabel   "Fan total pressure (Pa)"
-      fandata fanchar  calc  Main-extract@9999
+      fandata fanchar  calc  Main-extract@maxtime
       fandata system  calc  Main-extract@9999
       fandata fanchar  calc  Off-extract@9999
       fandata system  calc  Off-extract@9999
     end graph
   end page
 
+  begin page
+    begin graph
+      title   "Flow in a Hobyah tunnel with the distance set in the constants block"
+      margins left_edge right_edge  0.58 0.88
+      xrange *3500  *7000  *500
+      yrange  0  *40 *2
+      xlabel   Time (s)
+      ylabel   "Volume flow (m^3/s)"
+      verbatim set key bottom right
+      transient  volflow  calc  Mainline1@Hob_const1
+    end graph
+    begin graph
+      title   "Velocity along a Hobyah tunnel with the time set in the constants block"
+      margins left_edge right_edge  0.13  0.43
+      xrange *3500  *7000  *500
+      yrange  0  *40 *2
+      xlabel   Distance (m)
+      ylabel   "Air velocity (m/s)"
+      verbatim set key bottom right
+      profile  velocity  calc  Mainline1@Hob_const2
+    end graph
+  end page
 end plots
 
 

@@ -217,7 +217,6 @@ end SESdata
 
 
 begin plots
-end plots
   begin page # ignore # 1
     begin graph
       title Air velocity profiles along Channel Tunnel Running Tunnel North (RTN) and Running Tunnel South (RTS)

@@ -7141,7 +7141,7 @@ class SESdata:
             form101H = (5, 0, 0, 0, 0, 0)
             decpls = (0, 0, 0, 0, 0, 0)
             line = gen.FormatInpLine(form101H, decpls, "101H", USunits,
-                                     self.log, comment_text)
+                                     self.log, Aur, comment_text)
             gen.WriteOut(line, ses)
         elif target[:3] == "SVS":
             # Write form 1H, turning off all the SVS extensions and
@@ -7150,7 +7150,7 @@ class SESdata:
             form1H = (0, 30., 0.5, 0, 0)
             decpls = (0, 1, 1, 0, 0, 0)
             line = gen.FormatInpLine(form1H, decpls, "1H", USunits,
-                                     self.log, comment_text)
+                                     self.log, Aur, comment_text)
             gen.WriteOut(line, ses)
 
 
@@ -7356,7 +7356,11 @@ class SESdata:
                 decpl = (0, 0, 1, 1, 3, 3)
                 form4_2 = [USc.ConvertToUS(keys[i], form4_2[i], False, self.log)[0]
                                 for i in range(len(keys))]
-            line = gen.FormatInpLine(form4_2, decpl, "4_2", USunits, self.log, Aur, "Form 4A")
+            if fire_index == 0:
+                comment = "Form 4A"
+            else:
+                comment = ""
+            line = gen.FormatInpLine(form4_2, decpl, "4_2", USunits, self.log, Aur, comment)
             gen.WriteOut(line, ses)
 
 
@@ -7474,8 +7478,18 @@ class SESdata:
             elif aero_type == 2:
                 form6D = [this_6["sec_1"], this_6["sec_2"], this_6["sec_3"],
                          ]
-                decpl = (0, 0, 0)
-                line = gen.FormatInpLine(form6D, decpl, "6D", USunits, self.log, Aur, "Form 6D")
+                if target[:3] == "SVS":
+                    decpl = (0, 0, 0, 3)
+                    # SVS has an input for a k-factor for airflow from 1 to 3
+                    # (or 3 to 1).  The default is zeta = 1.0 so that's what
+                    # we'll set.
+                    form6D.append(1.0)
+                    line = gen.FormatInpLine(form6D, decpl, "6D", USunits,
+                                             self.log, Aur, "Form 6D")
+                else:
+                    decpl = (0, 0, 0)
+                    line = gen.FormatInpLine(form6D, decpl, "6D", USunits,
+                                             self.log, Aur, "Form 6D")
                 gen.WriteOut(line, ses)
             elif aero_type == 3:
                 form6E = (this_6["sec_1"], this_6["sec_2"], this_6["sec_3"],
@@ -7578,14 +7592,16 @@ class SESdata:
                                 for i in range(len(keys))]
             elif target[:3] == "SVS":
                 # Change the volume flow into a static thrust at 1.2 kg/m^3,
-                # add air density 1.2 and turn on temperature derating.
+                # add air density 1.2 and turn off temperature derating.
                 decpl = (1, 5, 3, 1, 1, 3, 0)
                 form7C[0] = this_7["static_thrust"]
-                form7C.extend([1.2, 1])
+                form7C.extend([1.2, 0])
             if JFfan_num == 1:
-                line = gen.FormatInpLine(form7C, decpl, "7C", USunits, self.log, Aur, "Form 7C")
+                line = gen.FormatInpLine(form7C, decpl, "7C", USunits,
+                                         self.log, Aur, "Form 7C")
             else:
-                line = gen.FormatInpLine(form7C, decpl, "7C", USunits, self.log, Aur)
+                line = gen.FormatInpLine(form7C, decpl, "7C", USunits,
+                                         self.log, Aur)
             gen.WriteOut(line, ses)
 
         # Do form 8 if there are any routes
@@ -7715,7 +7731,7 @@ class SESdata:
 
                 if USunits:
                     keys = ("null", "speed2", "null", "null")
-                    decpl = (2, 3, 3, 3)
+                decpl = (2, 3, 3, 3)
                 for index_8E in range(this_8["8E_count"]):
                     if trperfopt == 2:
                         form8E2 = (this_8["time"][index_8E],
@@ -7977,8 +7993,13 @@ class SESdata:
                 cams_or_choppers = this_9["train_control"]
                 form9G4 =  (cams_or_choppers, )
                 decpl = (0,)
+                if target.upper()[:3] == "SVS":
+                    comment = "1 = cams (no forms 9H, 9J-9L), 2 = choppers, "\
+                              "3 = use form 9H-A"
+                else:
+                    comment = "1 = cams (no forms 9H, 9J-9L), 2 = choppers"
                 line = gen.FormatInpLine(form9G4, decpl, "9G4", USunits, self.log,
-                             Aur, "1 = cams (no forms 9H, 9J-9L), 2 = choppers")
+                             Aur, comment)
                 gen.WriteOut(line, ses)
 
                 # Check if we need to write form 9H
@@ -8182,7 +8203,10 @@ class SESdata:
         # SVS has an extra input for the timestep in a binary file.  The code
         # below and at the top of the next 'for' loop processes it, but is
         # commented out, as it seems that SVS doesn't use it for anything.
-
+        # if target.upper()[:3] == "SVS":
+        #     decpl.append(2)
+        #     for index in range(len(form12_2s)):
+        #         form12_2s[index] = list(form12_2s[index]) + [0.]
         # Write the lines of form 12 entries.
         for form12_2 in form12_2s:
 

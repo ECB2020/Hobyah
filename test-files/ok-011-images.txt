@@ -58,7 +58,8 @@ A note about the images used here: they are all of Hobyahs, scanned from the
 is at archive.org:
 https://archive.org/download/moreenglishfairy00jacoiala/moreenglishfairy00jacoiala.pdf
 
-
+Note that the file paths to the images may need to be edited to work
+on others' systems.
 
 begin settings
   version 1
