@@ -1,0 +1,1476 @@
+SES VER 204.5        offline-SES file.  A tunnel with a fire and a vent shaft extracting smoke.         PAGE:     1
+FILE: SES-065-density-adjustments-offline-SES.ses                             SIMULATION TIME: 21 JUL 2024 15:00:00
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+                                            SUBWAY ENVIRONMENT SIMULATION
+                                                  SIMULATION OF
+                         offline-SES file.  A tunnel with a fire and a vent shaft extracting smoke.
+                         This run is intended as a check of the code in SESconv.py that calculates
+                         the density correction for segments and the density correction for axial
+                         fans in ventilation segments.
+                         Tunnel 101 is a line segment with a fire in it.  It connects to vent
+                         shaft 901, which has an extract fan in it.
+                         Version 204.5 of offline-SES prints the mean value of air density in
+                         vent segments to the output file when supplementary options 4 or 5 are
+                         active.  The mean value is held in the entry in TSSTAB() that applies
+                         to the lowest subsegment in the vent shaft TSSTAB(ISSL).
+                         This file is used in Hobyah's verification and validation document.
+                                    DESIGN TIME 1700 HRS   JULY       2023
+                                                       A private, offline version of SES.  Developed
+                                                       to test various program options and to learn
+                                                       about SES.  Based on SES v4.1.  Credit is due to:
+                                                         * Parsons, Brinckerhoff, Quade and Douglas
+                                                         * De Leuw, Cather & Company
+                                                         * Kaiser Engineers
+                                                         * Developmental Sciences Inc.
+                                                         * Graduate Aeronautical Laboratories of the
+                                                           California Institute of Technology
+                                                       All code modifications by Ewan Bennett.
+                                                       offline-SES version 204.5
+                offline-SES input file version                             204.5
+                              This file has a number of bugs fixed and improved
+                              printouts.  It derates jet fans in fire segments
+                              according to the local air density in fire runs.
+                              It prints mean temperature ratio in vent segments
+                              and has a "-debug1" command-line option.
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              1     YES
+                            HUMIDITY DISPLAY OPTION                               1     HUMIDITY RATIO
+                            ENVIRONMENTAL CONTROL LOAD EVALUATION OPTION          1     YES
+                            HEAT SINK SUMMARY PRINT OPTION                        0     BYPASS
+                            SUPPLEMENTARY OUTPUT OPTION                           4
+                            ALLOWABLE SIMULATION ERRORS                           0
+                            ALLOWABLE INPUT ERRORS                                0
+                            NUMBER OF LINE SEGMENTS                               1                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              2
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  1
+                            NUMBER OF NODES                                       3
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+                            NUMBER OF UNSTEADY HEAT SOURCES                       1
+                            NUMBER OF FAN TYPES                                   1
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 1
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           0
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                         26.   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                        23.5   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                                   1.18   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01723   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              81.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  25.556   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01911   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              73.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                               5.   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     1   YES
+EFFECTIVE EMMISSIVITY OF COMBUSTION PRODUCTS                                             0.2
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+VENTILATION SHAFT SECTIONS                                                                                     FORM 2B
+                          901             102            901                              0.
+                      INTERNAL-EXTERNAL SECTION-NODE REFERENCE TABLES
+   INTERNAL                 EXTERNAL                 BACKWARD                   FORWARD
+   SECTION                  SECTION                  AERO NODE                 AERO NODE
+   --------                 --------                 ---------                 ---------
+                            (TABL11)                 (TABL12)                  (TABL13)
+       1                      101                        1                         2
+       2                      901                        2                         3
+   INTERNAL                 EXTERNAL             NO. OF SECTIONS           INTERNAL SECTIONS
+     NODE                     NODE               ADJACENT TO NODE          ADJACENT TO NODE*
+   --------                 --------             ----------------          -----------------
+                            (TABL15)                 (TABL16)                  (TABL17)
+       1                      101                        1                  -1
+       2                      102                        2                   1   -2
+       3                      901                        1                   2
+                   * NOTE - ORDER OF ENTRIES MAY BE CHANGED BY JINS
+   EXTERNAL                 INTERNAL                 INTERNAL
+   SECTION                  SECTION                    NODE
+   OR NODE                  (TABL14)                 (TABL19)
+   --------                 --------                 --------
+     101                        1                        1
+     102                        0                        2
+     901                        2                        3
+                                       LOOP TABLE
+ LOOP     EXTERNAL NUMBERS OF SECTIONS
+          ----------------------------------------------------
+NUMBER    INTERNAL NUMBERS OF SECTIONS-CONTAINED IN ARRAY LOOP
+   1      -101 -901
+            -1   -2
+   HALF-BANDWIDTH OF AERODYNAMIC RESPONSE MATRIX =  1
+   ARRAY BLP DATA     1 ELEMENTS REQUIRED
+                  20000 ELEMENTS AVAILABLE
+                                              CONTINUITY TABLE
+INTERNAL  EXTERNAL  STORAGE LOCATIONS   LOOPS THAT PASS THROUGH SECTION - SIGN SHOWS DIRECTION WITH RESPECT TO SECTION
+SECTION   SECTION     IN ARRAY LKAN
+NUMBER    NUMBER      FROM       TO
+   1       101           1        1     -1
+   2       901           2        2     -1
+                TABLES OF LOOPS PASSING THROUGH BRANCHED JUNCTIONS
+        INTERNAL  EXTERNAL   LOOP      FROM SECTION         TO SECTION
+          NODE      NODE    NUMBER  INTERNAL  EXTERNAL  INTERNAL  EXTERNAL
+         NUMBER    NUMBER            NUMBER    NUMBER    NUMBER    NUMBER
+            1       101     STRAIGHT-THROUGH JUNCTION OR PORTAL
+            2       102     STRAIGHT-THROUGH JUNCTION OR PORTAL
+            3       901     STRAIGHT-THROUGH JUNCTION OR PORTAL
+                                                    FLOW INITIALIZATION CHECK
+    INTERNAL SECTION AIRFLOW RATE (CFM)
+    -----------------------------------
+              0.0         0.0
+    LOOP AIRFLOW RATE (CFS)
+    -----------------------
+           -0.000
+INPUT VERIFICATION FOR LINE SEGMENT    101 -   201   30 m^2, 100 m tunnel                                         FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                99.999   m
+CROSS SECTION AREA                                                                  29.99839   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+                                                XXXXXXXXXXXXXXX                            1   (SPECIAL 'FIRE' SEGMENT)
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS       22.494                                                           TOTAL PERIMETER      22.494  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.06096                                                           ROUGHNESS LENGTH    0.06096  m
+   HYDRAULIC DIAMETER                                                                  5.334   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01143
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0395
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0395
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                    0.5                   1.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                      5
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU     5              26.             26.           23.5
+TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
+DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
+TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
+SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
+DEEP SINK TEMPERATURE                                                                    19.   deg C
+INPUT VERIFICATION OF FIRE/UNSTEADY HEAT SOURCE NUMBER  1   30 MW fire                                         FORM 4A
+SENSIBLE HEAT RATE                                                                       30.   MW
+LATENT HEAT RATE                                                                          0.   MW
+SIMULATION TIME AFTER WHICH SOURCE BECOMES ACTIVE                                       100.   SECONDS
+SIMULATION TIME AFTER WHICH SOURCE BECOMES INACTIVE                                    9999.   SECONDS
+FIRE SOURCE EFFECTIVE FLAME TEMPERATURE                                              430.722   deg C
+FIRE SOURCE EFFECTIVE AREA FOR RADIATION                                             103.308   m^2
+INPUT VERIFICATION FOR VENTILATION SHAFT    901 -   801   75 m vertical ventilation shaft                              FORM 5A
+SECTION TYPE                                                                               1   (VENTILATION SHAFT)
+NUMBER OF SEGMENTS IN THIS VENT SHAFT                                                      1                   FORM 5B
+NUMBER OF SUBSEGMENTS IN RESULTING EQUIVALENT VENT SHAFT                                   3
+GRATE FREE AREA                                                                      46.4515   m^2
+DESIGN MAXIMUM OUTFLOW AIR VELOCITY AT GRATE                                            7.62   m/s
+WALL SURFACE TEMPERATURE                                                                 26.   deg C
+INITIAL AIR DRY-BULB TEMPERATURE                                                         26.   deg C
+INITIAL AIR WET-BULB TEMPERATURE                                                        23.5   deg C
+STACK HEIGHT                                                                          75.011   m
+FAN TYPE                                                                                   1                   FORM 5C
+SIMULATION TIME AFTER WHICH FAN SWITCHES ON                                               10   SECONDS
+SIMULATION TIME AFTER WHICH FAN SWITCHES OFF                                           9999.   SECONDS
+DIRECTION OF FAN OPERATION                                                                 1   (OUTFLOW OR EXHAUST)
+SEGMENT CHARACTERISTICS                                                                                        FORM 5D
+                                                                    SEGMENT TOTAL HEAD LOSS COEFFICIENTS
+                LENGTH          AREA         PERIMETER          FORWARD    FORWARD       BACKWARD   BACKWARD
+                 (m)            (m^2)           (m)             POSITIVE   NEGATIVE      POSITIVE   NEGATIVE
+        1      75.011         31.0017         19.751             80.55      80.55            0.         0.
+EQUIVALENT VENTILATION SHAFT PROPERTIES
+     LENGTH                 75.011   m                           TOTAL HEAD CHANGE COEFFICIENTS
+     AREA                  31.0017   m^2                  POSITIVE FLOW          80.55
+     PERIMETER              19.751   m                    NEGATIVE FLOW          80.55
+                                    SUBSEGMENTS ADJACENT TO THE NODE
+   INTERNAL            EXTERNAL            NO. OF SECTIONS                SUBSEGMENTS ADJACENT TO NODE
+     NODE                NODE              ADJACENT TO NODE         (ORDER OF ENTRIES MAY BE CHANGED BY JINS)
+   --------            --------            ----------------         -----------------------------------------
+                       (TABL15)                (TABL16)                             (TABL18)
+       1                 101                       1                         1
+       2                 102                       2                         5      6
+       3                 901                       1                         8
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                         26.   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                        23.5   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01723   kg/kg OF DRY AIR
+MORNING DRY-BULB BOUNDARY CONDITION TEMPERATURE                                       23.889   deg C
+MORNING WET-BULB BOUNDARY CONDITION TEMPERATURE                                       18.333   deg C
+  BOUNDARY CONDITION HUMIDITY RATIO                                                  0.01088   kg/kg OF DRY AIR
+EVENING OR OFF HOUR DRY-BULB BOUNDARY CONDITION TEMPERATURE                           29.444   deg C
+EVENING OR OFF HOUR WET-BULB BOUNDARY CONDITION TEMPERATURE                           25.556   deg C
+  BOUNDARY CONDITION HUMIDITY RATIO                                                  0.01911   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      7   ZERO TOTAL PRESSURE CHANGE
+                                                                                               JUNCTION
+NODE THERMODYNAMIC TYPE                                                                    1   (MIXING NODE)
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              901                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                         26.   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                        23.5   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01723   kg/kg OF DRY AIR
+MORNING DRY-BULB BOUNDARY CONDITION TEMPERATURE                                       23.889   deg C
+MORNING WET-BULB BOUNDARY CONDITION TEMPERATURE                                       18.333   deg C
+  BOUNDARY CONDITION HUMIDITY RATIO                                                  0.01088   kg/kg OF DRY AIR
+EVENING OR OFF HOUR DRY-BULB BOUNDARY CONDITION TEMPERATURE                           29.444   deg C
+EVENING OR OFF HOUR WET-BULB BOUNDARY CONDITION TEMPERATURE                           25.556   deg C
+  BOUNDARY CONDITION HUMIDITY RATIO                                                  0.01911   kg/kg OF DRY AIR
+                                    DUMP OF TABLES RELATED TO AERO AND THERMO PHENOMENA
+                                                                      (ORDER OF ENTRIES MAY HAVE BEEN CHANGED BY JINS)
+   INTERNAL            EXTERNAL            NO. OF SECTIONS             INTERNAL SECTIONS              SUBSEGMENTS
+     NODE                NODE              ADJACENT TO NODE            ADJACENT TO NODE             ADJACENT TO NODE
+   --------            --------            ----------------            -----------------            ----------------
+                       (TABL15)                (TABL16)                    (TABL17)                     (TABL18)
+       1                 101                       1                   -1
+                                                                                                      1
+       2                 102                       2                    1   -2
+                                                                                                      5    6
+       3                 901                       1                    2
+                                                                                                      8
+   INTERNAL            EXTERNAL                       (BACKWARD THERMO SUBNODE)                  (FORWARD THERMO SUBNODE)
+   SECTION             SECTION                           NUMBER       BRANCH                        NUMBER      BRANCH
+   --------            --------            --------   -----------   -----------       --------   -----------  -----------
+                       (TABL11)            (TABL20)                                   (TABL21)
+       1                 101                   65           1            1               129          2            1
+       2                 901                  130           2            2               193          3            1
+FIRST DUMP OF TABL1
+    1    1    1    1
+FIRST DUMP OF TABL2
+    0
+COMBINED DUMP OF TABL1 AND TABL2
+   1   0
+   1   0
+   1   0
+FIRST DUMP OF TABL23
+    1    1    1    1
+FIRST DUMP OF COAEND
+     0.0000
+COMBINED DUMP OF TABL23 AND COAEND
+    1    0
+    1    0
+    1    0
+INPUT VERIFICATION FOR FAN TYPE 1               200 m3/s, TVS fan 1                                            FORM 7A
+BI-DIRECTIONAL FAN PERFORMANCE CHARACTERISTICS
+        AIR DENSITY AT WHICH THE FAN PERFORMANCE CURVE WAS MEASURED                   1.2014   kg/m^3
+        TIME REQUIRED FOR FAN TO REACH FULL OPERATING SPEED                           15.000   SECONDS
+        FAN LOWER FLOW LIMIT (POINT OF MOTOR BREAKDOWN TORQUE OR STOPPING)              -24.   m^3/s
+        FAN UPPER FLOW LIMIT (POINT OF WINDMILLING)                                  424.753   m^3/s
+                                  OUTFLOW(EXHAUST) FAN PERFORMANCE CURVE INFORMATION                           FORM 7B
+FAN PERFORMANCE CURVE DATA POINTS
+        FAN TOTAL PRESSURE         3537.1        2416.2        1494.5            0.             Pa
+             VS
+        VOLUME FLOWRATE                0.       121.432        276.42       364.142            m^3/s
+FITTED FAN PERFORMANCE CURVE
+        FAN TOTAL PRESSURE    3980.4   3885.8   3796.1   3711.4   3629.2   3549.5   3472.3      Pa
+             VS
+        VOLUME FLOWRATE      -28.317  -23.597  -18.878  -14.158   -9.439   -4.719       0.     m^3/s
+        FAN TOTAL PRESSURE    3400.1   3332.8   3265.6   3203.3    3141.   3083.7   3028.9      Pa
+             VS
+        VOLUME FLOWRATE        4.719    9.439   14.158   18.878   23.597   28.317   33.036     m^3/s
+        FAN TOTAL PRESSURE    2976.6   2926.8   2879.5   2834.6   2792.3   2752.4   2712.6      Pa
+             VS
+        VOLUME FLOWRATE       37.756   42.475   47.195   51.914   56.634   61.353   66.073     m^3/s
+        FAN TOTAL PRESSURE    2675.2   2640.3    2608.   2575.6   2545.7   2515.8   2488.4      Pa
+             VS
+        VOLUME FLOWRATE       70.792   75.512   80.231   84.951    89.67   94.389   99.109     m^3/s
+        FAN TOTAL PRESSURE     2461.   2436.1   2413.7   2388.8   2366.3   2343.9    2324.      Pa
+             VS
+        VOLUME FLOWRATE      103.828  108.548  113.267  117.987  122.706  127.426  132.145     m^3/s
+        FAN TOTAL PRESSURE    2304.1   2284.1   2264.2   2244.3   2224.4   2204.4   2184.5      Pa
+             VS
+        VOLUME FLOWRATE      136.865  141.584  146.304  151.023  155.743  160.462  165.182     m^3/s
+        FAN TOTAL PRESSURE    2164.6   2144.7   2124.7   2104.8   2082.4   2062.5    2040.      Pa
+             VS
+        VOLUME FLOWRATE      169.901  174.621   179.34   184.06  188.779  193.498  198.218     m^3/s
+        FAN TOTAL PRESSURE    2015.1   1990.2   1965.3   1940.4   1910.5   1883.1   1850.7      Pa
+             VS
+        VOLUME FLOWRATE      202.937  207.657  212.376  217.096  221.815  226.535  231.254     m^3/s
+        FAN TOTAL PRESSURE    1818.3    1786.   1751.1   1713.7   1673.9   1631.5   1589.2      Pa
+             VS
+        VOLUME FLOWRATE      235.974  240.693  245.413  250.132  254.852  259.571  264.291     m^3/s
+        FAN TOTAL PRESSURE    1544.3    1497.   1444.7   1392.4   1337.6   1280.3    1218.      Pa
+             VS
+        VOLUME FLOWRATE       269.01   273.73  278.449  283.168  287.888  292.607  297.327     m^3/s
+        FAN TOTAL PRESSURE    1155.8   1088.5   1018.8    946.5    869.3    789.6    704.9      Pa
+             VS
+        VOLUME FLOWRATE      302.046  306.766  311.485  316.205  320.924  325.644  330.363     m^3/s
+        FAN TOTAL PRESSURE     620.2    528.1    433.4    336.3    234.1     127.     17.4      Pa
+             VS
+        VOLUME FLOWRATE      335.083  339.802  344.522  349.241  353.961   358.68    363.4     m^3/s
+        FAN TOTAL PRESSURE     -97.1   -216.7   -338.8   -468.3   -600.3   -737.3   -879.3      Pa
+             VS
+        VOLUME FLOWRATE      368.119  372.838  377.558  382.277  386.997  391.716  396.436     m^3/s
+        FAN TOTAL PRESSURE   -1026.2  -1178.2  -1337.6  -1499.5  -1666.4  -1840.8  -2020.1      Pa
+             VS
+        VOLUME FLOWRATE      401.155  405.875  410.594  415.314  420.033  424.753  429.472     m^3/s
+                                   INFLOW(SUPPLY) FAN PERFORMANCE CURVE INFORMATION                            FORM 7B
+FAN PERFORMANCE CURVE DATA POINTS
+        FAN TOTAL PRESSURE         3537.1        2416.2        1494.5            0.             Pa
+             VS
+        VOLUME FLOWRATE                0.       121.432        276.42       364.142            m^3/s
+FITTED FAN PERFORMANCE CURVE
+        FAN TOTAL PRESSURE    3980.4   3885.8   3796.1   3711.4   3629.2   3549.5   3472.3      Pa
+             VS
+        VOLUME FLOWRATE      -28.317  -23.597  -18.878  -14.158   -9.439   -4.719       0.     m^3/s
+        FAN TOTAL PRESSURE    3400.1   3332.8   3265.6   3203.3    3141.   3083.7   3028.9      Pa
+             VS
+        VOLUME FLOWRATE        4.719    9.439   14.158   18.878   23.597   28.317   33.036     m^3/s
+        FAN TOTAL PRESSURE    2976.6   2926.8   2879.5   2834.6   2792.3   2752.4   2712.6      Pa
+             VS
+        VOLUME FLOWRATE       37.756   42.475   47.195   51.914   56.634   61.353   66.073     m^3/s
+        FAN TOTAL PRESSURE    2675.2   2640.3    2608.   2575.6   2545.7   2515.8   2488.4      Pa
+             VS
+        VOLUME FLOWRATE       70.792   75.512   80.231   84.951    89.67   94.389   99.109     m^3/s
+        FAN TOTAL PRESSURE     2461.   2436.1   2413.7   2388.8   2366.3   2343.9    2324.      Pa
+             VS
+        VOLUME FLOWRATE      103.828  108.548  113.267  117.987  122.706  127.426  132.145     m^3/s
+        FAN TOTAL PRESSURE    2304.1   2284.1   2264.2   2244.3   2224.4   2204.4   2184.5      Pa
+             VS
+        VOLUME FLOWRATE      136.865  141.584  146.304  151.023  155.743  160.462  165.182     m^3/s
+        FAN TOTAL PRESSURE    2164.6   2144.7   2124.7   2104.8   2082.4   2062.5    2040.      Pa
+             VS
+        VOLUME FLOWRATE      169.901  174.621   179.34   184.06  188.779  193.498  198.218     m^3/s
+        FAN TOTAL PRESSURE    2015.1   1990.2   1965.3   1940.4   1910.5   1883.1   1850.7      Pa
+             VS
+        VOLUME FLOWRATE      202.937  207.657  212.376  217.096  221.815  226.535  231.254     m^3/s
+        FAN TOTAL PRESSURE    1818.3    1786.   1751.1   1713.7   1673.9   1631.5   1589.2      Pa
+             VS
+        VOLUME FLOWRATE      235.974  240.693  245.413  250.132  254.852  259.571  264.291     m^3/s
+        FAN TOTAL PRESSURE    1544.3    1497.   1444.7   1392.4   1337.6   1280.3    1218.      Pa
+             VS
+        VOLUME FLOWRATE       269.01   273.73  278.449  283.168  287.888  292.607  297.327     m^3/s
+        FAN TOTAL PRESSURE    1155.8   1088.5   1018.8    946.5    869.3    789.6    704.9      Pa
+             VS
+        VOLUME FLOWRATE      302.046  306.766  311.485  316.205  320.924  325.644  330.363     m^3/s
+        FAN TOTAL PRESSURE     620.2    528.1    433.4    336.3    234.1     127.     17.4      Pa
+             VS
+        VOLUME FLOWRATE      335.083  339.802  344.522  349.241  353.961   358.68    363.4     m^3/s
+        FAN TOTAL PRESSURE     -97.1   -216.7   -338.8   -468.3   -600.3   -737.3   -879.3      Pa
+             VS
+        VOLUME FLOWRATE      368.119  372.838  377.558  382.277  386.997  391.716  396.436     m^3/s
+        FAN TOTAL PRESSURE   -1026.2  -1178.2  -1337.6  -1499.5  -1666.4  -1840.8  -2020.1      Pa
+             VS
+        VOLUME FLOWRATE      401.155  405.875  410.594  415.314  420.033  424.753  429.472     m^3/s
+                                             FAN PERFORMANCE CURVE FIT COEFFICIENTS
+                                             --------------------------------------
+    THE COEFFICIENTS C1, C2, C3, C4 FIT THE FAN PERFORMANCE CURVE OF THE FOLLOWING EQUATION -
+          C1 * (Q**3) + C2 * (Q**2) + C3 * (Q) + C4 = P
+    WHERE Q IS THE AIRFLOW RATE (CFS) OF INFLOW (EXHAUST) OR OUTFLOW (SUPPLY)
+          P IS THE PRESSURE HEAD IN FT**2/SEC**2
+                                        C1                  C2                  C3                  C4
+    OUTFLOW (EXHAUST)             -0.3207168E-07       0.5357148E-03      -0.4042573E+01       0.3159795E+05
+    -----------------
+    INFLOW (SUPPLY)               -0.3207168E-07      -0.5357148E-03      -0.4042573E+01      -0.3159795E+05
+    ---------------
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route from portal to base of vent shaft                                FORM 8A
+                                               TRAIN SCHEDULING DATA
+TRAIN SCHEDULING ORIGIN                                                                   0.   m
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                              9999.   SECONDS
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              65.02   km/h
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+             1                   1                 1               9999                      9999
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route from portal to base of vent shaft                                CONTINUED
+                                                  TRACK SECTION DATA                                           FORM 8C
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+                 (m)            (m)         (m)              (m)        (percent)       (km/h)
+   1          800.009        800.009                          0.             0.            42.            0
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route from portal to base of vent shaft                                CONTINUED
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+NUMBER OF SCHEDULED STOPS                                                                  0
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route from portal to base of vent shaft                                CONTINUED
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                               0.   m
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER                 (m)               (m)
+                           101                 201                     0.    TO     100.005
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+    1          0.00       0.0   0.00000     38.28         0       500         0
+    2        328.08       0.0   0.00000     38.28         0         0       128
+    3       2624.67       0.0   0.00000     38.28         0         0         0
+INPUT VERIFICATION FOR TRAIN TYPE 1   9.4 m^2, 210 m train                                                     FORM 9A
+TOTAL NUMBER OF CARS PER TRAIN                                                             9
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+TOTAL LENGTH OF TRAIN                                                                210.007   m
+FRONTAL AREA OF TRAIN                                                                 9.3999   m^2
+PERIMETER OF CAR                                                                      12.101   m               FORM 9B
+SKIN FRICTION COEFFICIENT                                                              0.022
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                                0.   m^2
+FRONT OF TRAIN DRAG COEFFICIENT                                                         0.55
+TRAIN HEAT DATA                                                                                                FORM 9C
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                     15000.   W      PER CAR
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                         0.   W      PER CAR
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR          95.   W      PER PATRON
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR            52.   W      PER PATRON
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                         19.5   KW PER CAR
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                        0.09   KW PER PATRON
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                           800.               400.   kg
+       EFFECTIVE DIAMETER OF AN ELEMENT                            0.0406             0.0406   m
+       EFFECTIVE SURFACE AREA FOR CONVECTION                        1.997              1.997   m^2
+       EFFECTIVE SURFACE AREA FOR RADIATION                         2.397              2.397   m^2
+       EMISSIVITY OF RESISTANCE ELEMENT                               0.9                0.9
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                         501.97             501.97   J/kg-K
+       INITIAL GRID TEMPERATURES                                  276.667            526.667   deg C
+INPUT VERIFICATION FOR TRAIN TYPE 1   9.4 m^2, 210 m train                                                     CONTINUED
+AVERAGE EMPTY CAR WEIGHT                                                              41.458   tonnes          FORM 9E
+NUMBER OF MOTORS PER POWERED CAR                                                           2
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.005786   N/kg
+                                                                                 =    5.7859   N/tonne
+                                                                                 =      1.18   lb/ton
+                                           SECOND                                     515.99   N
+                                           THIRD                                    0.000448   N/(kg-m/s)
+                                                                              =    0.4475111   N/(tonne-m/s)
+                                                                              = 0.1243086364   N/(tonne-kph)
+                                                                              =  0.000124309   N/(kg-kph)
+                                                                              =       0.0408   lb/ton-mph
+ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
+                                                                                 =   4000.37   kg/car
+                                                                                 =     8.800   (lb/ton)/(mph/s)
+                      MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+       WHEEL DIAMETER                                              0.8407             0.8407   m
+       GEAR RATIO                                                     4.4                4.4
+       SUPPLY VOLTAGE                                               1500.              1500.   VOLTS
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                    750.   VOLTS/MOTOR
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+       TRAIN SPEED              34.923      35.084      78.053     116.034                     km/h             FORM 9G
+       TRACTIVE EFFORT        55332.23    55332.23    24999.86    16665.68                     N
+       MOTOR CURRENT              392.        392.        392.        392.                     AMPS
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+INPUT VERIFICATION FOR TRAIN TYPE 1   9.4 m^2, 210 m train                                                     CONTINUED
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+       LINE CURRENT               80.8        581.        582.        583.        584.         AMPS/POWERED CAR
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                              91.   percent
+SPEED U1                                                                              79.019   km/h
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                            93.   percent
+REGENERATIVE BRAKING EFFECTIVENESS                                                       20.   percent
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+  (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)  . (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)
+                                                                .
+      0.         55331.3             392.              81.      . 88.514         22000.9             392.             583.
+   8.047         55331.3             392.             196.      . 96.561         20132.6             392.             584.
+  16.093         55331.3             392.             311.      . 104.61         18544.6             392.             584.
+   24.14         55331.3             392.             427.      . 112.65         17183.5             392.             584.
+  32.187         55331.3             392.             542.      .  120.7         16000.2             392.             584.
+  40.234          48401.             392.             582.      . 128.75         14963.8             392.             584.
+   48.28         40438.7             392.             582.      . 136.79         14047.5             392.             584.
+  56.327         34696.1             392.             582.      . 144.84         13233.4             392.             584.
+  64.374         30359.1             392.             583.      . 152.89         12499.5             392.             585.
+   72.42         26965.1             392.             583.      . 160.93         11845.6             392.             585.
+  80.467         24238.3             392.             583.      . 168.98         11249.5             392.             585.
+INTERNAL MOTOR RESISTANCE                                                               0.11   OHMS/MOTOR      FORM 9I
+Hobyah freebie: a table of traction efficiencies
+                                    Power delivered at wheel-rail interface
+    Traction efficiency = ----------------------------------------------------------
+                          Power delivered at wheel-rail interface + loss in traction
+
+ Speed     Tractive     Power at      Loss in       Efficiency
+            effort       wheels      traction      of traction
+(km/h)    (N/train)     (W/train)    (W/train)         (%)
+   0.00     663976             0       268446          0.00
+   8.05     663976       1484119       361596         80.41
+  16.09     663976       2968239       454746         86.71
+  24.14     663976       4452358       548706         89.03
+  32.19     663976       5936478       641856         90.24
+  40.23     580812       6491158       674256         90.59
+  48.28     485265       6507981       674256         90.61
+  56.33     416353       6514424       674256         90.62
+  64.37     364309       6514424       675066         90.61
+  72.42     323581       6509413       675066         90.60
+  80.47     290860       6501300       570126         91.94
+  88.51     264010       6491278       570126         91.93
+  96.56     241591       6480062       570756         91.91
+ 104.61     222535       6466342       570756         91.89
+ 112.65     206201       6452621       570756         91.87
+ 120.70     192003       6437468       570756         91.86
+ 128.75     179566       6421838       570756         91.84
+ 136.79     168570       6405373       570756         91.82
+ 144.84     158801       6389147       570756         91.80
+ 152.89     149994       6370057       571386         91.77
+ 160.93     142147       6354546       571386         91.75
+ 168.98     134994       6336530       571386         91.73
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                    1.296   m/s^2           FORM 9J
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                         1.118   m/s^2
+SPEED V1                                                                              32.187   km/h
+NORMAL DECELERATION RATE AT SPEED V2                                                   0.894   m/s^2
+SPEED V2                                                                             115.873   km/h
+                       INPUT VERIFICATION OF ENVIRONMENTAL CONTROL ZONE DATA
+ -------------------------------------------        ZONE NUMBER  1        -----------------------------------------------
+ZONE TYPE                                                                                  2   UNCONTROLLED    FORM 11A
+NUMBER OF LINE SEGMENTS AND VENTILATION SHAFTS IN ZONE                                     2
+          REQUIRED DTRM MATRIX SIZE IS   11, AVAILABLE SIZE IS 1350
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+TEMPERATURE TABULATION INCREMENT                                                       2.778   deg C
+NUMBER OF CONTROL GROUPS                                                                   1
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+     1         15           20.         0         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5              300.
+                                                   PROGRAM CONTROLS                                            FORM 13
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+MAXIMUM SIMULATION TIME                                                                 300.   SECONDS
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                             2
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             5
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1            0.            0.             26.     0.01723          0.        0.
+         101 -201 -  2            0.            0.             26.     0.01723
+         101 -201 -  3            0.            0.             26.     0.01723
+         101 -201 -  4            0.            0.             26.     0.01723
+         101 -201 -  5            0.            0.             26.     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                         26.     0.01723          0.        0.
+         901 -801 -  2                                         26.     0.01723
+         901 -801 -  3                                         26.     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01          0.          0.           0.          0.          0.            0.        26.   0.017235
+    101 -201 -  2       600.01          0.          0.           0.          0.          0.            0.        26.   0.017235
+    101 -201 -  3       600.01          0.          0.           0.          0.          0.            0.        26.   0.017235
+    101 -201 -  4       600.01          0.          0.           0.          0.          0.            0.        26.   0.017235
+    101 -201 -  5       600.01          0.          0.           0.          0.          0.            0.        26.   0.017235
+    901 -801 -  1         775.          0.          0.           0.          0.          0.            0.        26.   0.017235
+    901 -801 -  2         775.          0.          0.           0.          0.          0.            0.        26.   0.017235
+    901 -801 -  3         775.          0.          0.           0.          0.          0.            0.        26.   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      -17.778                        0.
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                      1.               0.            26.                0.               0.
+       101 -201 -  2                                      1.               0.            26.                0.               0.
+       101 -201 -  3                                      1.               0.            26.                0.               0.
+       101 -201 -  4                                      1.               0.            26.                0.               0.
+       101 -201 -  5                                      1.               0.            26.                0.               0.
+       901                               0.               1. (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+TIME     20.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        763.92            0.             26.     0.01723     198.828     6.627
+         101 -201 -  2        763.92            0.          26.006     0.01723
+         101 -201 -  3        763.92            0.          26.006     0.01723
+         101 -201 -  4        763.92            0.          26.006     0.01723
+         101 -201 -  5        763.92            0.          26.006     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                         26.     0.01723     198.828     6.414
+         901 -801 -  2                                         26.     0.01723
+         901 -801 -  3                                         26.     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     198.828     198.828       21.659       764.2          0.            0.   26.00222   0.017235
+    101 -201 -  2       600.01     198.828     198.828       21.659       764.2          0.            0.   26.00389   0.017235
+    101 -201 -  3       600.01     198.828     198.828       21.659       764.2          0.            0.     26.005   0.017235
+    101 -201 -  4       600.01     198.828     198.828       21.659       764.2          0.            0.     26.005   0.017235
+    101 -201 -  5       600.01     198.828     198.828       21.659       764.2          0.            0.     26.005   0.017235
+    901 -801 -  1         775.     198.828     198.828        9.961          0.          0.      2560200.   26.00222   0.017235
+    901 -801 -  2         775.     198.828     198.828        9.961          0.          0.      2560200.   26.00111   0.017235
+    901 -801 -  3         775.     198.828     198.828        9.961          0.          0.      2560200.   26.00056   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                       26.006                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000008         2245965.            26.                0.               0.
+       101 -201 -  2                                1.000013         2245958.            26.                0.               0.
+       101 -201 -  3                                1.000015         2245955.            26.                0.               0.
+       101 -201 -  4                                1.000015         2245954.            26.                0.               0.
+       101 -201 -  5                                1.000016         2245953.            26.                0.               0.
+       901                               0.         1.000003 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+TIME     40.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        783.95            0.          26.006     0.01723     200.552     6.685
+         101 -201 -  2        783.95            0.          26.006     0.01723
+         101 -201 -  3        783.95            0.          26.011     0.01723
+         101 -201 -  4        783.95            0.          26.011     0.01723
+         101 -201 -  5        783.95            0.          26.017     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                      26.011     0.01723     200.552     6.469
+         901 -801 -  2                                      26.011     0.01723
+         901 -801 -  3                                      26.011     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     200.552     200.552       21.808       784.3          0.            0.   26.00333   0.017235
+    101 -201 -  2       600.01     200.552     200.552       21.808       784.3          0.            0.   26.00611   0.017235
+    101 -201 -  3       600.01     200.552     200.552       21.808       784.3          0.            0.   26.00889   0.017235
+    101 -201 -  4       600.01     200.552     200.552       21.808       784.3          0.            0.   26.01167   0.017235
+    101 -201 -  5       600.01     200.552     200.552       21.808       784.3          0.            0.   26.01444   0.017235
+    901 -801 -  1         775.     200.552     200.552        10.03          0.          0.      2582300.   26.01333   0.017235
+    901 -801 -  2         775.     200.552     200.552        10.03          0.          0.      2582300.   26.01222   0.017235
+    901 -801 -  3         775.     200.552     200.552        10.03          0.          0.      2582300.      26.01   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                       26.017                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                 1.00001         2265440.            26.                0.               0.
+       101 -201 -  2                                1.000021         2265427.            26.                0.               0.
+       101 -201 -  3                                 1.00003         2265414.            26.                0.               0.
+       101 -201 -  4                                1.000039         2265402.            26.                0.               0.
+       101 -201 -  5                                1.000048         2265391.            26.                0.               0.
+       901                               0.         1.000039 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+TIME     60.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        783.95            0.          26.006     0.01723     200.551     6.685
+         101 -201 -  2        783.95            0.          26.006     0.01723
+         101 -201 -  3        783.95            0.          26.011     0.01723
+         101 -201 -  4        783.95            0.          26.011     0.01723
+         101 -201 -  5        783.95            0.          26.017     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                      26.017     0.01723     200.551     6.469
+         901 -801 -  2                                      26.017     0.01723
+         901 -801 -  3                                      26.011     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00333   0.017235
+    101 -201 -  2       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00611   0.017235
+    101 -201 -  3       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00889   0.017235
+    101 -201 -  4       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01167   0.017235
+    101 -201 -  5       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01444   0.017235
+    901 -801 -  1         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01444   0.017235
+    901 -801 -  2         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01389   0.017235
+    901 -801 -  3         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01333   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                       26.017                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                 1.00001         2265423.            26.                0.               0.
+       101 -201 -  2                                1.000021         2265409.            26.                0.               0.
+       101 -201 -  3                                1.000031         2265396.            26.                0.               0.
+       101 -201 -  4                                 1.00004         2265384.            26.                0.               0.
+       101 -201 -  5                                1.000049         2265372.            26.                0.               0.
+       901                               0.         1.000047 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+TIME     80.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        783.95            0.          26.006     0.01723     200.551     6.685
+         101 -201 -  2        783.95            0.          26.006     0.01723
+         101 -201 -  3        783.95            0.          26.011     0.01723
+         101 -201 -  4        783.95            0.          26.011     0.01723
+         101 -201 -  5        783.95            0.          26.017     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                      26.017     0.01723     200.551     6.469
+         901 -801 -  2                                      26.017     0.01723
+         901 -801 -  3                                      26.011     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00333   0.017235
+    101 -201 -  2       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00611   0.017235
+    101 -201 -  3       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00889   0.017235
+    101 -201 -  4       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01167   0.017235
+    101 -201 -  5       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01444   0.017235
+    901 -801 -  1         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01444   0.017235
+    901 -801 -  2         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01389   0.017235
+    901 -801 -  3         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01389   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                       26.017                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                 1.00001         2265422.            26.                0.               0.
+       101 -201 -  2                                1.000021         2265408.            26.                0.               0.
+       101 -201 -  3                                1.000031         2265396.            26.                0.               0.
+       101 -201 -  4                                 1.00004         2265383.            26.                0.               0.
+       101 -201 -  5                                1.000049         2265371.            26.                0.               0.
+       901                               0.         1.000047 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+TIME    100.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        783.95            0.          26.006     0.01723     200.551     6.685
+         101 -201 -  2        783.95            0.          26.006     0.01723
+         101 -201 -  3        783.95            0.          26.011     0.01723
+         101 -201 -  4        783.95            0.          26.011     0.01723
+         101 -201 -  5        783.95            0.          26.017     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                      26.017     0.01723     200.551     6.469
+         901 -801 -  2                                      26.017     0.01723
+         901 -801 -  3                                      26.011     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3             26.                  0.             0.
+       101 -201 -  4             26.                  0.             0.
+       101 -201 -  5             26.                  0.             0.
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00333   0.017235
+    101 -201 -  2       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00611   0.017235
+    101 -201 -  3       600.01     200.551     200.551       21.808       784.3          0.            0.   26.00889   0.017235
+    101 -201 -  4       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01167   0.017235
+    101 -201 -  5       600.01     200.551     200.551       21.808       784.3          0.            0.   26.01444   0.017235
+    901 -801 -  1         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01444   0.017235
+    901 -801 -  2         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01389   0.017235
+    901 -801 -  3         775.     200.551     200.551        10.03          0.          0.      2582300.   26.01389   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                       26.017                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                 1.00001         2265422.            26.                0.               0.
+       101 -201 -  2                                1.000021         2265408.            26.                0.               0.
+       101 -201 -  3                                1.000031         2265396.            26.                0.               0.
+       101 -201 -  4                                 1.00004         2265383.            26.                0.               0.
+       101 -201 -  5                                1.000049         2265371.            26.                0.               0.
+       901                               0.         1.000047 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                                 0.
+TIME    120.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        444.42            0.             26.     0.01723     165.981     5.533
+         101 -201 -  2        444.42            0.          26.006     0.01723
+         101 -201 -  3   30000939.64            0.         161.906     0.01723
+         101 -201 -  4        896.21            0.            152.     0.01723
+         101 -201 -  5        854.36            0.         142.011     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     129.111     0.01723     165.981     5.354
+         901 -801 -  2                                     107.361     0.01723
+         901 -801 -  3                                      83.406     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          45.778          1043913.34     1507841.47
+       101 -201 -  4          34.111           1053311.1       120893.1
+       101 -201 -  5          32.833           970692.58      106485.55
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     165.981     165.981       18.745       444.8          0.            0.   26.00222   0.017235
+    101 -201 -  2       600.01     165.981     165.981       18.745       444.8          0.            0.     26.005   0.017235
+    101 -201 -  3       600.01     165.981     165.981       19.919  30000939.2          0.            0.     162.27   0.017235
+    101 -201 -  4       600.01     165.981     165.981       19.852        896.          0.            0.  152.38944   0.017235
+    101 -201 -  5       600.01     165.981     165.981       19.762       853.8          0.            0.  142.44333   0.017235
+    901 -801 -  1         775.     165.981     165.981        9.387          0.          0.      1810000.  129.82333   0.017235
+    901 -801 -  2         775.     165.981     165.981        9.005          0.          0.      1810000.  108.42944   0.017235
+    901 -801 -  3         775.     165.981     165.981        8.578          0.          0.      1810000.   84.62222   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      142.011                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000008         1874924.            26.                0.               0.
+       101 -201 -  2                                1.000016         1874914.            26.                0.               0.
+       101 -201 -  3                                1.453082         1430312.         45.767          5670.495       1507842.64
+       101 -201 -  4                                1.419902         1455630.         34.089           2609.34       120896.844
+       101 -201 -  5                                1.386338         1480093.         32.811          2393.758       106487.045
+       901                         163.4164         1.266152 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -13.86820349
+TIME    140.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        336.16            0.             26.     0.01723     151.232     5.041
+         101 -201 -  2        336.16            0.          26.006     0.01723
+         101 -201 -  3   30000764.66            0.         178.017     0.01723
+         101 -201 -  4        737.04            0.         169.861     0.01723
+         101 -201 -  5         710.9            0.         161.928     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     156.333     0.01723     151.232     4.878
+         901 -801 -  2                                     148.811     0.01723
+         901 -801 -  3                                     139.556     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          54.667          1042806.73     1523420.61
+       101 -201 -  4          38.944          1094192.07        148109.
+       101 -201 -  5          37.722          1035097.17      135160.79
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     151.232     151.232       17.401       336.3          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     151.232     151.232       17.401       336.3          0.            0.   26.00389   0.017235
+    101 -201 -  3       600.01     151.232     151.232        18.62  30000764.2          0.            0.  178.11722   0.017235
+    101 -201 -  4       600.01     151.232     151.232       18.555       736.8          0.            0.  169.97556   0.017235
+    101 -201 -  5       600.01     151.232     151.232         18.5       710.5          0.            0.  162.05944   0.017235
+    901 -801 -  1         775.     151.232     151.232        9.327          0.          0.      1523600.  156.48556   0.017235
+    901 -801 -  2         775.     151.232     151.232        9.023          0.          0.      1523600.  149.02778   0.017235
+    901 -801 -  3         775.     151.232     151.232        8.645          0.          0.      1523600.  139.87444   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      161.928                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1708321.            26.                0.               0.
+       101 -201 -  2                                1.000012         1708315.            26.                0.               0.
+       101 -201 -  3                                1.507814         1269584.         54.672          5702.719       1523422.51
+       101 -201 -  4                                 1.48051         1286172.         38.956          2760.701       148114.182
+       101 -201 -  5                                1.453954         1303348.         37.711          2600.603       135159.066
+       901                         199.4628         1.407817 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.90405574
+TIME    160.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        312.97            0.             26.     0.01723     147.672     4.923
+         101 -201 -  2        312.97            0.          26.006     0.01723
+         101 -201 -  3   30000727.55            0.         182.644     0.01723
+         101 -201 -  4        702.99            0.          175.15     0.01723
+         101 -201 -  5        680.64            0.         167.961     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     163.544     0.01723     147.672     4.764
+         901 -801 -  2                                     158.689     0.01723
+         901 -801 -  3                                     153.561     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          61.167          1003414.99     1521854.36
+       101 -201 -  4          42.444          1092925.75      155580.03
+       101 -201 -  5          41.167          1039662.32       143475.3
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     147.672     147.672       17.072       313.1          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     147.672     147.672       17.072       313.1          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     147.672     147.672        18.31  30000727.3          0.            0.  182.67611   0.017235
+    101 -201 -  4       600.01     147.672     147.672       18.248       703.1          0.            0.  175.18667   0.017235
+    101 -201 -  5       600.01     147.672     147.672       18.195        681.          0.            0.       168.   0.017235
+    901 -801 -  1         775.     147.672     147.672        9.617          0.          0.      1459600.  163.59111   0.017235
+    901 -801 -  2         775.     147.672     147.672        9.423          0.          0.      1459600.  158.75389   0.017235
+    901 -801 -  3         775.     147.672     147.672        9.217          0.          0.      1459600.  153.64611   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      167.961                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1668104.            26.                0.               0.
+       101 -201 -  2                                1.000011         1668099.            26.                0.               0.
+       101 -201 -  3                                1.523532         1230990.         61.189          5611.721       1521851.88
+       101 -201 -  4                                1.498467         1245328.         42.444          2774.431       155577.341
+       101 -201 -  5                                1.474408         1259882.         41.156          2629.196       143476.061
+       901                         199.4628         1.443028 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.68449799
+TIME    180.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        306.43            0.             26.     0.01723     146.624     4.887
+         101 -201 -  2        306.43            0.          26.006     0.01723
+         101 -201 -  3   30000717.33            0.         184.194     0.01723
+         101 -201 -  4        693.72            0.          176.95     0.01723
+         101 -201 -  5        672.53            0.         170.022     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                       165.9     0.01723     146.624      4.73
+         901 -801 -  2                                     161.756     0.01723
+         901 -801 -  3                                      157.65     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          66.389           968361.45     1516135.33
+       101 -201 -  4          45.278          1091429.49       157076.3
+       101 -201 -  5          43.944          1037773.46      145364.13
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     146.624     146.624       16.974       306.7          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     146.624     146.624       16.974       306.7          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     146.624     146.624        18.22  30000716.8          0.            0.  184.20833   0.017235
+    101 -201 -  4       600.01     146.624     146.624       18.161       693.6          0.            0.  176.96278   0.017235
+    101 -201 -  5       600.01     146.624     146.624       18.108       672.5          0.            0.  170.03722   0.017235
+    901 -801 -  1         775.     146.624     146.624        9.713          0.          0.      1441000.  165.91889   0.017235
+    901 -801 -  2         775.     146.624     146.624        9.546          0.          0.      1441000.  161.77611   0.017235
+    901 -801 -  3         775.     146.624     146.624        9.383          0.          0.      1441000.  157.67944   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      170.022                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1656270.            26.                0.               0.
+       101 -201 -  2                                1.000011         1656264.            26.                0.               0.
+       101 -201 -  3                                1.528777         1219423.         66.372          5521.063       1516138.55
+       101 -201 -  4                                1.504543         1233022.         45.289          2774.431       157074.189
+       101 -201 -  5                                1.481377         1246738.         43.917          2629.196       145362.933
+       901                         199.4628         1.453772 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                         -12.630447
+TIME    200.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1         303.9            0.             26.     0.01723     146.219     4.874
+         101 -201 -  2         303.9            0.          26.006     0.01723
+         101 -201 -  3   30000713.22            0.         184.911     0.01723
+         101 -201 -  4        690.66            0.         177.794     0.01723
+         101 -201 -  5          670.            0.            171.     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     166.944     0.01723     146.219     4.717
+         901 -801 -  2                                     162.978     0.01723
+         901 -801 -  3                                     159.139     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          70.778           936150.35     1509802.57
+       101 -201 -  4          47.667          1062645.09      157076.85
+       101 -201 -  5          46.333          1037593.14      145544.42
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     146.219     146.219       16.937       303.6          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     146.219     146.219       16.937       303.6          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     146.219     146.219       18.185  30000713.6          0.            0.  184.91944   0.017235
+    101 -201 -  4       600.01     146.219     146.219       18.126       690.4          0.            0.  177.80389   0.017235
+    101 -201 -  5       600.01     146.219     146.219       18.075       670.4          0.            0.  171.01167   0.017235
+    901 -801 -  1         775.     146.219     146.219        9.754          0.          0.      1433900.  166.95667   0.017235
+    901 -801 -  2         775.     146.219     146.219        9.597          0.          0.      1433900.  162.98778   0.017235
+    901 -801 -  3         775.     146.219     146.219        9.442          0.          0.      1433900.     159.15   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                         171.                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1651690.            26.                0.               0.
+       101 -201 -  2                                1.000011         1651685.            26.                0.               0.
+       101 -201 -  3                                1.531191         1214754.         70.772          5435.397        1509803.3
+       101 -201 -  4                                1.507397         1227994.         47.644          2710.437       157074.189
+       101 -201 -  5                                1.484683         1241313.         46.306          2629.196       145542.133
+       901                         199.4628         1.457997 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.61803515
+TIME    220.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        302.53            0.             26.     0.01723     145.997     4.867
+         101 -201 -  2        302.53            0.          26.006     0.01723
+         101 -201 -  3   30000711.11            0.         185.372     0.01723
+         101 -201 -  4        689.18            0.         178.344     0.01723
+         101 -201 -  5        668.84            0.         171.633     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     167.589     0.01723     145.997      4.71
+         901 -801 -  2                                     163.661     0.01723
+         901 -801 -  3                                     159.889     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          74.611           907293.94     1503689.85
+       101 -201 -  4          49.667          1049739.02      156745.39
+       101 -201 -  5          48.222          1003766.13      145385.45
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     145.997     145.997       16.917       302.5          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     145.997     145.997       16.917       302.5          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     145.997     145.997       18.169  30000711.5          0.            0.  185.37944   0.017235
+    101 -201 -  4       600.01     145.997     145.997        18.11       689.4          0.            0.  178.35111   0.017235
+    101 -201 -  5       600.01     145.997     145.997       18.056       668.3          0.            0.  171.64278   0.017235
+    901 -801 -  1         775.     145.997     145.997        9.781          0.          0.      1430100.    167.595   0.017235
+    901 -801 -  2         775.     145.997     145.997        9.624          0.          0.      1430100.  163.66833   0.017235
+    901 -801 -  3         775.     145.997     145.997        9.472          0.          0.      1430100.  159.89611   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      171.633                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1649192.            26.                0.               0.
+       101 -201 -  2                                1.000011         1649187.            26.                0.               0.
+       101 -201 -  3                                 1.53274         1212085.         74.622          5357.674       1503689.41
+       101 -201 -  4                                 1.50924         1225093.         49.644          2681.049       156747.412
+       101 -201 -  5                                1.486808         1238169.         48.217          2553.629       145384.015
+       901                         199.4628         1.460323 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.61659515
+TIME    240.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        301.48            0.             26.     0.01723     145.838     4.861
+         101 -201 -  2        301.48            0.          26.006     0.01723
+         101 -201 -  3   30000711.11            0.         185.739     0.01723
+         101 -201 -  4        688.23            0.         178.783     0.01723
+         101 -201 -  5        668.21            0.         172.144     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     168.083     0.01723     145.838     4.705
+         901 -801 -  2                                     164.161     0.01723
+         901 -801 -  3                                       160.4     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          78.056           881320.26     1497931.44
+       101 -201 -  4          51.444          1037798.87      156314.32
+       101 -201 -  5          49.944           992960.39      145100.16
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     145.838     145.838       16.903       301.5          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     145.838     145.838       16.903       301.5          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     145.838     145.838       18.155  30000711.5          0.            0.  185.74333   0.017235
+    101 -201 -  4       600.01     145.838     145.838       18.097       688.3          0.            0.  178.78889   0.017235
+    101 -201 -  5       600.01     145.838     145.838       18.046       668.3          0.            0.  172.14833   0.017235
+    901 -801 -  1         775.     145.838     145.838        9.799          0.          0.      1427300.  168.09056   0.017235
+    901 -801 -  2         775.     145.838     145.838        9.644          0.          0.      1427300.  164.16722   0.017235
+    901 -801 -  3         775.     145.838     145.838        9.493          0.          0.      1427300.    160.405   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      172.144                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1647396.            26.                0.               0.
+       101 -201 -  2                                1.000011         1647391.            26.                0.               0.
+       101 -201 -  3                                1.533963         1210109.         78.067          5287.212       1497933.93
+       101 -201 -  4                                1.510709         1222929.          51.45          2653.591       156315.224
+       101 -201 -  5                                1.488506         1235811.         49.961          2529.007       145099.403
+       901                         199.4628         1.462007 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.61802586
+TIME    260.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        300.63            0.             26.     0.01723     145.705     4.857
+         101 -201 -  2        300.63            0.          26.006     0.01723
+         101 -201 -  3   30000709.11            0.         186.056     0.01723
+         101 -201 -  4         687.5            0.         179.167     0.01723
+         101 -201 -  5        667.68            0.         172.583     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     168.517     0.01723     145.705       4.7
+         901 -801 -  2                                     164.583     0.01723
+         901 -801 -  3                                     160.817     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          81.222           857713.34     1492511.37
+       101 -201 -  4          53.111          1026853.73       155874.1
+       101 -201 -  5          51.556           983001.75      144790.05
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     145.705     145.705        16.89       300.4          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     145.705     145.705        16.89       300.4          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     145.705     145.705       18.144  30000709.4          0.            0.  186.06167   0.017235
+    101 -201 -  4       600.01     145.705     145.705       18.087       687.3          0.            0.  179.17167   0.017235
+    101 -201 -  5       600.01     145.705     145.705       18.036       667.3          0.            0.  172.59111   0.017235
+    901 -801 -  1         775.     145.705     145.705        9.818          0.          0.      1424900.     168.52   0.017235
+    901 -801 -  2         775.     145.705     145.705         9.66          0.          0.      1424900.  164.58944   0.017235
+    901 -801 -  3         775.     145.705     145.705        9.509          0.          0.      1424900.  160.82222   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      172.583                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1645889.            26.                0.               0.
+       101 -201 -  2                                1.000011         1645883.            26.                0.               0.
+       101 -201 -  3                                1.535029         1208431.         81.194          5222.651       1492515.76
+       101 -201 -  4                                1.511993         1221086.           53.1          2628.289       155872.494
+       101 -201 -  5                                1.489991         1233800.         51.561          2506.201       144793.709
+       901                         199.4628         1.463426 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                        -12.6200976
+TIME    280.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1         299.9            0.             26.     0.01723     145.586     4.853
+         101 -201 -  2         299.9            0.          26.006     0.01723
+         101 -201 -  3   30000709.11            0.         186.344     0.01723
+         101 -201 -  4        686.97            0.         179.517     0.01723
+         101 -201 -  5        667.26            0.         172.989     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     168.906     0.01723     145.586     4.696
+         901 -801 -  2                                     164.961     0.01723
+         901 -801 -  3                                     161.189     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          84.056            836047.4     1487385.28
+       101 -201 -  4          54.611          1016758.08      155444.46
+       101 -201 -  5          53.056           973803.17      144480.46
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     145.586     145.586       16.878       300.4          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     145.586     145.586       16.878       300.4          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     145.586     145.586       18.136  30000709.4          0.            0.  186.35056   0.017235
+    101 -201 -  4       600.01     145.586     145.586       18.079       687.3          0.            0.     179.52   0.017235
+    101 -201 -  5       600.01     145.586     145.586       18.028       667.3          0.            0.  172.99389   0.017235
+    901 -801 -  1         775.     145.586     145.586        9.832          0.          0.      1422900.  168.90833   0.017235
+    901 -801 -  2         775.     145.586     145.586        9.675          0.          0.      1422900.  164.96722   0.017235
+    901 -801 -  3         775.     145.586     145.586        9.526          0.          0.      1422900.  161.19167   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      172.989                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1644544.            26.                0.               0.
+       101 -201 -  2                                1.000011         1644539.            26.                0.               0.
+       101 -201 -  3                                1.535996         1206927.         84.072          5163.196        1487382.2
+       101 -201 -  4                                1.513159         1219434.         54.622          2604.915       155440.305
+       101 -201 -  5                                1.491338         1231997.         53.028          2485.097       144477.473
+       901                         199.4628         1.464694 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.62226224
+TIME    300.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+-----------------------------------------------------------------------------------------------------------------------------------
+             SYSTEM         SENSIBLE       LATENT            AIR       HUMIDITY     AIR         AIR     TRAIN POSITION-ROUTE NUMBER
+ LENGTH   PARTITIONING      HEAT LOAD     HEAT LOAD      TEMPERATURE    RATIO       FLOW     VELOCITY   0 0 0 0 0 0 0 0 0 1 1 1 1 1
+  (m)                         (W)            (W)           (deg C)     (kg/kg)    (m^3/s)      (m/s)    1 2 3 4 5 6 7 8 9 0 1 2 3 4
+   100.  101 -201     (TUNNEL)                  30 m^2, 100 m tunnel
+         101 -201 -  1        299.26            0.             26.     0.01723     145.477     4.849
+         101 -201 -  2        299.26            0.          26.006     0.01723
+         101 -201 -  3     30000707.            0.         186.611     0.01723
+         101 -201 -  4        686.34            0.         179.839     0.01723
+         101 -201 -  5        666.84            0.         173.361     0.01723
+    75.  901 -801     (VENTILATION SHAFT)       75 m vertical ventilation shaft
+         901 -801 -  1                                     169.261     0.01723     145.477     4.693
+         901 -801 -  2                                     165.311     0.01723
+         901 -801 -  3                                     161.522     0.01723
+           SYSTEM           WALL SURFACE          HEAT TRANSFER TO WALL
+        PARTITIONING        TEMPERATURE         CONVECTION      RADIATION
+                              (deg C)               (W)            (W)
+       101 -201 -  1             26.                  0.             0.
+       101 -201 -  2             26.                  0.             0.
+       101 -201 -  3          86.722           815996.31      1482511.3
+       101 -201 -  4          56.056          1007376.34      155028.82
+       101 -201 -  5          54.389           965250.05      144177.23
+                                  INSTANTANEOUS THERMODYNAMIC CHARACTERISTICS FOR EACH SUBSEGMENT
+      SUBSEGMENT      ADJUSTED    BACK END   FRONT END  HEAT TRANSFER   SENSIBLE    LATENT      REYNOLDS         INTEGRATION
+        NUMBER         VOLUME     AIR FLOW   AIR  FLOW   COEFFICIENT   HEAT LOAD   HEAT LOAD     NUMBER        TEMP.   HUMIDITY
+      ----------      --------    --------   ---------  -------------  ---------   ---------    --------     --------  --------
+                      (VOLSS)      (FBSS)     (FFSS)      (HTRNSS)      (SHLTSS)    (LHLTSS)     (RELS)      (TTMPSS)  (HTMPSS)
+                       (m^3)      (m^3/s)     (m^3/s)     (W/m^2-K)       (W)         (W)         (-)        (deg C)   (kg/kg)
+    101 -201 -  1       600.01     145.477     145.477       16.868       299.4          0.            0.   26.00167   0.017235
+    101 -201 -  2       600.01     145.477     145.477       16.868       299.4          0.            0.   26.00333   0.017235
+    101 -201 -  3       600.01     145.477     145.477       18.126  30000707.3          0.            0.  186.61722   0.017235
+    101 -201 -  4       600.01     145.477     145.477       18.071       686.2          0.            0.  179.84111   0.017235
+    101 -201 -  5       600.01     145.477     145.477        18.02       667.3          0.            0.    173.365   0.017235
+    901 -801 -  1         775.     145.477     145.477        9.846          0.          0.      1421000.  169.26556   0.017235
+    901 -801 -  2         775.     145.477     145.477        9.689          0.          0.      1421000.  165.31389   0.017235
+    901 -801 -  3         775.     145.477     145.477        9.538          0.          0.      1421000.  161.52889   0.017235
+       EXTERNAL                    DRY BULB
+         NODE                    TEMPERATURE               HUMIDITY
+       --------                  -----------               --------
+       (TABL15)                    (TDBTN)                  (HUMTN)
+         101                          26.                   0.01723
+         102                      173.361                   0.01723
+         901                          26.                   0.01723
+       ISCTX-NUMLS-ISS           BUOYS(ISCT)      TSSTAB(ISS)      RELSS(ISS)      TSFSS(ISS)      QWALSS(ISS)      QRADSS(ISS)
+                                  (m^2/s^2)         (K/K)             (-)           (deg C)          (W/m^2)          (W/m^2)
+       101                               0.
+       101 -201 -  1                                1.000006         1643314.            26.                0.               0.
+       101 -201 -  2                                1.000011         1643309.            26.                0.               0.
+       101 -201 -  3                                1.536889         1205549.         86.739          5107.825       1482512.18
+       101 -201 -  4                                1.514235         1217919.         56.033           2583.13       155029.199
+       101 -201 -  5                                1.492582         1230343.           54.4          2465.354        144182.32
+       901                         199.4628         1.465857 (mean of all vent subsegments)
+       IUL                         THROTL(IUL)
+                                    (m^2/s^2)
+         1                       -12.62438972
+                                            END OF SIMULATION

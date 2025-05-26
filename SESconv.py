@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -9,10 +9,10 @@
 # email: ewanbennett@fastmail.com
 #
 # This program converts output files from SES v4.1 (.PRN and .TMP files),
-# from OpenSES (.OUT files) and from offline-SES v204.1 and above (.PRN
-# files).
+# from OpenSES (.OUT files), from offline-SES v204.1 and above (.PRN
+# files) and SVS (.OUT files in SI units).
 # It converts them into a text file of SI values and a Python pickle
-# file (.sbn file) that holds most of the data in the output file.
+# file (.sbn file) that holds moSVSregen2st of the data in the output file.
 # .Sbn files can be used by the Hobyah plot routines or used in custom
 # scripts to generate new input files from the contents of the pickle
 # file.
@@ -23,7 +23,7 @@
 #
 # The printouts of summaries are not converted to SI yet, just
 # written out verbatim in US units (N.B. printouts of ECZ estimates
-# are converted and can be plotted).
+# are converted and the data in them can be plotted).
 #
 # Prints controlled by the heat sink summary supplementary print option
 # (an enormous amount of data used to debug ECZ wall-temperature
@@ -43,9 +43,10 @@
 # thrust in Newtons (at air density 1.2 kg/m^3).  After each form 9I
 # the printout adds a table of traction power efficiencies, to make
 # it easier to get the traction system heat gains.  In form 9E it
-# prints out the  coefficients of the Davis train resistance equation
+# prints out the coefficients of the Davis train resistance equation
 # in several different units, because everyone who looks at Davis
-# coefficients infrequently gets confused by the conversion factors.
+# coefficients occasionally ends up being confused by the conversion
+# factors.
 #
 #
 import sys
@@ -86,9 +87,11 @@ def main():
 
     # Parse the command line arguments.
     parser = argparse.ArgumentParser(
-        description = "Process a series of SES output files, converting them "
-                      "to SI (or not) and creating a binary file with the "
-                      "contents that may be useful for plotting.  Log progress "
+        description = "Process a series of SES and.or SVS output files, "
+                      "converting them to SI (or not) and creating a "
+                      "binary file containing the input data and runtime "
+                      "data that may be useful for plotting or generating "
+                      "new input files using classSES.py.  Log progress "
                       'to a logfile in a subfolder named "ancillaries".'
                                     )
 
@@ -110,11 +113,15 @@ def main():
                               help = 'Process the runs in series, not '
                                      'in parallel (useful for fault-finding)')
 
-    # parser.add_argument('-picky', action = "store_true",
-    #                           help = 'A developer setting.  Prints two warning '
-    #                                  'messages: 8062 (Fortran format field overflow) '
-    #                                  'and 8065 (possible mismatch in number slices). '
-    #                                  'These messages are always printed to the log.')
+    parser.add_argument('-picky', action = "store_true",
+                              help = 'A developer setting.  Causes four '
+                                     'warning messages to be printed to '
+                                     'the screen as well as to the log '
+                                     'file.  '
+                                     'These messages are always printed to '
+                                     'the log file; it is useful to print '
+                                     'them to the screen when developing '
+                                     'the software or tracing faults.')
 
     parser.add_argument('-dudbin1', action = "store_true",
                               help = 'Generate a binary file with an '
@@ -166,18 +173,18 @@ def main():
         # when PyInstaller was run.  We set them directly (must remember
         # to edit the date each time I upload).
         script_name = "SESconv.py"
-        script_date = "13:32 on 24 Oct 2024"
+        script_date = "10:57 on 26 May 2025"
 
     # Uncomment this and set the correct time and date before upload
     # to GitHub, so that users complaining about a bug can correctly
     # identify which version of the program they are using.  If we
     # didn't do this, the date and time would be the date and time
     # that the user downloaded it from github.
-    script_date = "13:32 on 24 Oct 2024"
+    script_date = "10:57 on 26 May 2025"
 
     # Print a blurb.
     print('SESconv.py, ' + script_date.split(sep = 'on ')[1] + '\n'
-          'Copyright (C) 2020-2024 Ewan Bennett\n'
+          'Copyright (C) 2020-2025 Ewan Bennett\n'
           'This is free software, released under the BSD 2-clause open\n'
           'source licence.  See licence.txt for copying conditions.\n\n'
           'This software is provided by the copyright holders and\n'
@@ -200,12 +207,11 @@ def main():
                     "debug1": args_SESconv.debug1,
                     # "USunits": args_SESconv.USunits,
                     "acceptwrong": args_SESconv.acceptwrong,
-                    # "picky": args_SESconv.picky,
+                    "picky": args_SESconv.picky,
                     "dudbin1": args_SESconv.dudbin1,
                     "dudbin2": args_SESconv.dudbin2,
                     "dudbin3": args_SESconv.dudbin3,
                    }
-
     # Check if we set conflicting command-line arguments.
     if ((args_SESconv.dudbin1 and args_SESconv.dudbin2) or
         (args_SESconv.dudbin1 and args_SESconv.dudbin3) or
@@ -368,9 +374,9 @@ def FilterJunk(file_conts, file_name, log, debug1):
     blank lines, header lines, form feeds and footer lines.  It also
     strips off trailing whitespace on the valid lines.
     It returns a list of all the valid lines, the first header line
-    and the first footer line (as these contain useful QA data).  If it
-    can't find a header line in a .TMP file it makes a stab at spoofing
-    it.  It also spoofs header and footer lines for OpenSES files.
+    and the first footer lines (as these contain useful QA data).  If
+    it can't find a header line in a .TMP file it makes a stab at
+    spoofing it, ditto for OpenSES files and SVS files.
 
         Parameters:
             file_conts   [str],    A list of lines of text, with padding
@@ -383,7 +389,8 @@ def FilterJunk(file_conts, file_name, log, debug1):
             lines        [(int,str)],    A list of tuples (line no., line text)
             header       str,      The header line without trailing whitespace
             footer       str,      The footer line without trailing whitespace
-            version_text  str      The SES version; "4.10", "4.2", "204.1" etc.
+            version_text  str      The SES version; "4.10", "4.2", "204.1" and
+                                   over, or "6.6.2"
 
 
         Errors:
@@ -393,8 +400,13 @@ def FilterJunk(file_conts, file_name, log, debug1):
             didn't exactly match the logic test.
             Aborts with 8024 if no version number could be found in a .TMP
             file (the run crashed) or a .OUT file (from OpenSES 4.2).
-            Errors 8025 to 8032 are raised in routines that this routine
+            Errors 8025 to 8033 are raised in routines that this routine
             calls.
+            Aborts with 8034 if the line we expect to have the SVS version
+            (e.g. "VERSION  6.6.2") did not have two words on it.
+            Abort with 8035 if the SVS version number was not in a list
+            of valid versions (currently consisting of one entry: 6.6.2).
+            Abort with 8036 if the SVS file ended early.
     '''
     # First get the header.  This steps over any printer control sequences
     # at the top of the output file.  This catches SES v4.1, OpenSES v4.2
@@ -402,10 +414,12 @@ def FilterJunk(file_conts, file_name, log, debug1):
 
     found_header = False
     found_OpenSES = False
+    found_SVS = False
 
-    # Check the first 100 lines of the file for an SES header and part of
+    # Check the first 100 lines of the file for an SES header, part of
     # the OpenSES licence conditions (OpenSES didn't include the header
-    # or footer in version 4.2 output files).
+    # or footer in version 4.2 output files) or a line of credit unique
+    # to SVS.
     count = min(100, len(file_conts))
     for line_num, line in enumerate(file_conts[:count], 1):
         if Is41Header(line):
@@ -423,6 +437,12 @@ def FilterJunk(file_conts, file_name, log, debug1):
             # licence that included the words "Engineers of the OpenSES
             # Agreement".
             found_OpenSES = True
+            break
+        elif "WSP | PARSONS BRINCKERHOFF" in line:
+            # This is probably an SVS output file.  This is one of the
+            # few lines that differ between SVS and SES output files
+            # and which is unlikely to be in a comment.
+            found_SVS = True
             break
 
     if found_OpenSES:
@@ -450,8 +470,47 @@ def FilterJunk(file_conts, file_name, log, debug1):
                    "> Are you sure this is an SES output file?")
             gen.WriteError(8022, err, log)
             return(None)
+    elif found_SVS:
+        # Check the next two lines.  They should be "NEW YORK CITY, NEW YORK"
+        # and "VERSION" followed by a version number like "6.6.2".
+        try:
+            next_line = file_conts[line_num]
+            if next_line.strip().upper() == "NEW YORK CITY, NEW YORK":
+                # It's looking good.  Check the next line.
+                line = file_conts[line_num + 1]
+                ver_parts = line.split()
+                if len(ver_parts) != 2 or ver_parts[0].upper() != "VERSION":
+                    # And we had everything go so well up to now.
+                    err = ('> Failed to find a line with exactly two words\n'
+                           '> (the word "VERSION" and an SVS version number\n'
+                           '> like "6.6.2"). Instead, there was the following:\n'
+                           '>   ' + line.strip())
+                    gen.WriteError(8034, err, log)
+                    return(None)
+                elif ver_parts[1] not in ("6.6.2", ):
+                    err = ('> SVS file "' + file_name + '" has\n'
+                           '> a version number ("' + ver_parts[1]
+                             + '") that this script is\n'
+                           '> not able to process yet.\n'
+                           '> Please raise a request to get the new version\n'
+                           '> of SVS supported.')
+                    gen.WriteError(8035, err, log)
+                    return(None)
+                else:
+                    version_text = ver_parts[1]
+                # Now look for the footer.  It should be on the next line.
+                footer = file_conts[line_num + 2]
+                # Make a header line from the version number.  We won't
+                # bother with getting the first line of comment.
+                header = "SVS ver " + "{0:<10}".format(version_text)
+        except IndexError:
+            # The file ended early.
+            err = ('> SVS file "' + file_name + '" ended before the\n'
+                   "> file's SVS version number was found.")
+            gen.WriteError(8036, err, log)
+            return(None)
     else:
-        # We didn't find an OpenSES tag or header.
+        # We didn't find an OpenSES tag, header or line from SVS.
         # Check two things: we might have accidentally edited a header
         # line and this might be a .TMP file from a run that failed,
         # which has no header or footer.
@@ -487,7 +546,7 @@ def FilterJunk(file_conts, file_name, log, debug1):
                        + file_name + '".\n'
                        "> came from SES.  A line was found that looks like a\n"
                        '> header but with the text in the wrong place.\n'
-                       + range_text
+                       '> '+ range_text
                       )
                 gen.WriteError(8023, err, log)
                 gen.ErrorOnLine(line_num, line, log, lstrip = False)
@@ -513,9 +572,10 @@ def FilterJunk(file_conts, file_name, log, debug1):
         # relevant lines as future versions may have fewer blank lines.
 
         # Create a list of allowed versions of SES that does not include
-        # OpenSES (these have already been handled above).
+        # OpenSES or SVS (these have already been handled above).
         ver_allowed = ("VERSION 4.10", "VERSION 204.1", "VERSION 204.2",
-                       "VERSION 204.3", "VERSION 204.4", "VERSION 204.5", )
+                       "VERSION 204.3", "VERSION 204.4", "VERSION 204.5",
+                       "VERSION 204.6", )
 
         # Set some Booleans to indicate which lines we have found.  This
         # is a bit of an ugly hack, but it works.
@@ -533,7 +593,11 @@ def FilterJunk(file_conts, file_name, log, debug1):
                 found_SES = True
                 if debug1:
                     print("Found SES")
-            elif found_SES and line_data == "SIMULATION OF":
+            elif line_data == "SUBWAY VENTILATION SIMULATION":
+                found_SVS = True
+                if debug1:
+                    print("Found SVS")
+            elif (found_SES or found_SVS) and line_data == "SIMULATION OF":
                 found_SES = False
                 found_SO = True
                 if debug1:
@@ -580,7 +644,7 @@ def FilterJunk(file_conts, file_name, log, debug1):
             source_name = file_stem + ".ses (or .inp)"
 
             # Pad out the source name with spaces.
-            padded_name = source_name + " " * (73    - len(source_name))
+            padded_name = source_name + " " * (67    - len(source_name))
 
             # Figure out the date and time that the .TMP file was converted,
             # in the same format that SES used.
@@ -798,7 +862,7 @@ inp_errs  = { 1: (0, 6, True),
               112: (0, 3, False),
               113: (0, 6, True),
               114: (1, 2, False), # Input.for, format field 1500
-              115: (0, 2, False),
+              115: (0, 2, False), # Triggered by SVS for tail coeff.  All OK.
               116: (0, 3, False),
               117: (0, 2, False),
               118: (0, 2, False),
@@ -949,8 +1013,55 @@ inp_errs  = { 1: (0, 6, True),
               260: (1, 3, False), # Input.for, format field 883
               261: (0, 6, True),
               262: (0, 2, False),
+              # A quick note about error type 263.  It is defined in
+              # v4.1 as format field 763 in EERROR.FOR and is called
+              # from PINPNT.FOR.  In SVS, error type 263 was changed
+              # to the count of years in form 1H.  When processing
+              # SES files we want six lines and a fatal error, when
+              # processing SVS files we want two lines and a non-fatal
+              # error.  The definition below is for SES, we change it
+              # when processing each SVS file and change it back
+              # when we finish processing each SVS file.
               263: (0, 6, True),
+              # A quick note about error type 264.  It is defined in
+              # v4.1 as format field 764 in EERROR.FOR and is called
+              # from INPUT.FOR and SUMARY.FOR.  In SVS, error type 264
+              # was repurposed for the SHTC attenuation factor in
+              # form 1H.  When processing SES files we want seven lines
+              # and a fatal error, when processing SVS files we want
+              # two lines and a non-fatal error.  The definition below
+              # is for SES, we change it when processing each SVS file
+              # and change it back when we finish processing each SVS
+              # file.
               264: (0, 7, True),
+              # All the error messages from 265 to 31? are from SVS.
+              265: (0, 2, False),
+              266: (0, 2, False),
+              267: (0, 2, False),
+              268: (0, 3, False),
+
+              270: (0, 2, False),
+
+
+              274: (0, 2, False),
+              275: (0, 2, False),
+
+              277: (0, 6, True),
+              278: (0, 2, False),
+              279: (0, 2, False),
+              280: (0, 2, True),
+
+
+              288: (0, 6, True),
+
+
+              295: (0, 6, True), # LMNODE too low.  Raised by 8C regenfrac>1
+
+
+              301: (0, 6, True),
+              302: (0, 2, False),
+              303: (0, 2, False),
+              304: (0, 2, False),
 
               # All the error messages in the 1000 series are from OpenSES.
               1001: (0, 7, True),
@@ -959,22 +1070,29 @@ inp_errs  = { 1: (0, 6, True),
               1004: (0, 9, True),
 
               # All the error messages in the 11000 series are from an
-              # offline version of SES, version 204.1 and above.
-              # For future reference:
-              #  * the count of error lines before the line with "*ERROR* TYPE" on it.
-              #  * the count of error lines after the line with "*ERROR* TYPE" on it.
-              #   (this second integer includes the line with "*ERROR* TYPE" in the count
-              #   but excludes any blank lines - simulation error 7 has one such).
-              #  * True if the input error is fatal, False otherwise.
+              # offline version of SES, version 204.2 and above.
               11001: (0, 6, True),
               11002: (0, 9, True),
               11003: (0, 9, True),
               11004: (0, 7, True),
               11005: (0, 9, True),
+              # Note that errors in the 1102x and 1104x series are not
+              # written to output files, so there is no need to add
+              # entries to process them here.
+              11061: (0, 3, True), # Problems with accessing restart files.
+              11062: (0, 3, True),
+              11081: (0, 4, False),
+              # For my future reference when adding to this dictionary,
+              # the entries in the tuples are:
+              #  * the count of error lines before the line with "*ERROR* TYPE" on it.
+              #  * the count of error lines after the line with "*ERROR* TYPE" on it.
+              #   (this second integer includes the line with "*ERROR* TYPE" in the count
+              #   but excludes any blank lines - simulation error 7 has one such).
+              #  * True if the input error is fatal, False otherwise.
             }
-# Make a similar dictionary for simulation errors (there are 10).
+# Make a similar dictionary for simulation errors (there are 12).
 # Technically only error 8 is fatal if the count of simulation errors
-# in form 1C is more than 1, as EERROR.FOR allows the run to carry on.
+# in form 1C is more than 1, as SIMERR.FOR allows the run to carry on.
 # In practice, all the simulation errors are bad news for engineers,
 # so SESconv.py treats them as if they stop the run.  All except
 # simulation error 8 write the state of the system at the time at
@@ -990,9 +1108,11 @@ sim_errs  = { 1: (0, 3, True),  # Maximum count of trains reached
               8: (0, 6, True),  # Heat sink iterations failed
               11: (0, 2, True), # Bad humidity matrix
               12: (0, 2, True), # Bad temperature matrix
+              # 13 Must be one in SVS, don't know how to raise it
+              14: (0, 2, True), # SVS portal door closed on a train
             }
 # Check of SES code to look for preceding lines: 1, 2, 3, 4, 5, 6, 7, 8, 11, 12
-# Test files exist for simulation errors 5, 6, 7, and 8.
+# Test files exist for simulation errors 5, 6, 7, 8 and 14
 
 
 def FilterErrors(line_pairs, errors, log, debug1):
@@ -1046,6 +1166,8 @@ def FilterErrors(line_pairs, errors, log, debug1):
     # so in the logfile.  We process the file anyway so that we get the SI
     # output file.
     input_crash = True
+    # Set a Boolean that is set true if we had too many input errors.
+    input_errors = False
 
     # Run through all the lines of text and catch lines of error messages.
     while index1 < len(line_pairs):
@@ -1094,6 +1216,13 @@ def FilterErrors(line_pairs, errors, log, debug1):
             if crit_fail:
                 run_state.append("Subroutine HEATUP gave up trying to calculate"
                                  " wall temperature - the run is invalid.")
+        elif "*****ERROR*****" in line_text:
+            # This is an input error in SVS that is in a nonstandard format
+            # (it has no error number).  These all occur in form 6I.
+            valid = False
+            lines_back = 0
+            lines_fwd = 2
+            errs_found += 1
         else:
             valid = True
 
@@ -1133,6 +1262,7 @@ def FilterErrors(line_pairs, errors, log, debug1):
                 run_state.append("The run failed due to input errors, "
                                  "but will be processed as far as possible.")
                 input_crash = False
+                input_errors = True
             elif "END OF SIMULATION" in line_text:
                 run_state.append("The run finished at the intended time "
                                  "and will be processed.")
@@ -1179,7 +1309,7 @@ def FilterErrors(line_pairs, errors, log, debug1):
                      + plural + ":", log)
         for line in errors:
             gen.WriteOut(line, log)
-    return(line_triples, errors)
+    return(line_triples, errors, input_errors)
 
 
 def DebugPrintDict(dictionary, descrip):
@@ -1241,7 +1371,7 @@ def GetOpenSESData(file_conts, file_name, log):
         # OpenSES.  The interim versions don't have a date, they have
         # "XXXXXXXXXXXX" instead.  Those are handled in "else" clauses.
         if ( line[:9] == "OpenSES, " and
-             (re.search("20\d\d", line.rstrip()[-4:]) is not None)
+             (re.search(r"20\d\d", line.rstrip()[-4:]) is not None)
            ):
             parts = line.split()
             SES_version = parts[1]
@@ -1619,7 +1749,7 @@ def GetValidLine(line_triples, tr_index, out, log):
                             "> *Ugh, ran out of lines of input!"
                               + "  See above for details.*")
                 gen.WriteError(8041, err, log)
-                # raise()
+                # raise() # Uncomment this when debugging.
                 return(None)
         if not valid:
             # This is a line of error message, write it to the output file.
@@ -1646,7 +1776,7 @@ def GetValidLine(line_triples, tr_index, out, log):
     return(result)
 
 
-def Form1C(line_triples, tr_index, count, debug1, out, log):
+def Form1C(line_triples, tr_index, count, settings_dict, out, log):
     '''Process form 1C.  Return a dictionary of its values and the index
     of where the next form starts in the list of line triples.  If the file
     ends before all of the form has been processed, it returns None.
@@ -1659,7 +1789,7 @@ def Form1C(line_triples, tr_index, count, debug1, out, log):
             line_pairs      [(int, str)]   Valid lines from the output file
             tr_index        int,           The place to start reading the form
             count           int            Count of numbers we want to read
-            debug1          bool,          The debug Boolean set by the user
+            settings_dict   {}             Dictionary of stuff (incl. counters)
             out             handle,        The handle of the output file
             log             handle,        The handle of the logfile
 
@@ -1684,7 +1814,8 @@ def Form1C(line_triples, tr_index, count, debug1, out, log):
                )
 
     # Read the first two numbers.
-    result = FormRead(line_triples, tr_index, defns1C1, debug1, out, log)
+    result = FormRead(line_triples, tr_index, defns1C1, settings_dict,
+                      out, log)
     if result is None:
         return(None)
     else:
@@ -1696,14 +1827,16 @@ def Form1C(line_triples, tr_index, count, debug1, out, log):
         form1C_dict.__setitem__("ECZopt",   0)
         form1C_dict.__setitem__("hssopt",   0)
     else:
-        result = FormRead(line_triples, tr_index, defns1C2, debug1, out, log)
+        result = FormRead(line_triples, tr_index, defns1C2, settings_dict,
+                          out, log)
         if result is None:
             return(None)
         else:
             result_dict, tr_index = result
             form1C_dict.update(result_dict)
     # Get the last three numbers
-    result = FormRead(line_triples, tr_index, defns1C3, debug1, out, log)
+    result = FormRead(line_triples, tr_index, defns1C3, settings_dict,
+                      out, log)
     if result is None:
         return(None)
     else:
@@ -1712,7 +1845,7 @@ def Form1C(line_triples, tr_index, count, debug1, out, log):
     return(form1C_dict, tr_index)
 
 
-def Form1DE(line_triples, tr_index, count, debug1, out, log):
+def Form1DE(line_triples, tr_index, count, settings_dict, out, log):
     '''Process form 1D or 1E.  Return a dictionary of its values and the index
     of where the next form starts in the list of line triples.  If the file
     ends before all of the form has been processed, it returns None.
@@ -1721,7 +1854,7 @@ def Form1DE(line_triples, tr_index, count, debug1, out, log):
             line_pairs      [(int, str)]   Valid lines from the output file
             tr_index        int,           The place to start reading the form
             count           int            Count of numbers we want to read
-            debug1          bool,          The debug Boolean set by the user
+            settings_dict   {}             Dictionary of stuff (incl. counters)
             out             handle,        The handle of the output file
             log             handle,        The handle of the logfile
 
@@ -1749,7 +1882,7 @@ def Form1DE(line_triples, tr_index, count, debug1, out, log):
 
             # Get the integer at the end of the line.  The slice matches
             # the many instances of Input.for format field text 'T79,I5'.
-            integer = GetInt(line_text, 78, 83, log, debug1)
+            integer = GetInt(line_text, 78, 83, log, settings_dict)
             if integer is None:
                 # Something went wrong
                 return(None)
@@ -1757,7 +1890,8 @@ def Form1DE(line_triples, tr_index, count, debug1, out, log):
     return(result, tr_index)
 
 
-def ConvOne(line_text, start, end, unit_key, decpl, QA_text, debug1, log):
+def ConvOne(line_text, start, end, unit_key, decpl, QA_text,
+            settings_dict, log):
     '''Take a line of text and (optionally) convert a snippet in it from US
     units to SI, using the values and functions in UScustomary.py.  Return the
     modified text and the value after conversion.  If told to, write details
@@ -1770,8 +1904,8 @@ def ConvOne(line_text, start, end, unit_key, decpl, QA_text, debug1, log):
             unit_key    str,        A key to the conversion dictionary
             decpl       int,        The desired count of decimal places
             QA_text     str,        A QA string, e.g. "Form 1F, external
-                                      dry bulb temperature"
-            debug1      bool,       The debug Boolean set by the user
+                                    ry bulb temperature"
+            settings_dict   {}      Dictionary of stuff (incl. counters)
             log         handle,     The handle of the logfile
 
         Returns:
@@ -1784,19 +1918,21 @@ def ConvOne(line_text, start, end, unit_key, decpl, QA_text, debug1, log):
             In the case of an error it returns None.
     '''
     # Get the value on the line.
-    result = GetReal(line_text, start, end, log, debug1)
+    result = GetReal(line_text, start, end, log, settings_dict)
 
     if result is None:
         # Something went wrong.  Return.
         return(None)
     else:
+        debug1 = settings_dict["debug1"]
+        SVS = settings_dict["SVS"]
         if debug1:
             # Write some data about the conversion to the log file, for
             # checking purposes.  The routine 'ConvertToSI' will add a
             # sentence about the data it used in the conversion.
             log.write(QA_text + ": ")
         (value, units_texts) = USc.ConvertToSI(unit_key, result,
-                                                       debug1, log)
+                                               debug1, log, SVS)
         # Replace the value on the line with the converted value
         line_new = gen.ShoeHornText(line_text, start, end, value, decpl,
                                 QA_text, units_texts, debug1, log)
@@ -1805,7 +1941,7 @@ def ConvOne(line_text, start, end, unit_key, decpl, QA_text, debug1, log):
         return(value, line_new.rstrip(), units_texts)
 
 
-def ConvTwo(line_text, details, debug1, log):
+def ConvTwo(line_text, details, settings_dict, log):
     '''Take a line of text and (optionally) convert a snippet in it from US
     units to SI, using the values and functions in UScustomary.py.  Also
     change the units text after the number.
@@ -1815,7 +1951,7 @@ def ConvTwo(line_text, details, debug1, log):
         Parameters:
             line_text   str,        A string that we think contains a number
             details     tuple,      A list describing how to do the conversion
-            debug1      bool,       The debug Boolean set by the user
+            settings_dict   {}      Dictionary of stuff (incl. counters)
             log         handle,     The handle of the logfile
 
         Returns:
@@ -1842,7 +1978,7 @@ def ConvTwo(line_text, details, debug1, log):
 
     # Get the value on the line.
     result = ConvOne(line_text, start, end, unit_key, decpl, QA_text,
-                     debug1, log)
+                     settings_dict, log)
     if result is None:
         return(None)
     else:
@@ -1886,10 +2022,10 @@ def ConvTwo(line_text, details, debug1, log):
                     + units_texts[0].rstrip() + ".\n"
                     + SliceErrText(line_text, start2, end2))
                 gen.WriteError(8069, err, log)
-                # raise()
+                # raise() # Uncomment this when debugging.
                 return(None)
 
-def FormRead(line_triples, tr_index, definitions, debug1, out, log):
+def FormRead(line_triples, tr_index, definitions, settings_dict, out, log):
     '''Read a group of lines from an input form made up of lines with one
     number on them (such as form 1F).  Convert the number and its unit to
     SI, write the line to the SI file and return the values as a dictionary
@@ -1902,7 +2038,7 @@ def FormRead(line_triples, tr_index, definitions, debug1, out, log):
                                         how to convert one line of the PRN file
                                         that holds one number and if any lines
                                         need to be skipped over.
-            debug1       bool,          The debug Boolean set by the user
+            settings_dict   {}          Dictionary of stuff (incl. counters)
             out          handle,        The handle of the output file
             log          handle,        The handle of the logfile
 
@@ -1911,6 +2047,7 @@ def FormRead(line_triples, tr_index, definitions, debug1, out, log):
             form        {form values},  A dictionary of numbers in the form
             tr_index     int,           Where to start reading the next form
     '''
+    debug1 = settings_dict["debug1"]
     # A local debug switch
     debug2 = False
 
@@ -1943,7 +2080,7 @@ def FormRead(line_triples, tr_index, definitions, debug1, out, log):
             # written to the logfile by the US to SI conversion
             # routines.
             value = GetInt(line_text, def_data[2], def_data[3], log,
-                           debug1, False, False)
+                           settings_dict, False, False)
             if value is None:
                 return(None)
             elif debug1:
@@ -1952,7 +2089,7 @@ def FormRead(line_triples, tr_index, definitions, debug1, out, log):
                 gen.WriteOut(QA_text, log)
 
         else:
-            result = ConvTwo(line_text, def_data, debug1, log)
+            result = ConvTwo(line_text, def_data, settings_dict, log)
             if result is None:
                 # Something went awry with the conversion
                 return(None)
@@ -1974,7 +2111,7 @@ def FormRead(line_triples, tr_index, definitions, debug1, out, log):
 
 
 def TableToList(line_triples, tr_index, count, form, dict_defn,
-                debug1, file_name, out, log):
+                settings_dict, out, log):
     '''Read a given count of lines, convert their entries to SI and print
     them out.  Build lists of all the converted values in it, based
     in a dictionary defining the contents of the line, then zip them
@@ -1988,7 +2125,7 @@ def TableToList(line_triples, tr_index, count, form, dict_defn,
             count           int,            How many lines to read
             dict_defn       {}              Dictionary of stuff (incl. counters)
             form            str,            The form that we failed in, e.g. 3A
-            debug1          bool,           The debug Boolean set by the user
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -2002,7 +2139,7 @@ def TableToList(line_triples, tr_index, count, form, dict_defn,
 
     for discard in range(abs(count)):
         result = DoOneLine(line_triples, tr_index, -1, form, dict_defn, True,
-                           debug1, file_name, out, log)
+                           settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -2034,7 +2171,7 @@ def TableToList(line_triples, tr_index, count, form, dict_defn,
     return(table_dict, tr_index)
 
 
-def GetInt(line_text, start, end, log, debug1,
+def GetInt(line_text, start, end, log, settings_dict,
            dash_before = False, dash_after = False):
     '''Take a line in a PRN file and a pair of integers.  Seek an integer
     in the line on the place indicated and raise an error if we don't find
@@ -2045,6 +2182,7 @@ def GetInt(line_text, start, end, log, debug1,
             start           int,      Where to start the slice
             end             int,      Where to end the slice
             log             handle,   The handle of the logfile
+            settings_dict   {}        Dictionary of stuff (incl. counters)
             dash_before     bool,     True if we expect a dash before the slice
             dash_after      bool,     True if we expect a dash after the slice
 
@@ -2057,7 +2195,8 @@ def GetInt(line_text, start, end, log, debug1,
             Aborts with 8068 if the slice does not contain an integer number.
     '''
     # Get a real number.
-    value = GetReal(line_text, start, end, log, debug1, dash_before, dash_after)
+    value = GetReal(line_text, start, end, log, settings_dict,
+                    dash_before, dash_after)
     if value is None:
         # There was an error in the value somewhere.
         return(None)
@@ -2074,11 +2213,11 @@ def GetInt(line_text, start, end, log, debug1,
                + SliceErrText(line_text, start, end)
              )
         gen.WriteError(8068, err, log)
-        # raise()
+        # raise() # Uncomment this when debugging.
         return(None)
 
 
-def GetReal(line_text, start, end, log, debug1,
+def GetReal(line_text, start, end, log, settings_dict,
             dash_before = False, dash_after = False):
     '''Take a line in a PRN file and a pair of integers.  Seek a number
     in the line on the place indicated and raise an error if we don't find
@@ -2095,6 +2234,7 @@ def GetReal(line_text, start, end, log, debug1,
             start           int,      Where to start the slice
             end             int,      Where to end the slice
             log             handle,   The handle of the logfile
+            settings_dict   {}        Dictionary of stuff (incl. counters)
             dash_before     bool,     True if we expect a dash before the slice
             dash_after      bool,     True if we expect a dash after the slice
 
@@ -2117,6 +2257,7 @@ def GetReal(line_text, start, end, log, debug1,
             field format failure).
             Aborts with 8067 if the slice does not contain a real number.
     '''
+    picky = settings_dict["picky"]
     # Set up strings holding the characters we don't want to see before the
     # slice or after the slice.
     if dash_before:
@@ -2142,6 +2283,7 @@ def GetReal(line_text, start, end, log, debug1,
                + "> Line length is " + str(len(line_text)) + ", slice is "
                + str(start) + ":" + str(end) + ".")
         gen.WriteError(8061, err, log)
+        # raise() # Uncomment this when debugging.
         return(None)
     elif (start > 0 and line_text[start - 1] in befores and
                         line_text[start] in befores):
@@ -2151,9 +2293,7 @@ def GetReal(line_text, start, end, log, debug1,
                "  Details are:\n"
                + SliceErrText(line_text, start, end))
         gen.WriteOut(err, log)
-        if debug1: # Use this in production code
-        # if True: # Use this when processing new forms or running the
-                 # suite of test files.
+        if picky:
             print(err)
         # return(None)
     elif line_text[start:end].isspace():
@@ -2166,12 +2306,8 @@ def GetReal(line_text, start, end, log, debug1,
         # We may have an improper slice, but we keep going.  There is a
         # fault in one of the format fields of form 12, "Cycles per aerodynamic
         # evaluation", so we filter those out.
-# 1         96          5.00         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               6            480.00
-# 2         48          5.00         1         1 - INITIALIZE ONLY                        1               6            720.00
-# 3         48          5.00         1         2 - SUMMARY ONLY                            1              6            960.00
-# 4         48          5.00         1         3 - SUMMARY AND INITIALIZE                 1               6           1200.00
-# 5         48          5.00         1         4 - SUMMARY, ENVIRON. EVAL., INITIALIZE    1               6           1440.00
-        if not ("NOR INITIALIZATION" in line_text or
+        if not ("NOR INITIALIZE" in line_text or  # "Nor initialize" is from SVS
+                "NOR INITIALIZATION" in line_text or
                 "INITIALIZE ONLY" in line_text or
                 "AND INITIALIZE" in line_text or
                 "EVAL., INITIALIZE" in line_text):
@@ -2180,7 +2316,8 @@ def GetReal(line_text, start, end, log, debug1,
                    "  Details are:\n"
                    + SliceErrText(line_text, start, end))
             gen.WriteOut(err, log)
-            print(err)
+            if picky:
+                print(err)
     if end < len(line_text) and line_text[end] in afters:
         # We may have an improper slice, but we keep going
         err = ("> *Error* type 8065 (it may be an error, it may be OK).\n"
@@ -2189,20 +2326,25 @@ def GetReal(line_text, start, end, log, debug1,
                 "  Details are:\n"
                + SliceErrText(line_text, start, end))
         gen.WriteOut(err, log)
-        if debug1: # Use this in production code
-        # if True: # Use this when processing new forms.
+        if picky:
             print(err)
     # Check for Fortran format field errors.  Fortran replaces all the digits
     # with '*'.
     if "**" in line_text[start:end]:
         # We have a number that is too big for its Fortran format field.
-        err = ("> The Fortran format field is too small for the number."
+        # This usually occurs when a train is moving so slowly that its
+        # drag coefficient is huge.  Note that this error uses WriteOut
+        # because we want to have the option to not print the error
+        # message to the screen.
+        err = ("> *Error* type 8066\n"
+               "> The Fortran format field is too small for the number."
                "  Details are:\n"
                + SliceErrText(line_text, start, end)
                + "> Returning a zero value instead.\n")
-        gen.WriteError(8066, err, log)
+        gen.WriteOut(err, log)
+        if picky:
+            print(err)
         return(0)
-
     try:
         value = float(line_text[start:end])
     except ValueError:
@@ -2211,7 +2353,7 @@ def GetReal(line_text, start, end, log, debug1,
                "  Details are:\n"
                + SliceErrText(line_text, start, end) )
         gen.WriteError(8067, err, log)
-        # raise()
+        # raise() # Uncomment this when debugging.
         return(None)
     else:
         return(value)
@@ -2306,7 +2448,7 @@ def CloseDown(form, out, log, bdat = None, csv = None):
     return()
 
 
-def Form1F(line_triples, tr_index, debug1, out, log):
+def Form1F(line_triples, tr_index, settings_dict, out, log):
     '''Process form 1F, the external weather data and air pressure.  Return
     a dictionary of the eight values it contains and an index of where form 1G
     starts in the list of line pairs.  If the file ends before all of
@@ -2316,7 +2458,7 @@ def Form1F(line_triples, tr_index, debug1, out, log):
             line_pairs   [(int, str)]   Valid lines from the output file
             count        int            Count of numbers we want to read
             tr_index     int,           The place to start reading the form
-            debug1       bool,          The debug Boolean set by the user
+            settings_dict   {}          Dictionary of stuff (incl. counters)
             out          handle,        The handle of the output file
             log          handle,        The handle of the logfile
 
@@ -2361,28 +2503,21 @@ def Form1F(line_triples, tr_index, debug1, out, log):
         (1, "ann_var", 78, 92, "tdiff",  2, 3, "Form 1F, yearly temperature range"),
            )
 
-    result = FormRead(line_triples, tr_index, defns1F, debug1, out, log)
-#    if result is None:
-#        return(None)
-#    else:
-#        result_dict, tr_index = result
-
-    # Return the dictionary and the index of the next line.
-#    return(result_dict, tr_index)
+    result = FormRead(line_triples, tr_index, defns1F, settings_dict, out, log)
     return(result)
 
 
-def Form1G(line_triples, tr_index, debug1, out, log):
+def Form1G(line_triples, tr_index, settings_dict, out, log):
     '''Process form 1G, the capture efficiencies and fire options.  Return
-    a dictionary of the eight values it contains and an index of where form 1G
-    starts in the list of line pairs.  If the file ends before all of
-    form 1G has been processed, it returns None.
+    a dictionary of the eight values it contains and an index of where the
+    next form (2A, 101H or 1H) starts in the list of line pairs.  If the
+    file ends before all of form 1G has been processed, it returns None.
 
         Parameters:
             line_pairs   [(int, str)]   Valid lines from the output file
             count        int            Count of numbers we want to read
-            index1G      int,           The place to start reading the forG
-            debug1       bool,          The debug Boolean set by the user
+            tr_index     int,           The place to start reading the form
+            settings_dict   {}          Dictionary of stuff (incl. counters)
             out          handle,        The handle of the output file
             log          handle,        The handle of the logfile
 
@@ -2391,6 +2526,7 @@ def Form1G(line_triples, tr_index, debug1, out, log):
             result_dict {form 1G values},  A dictionary of numbers in form 1F
             index1          int,           Where to start reading the next form
     '''
+    debug1 = settings_dict["debug1"]
     # Create lists of the definitions in the form.
     # Passenger mass, OTE capture and fire data.  Input.for format fields 620 to
     # 645 and 820.
@@ -2403,7 +2539,7 @@ def Form1G(line_triples, tr_index, debug1, out, log):
             (0, "cap_speed",   78, 92, "speed2", 2, 3, "Form 1G, transition speed"),
             (0, "fire_sim",    78, 92, "int",    0, 3, "Form 1G, fire option"),
            )
-    result = FormRead(line_triples, tr_index, defns, debug1, out, log)
+    result = FormRead(line_triples, tr_index, defns, settings_dict, out, log)
 
     if result is not None:
         # Get the seven values returned into our dictionary and the
@@ -2417,7 +2553,7 @@ def Form1G(line_triples, tr_index, debug1, out, log):
                                     "Form 1G, flame emissivity"),
                          )
             result = FormRead(line_triples, line_index, emiss_defn,
-                     debug1, out, log)
+                     settings_dict, out, log)
             result_dict.update(result[0])
             line_index = result[1]
         else:
@@ -2435,6 +2571,53 @@ def Form1G(line_triples, tr_index, debug1, out, log):
     return(result)
 
 
+def Form1H(line_triples, tr_index, settings_dict, out, log):
+    '''Process form 1H, the SES-specific options and counters.  Return
+    a dictionary of the five values it contains and an index of where
+    form 2A starts in the list of line pairs.  If the file ends before
+    all of form 1H has been processed, it returns None.
+
+        Parameters:
+            line_pairs   [(int, str)]   Valid lines from the output file
+            count        int            Count of numbers we want to read
+            tr_index     int,           The place to start reading the form
+            settings_dict   {}          Dictionary of stuff (incl. counters)
+            out          handle,        The handle of the output file
+            log          handle,        The handle of the logfile
+
+
+        Returns:
+            result_dict {form 1G values},  A dictionary of numbers in form 1F
+            index1          int,           Where to start reading the next form
+    '''
+    SVS = settings_dict["SVS"]
+    # Create lists of the definitions in the form.
+# NUMBER OF AIR CURTAIN TYPES                                                                0                   FORM 1H
+# NUMBER OF YEARS FOR HEAT SINK CALCULATIONS                                              30.0   YEARS
+# HEAT SINK ATTENUATION FACTOR                                                            0.50
+# NIGHTTIME COOLING OPTION                                                                   0   OFF
+# NUMBER OF COOLING PIPES                                                                    0
+    defns= (
+            (0, "portdrs",     78, 92, "int",    0, 0, "Form 1H, count of doors/curtains"),
+            (0, "groundyears", 78, 92, "null",   1, 3, "Form 1H, years to heat ground"),
+            (0, "SHTC_atten",  78, 92, "null",   2, 0, "Form 1H, SHTC attenuation factor"),
+            (0, "nightcool",   78, 92, "int",    0, 3, "Form 1H, night cooling option"),
+            (0, "coolpipes",   78, 92, "int",    0, 3, "Form 1H, count of cooling pipes"),
+           )
+    if SVS:
+        result = FormRead(line_triples, tr_index, defns, settings_dict, out, log)
+    else:
+        # Set suitable values for the entries in SVS form 1H.
+        spoof_dict = {"portdrs": 0,
+                      "groundyears": 30.0,
+                      "SHTC_atten": 0.5,
+                      "nightcool": 0,
+                      "coolpipes": 0,
+                     }
+        result = (spoof_dict, tr_index)
+    return(result)
+
+
 def CountEntries(line_entry, count, form, debug1, file_name, log):
     '''Take a line of output and check that when it is split up it has
     the correct count of entries.  This will not work for many lines of
@@ -2448,6 +2631,7 @@ def CountEntries(line_entry, count, form, debug1, file_name, log):
             count           int,           How many separate words it should have
             form            str,           Form to use in an error, e.g. "3A"
             debug1          bool,          The debug Boolean set by the user
+            file_name       str,           The file name, used in errors
             log             handle,        The handle of the logfile
 
 
@@ -2477,7 +2661,7 @@ def CountEntries(line_entry, count, form, debug1, file_name, log):
         return(line_entry[1])
 
 
-def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
+def Form2(line_triples, tr_index, settings_dict, out, log):
     '''Process forms 2A and 2B.  Complain in an intelligent way if form 2B
     starts before it should.
 
@@ -2485,8 +2669,7 @@ def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,           The place to start reading the form
             settings_dict   {}             Dictionary of stuff (incl. counters)
-            debug1          bool,          The debug Boolean set by the user
-            out             handle,        The handle of the output file
+            out             handle,        The handle of the text output file
             log             handle,        The handle of the logfile
 
 
@@ -2504,6 +2687,10 @@ def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     # numbers).
     ventsecs = settings_dict['ventsegs'] # We'll call them vent sections here
     linesecs = settings_dict['sections'] - ventsecs
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
+    SVS = settings_dict['SVS']
+
     # Log the counts.
     plural1 = gen.Plural(linesecs)
     plural2 = gen.Plural(ventsecs)
@@ -2531,7 +2718,10 @@ def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     # Now do the line that has CFM on it.
     tr_index += 1
     line_text = line_triples[tr_index][1]
-    line_text = line_text.replace(" (CFM)", "(m^3/s)")
+    if SVS:
+        line_text = line_text.replace("(M**3/S)", " (m^3/s)")
+    else:
+        line_text = line_text.replace(" (CFM)", "(m^3/s)")
     gen.WriteOut(line_text, out)
 
     # # Now do the line that has CFM on it.
@@ -2579,7 +2769,7 @@ def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         count = len(value_defn)
         for discard in range(vent_or_line):
             result = DoOneLine(line_triples, tr_index, count, form, value_defn,
-                               True, debug1, file_name, out, log)
+                               True, settings_dict, out, log)
             if result is None:
                 # Something went wrong.
                 return(None)
@@ -2637,7 +2827,7 @@ def Form2(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     return(form2_dict, nodes_list, tr_index)
 
 
-def ValuesOnLine(line_data, count, form, value_defn, debug1, file_name, log):
+def ValuesOnLine(line_data, count, form, value_defn, settings_dict, log):
     '''Convert the values on a line.  Return the modified line and a tuple
     of the values to the routine that called it.
 
@@ -2648,9 +2838,8 @@ def ValuesOnLine(line_data, count, form, value_defn, debug1, file_name, log):
             form            str            The form we are reading, e.g. 3D
             value_defn      (())           A list of lists, identifying what
                                            numbers we expect on the line, how to
-                                              convert them to SI etc.
-            debug1          bool,          The debug Boolean set by the user
-            file_name       str,           The file name, used in errors
+                                           convert them to SI etc.
+            settings_dict   {}             Dictionary of stuff (incl. counters)
             log             handle,        The handle of the logfile
 
 
@@ -2660,6 +2849,8 @@ def ValuesOnLine(line_data, count, form, value_defn, debug1, file_name, log):
             line_text       str,           The modified text of the line, with
                                            the numbers possibly converted to SI.
     '''
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
 
     # First check if we ought to check for a mismatch in the count of entries.
     if count != -1:
@@ -2677,13 +2868,13 @@ def ValuesOnLine(line_data, count, form, value_defn, debug1, file_name, log):
         if what == "int":
             # We have an integer that does not need to be converted
             # (such as a segment number).
-            value = GetInt(line_text, start, end, log, debug1)
+            value = GetInt(line_text, start, end, log, settings_dict)
             if value is None:
                 return(None)
         else:
             # We have a value in US customary units.
             result = ConvOne(line_text, start, end, what, digits, QA_text,
-                             debug1, log)
+                             settings_dict, log)
             if result is None:
                 return(None)
             else:
@@ -2695,7 +2886,7 @@ def ValuesOnLine(line_data, count, form, value_defn, debug1, file_name, log):
 
 
 def DoOneLine(line_triples, tr_index, count, form, value_defn, writeout,
-              debug1, file_name, out, log):
+              settings_dict, out, log):
     '''Take the line triples, a count of expected numbers on
     the line and a definition of where they are and how to convert
     them.  Read the next valid line and convert all the numbers on
@@ -2712,8 +2903,9 @@ def DoOneLine(line_triples, tr_index, count, form, value_defn, writeout,
             value_defn      (())           A list of lists, identifying what
                                            numbers we expect on the line, how to
                                            convert them to SI etc.
-            debug1          bool,          The debug Boolean set by the user
-            file_name       str,           The file name, used in errors
+            writeout        bool           If True, prints the line.  If False
+                                           it doesn't.
+            settings_dict   {}             Dictionary of stuff (incl. counters)
             out             handle,        The handle of the output file
             log             handle,        The handle of the logfile
 
@@ -2735,7 +2927,7 @@ def DoOneLine(line_triples, tr_index, count, form, value_defn, writeout,
     # If we get to here we have a valid line.  Call a routine that
     # converts the values on the line according to the value definitions.
     result = ValuesOnLine(line_data, count, form, value_defn,
-                          debug1, file_name, log)
+                          settings_dict, log)
     if result is None:
         return(None)
     else:
@@ -2747,7 +2939,7 @@ def DoOneLine(line_triples, tr_index, count, form, value_defn, writeout,
     return(values, line_text, tr_index)
 
 
-def GetSecSeg(line_text, start, gap, width1, width2, debug1, file_name,
+def GetSecSeg(line_text, start, gap, width1, width2, settings_dict,
               out, log, dash_before = True):
     '''Take a line and get the section number and segment number
     on it (or the segment number and subsegment number).
@@ -2766,8 +2958,7 @@ def GetSecSeg(line_text, start, gap, width1, width2, debug1, file_name,
                                              6 characters.
             width2          int,             Width of the second number, 3 or
                                              6 characters.
-            debug1          bool,            The debug Boolean set by the user
-            file_name       str,             The file name, used in errors
+            settings_dict   {}               Dictionary of stuff (incl. counters)
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
             dash_before     bool             If True, expect a dash before
@@ -2797,7 +2988,7 @@ def GetSecSeg(line_text, start, gap, width1, width2, debug1, file_name,
         dash_after = False
     # Get the first number, which will either be the section number or segment
     # number
-    first_num = GetInt(line_text, start, start + width1, log, debug1,
+    first_num = GetInt(line_text, start, start + width1, log, settings_dict,
                        dash_before, dash_after)
     if first_num is None:
         return(None)
@@ -2807,8 +2998,8 @@ def GetSecSeg(line_text, start, gap, width1, width2, debug1, file_name,
     # If we have a dash after the first number we may have a dash
     # after the second number too.
     newstart = start + width1 + gap
-    second_num = GetInt(line_text, newstart, newstart + width2, log, debug1,
-                        True, dash_after)
+    second_num = GetInt(line_text, newstart, newstart + width2, log,
+                        settings_dict, True, dash_after)
     if second_num is None:
         return(None)
     return(first_num, second_num)
@@ -2872,7 +3063,7 @@ def AddSecData(sec_seg_dict, sec_num, seg_num, line_entry, file_name, form, log)
         # on segment number - if there are two segments with the
         # same number how can I tell the difference between them?
         err = ('> Came across a duplicate segment no. in form ' + form
-               + ' while reading "' + file_name + '".\n'
+               + '\n>  while reading "' + file_name + '".\n'
                "> There is already a segment " + str(seg_num) +
                ", it is in section " + str(sec_seg_dict[seg_num]) + ".\n"
               )
@@ -2884,7 +3075,7 @@ def AddSecData(sec_seg_dict, sec_num, seg_num, line_entry, file_name, form, log)
         return(sec_seg_dict)
 
 
-def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
+def Form3(line_triples, tr_index, settings_dict, out, log):
     '''Process forms 3A to 3F.  Return a dictionary of dictionaries that
     contains most of the data
 
@@ -2892,7 +3083,6 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -2918,7 +3108,9 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     ECZopt = settings_dict['ECZopt']
     prefix = settings_dict["BTU_prefix"]
     offline_ver = settings_dict["offline_ver"]
-
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
+    SVS = settings_dict['SVS']
 
     # Log the counts.
     plural = gen.Plural(linesegs)
@@ -2935,7 +3127,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     # to sections.  This is a bit lazy, but it may make things run smoothly
     # later.  We have two types of dictionary key: integers and strings.
     # The integer keys are treated as segment numbers and return the section
-    # they are in as an integer.  The string keys are something like "sect101"
+    # they are in as an integer.  The string keys are something like "sec101"
     # and return a list of which segments are in that section.
     # For example, say that section 546 contains segments 601 and 602.  This
     # would be represented by the following dictionary entries:
@@ -2950,13 +3142,19 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     # definition in PROC Form1F for details.
     # First is the definition of the rest of form 3A (Lsins.for format
     # fields 70 to 92).
-    defns3A =(
+    defns3A1 =(
         (0, "seg_type", 78, 92, "int",     0, 3, "Form 3A, segment type"),
         (0, "length",   78, 92, "dist1",   3, 3, "Form 3A, length"),
         (0, "area",     78, 92, "area",    5, 3, "Form 3A, area"),
         (0, "stack",    78, 92, "dist1",   3, 3, "Form 3A, stack height"),
         (0, "grad",     78, 92, "perc",    3, 3, "Form 3A, gradient"),
-             )
+              )
+    # SVS line segments have an extra entry for fixed pressure rise
+    # across the segment.  Add it.  We have to do this separately
+    # because there is a line for the fire segment switch that may or
+    # may not be present in the output file.
+    defns3A2 = ( (0, "fixedp", 78, 92, "press1", 2, 3,
+                   "Form 3A, fixed pressure"), )
 
 
     # Eight perimeters from Lsins.for format field 94 and DO loop 455.
@@ -2974,17 +3172,33 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
               )
     # Eight roughnesses from Lsins.for format field 96 and DO loop 485,
     # Weighted mean roughness from format field 110
-    defns3B2 =(
-                 ("epsilon",100, 110, "dist1", 5, "Form 3B, mean roughness"),
-                 ("rough1",  16,  24, "dist1", 5, "Form 3B, roughness 1"),
-                 ("rough2",  24,  32, "dist1", 5, "Form 3B, roughness 2"),
-                 ("rough3",  32,  40, "dist1", 5, "Form 3B, roughness 3"),
-                 ("rough4",  40,  48, "dist1", 5, "Form 3B, roughness 4"),
-                 ("rough5",  48,  56, "dist1", 5, "Form 3B, roughness 5"),
-                 ("rough6",  56,  64, "dist1", 5, "Form 3B, roughness 6"),
-                 ("rough7",  64,  72, "dist1", 5, "Form 3B, roughness 7"),
-                 ("rough8",  72,  80, "dist1", 5, "Form 3B, roughness 8"),
-              )
+    if SVS:
+        # SVS uses roughness heights in mm, convert them to metres
+        # for compatibility with Hobyah.
+        defns3B2 =(
+                   ("epsilon",100, 110, "dist4", 5, "Form 3B, mean roughness"),
+                   ("rough1",  16,  24, "dist4", 5, "Form 3B, roughness 1"),
+                   ("rough2",  24,  32, "dist4", 5, "Form 3B, roughness 2"),
+                   ("rough3",  32,  40, "dist4", 5, "Form 3B, roughness 3"),
+                   ("rough4",  40,  48, "dist4", 5, "Form 3B, roughness 4"),
+                   ("rough5",  48,  56, "dist4", 5, "Form 3B, roughness 5"),
+                   ("rough6",  56,  64, "dist4", 5, "Form 3B, roughness 6"),
+                   ("rough7",  64,  72, "dist4", 5, "Form 3B, roughness 7"),
+                   ("rough8",  72,  80, "dist4", 5, "Form 3B, roughness 8"),
+                  )
+    else:
+        # Convert feet to metres for roughnesses in other versions of SES.
+        defns3B2 =(
+                   ("epsilon",100, 110, "dist1", 5, "Form 3B, mean roughness"),
+                   ("rough1",  16,  24, "dist1", 5, "Form 3B, roughness 1"),
+                   ("rough2",  24,  32, "dist1", 5, "Form 3B, roughness 2"),
+                   ("rough3",  32,  40, "dist1", 5, "Form 3B, roughness 3"),
+                   ("rough4",  40,  48, "dist1", 5, "Form 3B, roughness 4"),
+                   ("rough5",  48,  56, "dist1", 5, "Form 3B, roughness 5"),
+                   ("rough6",  56,  64, "dist1", 5, "Form 3B, roughness 6"),
+                   ("rough7",  64,  72, "dist1", 5, "Form 3B, roughness 7"),
+                   ("rough8",  72,  80, "dist1", 5, "Form 3B, roughness 8"),
+                  )
     # Roughnesses and friction factors from Lsins.for format fields 120,
     # 160 & 165.
     defns3B3 =(
@@ -3013,16 +3227,17 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
 
     # Define the entries on the line holding the subsegment temperatures in
-    # form 3E, from Lsins.for format fields 250 to 320.
+    # form 3E, from Lsins.for format fields 250 to 320.  We widen the fields
+    # for diffusivities as SVS prints them in scientific form.
     defns3F =(
         (0, "wall_thck",  78, 92, "dist1", 3, 3, "Form 3F, wall thickness"),
         (0, "tun_sep",    78, 92, "dist1", 3, 3, "Form 3F, tunnel separation"),
         (0, "wall_thcon", 78, 92, prefix + "thcon", 5, 3,
                                         "Form 3F, wall thermal conductivity"),
-        (0, "wall_diff",  78, 92, "diff",  9, 3, "Form 3F, wall diffusivity"),
+        (0, "wall_diff",  76, 92, "diff", 14, 3, "Form 3F, wall diffusivity"),
         (0, "grnd_thcon", 78, 92, prefix + "thcon", 5, 3,
                                         "Form 3F, ground thermal conductivity"),
-        (0, "grnd_diff",  78, 92, "diff",  9, 3, "Form 3F, ground diffusivity"),
+        (0, "grnd_diff",  76, 92, "diff", 14, 3, "Form 3F, ground diffusivity"),
         (0, "deep_sink",  78, 92, "temp",  3, 3, "Form 3F, deep sink temperature")
            )
 
@@ -3058,7 +3273,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 #NPUT VERIFICATION FOR LINE SEGMENT  101 -101           Patchway                                               FORM 3A
 
         result = GetSecSeg(line_text, start, 2, width, width,
-                           debug1, file_name, out, log, False)
+                           settings_dict, out, log, False)
         if result is None:
             # There is something wrong with the numbers on the line.
             return(None)
@@ -3068,7 +3283,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         # If we get to here we have a valid line.  Store the
         # relationships between the section and the segment.
         sec_seg_dict = AddSecData(sec_seg_dict, sec_num, seg_num,
-                                line_data, file_name, "3A", log)
+                                  line_data, file_name, "3A", log)
         if sec_seg_dict is None:
             # We have a duplicate segment number.  For us, this is
             # a fatal error.  Return.
@@ -3085,8 +3300,8 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
         # Process the rest of form 3A.  These are all numbers on a line
         # of their own.
-        result = FormRead(line_triples, tr_index, defns3A,
-                          debug1, out, log)
+        result = FormRead(line_triples, tr_index, defns3A1,
+                          settings_dict, out, log)
         # Check if we have a line for a fire segment (this line is absent
         # in non-fire segments)
         if result is None:
@@ -3110,10 +3325,24 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             # It is not.  Adjust tr_index to match
             tr_index -= 1
             seg_dict.__setitem__("fireseg", 0)
+
+        if SVS:
+            # SVS has a line for segment fixed pressure rise, read it.
+            result = FormRead(line_triples, tr_index, defns3A2,
+                              settings_dict, out, log)
+            if result is None:
+                return(None)
+            else:
+                result_dict, tr_index = result
+                seg_dict.update(result_dict)
+        else:
+            # Put in a zero value of pressure rise for non-SVS .sbn files.
+            seg_dict.__setitem__("fixedp", 0.0)
+
         # Check for a line detailing how the jet fans are handled.  This
         # is only printed in offline-SES runs with input file versions
         # of at least 204.4.
-        if offline_ver >= 204.4:
+        if offline_ver >= 204.399:
             seg_type = seg_dict["seg_type"]
             # Segment types 9 to 14 get an extra line of text explaining
             # whether the thrust of jet fans is derated by local air
@@ -3122,9 +3351,6 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
                 tr_index = SkipLines(line_triples, tr_index, 1, out, log)
                 if tr_index is None:
                     return(None)
-
-
-
 
         # Now form 3B is a tricky one, as it has a variable count of
         # entries (one to eight perimeters and roughness heights, with
@@ -3136,7 +3362,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         # were used and how many are blank.
 
         result = Form3B(line_triples, tr_index, defns3B1,
-                        debug1, file_name, out, log)
+                        settings_dict, out, log, True)
         if result is None:
             return(None)
         else:
@@ -3149,7 +3375,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             perim = seg_dict["perim"]
 
         result = Form3B(line_triples, tr_index, defns3B2,
-                        debug1, file_name, out, log)
+                        settings_dict, out, log, False)
         if result is None:
             return(None)
         else:
@@ -3158,7 +3384,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
         # Get the three lines of roughness and Darcy friction factor.
         result = FormRead(line_triples, tr_index, defns3B3,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3196,9 +3422,10 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             else:
                 # We have reached the end of the perimeters in the printout.
                 break
-        if not math.isclose(perim, sum_perim):
+        if zero_perims > 0 and not math.isclose(perim, sum_perim):
             # The sum of the individual perimeters doesn't match the
-            # sum of the perimeters that SES calculated internally.
+            # sum of the perimeters that SES calculated internally,
+            # because zero values of perimeter were present.
             # Get the count of perimeters that were printed to the output
             # file.
             perim_count = num - 1
@@ -3231,7 +3458,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         # of -1, which means it will not pass back a tuple of one value
         # but the one value itself.
         result = TableToList(line_triples, tr_index, -1, "3C", defns3C1,
-                             debug1, file_name, out, log)
+                             settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3240,7 +3467,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
         # Get the line holding the coefficients at the back end
         result = TableToList(line_triples, tr_index, -1, "3C", defns3C2,
-                             debug1, file_name, out, log)
+                             settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3250,7 +3477,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
         # Get the wetted perimeter and two counters.
         result = FormRead(line_triples, tr_index, defns3C3,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3300,7 +3527,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
                           )
 
                 result = ValuesOnLine(line_data, -1, "3D", defns3D,
-                                      debug1, file_name, log)
+                                      settings_dict, log)
                 if len(line_text) > 80:
                     # There is a description of the heat gain
                     descrip = line_text[80:]
@@ -3366,7 +3593,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
                  (num + "wet_bulb",  59, 69, "temp", 3, "Form 3E, air WB temperature"),
                           )
                 result = ValuesOnLine(line_data, 6, "3E", defns3E,
-                                debug1, file_name, log)
+                                      settings_dict, log)
                 if result is None:
                     return(None)
                 else:
@@ -3401,7 +3628,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         if ECZopt != 0:
             # We do.
             result = FormRead(line_triples, tr_index, defns3F,
-                              debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -3429,7 +3656,7 @@ def Form3(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     return(form3_dict, sec_seg_dict, tr_index)
 
 
-def Form3B(line_triples, tr_index, defns3B, debug1, file_name, out, log):
+def Form3B(line_triples, tr_index, defns3B, settings_dict, out, log, perims):
     '''Process a header line and a line in form 3B.  The line in form 3B
     will either be the perimeters or the roughness heights (they both
     have similar designs so it makes sense to process them in a separate
@@ -3441,10 +3668,12 @@ def Form3B(line_triples, tr_index, defns3B, debug1, file_name, out, log):
             defns3B         (())            A tuple telling the routine where
                                             to find the nine numbers in the
                                             the line, how to convert them etc.
-            debug1          bool,           The debug Boolean set by the user
-            file_name       str,            The file name, used in errors
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
+            perims          bool            True if we are converting the
+                                            perimeters, False if we are
+                                            converting the roughnesses.
 
         Returns:
             form3B          float,          The real number at the end of the
@@ -3452,6 +3681,8 @@ def Form3B(line_triples, tr_index, defns3B, debug1, file_name, out, log):
                                             the mean roughness height.
             tr_index        int,            Where to start reading the next form
     '''
+    SVS = settings_dict["SVS"]
+
     # First skip the header line.
     tr_index = SkipLines(line_triples, tr_index, 1, out, log)
     if tr_index is None:
@@ -3475,9 +3706,15 @@ def Form3B(line_triples, tr_index, defns3B, debug1, file_name, out, log):
     # Limit the values we want to convert to where there are numbers.
     loc_defns3B = defns3B[0 : count_perims]
 
-    units_text =  ("  m", "  FT")
+    if SVS:
+        if perims:
+            units_text =  ("  m", "  M")
+        else:
+            units_text =  ("  m", "  MM")
+    else:
+        units_text =  ("  m", "  FT")
     result = ConvertAndChangeOne(line_data, loc_defns3B, units_text, "3B",
-                                 debug1, file_name, out, log)
+                                 settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -3487,7 +3724,7 @@ def Form3B(line_triples, tr_index, defns3B, debug1, file_name, out, log):
 
 
 def ConvertAndChangeOne(line_data, value_defn, units_text, form,
-                        debug1, file_name, out, log):
+                        settings_dict, out, log):
     '''Take a line of data, convert one instance of units text on it to SI,
     convert a bunch of values on it to SI and write the line the output file.
     Return all the converted values as a dictionary.
@@ -3503,7 +3740,7 @@ def ConvertAndChangeOne(line_data, value_defn, units_text, form,
             units_texts   (str, str)        A tuple of the SI units and US units
                                             that we want to exchange on the line
             form            str,            The form that we failed in, e.g. 3A
-            debug1          bool,           The debug Boolean set by the user
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -3516,8 +3753,7 @@ def ConvertAndChangeOne(line_data, value_defn, units_text, form,
         Errors:
             Aborts with 8141 if the US units text is not on the line.
     '''
-    # Figure out how many numbers we're expecting
-
+    file_name = settings_dict["file_name"]
     # Change the units text on the line and fault if the US units text
     # is not present on the line.
     (line_num, line_text, tr_index) = line_data
@@ -3531,17 +3767,17 @@ def ConvertAndChangeOne(line_data, value_defn, units_text, form,
         # Oops, the US unit is not on the line.  Fail.
         err = ("> Came across a line of text that didn't have the "
                "expected US units text on it\n"
-               + ' while reading form ' + form + ' in "' + file_name
-               + '".\n'
+               '> while reading form ' + form + ' in "' + file_name
+                 + '".\n'
                '> Expected to find "' + US_text + '".\n'
               )
         gen.WriteError(8141, err, log)
         gen.ErrorOnLine(line_num, line_text, log, False)
+        # raise() # Uncomment this when debugging
         return(None)
 
     # Change the numbers on the line.
-    result = ValuesOnLine(mod_data, -1, form, value_defn,
-                          debug1, file_name, log)
+    result = ValuesOnLine(mod_data, -1, form, value_defn, settings_dict, log)
     if result is None:
         # Something went wrong.
         return(None)
@@ -3557,7 +3793,7 @@ def ConvertAndChangeOne(line_data, value_defn, units_text, form,
 
 
 def ReadAllChangeOne(line_triples, tr_index, value_defn, units_text, form,
-                     debug1, file_name, out, log):
+                     settings_dict, out, log):
     '''Read a line of data, then call a routine that converts one instance of
     units text on it to SI, convert a bunch of values on it to SI.
     Writes the converted line to the output file.
@@ -3575,7 +3811,7 @@ def ReadAllChangeOne(line_triples, tr_index, value_defn, units_text, form,
             units_texts   (str, str)        A tuple of the SI units and US units
                                             that we want to exchange on the line
             form            str,            The form that we failed in, e.g. 3A
-            debug1          bool,           The debug Boolean set by the user
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -3593,7 +3829,7 @@ def ReadAllChangeOne(line_triples, tr_index, value_defn, units_text, form,
 
     # Change the units text on the line
     result = ConvertAndChangeOne(line_data, value_defn, units_text, form,
-                                debug1, file_name, out, log)
+                                 settings_dict, out, log)
     if result is None:
         # Something went wrong.
         return(None)
@@ -3603,8 +3839,7 @@ def ReadAllChangeOne(line_triples, tr_index, value_defn, units_text, form,
     return(sub_dict, tr_index)
 
 
-def Form4(line_triples, tr_index, settings_dict, form3_dict,
-          debug1, file_name, out, log):
+def Form4(line_triples, tr_index, settings_dict, form3_dict, out, log):
     '''Process form 4, the unsteady heat sources.
 
         Parameters:
@@ -3615,7 +3850,6 @@ def Form4(line_triples, tr_index, settings_dict, form3_dict,
                                             the length of subsegments to define
                                             the width of a fire (each fire occupies
                                             the entire length of one subsegment)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -3632,11 +3866,12 @@ def Form4(line_triples, tr_index, settings_dict, form3_dict,
 
     # Dig out the counters and settings we will need for form 4.
     # Count of line segments to read
+    debug1 = settings_dict["debug1"]
     fires = settings_dict['fires']
     prefix = settings_dict["BTU_prefix"]
     offline_ver = settings_dict["offline_ver"]
     fire_sim = settings_dict['fire_sim']
-
+    file_name = settings_dict["file_name"]
     # Log the counts.
     plural = gen.Plural(fires)
     log_mess = ("Expecting " + str(fires) + " instance" + plural
@@ -3696,7 +3931,7 @@ def Form4(line_triples, tr_index, settings_dict, form3_dict,
 #OCATION OF SOURCE  ( LINE SECTION - SEGMENT - SUBSEGMENT )                 102 -   102 -  4    offline-SES
 
         result = GetSecSeg(line_text, start, 2, width, 3,
-                           debug1, file_name, out, log)
+                           settings_dict, out, log)
         if result is None:
             # There is something wrong with the numbers on the line.
             return(None)
@@ -3741,7 +3976,7 @@ def Form4(line_triples, tr_index, settings_dict, form3_dict,
         # Process the rest of form 4.  These are all numbers on a line
         # of their own.
         result = FormRead(line_triples, tr_index, defns4,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3767,8 +4002,7 @@ def Form4(line_triples, tr_index, settings_dict, form3_dict,
     return(form4_dict, tr_index)
 
 
-def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
-          debug1, file_name, out, log):
+def Form5(line_triples, tr_index, settings_dict, sec_seg_dict, out, log):
     '''Process form 5, the vent segments.
 
         Parameters:
@@ -3777,7 +4011,6 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
             settings_dict   {}              Dictionary of stuff (incl. counters)
             sec_seg_dict    {}              Dictionary of sections and segments
                                             (we add to it and return it)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -3793,7 +4026,9 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
     # Count of line segments to read
     ventsegs = settings_dict['ventsegs']
     offline_ver = settings_dict["offline_ver"]
-
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
+    SVS = settings_dict["SVS"]
     # Log the counts.
     plural = gen.Plural(ventsegs)
     log_mess = ("Expecting " + str(ventsegs) + " instance" + plural
@@ -3802,8 +4037,8 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
 
 
     # Make a dictionary that will contain all the entries.  The key
-    # will be fire index number (starting at 1) and the entries in it
-    # will be all the things that pertain to that fire.:
+    # will be vent segment number and the entries in it will be all
+    # the things that pertain to that vent segment.
     form5_dict = {}
 
     # Create lists of the definitions in the form.  See the first
@@ -3891,7 +4126,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
 
         # Get the section number and segment number.
         result = GetSecSeg(line_text, start, 2, width, width,
-                           debug1, file_name, out, log, False)
+                           settings_dict, out, log, False)
         if result is None:
             # There is something wrong with the numbers on the line.
             return(None)
@@ -3901,7 +4136,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
         # If we get to here we have a valid line.  Store the
         # relationships between the section and the segment.
         sec_seg_dict = AddSecData(sec_seg_dict, sec_num, seg_num,
-                                line_data, file_name, "3A", log)
+                                  line_data, file_name, "5A", log)
         if sec_seg_dict is None:
             # We have a duplicate segment number.  For us, this us
             # a fatal error.  Return.
@@ -3920,7 +4155,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
         # Process the rest of form 5A and form 5B.  These are all numbers
         # on a line of their own.
         result = FormRead(line_triples, tr_index, defns5AB,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -3939,7 +4174,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
         # process form 5C (fan operations).
         if settings_dict["fans"] != 0:
             result = FormRead(line_triples, tr_index, defns5C1,
-                            debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -3972,7 +4207,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
                     fan_start = float(line_text.split()[-2])
                     seg_dict.__setitem__("fan_start", fan_start)
                     result = FormRead(line_triples, tr_index, defns5C2,
-                                      debug1, out, log)
+                                      settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -3990,6 +4225,13 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
             seg_dict.__setitem__("fan_start", 0)
             seg_dict.__setitem__("fan_stop", 0)
             seg_dict.__setitem__("fan_dir", 0)
+
+        if SVS:
+            # Check the segment type, if it is type 3 we will need to process
+            # form 5C-A for the damper properties.
+            if seg_dict["seg_type"] == 3:
+                print("Can't process SVS form 5C-A yet.")
+                gen.OopsIDidItAgain(log, file_name)
 
         # Process the first part of form 5D.  Skip the first three header lines
         # that are written by Vsins.for format field 75.
@@ -4021,7 +4263,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
 
             # Convert the values in the interior of the line.
             result = ValuesOnLine(line_data, 8, "5D", defns5D1,
-                                debug1, file_name, log)
+                                  settings_dict, log)
             if result is None:
                 # Something went wrong.
                 return(None)
@@ -4042,7 +4284,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
 
         # Skip the header line and process the line with one value (length) on it.
         result = FormRead(line_triples, tr_index, defns5D2,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4057,9 +4299,12 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
             else:
                 (line_num, line_text, tr_index) = line_data
 
-            # Convert the values in the interior of the line.
-            result = ValuesOnLine(line_data, 7 - index1, "5D", line_defn,
-                                debug1, file_name, log)
+            # Convert the values in the interior of the line.  We turned
+            # off the check of count of entries when we started processing
+            # SVS files because SES has units "SQ FT" and SVS has units
+            # "M**2"
+            result = ValuesOnLine(line_data, -1, "5D", line_defn,
+                                  settings_dict, log)
             if result is None:
                 # Something went wrong.
                 return(None)
@@ -4089,8 +4334,7 @@ def Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
     return(form5_dict, sec_seg_dict, tr_index)
 
 
-def Form6(line_triples, tr_index, settings_dict, options_dict,
-          file_name, out, log):
+def Form6(line_triples, tr_index, settings_dict, options_dict, out, log):
     '''Process form 6, the nodes.
 
         Parameters:
@@ -4098,7 +4342,6 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
             options_dict    {}              Dictionary of options.
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -4113,6 +4356,8 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
     '''
     debug1 = options_dict["debug1"]
     acceptwrong = options_dict["acceptwrong"]
+    file_name = settings_dict["file_name"]
+    SVS = settings_dict["SVS"]
     # Dig out the counters and settings we will need for form 6.
     # Count of nodes to read.
     nodes = settings_dict['nodes']
@@ -4187,6 +4432,9 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
         (0, "sec_2",   87, 92, "int",   0, 3, "Form 6D, tunnel 2"),
         (0, "sec_3",   87, 92, "int",   0, 3, "Form 6D, tunnel 3"),
            ]
+    if SVS:
+        defns6D.append((0, "U-turn-k",   87, 92, "null",   2, 3,
+                        "Form 6D, U-turn k-factor"))
 
     # Form 6E, tee junction.
     defns6E =[
@@ -4228,6 +4476,25 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
     defns6H_3 =[
         (0, "mix_sec_5",   71, 78, "int", 0, 3, "Form 6H, tunnel 5"),
                ]
+    # Form 6I, Saccardo nozzle junction in SVS.
+    defns6I =(
+        (0, "sec_1",   87, 92, "int",   0, 3, "Form 6I, tunnel 1"),
+        (0, "sec_2",   87, 92, "int",   0, 3, "Form 6I, tunnel 2"),
+        (0, "sec_3",   87, 92, "int",   0, 3, "Form 6I, tunnel 3"),
+        (0, "angle",   78, 92, "null",  4, 3, "Form 6I, saccardo angle"),
+        (0, "effic",   78, 92, "null",  4, 3, "Form 6I, momentum coefficient"),
+        (0, "angle",   78, 92, "null",  4, 3, "Form 6I, saccardo angle"),
+        (0, "U-turn-k",87, 92, "null",  3, 3, "Form 6U, U-turn k-factor")
+             )
+    # Form 6J, PSD junction in SVS.
+    defns6J =(
+        (0, "sec_1",   87, 92, "int",   0, 3, "Form 6J, tunnel 1"),
+        (0, "sec_2",   87, 92, "int",   0, 3, "Form 6J, tunnel 2"),
+        (0, "sec_3",   87, 92, "int",   0, 3, "Form 6J, tunnel 3"),
+        (0, "aspect",  78, 92, "null",  4, 3, "Form 6J, aspect ratio"),
+        (0, "cl_loss", 78, 92, "null",  3, 3, "Form 6J, PSD closed loss"),
+        (0, "opentime",78, 92, "null",  3, 3, "Form 6J, PSD opening time"),
+             )
 
     for index in range(1, nodes + 1):
         # Create a sub-dictionary to hold the contents of this segment.
@@ -4236,10 +4503,10 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
         # read a header line.
         if index % 2 == 0:
             result = FormRead(line_triples, tr_index, defns6A1,
-                              debug1, out, log)
+                              settings_dict, out, log)
         else:
             result = FormRead(line_triples, tr_index, defns6A2,
-                              debug1, out, log)
+                              settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4247,13 +4514,13 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
             node_dict.update(result_dict)
             node_num = node_dict["node_num"]
             aero_type = node_dict["aero_type"]
-            if aero_type in (1, 2, 7):
+            if aero_type in (1, 2, 6, 7):
                 tr_index = SkipLines(line_triples, tr_index, 1, out, log)
                 if tr_index is None:
                     return(None)
         # Read the last line of form 6A.
         result = FormRead(line_triples, tr_index, defns6A3,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4267,7 +4534,7 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
         # Check if node's thermodynamic type is 3 and read form 6B if it is.
         if thermo_type == 3:
             result = FormRead(line_triples, tr_index, defns6B,
-                              debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -4284,15 +4551,16 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
         #  * 3 (tee junction) - read form 6E
         #  * 4 (angled junction) - read form 6F
         #  * 5 (wye junction) - read form 6G
-        #  * 6 (not used)
+        #  * 6 (not used in SES, Saccardo in SVS)
         #  * 7 (zero pressure loss junction) - read nothing
+        #  * 8 (PSD junction in SVS)
         #
         # We also read the output of form 6H (partial mixing nodes) if the
         # thermodynamic type of a node is 2.
 
         # Check if we need to issue a warning about the branches pressure
         # loss calculation.
-        if branches < 1 and aero_type in (1,2,3,4,5,6):
+        if branches < 1 and aero_type in (1,2,3,4,5,6,8):
             branch_warn = True
 
         if aero_type in (0, 7):
@@ -4300,19 +4568,31 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
         else:
             if aero_type == 1:
                 result = FormRead(line_triples, tr_index, defns6C,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
             elif aero_type == 2:
                 result = FormRead(line_triples, tr_index, defns6D,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
             elif aero_type == 3:
                 result = FormRead(line_triples, tr_index, defns6E,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
             elif aero_type == 4:
                 result = FormRead(line_triples, tr_index, defns6F,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
             elif aero_type == 5:
                 result = FormRead(line_triples, tr_index, defns6G,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
+            elif SVS and aero_type == 6:
+                # Note that in SES v4.1, node type 6 is identical to
+                # node type 7 (zero pressure loss), which reads no
+                # extra lines of output.  SVS uses it for Saccardo
+                # nozzles and does read extra lines, so we have two
+                # conditions in the above 'elif' statement.
+                result = FormRead(line_triples, tr_index, defns6I,
+                                  settings_dict, out, log)
+            elif aero_type == 8:
+                # These are SVS platform screens.
+                result = FormRead(line_triples, tr_index, defns6J,
+                                  settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -4323,7 +4603,7 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
             # Process form 6H (mislabeled as 6C for some reason).
             for index, line_defn in enumerate((defns6H_1, defns6H_2, defns6H_3)):
                 result = FormRead(line_triples, tr_index, line_defn,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -4385,10 +4665,10 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
                ">\n"
                "> What was the point of coding it that way?  Back in the\n"
                "> 1970s and 1980s CPU time was expensive.  It was useful\n"
-               "> to have the ability to pay less for runs that did not\n"
-               "> have branched junctions.\n"
+               "> to have the ability to pay less for runs with branched\n"
+               "> junctions that the user knew were zero pressure loss.\n"
                "> Nowadays the feature is just a forgotten trap that SES\n"
-               "> doesn't warn about and which the unwary fall into.\n"
+               "> and SVS don't warn about that the unwary can fall into.\n"
                ">\n"
                "> The way to solve the problem is to set the count of\n"
                "> branched junctions in form 1D to any positive number\n"
@@ -4430,14 +4710,14 @@ def Form6(line_triples, tr_index, settings_dict, options_dict,
     return(form6_dict, tr_index)
 
 
-def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
-    '''Process form 7, the axial/centrifugal fan characteristics and jet fans.
+def Form7(line_triples, tr_index, settings_dict, out, log):
+    '''Process form 7, the axial/centrifugal fan characteristics, jet fans,
+    air curtains and portal doors.
 
         Parameters:
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -4447,14 +4727,22 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
                                             as a dictionary of dictionaries.
             form7_JFs       {{}},           The definitions of the jet fans,
                                             as a dictionary of dictionaries.
+            form7D          {{}},           The definitions of the SVS air
+                                            curtains and portal doors, as
+                                            a dictionary of dictionaries.
             tr_index        int,            Where to start reading the next form
     '''
 
     # Dig out the counters and settings we will need for form 7.
     # Count of axial/centrifugal fan characteristics to read.
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
     fans = settings_dict['fans']
     jetfans = settings_dict['jftypes']
     supopt = settings_dict['supopt']
+    offline_ver = settings_dict["offline_ver"]
+    SVS = settings_dict['SVS']
+    portdrs = settings_dict["portdrs"]
 
     # Log the counts.
     plural1 = gen.Plural(fans)
@@ -4482,13 +4770,49 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
     # Create the definitions for form 7C, from Input.for format fields 1314 to
     # 1318.
-    defns7C =(
-        (3, "volflow",   76, 85, "volflow", 3, 3, "Form 7C, volume flow"),
-        (1, "insteff",   76, 85, "null",    2, 0, "Form 7C, installation efficiency"),
-        (0, "jet_speed", 76, 85, "speed1",  3, 3, "Form 7C, jet velocity"),
-        (0, "fan_start", 76, 85, "null",    1, 3, "Form 7C, fan start time"),
-        (0, "fan_stop",  76, 85, "null",    1, 3, "Form 7C, fan stop time"),
-           )
+    if not SVS:
+        defns7C =(
+            (2, "volflow",   76, 85, "volflow", 3, 3, "Form 7C, volume flow"),
+            (1, "insteff",   76, 85, "null",    2, 0, "Form 7C, installation efficiency"),
+            (0, "jet_speed", 76, 85, "speed1",  3, 3, "Form 7C, jet velocity"),
+            (0, "fan_start", 76, 85, "null",    1, 3, "Form 7C, fan start time"),
+            (0, "fan_stop",  76, 85, "null",    1, 3, "Form 7C, fan stop time"),
+                 )
+    else:
+        defns7C =(
+            (2, "static_thrust", 76, 85, "Force1", 2, 3, "Form 7C, static thrust"),
+            (1, "insteff",   76, 85, "null",   2, 0, "Form 7C, installation efficiency"),
+            (0, "jet_speed", 76, 85, "speed1", 3, 3, "Form 7C, jet velocity"),
+            (0, "fan_start", 76, 85, "null",   1, 3, "Form 7C, fan start time"),
+            (0, "fan_stop",  76, 85, "null",   1, 3, "Form 7C, fan stop time"),
+            (0, "base_dens", 76, 85, "dens1",  5, 3, "Form 7C, fan base density")
+                 )
+    # Create the definitions for form 7D air curtains.  If the third number
+    # is negative it is a portal door instead of an air curtain, so we read
+    # the first three numbers then decide which feature to read the rest for.
+    defns7D1 =(
+        (0, "index",     83, 92, "int", 0, 3, "Form 7D, curtain number"),
+        (0, "segtype",   83, 92, "int", 0, 3, "Form 7D, segment type"),
+        (0, "speed",     83, 92, "speed1", 1, 3, "Form 7D, discharge velocity"),
+              )
+    # Form 7D entries for air curtains.
+    defns7D2 =(
+        (0, "t_width",   83, 92, "dist1", 3, 3, "Form 7D, tunnel width"),
+        (0, "c_width",   83, 92, "dist1", 3, 3, "Form 7D, slot width"),
+        (0, "angle",     83, 92, "null",  1, 3, "Form 7D, curtain angle"),
+        (0, "j_factor",  83, 92, "null",  3, 3, "Form 7D, J factor"),
+        (0, "rec_time",  83, 92, "null",  1, 3, "Form 7D, recovery time"),
+        (0, "k-factor",  83, 92, "null",  1, 3, "Form 7D, head loss"),
+        (0, "c_type",    83, 92, "int",   0, 3, "Form 7D, curtain type"),
+             )
+    # Form 7D entries for portal doors.
+    defns7D3 =(
+        (2, "close_time", 83, 92, "null",  3, 3, "Form 7D, close time"),
+        (0, "duration",   83, 92, "null",  3, 3, "Form 7D, open/close duration"),
+        (0, "open+time",  83, 92, "null",  3, 3, "Form 7D, open time"),
+        (0, "k-factor",   83, 92, "null",  1, 3, "Form 7D, head loss"),
+             )
+
 
     for fan_index in range(1, fans + 1):
         # Get the fan description and create a dictionary to hold the
@@ -4507,7 +4831,7 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
         # Read form 7A and add its values to the dictionary.
         result = FormRead(line_triples, tr_index, defns7A,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4544,8 +4868,7 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
         # Call a routine to read the lines that hold the first fan char
         # data.  We make a routine for this because we may need to do it
         # twice.
-        result = Form7B(line_triples, tr_index, debug1,
-                        file_name, out, log)
+        result = Form7B(line_triples, tr_index, settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4560,8 +4883,7 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             if tr_index is None:
                 return(None)
 
-            result = Form7B(line_triples, tr_index, debug1,
-                            file_name, out, log)
+            result = Form7B(line_triples, tr_index, settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -4593,24 +4915,22 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
     # Do the jet fans
     for JF_index in range(1, jetfans + 1):
+        if JF_index == 1:
+            # Skip over one line at the start of the first instance
+            # of form 7C.
+            tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+            if tr_index is None:
+                return(None)
         result = FormRead(line_triples, tr_index, defns7C,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
-            # Once we've read the first jet fan, modify the count of lines
-            # to step over for the second and subsequent jet fans.
-            if JF_index == 1:
-                defns7C =(
-                    (2, "volflow",   76, 85, "volflow", 3, 3, "Form 7C, volume flow"),
-                    (1, "insteff",   76, 85, "null",    2, 0, "Form 7C, installation efficiency"),
-                    (0, "jet_speed", 76, 85, "speed1",  3, 3, "Form 7C, jet velocity"),
-                    (0, "fan_start", 76, 85, "null",    1, 3, "Form 7C, fan start time"),
-                    (0, "fan_stop",  76, 85, "null",    1, 3, "Form 7C, fan stop time"),
-                       )
             jetfans_dict, tr_index = result
-            # Now print the static thrust in Newtons or lbf.  This is a
-            # useful sanity check.
+
+        # Now print the static thrust in Newtons or lbf.  This is a
+        # useful sanity check for SES files.
+        if not SVS:
             volflow = jetfans_dict["volflow"]
             jet_speed = jetfans_dict["jet_speed"]
             # Calculate the static thrust in Newtons, using standard
@@ -4622,12 +4942,88 @@ def Form7(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
             # Add the static thrust to the jet fan definition.  The program
             # doesn't need it but it may be useful for programmers later.
             jetfans_dict.__setitem__("static_thrust", thrust)
-            form7_JFs.__setitem__(JF_index, jetfans_dict)
+            if offline_ver >= 204.399:
+                # Offline-SES 204.4 and above derate all jet fans due to
+                # air density at the node at the back of the segment.
+                # It cannot be turned off for individual jet fan types
+                # (unlike SVS).
+                jetfans_dict.__setitem__("derate", True)
+            else:
+                jetfans_dict.__setitem__("derate", False)
+        else:
+            # This is an SVS file, which prints static thrust instead
+            # of volume flow.  Calculate the volume flow and store it,
+            # for consistency between SES .sbn files and SVS .sbn files.
+            static = jetfans_dict["static_thrust"]
+            jet_speed = jetfans_dict["jet_speed"]
+            base_dens = jetfans_dict["base_dens"]
+            volflow = static / (base_dens * abs(jet_speed))
+            jetfans_dict.__setitem__("volflow", volflow)
+            # Now process the line that says whether to derate this
+            # jet fan type according to air density at the back end
+            # of the segment.
+            tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+            if tr_index is None:
+                return(None)
+            else:
+                # Get the last word in the line, which will be either
+                # "YES" or "NO".
+                line_text = line_triples[tr_index][1]
+                yesno = line_text.split()[-1]
+                if yesno == "YES":
+                    jetfans_dict.__setitem__("derate", True)
+                elif yesno == "NO":
+                    jetfans_dict.__setitem__("derate", False)
+                else:
+                    # We should not be able to get here, but you never
+                    # know.  Raise an error for the programmer.
+                    print('Found weird output in form 7C of an SVS file.\n'
+                          'Expected to find a line turning density derating\n'
+                          'on or off, but got this instead:\n' +
+                          line_text.strip())
+                    gen.OopsIDidItAgain(log, file_name)
+                    return(None)
+        form7_JFs.__setitem__(JF_index, jetfans_dict)
 
-    return(form7_fans, form7_JFs, tr_index)
+    # Do the air curtains and portal doors.
+    form7D = {}
+    for index in range(portdrs):
+        if index == 0:
+            # Skip over one line at the start of the first instance
+            # of form 7D.
+            tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+            if tr_index is None:
+                return(None)
+        result = FormRead(line_triples, tr_index, defns7D1,
+                          settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            this7D_dict, tr_index = result
+        # Figure out if it is an air curtain or a portal door.
+        if this7D_dict["speed"] >= 0.:
+            # It's an air curtain.
+            defns_used = defns7D2
+        else:
+            defns_used = defns7D3
+        result = FormRead(line_triples, tr_index, defns_used,
+                          settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            result_dict, tr_index = result
+            this7D_dict.update(result_dict)
+        form7D.__setitem__(index + 1, this7D_dict)
+        print(this7D_dict)
+    # If the supplementary print option is high enough SVS will print
+    # the air curtain arrays.
+    tr_index = SkipManyLines(line_triples, tr_index, debug1, out)
+    if tr_index == None:
+        return(None)
+    return(form7_fans, form7_JFs, form7D, tr_index)
 
 
-def Form7B(line_triples, tr_index, debug1, file_name, out, log):
+def Form7B(line_triples, tr_index, settings_dict, out, log):
     '''Process one fan airflow characteristic in form 7B.  Return a
     dictionary of the contents.  We may call this twice from PROC Form7,
     first time for the forward fan characteristic, second time for
@@ -4636,7 +5032,7 @@ def Form7B(line_triples, tr_index, debug1, file_name, out, log):
         Parameters:
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
-            debug1          bool,           The debug Boolean set by the user
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -4656,7 +5052,7 @@ def Form7B(line_triples, tr_index, debug1, file_name, out, log):
     # a pair of lists (flow and pressure on the line it has read),
     # which in this case is the user's data.
     result = Form7BPart(line_triples, tr_index, 4,
-           debug1, file_name, out, log)
+                        settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -4673,10 +5069,11 @@ def Form7B(line_triples, tr_index, debug1, file_name, out, log):
     # tell there are always seven on each line, but the count
     # of lines varies according to how weird the polynomial gets.
     # because I'm lazy, we're going to use a while loop to look
-    # ahead and see if the next valid line ends with "IN. WG".
+    # ahead and see if the next valid line ends with "IN. WG"
+    # (for SES) or "PA" (SVS).
     # If it does, we read seven values and add them to the list.
     # If it doesn't we break out, build the lists of calculated
-    # pressure and flows, set the dictionary entries and return
+    # pressure and flows, set the dictionary entries and return.
     calc_flow = []
     calc_press = []
     while True:
@@ -4685,9 +5082,9 @@ def Form7B(line_triples, tr_index, debug1, file_name, out, log):
             return(None)
         else:
             (line_num, line_text, discard) = line_data
-        if "IN. WG" in line_text:
+        if "IN. WG" in line_text or "PA" in line_text:
             result = Form7BPart(line_triples, tr_index, 7,
-                   debug1, file_name, out, log)
+                                settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -4703,7 +5100,7 @@ def Form7B(line_triples, tr_index, debug1, file_name, out, log):
     return(char_dict, tr_index)
 
 
-def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
+def Form7BPart(line_triples, tr_index, count, settings_dict, out, log):
     '''Process one fan airflow characteristic in form 7A.  Return a
     dictionary of the contents.  We may call this twice from PROC Form7,
     first time for the forward fan characteristic, second time for
@@ -4714,7 +5111,7 @@ def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             count           int,            How many values we expect on the line
-            debug1          bool,           The debug Boolean set by the user
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -4722,8 +5119,8 @@ def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
         Returns:
             fan_char        {},             The definition of the fan char
             tr_index        int,            Where to start reading the next form
-        '''
-
+    '''
+    SVS =  settings_dict["SVS"]
 
     if count == 4:
         # One line holds the four pressure values that user set, along with "IN. WG",
@@ -4772,11 +5169,14 @@ def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
     # Make tuples we can send to a routine that reads either the
     # pressure values (and changes "IN.WG" to "Pa") or reads the
     # volume flow values and changes "CFM" to "m^3/s".
-    units_text1 = (" Pa", "IN. WG")
-    units_text2 = ("m^3/s", " CFM")
-
+    if SVS:
+        units_text1 = ("Pa", "PA")
+        units_text2 = ("m^3/s ", "M**3/S")
+    else:
+        units_text1 = (" Pa", "IN. WG")
+        units_text2 = ("m^3/s", " CFM")
     result = ReadAllChangeOne(line_triples, tr_index, defns7B1, units_text1,
-                              "7B", debug1, file_name, out, log)
+                              "7B", settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -4793,7 +5193,7 @@ def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
         return(None)
 
     result = ReadAllChangeOne(line_triples, tr_index, defns7B2, units_text2,
-                              "7B", debug1, file_name, out, log)
+                              "7B", settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -4808,7 +5208,7 @@ def Form7BPart(line_triples, tr_index, count, debug1, file_name, out, log):
 
 
 def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
-          debug1, file_name, out, log):
+          out, log):
     '''Process form 8, the train routes.
 
         Parameters:
@@ -4823,7 +5223,6 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
             sec_seg_dict    {}              Dictionary of the relationships
                                             between segments and sections and
                                             vise-versa.
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -4832,13 +5231,14 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
             form8_dict      {{}},           The definitions of the train routes.
             tr_index        int,            Where to start reading the next form
     '''
-
+    debug1 = settings_dict["debug1"]
     # Dig out the counters and settings we will need for form 8.
     # Count of routes
     routes = settings_dict['routes']
     # Figure out whether we have implicit speed and heat, explicit
     # speed-time and/or explicit heat gain.
     trperfopt = settings_dict['trperfopt']
+    SVS = settings_dict['SVS']
 
     # Log the counts.
     plural1 = gen.Plural(routes)
@@ -4879,9 +5279,17 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                   )
 
     # Create lists of the definitions in the form 8B.
-    # This is from Trins.for format field 100.
+    # This is based on Trins.for format field 100 in SES v4.1.  For some
+    # reason someone programming SVS moved the group number so that the
+    # group field ended at the 16th character boundary on the line instead
+    # of the 14th character boundary.  The 'if' clause below reflects
+    # that.
+    if SVS:
+        downend = 16
+    else:
+        downend = 14
     defns8B = (
-        ("group_num",   11, 14, "int",  0, "Form 8B, train group index"),
+        ("group_num",   11, downend, "int",  0, "Form 8B, train group index"),
         ("train_count", 31, 34, "int",  0, "Form 8B, count of trains"),
         ("train_type",  49, 52, "int",  0, "Form 8B, train type"),
         ("headway",     66, 71, "null", 0, "Form 8B, train headway"),
@@ -4889,11 +5297,11 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
               )
 
     # In form 8C some entries (radius of curvature and coasting
-    # parameter) may or may not be blank, so we want to choose
-    # to choose carefully what to process.  We put radius
-    # last so we can make a slice that avoids it easily.
+    # parameter) may or may not be blank, so we want to choose carefully
+    # what to process.  We put radius last so we can make a slice that
+    # avoids processing it easily.
     # These are based on Trins.for format fields 125 to 140.
-    defns8C = (
+    defns8C = [
         ("fwd_end",      4, 21, "dist1",  3, "Form 8C, forward end of track section"),
         ("length",      21, 36, "dist1",  3, "Form 8C, length of track section"),
         ("fwd_elev",    48, 64, "dist1",  3, "Form 8C, elevation of forward end"),
@@ -4901,7 +5309,15 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
         ("max_speed",   79, 94, "speed2", 2, "Form 8C, maximum train speed"),
         ("sector",      94,107, "int",    0, "Form 8C, energy sector"),
         ("radius",      36, 48, "dist1",  3, "Form 8C, track radius"),
-              )
+              ]
+    if SVS:
+        # Insert the regen fraction into the list for form 8C.  Note that
+        # the extents of the number field (115:120 below) are a guess, as
+        # we don't know the Fortran format fields used in SVS.  But it's
+        # probably pretty safe.  Note that the coasting setting is processed
+        # below with a str.split()[-1] function so there's no issue with the
+        # extra entry for regen factor in SVS output files.
+        defns8C.insert(6, ("regen", 115,122, "null", 2, "Form 8C, regen fraction"))
 
     # Form 8D, from Trins.for format fields 150 & 160
     defns8D1 =(
@@ -4923,16 +5339,28 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
         ("speed",       54, 63, "speed2", 1, "Form 8E, speed in speed-time curve"),
         ("distance",    78, 93, "dist1",  3, "Form 8E, distance travelled"),
            )
-
     # Form 8E, from Trins.for format field 210 for explicit speed-time
     # explicit heat gain.
-    defns8E2 =(
-        ("time",        13, 24, "null",   1, "Form 8E, time in speed-time curve"),
-        ("speed",       24, 43, "speed2", 1, "Form 8E, speed in speed-time curve"),
-        ("trac_heat",   43, 66, "null",   3, "Form 8E, distance travelled"),
-        ("brake_heat",  66, 85, "null",   1, "Form 8E, heat from traction"),
-        ("distance",    85,104, "dist1",  1, "Form 8E, heat from brakes"),
-           )
+    if not SVS:
+        defns8E2 =[
+            ("time",        13, 24, "null",   1, "Form 8E, time in speed-time curve"),
+            ("speed",       24, 43, "speed2", 1, "Form 8E, speed in speed-time curve"),
+            ("trac_heat",   43, 66, "null",   3, "Form 8E, heat from traction"),
+            ("brake_heat",  66, 85, "null",   1, "Form 8E, heat from brakes"),
+            ("distance",    85,104, "dist1",  1, "Form 8E, distance travelled"),
+           ]
+    else:
+        # SVS train performance option 3 has an extra entry for latent
+        # heat, so it can be used to track diesel exhaust as a passive
+        # scalar.
+        defns8E2 =[
+            ("time",        13, 24, "null",   1, "Form 8E, time in speed-time curve"),
+            ("speed",       24, 43, "speed2", 1, "Form 8E, speed in speed-time curve"),
+            ("trac_heat",   43, 61, "null",   3, "Form 8E, heat from traction"),
+            ("brake_heat",  61, 73, "null",   1, "Form 8E, heat from brakes"),
+            ("latent_heat", 73, 85, "null",   1, "Form 8E, latent heat from locos"),
+            ("distance",    85,101, "dist1",  1, "Form 8E, distance travelled"),
+           ]
 
     # First part of form 8F, from Trins.for format fields 250 & 260.
     defns8F1 =(
@@ -4942,12 +5370,20 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
     # Second part of form 8F, from Trins.for format field 300.  We don't
     # need the section number so we ignore it (this makes the lines easier
-    # to process).
-    defns8F2 = (
-        ("seg_list",  45, 50, "int",   0, "Form 8F, segment number"),
-        ("up_dists",   61, 73, "dist1", 3, "Form 8F, left hand chainage"), # This field widened
-        ("down_dists", 79, 91, "dist1", 3, "Form 8F, right hand chainage"),
-              )
+    # to process).  Note that in SVS, two numbers were moved to the right
+    # for reasons unclear.  The if clause below covers it.
+    if SVS:
+        defns8F2 = (
+            ("seg_list",  45, 50, "int",   0, "Form 8F, segment number"),
+            ("up_dists",   65, 77, "dist1", 3, "Form 8F, left hand chainage"),
+            ("down_dists", 82, 94, "dist1", 3, "Form 8F, right hand chainage"),
+                  )
+    else:
+        defns8F2 = (
+            ("seg_list",  45, 50, "int",   0, "Form 8F, segment number"),
+            ("up_dists",   61, 73, "dist1", 3, "Form 8F, left hand chainage"),
+            ("down_dists", 79, 91, "dist1", 3, "Form 8F, right hand chainage"),
+                  )
 
     for route_index in range(1, routes + 1):
         # Get the route description and create a dictionary.
@@ -4965,7 +5401,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
         # Read form 8A and add its values to the dictionary.
         result = FormRead(line_triples, tr_index, defns8A,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -4989,7 +5425,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
         for group_index in range (1, train_count + 1):
             result = DoOneLine(line_triples, tr_index, 5, "8B", defns8B, True,
-                               debug1, file_name, out, log)
+                               settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5043,11 +5479,12 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                     coasting.append(0)
 
                 # Check if the last digit in the radius of curvature is empty.
+                # Note that this check works for both SES and SVS.
                 if line_text[47] == " ":
                     # It is.
                     # Process all the numbers but ignore the radius entry.
                     result = ValuesOnLine(line_data, len(words), "8C", defns8C[:-1],
-                                          debug1, file_name, log)
+                                          settings_dict, log)
                     if result is None:
                         return(None)
                     else:
@@ -5056,7 +5493,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                         values = list(values) + [0]
                 else:
                     result = ValuesOnLine(line_data, len(words), "8C", defns8C,
-                                          debug1, file_name, log)
+                                          settings_dict, log)
                     if result is None:
                         return(None)
                     else:
@@ -5115,6 +5552,11 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
             route_dict.__setitem__("radius2", radius2)
             route_dict.__setitem__("coasting2", coasting2)
 
+            # In SVS, we may be using a speed-regen fraction curve.
+            # Store it.
+            if SVS:
+                regen2 = list(np.repeat(route_dict["regen"],2))
+                route_dict.__setitem__("regen2", regen2)
 
 
         # Skip over or read form 8D (we only include it when we are using
@@ -5123,7 +5565,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
             # Now do form 8D.  It starts with two numbers on individual lines
             # followed by zero or more lines of stop data.
             result = FormRead(line_triples, tr_index, defns8D1,
-                              debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5147,8 +5589,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
 
                 result = TableToList(line_triples, tr_index, stop_count,
-                                     "8D", defns8D2,
-                                     debug1, file_name, out, log)
+                                     "8D", defns8D2, settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -5157,7 +5598,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
         # Skip over or read form 8E (we read it if we are using explicit train
         # performance).
-        if trperfopt != 1:
+        if trperfopt in (2, 3):
             # Now do form 8E.  It has two versions: explicit speed-time and
             # implicit heat gain (option 2) and explicit speed-time and heat
             # gain.  Skip over the header lines.
@@ -5190,8 +5631,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                 if tr_index is None:
                     return(None)
                 result = TableToList(line_triples, tr_index, curve_points,
-                                     "8E", defns8E1,
-                                     debug1, file_name, out, log)
+                                     "8E", defns8E1, settings_dict, out, log)
             else:
                 # Explicit speed-time and explicit heat gains
                 repl_line = (" "*17 + "(SECONDS)" + " "*11 + "(km/h)"
@@ -5208,8 +5648,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
                 # Explicit speed-time and explicit heat gains
                 result = TableToList(line_triples, tr_index, curve_points,
-                                     "8E", defns8E2,
-                                     debug1, file_name, out, log)
+                                     "8E", defns8E2, settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5223,7 +5662,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
 
         # Get the line that holds the counter of entries.
         result = FormRead(line_triples, tr_index, defns8F1,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -5314,11 +5753,11 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                 # but we discard them and they won't be included in the
                 # reconstructed input file.
                 while True:
+                    last_tr_index = tr_index
                     line_data = GetValidLine(line_triples, tr_index, out, log)
                     if line_data is None:
                         return(None)
                     else:
-                        last_tr_index = tr_index
                         (line_num, line_text, tr_index) = line_data
                         if len(line_text.split()) != 1:
                             # We have got to the end of the list of segments.
@@ -5329,15 +5768,15 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
                 # We've read one or more lines with one number on them (the
                 # lines printed after error message 125). Now set tr_index
                 # to the last line that had one segment number on it.  And
-                # set sec_count to zero so that the outer while loop terminates.
+                # set seg_count to zero so that the outer while loop terminates.
+                seg_count = 0
                 tr_index = last_tr_index
-                sec_count = 0
             else:
                 # This line has either four or five entries. Get the
                 # segment number, up chainage and down chainage and add
                 # them to their respective lists.
                 result = ValuesOnLine(line_data, -1, "8F", defns8F2,
-                                          debug1, file_name, log)
+                                      settings_dict, log)
                 if result is None:
                     # Not sure if we can get here but you never know.
                     return(None)
@@ -5382,7 +5821,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
             up_height = route_dict["elevations"][rt_index]
             down_height = route_dict["elevations"][rt_index + 1]
             entry_height = gen.Interpolate(up_ch, down_ch,   up_height, down_height,
-                                         entry_ch, True, log)
+                                           entry_ch, True, log)
         else:
             # We are using explicit heat gains, so there is no information
             # anywhere on what the track elevations are.  We set the height
@@ -5541,8 +5980,7 @@ def Form8(line_triples, tr_index, settings_dict, form3_dict, sec_seg_dict,
     return(form8_dict, tr_index)
 
 
-def Form9(line_triples, tr_index, settings_dict,
-          debug1, file_name, out, log):
+def Form9(line_triples, tr_index, settings_dict, out, log):
     '''Process form 9, the train types.  Later we will include some sanity
     tests for stuff that is fouled up by bugs in Garage.for and print a
     new table giving the true train traction efficiency,
@@ -5555,7 +5993,6 @@ def Form9(line_triples, tr_index, settings_dict,
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -5564,13 +6001,22 @@ def Form9(line_triples, tr_index, settings_dict,
             form9_dict      {{}},           The definitions of the train types.
             tr_index        int,            Where to start reading the next form
     '''
-
+    debug1 = settings_dict["debug1"]
     # Dig out the counters and settings we will need for form 9.
     # Count of train types
     trtypes = settings_dict['trtypes']
-    # Whether we have implicit speed and heat, explicit speed-time and/or explicit heat gain.
+    # Whether we have implicit speed and heat, explicit speed-time and/or
+    # explicit heat gain.
     trperfopt = settings_dict['trperfopt']
     prefix = settings_dict["BTU_prefix"]
+    offline_ver = settings_dict["offline_ver"]
+    SVS = settings_dict["SVS"]
+    version = settings_dict["version"]
+
+    # Set a flag that dictates whether we are reading a version of SES
+    # that prints the tail loss (later versions of offline-SES and all
+    # versions of SVS).
+    read_tail = (offline_ver >= 204.599 or SVS)
 
     # Log the counts.
     plural1 = gen.Plural(trtypes)
@@ -5584,7 +6030,7 @@ def Form9(line_triples, tr_index, settings_dict,
 
     # Create lists of the definitions in the forms 9A, 9B and 9C.
     # This is from Garage.for format fields 150 to 240.
-    defns9ABC = (
+    defns9ABC = [
         (0, "tot_cars",    78, 92, "int",     0, 3, "Form 9A, carriages per train"),
         (0, "pwd_cars",    78, 92, "int",     0, 3, "Form 9A, motor cars per train"),
         (0, "length",      78, 92, "dist1",   3, 3, "Form 9A, train length"),
@@ -5599,7 +6045,13 @@ def Form9(line_triples, tr_index, settings_dict,
         (0, "pax_lat",     78, 92, prefix + "watt1",   1, 3, "Form 9C, latent heat rejection per passenger"),
         (0, "car_kW",      78, 92, "null",    2, 3, "Form 9C, power consumption per car"),
         (0, "pax_kW",      78, 92, "null",    3, 3, "Form 9C, power consumption per passenger"),
-                )
+                ]
+    # Check if we are processing a file from a type of SES that prints the
+    # tail loss coefficient in the open air.  If we are, insert an extra
+    # line into defns9ABC to read it.
+    if read_tail:
+        tail = (0, "tail_loss",   78, 92, "null",    6, 3, "Form 9B, tail loss in open air")
+        defns9ABC.insert(8, tail)
 
     # Create lists of the definitions in the form 9D.  These are two values on
     # each line so we need to generate one for each line, alas.
@@ -5638,20 +6090,33 @@ def Form9(line_triples, tr_index, settings_dict,
         ("accel_temp",   64, 73, "temp",  3, "Form 9D, acceleration grid initial temperature"),
         ("decel_temp",   78, 92, "temp",  3, "Form 9D, deceleration grid initial temperature"),
                )
-    # Gararage.for format fields 325 to 350.  We don't process the A term
+    # SVS grid blower speeds.
+    defns9D8 = (
+        ("accel_fan",    64, 73, "speed1", 2, "Form 9D, acceleration grid blower speed"),
+        ("decel_fan",    78, 92, "speed1", 2, "Form 9D, deceleration grid blower speed"),
+               )
+    # Gar[=age.for format fields 325 to 350.  We don't process the A term
     # and B term here because we want to print multiple SI equivalents.
     defns9E1 = (
         (1, "car_weight",  78, 92, "mass3",   3, 3, "Form 9E, carriage mass"),
         (0, "motor_count", 78, 92, "null",    0, 3, "Form 9E, motors per pwd car"),
-        (0, "A_termN/kg",   78, 92, "Aterm1a", 4, 3, "Form 9E, 1st A-term (N/kg) in the Davis equation"),
+        (0, "A_termN/kg",   78, 92, "Aterm1a", 6, 3, "Form 9E, 1st A-term (N/kg) in the Davis equation"),
                )
     defns9E2 = (
-        (0, "A_termN",     78, 92, "Force1",   1, 3, "Form 9E, 2nd A-term (Newtons) in the Davis equation"),
+        (0, "A_termN",     78, 92, "Force1",   2, 3, "Form 9E, 2nd A-term (Newtons) in the Davis equation"),
         (0, "B_term",      78, 92, "Bterm1a", 6, 3, "Form 9E, B-term (N/kg per m/s) in the Davis equation"),
                )
-    defns9E3 = (
-        (0, "rot_mass%",    78, 92, "rotmass", 2, 3, "Form 9E, percentage of tare mass"),
-               )
+    if SVS:
+        # SVS expects the spinning mass in kg/car rather than in % tare mass
+        defns9E3 = (
+            (0, "rot_mass",    78, 92, "mass1", 2, 3, "Form 9E, percentage of tare mass"),
+                   )
+    else:
+        # SES expects the spinning mass in lb/ton per mph/second, which we
+        # turn into % tare mass.
+        defns9E3 = (
+            (0, "rot_mass%",    78, 92, "rotmass", 2, 3, "Form 9E, percentage of tare mass"),
+                   )
     # Garage.for format field 390.
     defns9F1 = (
         ("diam_manf",   64, 73, "dist4",  4, "Form 9F, manufacturer's wheel diameter"),
@@ -5701,10 +6166,10 @@ def Form9(line_triples, tr_index, settings_dict,
     # Garage.for format field 441.
     defns9H1 = (
         ("line_amps1",   26, 38, "null",  1, "Form 9H, line amps at rest"),
-        ("line_amps2",   38, 50, "null",  1, "Form 9G, 2nd line amps"),
-        ("line_amps3",   50, 62, "null",  1, "Form 9G, 3rd line amps"),
-        ("line_amps4",   62, 74, "null",  1, "Form 9G, 4th line amps"),
-        ("line_amps5",   74, 86, "null",  1, "Form 9G, 5th line amps"),
+        ("line_amps2",   38, 50, "null",  1, "Form 9H, 2nd line amps"),
+        ("line_amps3",   50, 62, "null",  1, "Form 9H, 3rd line amps"),
+        ("line_amps4",   62, 74, "null",  1, "Form 9H, 4th line amps"),
+        ("line_amps5",   74, 86, "null",  1, "Form 9H, 5th line amps"),
                )
     defns9H2 = (
         (0, "effic1",    78, 92, "perc",   1, 3, "Form 9H, efficiency up to speed U1"),
@@ -5754,7 +6219,6 @@ def Form9(line_triples, tr_index, settings_dict,
         (0, "fw_exp2",        78, 92, "null",   1, 3, "Form 9K, flywheel 2nd exponent"),
               )
 
-
     for trtype_index in range(1, trtypes + 1):
         # Get the train type description and create a dictionary.
         line_data = GetValidLine(line_triples, tr_index, out, log)
@@ -5771,12 +6235,21 @@ def Form9(line_triples, tr_index, settings_dict,
 
         # Read forms 9A, 9B and 9C and add their values to the dictionary.
         result = FormRead(line_triples, tr_index, defns9ABC,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
             result_dict, tr_index = result
             trtype_dict.update(result_dict)
+        if not read_tail:
+            # This is not a version of SES that prints the tail loss to
+            # the output file.  Calculate it using the equation in
+            # GARAGE.FOR line 179 (the SES variable 'CDBVOV(NUMV)').
+            Darcy = result_dict["skin_Darcy"]
+            length = result_dict["length"]
+            D_h = 4 * result_dict["area"] / result_dict["perimeter"]
+            tail_loss = 0.029 / math.sqrt(0.5 * Darcy * length / D_h)
+            trtype_dict.__setitem__("tail_loss", tail_loss)
 
         # Skip over the header lines in form 9D.
         tr_index = SkipLines(line_triples, tr_index, 2, out, log)
@@ -5788,10 +6261,10 @@ def Form9(line_triples, tr_index, settings_dict,
             # Figure out what units text we need to swap by a spoof call
             # to a Convert function.
             (discard, units_texts) = USc.ConvertToSI(defns[0][3],
-                                     1.0, False, log)
+                                     1.0, False, log, SVS)
             result = ReadAllChangeOne(line_triples, tr_index,
                            defns, units_texts, "9D",
-                           debug1, file_name, out, log)
+                           settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5809,9 +6282,31 @@ def Form9(line_triples, tr_index, settings_dict,
                 if tr_index is None:
                     return(None)
 
+        if SVS:
+            # Read the line with the blower speeds and skip over the
+            # lines written for zero values.
+            result = ReadAllChangeOne(line_triples, tr_index,
+                           defns9D8, ("m/s", "M/S"), "9D",
+                           settings_dict, out, log)
+            if result is None:
+                return(None)
+            else:
+                form_dict, tr_index = result
+                trtype_dict.update(form_dict)
+            # Skip over any lines telling us about zero blower speeds in the
+            # brakes and traction.
+            accel_fan = trtype_dict["accel_fan"]
+            decel_fan = trtype_dict["decel_fan"]
+            for speed in (accel_fan, decel_fan):
+                if speed <= 0.01:
+                    # Skip over the explanatory lines.
+                    tr_index = SkipLines(line_triples, tr_index, 2, out, log)
+                    if tr_index is None:
+                        return(None)
+
         # Read the first entries in forms 9E and add their values to the dictionary.
         result = FormRead(line_triples, tr_index, defns9E1,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -5822,15 +6317,15 @@ def Form9(line_triples, tr_index, settings_dict,
         # we add a line giving N/tonne as well (which SVS uses).
         Aterm = trtype_dict["A_termN/kg"]
         Aterm2 = Aterm * 1000.
-        gen.WriteOut(" " * 81 + "= " + "{:>9.4f}".format(Aterm2) + "   N/tonne", out)
+        gen.WriteOut(" " * 81 + "=" + gen.RoundText(Aterm2, 4).rjust(10) + "   N/tonne", out)
         # Now get the original value in US units back.
         (Aterm3, discard) = USc.ConvertToUS("Aterm1a", Aterm, False, log)
-        gen.WriteOut(" " * 81 + "= " + "{:>9.3f}".format(Aterm3) + "   lb/ton", out)
+        gen.WriteOut(" " * 81 + "=" + gen.RoundText(Aterm3, 3).rjust(10) + "   lb/ton", out)
 
         # Read the second set of entries in forms 9E and add their values
         # to the dictionary.
         result = FormRead(line_triples, tr_index, defns9E2,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -5850,27 +6345,42 @@ def Form9(line_triples, tr_index, settings_dict,
         # their conversions on.  Figuring it out from first principles
         # can be extremely confusing.
         (B_term5, discard) = USc.ConvertToUS("Bterm1a", B_term, False, log)
-        gen.WriteOut(" " * 78 + "=    " + "{:>9.7f}".format(B_term2) + "   N/(tonne-m/s)", out)
-        gen.WriteOut(" " * 78 + "= " + "{:>12.10f}".format(B_term3) + "   N/(tonne-kph)", out)
-        gen.WriteOut(" " * 78 + "=  " + "{:>11.9f}".format(B_term4) + "   N/(kg-kph)", out)
-        gen.WriteOut(" " * 78 + "=  " + "{:>11.5f}".format(B_term5) + "   lb/ton-mph", out)
+        gen.WriteOut(" " * 78 + "=" + gen.RoundText(B_term2, 7).rjust(13) + "   N/(tonne-m/s)", out)
+        gen.WriteOut(" " * 78 + "=" + gen.RoundText(B_term3, 10).rjust(13) + "   N/(tonne-kph)", out)
+        gen.WriteOut(" " * 78 + "=" + gen.RoundText(B_term4, 9).rjust(13) + "   N/(kg-kph)", out)
+        gen.WriteOut(" " * 78 + "=" + gen.RoundText(B_term5, 5).rjust(13) + "   lb/ton-mph", out)
+        # gen.WriteOut(" " * 78 + "=    " + "{:>9.7f}".format(B_term2) + "   N/(tonne-m/s)", out)
+        # gen.WriteOut(" " * 78 + "= " + "{:>12.10f}".format(B_term3) + "   N/(tonne-kph)", out)
+        # gen.WriteOut(" " * 78 + "=  " + "{:>11.9f}".format(B_term4) + "   N/(kg-kph)", out)
+        # gen.WriteOut(" " * 78 + "=  " + "{:>11.5f}".format(B_term5) + "   lb/ton-mph", out)
 
         # Read the third set of entries in forms 9E and add their values
         # to the dictionary.
         result = FormRead(line_triples, tr_index, defns9E3,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
             result_dict, tr_index = result
             trtype_dict.update(result_dict)
-        # Now add the equivalent that is used in SVS v6, kg of spinning
-        # mass per car (not per powered car, I think?).  The carriage
-        # mass is in tonnes (*1000 to convert to kg) and the percentage
-        # is divided by 100 to get to a fraction, so we multiply by 10.
-        spin_perc = trtype_dict["rot_mass%"]
-        spin_mass = trtype_dict["car_weight"] * spin_perc * 10.
-        gen.WriteOut(" " * 81 + "= " + "{:>9.2f}".format(spin_mass) + "   kg/car", out)
+        if SVS:
+            # SVS files print the spinning mass in kg/car.  Calculate the
+            # spinning mass as a percentage of tare mass, print it and
+            # store it.
+            car_mass = trtype_dict["car_weight"]
+            spin_perc = trtype_dict["rot_mass"] / (car_mass * 10)
+            spin_mass = trtype_dict["car_weight"] * spin_perc * 10.
+            gen.WriteOut(" " * 81 + "=" + gen.RoundText(spin_perc, 2).rjust(10) + "   % tare mass", out)
+            trtype_dict.__setitem__("rot_mass%", spin_perc)
+        else:
+            # Now add the equivalent that is used in SVS v6, kg of spinning
+            # mass per car (not per powered car, I think?).  The carriage
+            # mass is in tonnes (*1000 to convert to kg) and the percentage
+            # is divided by 100 to get to a fraction, so we multiply by 10.
+            spin_perc = trtype_dict["rot_mass%"]
+            spin_mass = trtype_dict["car_weight"] * spin_perc * 10.
+            gen.WriteOut(" " * 81 + "=" + gen.RoundText(spin_mass, 2).rjust(10) + "   kg/car", out)
+            trtype_dict.__setitem__("rot_mass", spin_mass)
         # Finally, we write out the equivalent in the weird US units used by
         # SES v4.1, as it will let people convert between the two if they
         # start to wonder about this input.
@@ -5901,10 +6411,10 @@ def Form9(line_triples, tr_index, settings_dict,
                 # Figure out what the units text we need to swap by a spoof
                 # call to a Convert function.
                 (discard, units_texts) = USc.ConvertToSI(defns[0][3],
-                                         1.0, False, log)
+                                         1.0, False, log, SVS)
                 result = ReadAllChangeOne(line_triples, tr_index,
                                defns, units_texts, "9F",
-                               debug1, file_name, out, log)
+                               settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -5912,7 +6422,7 @@ def Form9(line_triples, tr_index, settings_dict,
                     trtype_dict.update(form_dict)
 
             result = FormRead(line_triples, tr_index, defns9F4,
-                              debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5928,10 +6438,10 @@ def Form9(line_triples, tr_index, settings_dict,
                 # Figure out what the units text we need to swap by a spoof
                 # call to a Convert function.
                 (discard, units_texts) = USc.ConvertToSI(defns[0][3],
-                                         1.0, False, log)
+                                         1.0, False, log, SVS)
                 result = ReadAllChangeOne(line_triples, tr_index,
                                defns, units_texts, "9G",
-                               debug1, file_name, out, log)
+                               settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -5948,7 +6458,7 @@ def Form9(line_triples, tr_index, settings_dict,
                     trtype_dict.__setitem__(new_key,tuple(this_list))
 
             result = FormRead(line_triples, tr_index, defns9G4,
-                              debug1, out, log)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -5965,10 +6475,10 @@ def Form9(line_triples, tr_index, settings_dict,
                     return(None)
 
                 (discard, units_texts) = USc.ConvertToSI(defns9H1[0][3],
-                                         1.0, False, log)
+                                         1.0, False, log, SVS)
                 result = ReadAllChangeOne(line_triples, tr_index,
                                defns9H1, units_texts, "9H",
-                               debug1, file_name, out, log)
+                               settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -5982,7 +6492,7 @@ def Form9(line_triples, tr_index, settings_dict,
                     trtype_dict.__setitem__("line_amps",tuple(this_list))
 
                 result = FormRead(line_triples, tr_index, defns9H2,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -5992,15 +6502,38 @@ def Form9(line_triples, tr_index, settings_dict,
             else:
                 line_currents = False
 
-            # Read the table of calculated tractive efforts and amps.  The
-            # routine figures out if it has six or eight columns.
-            result = Form9AmpsTable(line_triples, tr_index, line_currents,
-                                    debug1, file_name, out, log)
-            if result is None:
-                return(None)
+            if tr_control == 3:
+                # Read SVS form 9H-A and add its entries to the
+                # dictionary.
+                result = FormSVS9HA(line_triples, tr_index,
+                                    settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    result_dict, tr_index = result
+                    trtype_dict.update(result_dict)
+
+            if SVS:
+                # SVS writes a more detailed table for train performance
+                # options 1 and 2 than SES does, with input power and
+                # output power at full power and half power.
+                result = Form9AmpsSVS(line_triples, tr_index, line_currents,
+                                      settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    result_dict, tr_index = result
+                    trtype_dict.update(result_dict)
             else:
-                result_dict, tr_index = result
-                trtype_dict.update(result_dict)
+                # Read the table of calculated tractive efforts and amps.  The
+                # routine figures out if it has six or eight columns.
+                result = Form9AmpsTable(line_triples, tr_index, line_currents,
+                                        settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    result_dict, tr_index = result
+                    trtype_dict.update(result_dict)
 
             # At this point we don't know if the user set any external
             # resistances or not, so we don't know beforehand if the entries
@@ -6035,7 +6568,7 @@ def Form9(line_triples, tr_index, settings_dict,
             if short_form:
                 # Read one line in form 9I, the motor internal resistance.
                 result = FormRead(line_triples, tr_index, defns9I1,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -6053,10 +6586,13 @@ def Form9(line_triples, tr_index, settings_dict,
                 tr_index = SkipLines(line_triples, tr_index, 1, out, log)
                 if tr_index is None:
                     return(None)
-
+                if SVS:
+                    old_text = "KPH"
+                else:
+                    old_text = "MPH"
                 result = ReadAllChangeOne(line_triples, tr_index,
-                         defns9I2, ("km/h", "MPH"), "9I",
-                         debug1, file_name, out, log)
+                         defns9I2, ("km/h", old_text), "9I",
+                         settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -6064,39 +6600,40 @@ def Form9(line_triples, tr_index, settings_dict,
                     trtype_dict.update(result_dict)
                 result = ReadAllChangeOne(line_triples, tr_index,
                          defns9I3, ("ohms", "OHMS"), "9I",
-                         debug1, file_name, out, log)
+                         settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
                     result_dict, tr_index = result
                     trtype_dict.update(result_dict)
 
-            # Take the motor currents, motor resistances, line voltage,
-            # line currents and chopper efficiencies and prepare a table
-            # giving the true traction system efficiency.  This is not
-            # necessarily the same as the chopper efficiency, due to
-            # oddities in the way SES was written and bugs in SES.
-            #
-            # We write this table because it makes it easier to get the
-            # train efficiency right without having to know your way
-            # around Garage.for, Resist.for, Ampere.for and Heat.for.
-            #
-            # I used to wrestle with that all the time.  Every couple of
-            # years I would read the user manual and get confused by how
-            # the printed SES output and the sample files didn't match it.
-            # Why does SES limit the line current to no more than twice
-            # the motor current (Ampere.for) regardless of how many motors
-            # there are in each powered car?  Eventually I wrote something
-            # in Aurecon's internal version of SES to calculate traction power
-            # efficiency from the runtime train performance data (tractive
-            # effort, train speed and power sent to the acceleration grid).
-            # This call does something similar based on the v4.1 output.
-            efficiencies = WriteTrainEfficTable(trtype_dict, debug1, file_name,
-                                                out, log)
-            if efficiencies is None:
-                return(None)
-            else:
-                trtype_dict.__setitem__("calc_effics", efficiencies)
+            if tr_control in (1, 2):
+                # Take the motor currents, motor resistances, line voltage,
+                # line currents and chopper efficiencies and prepare a table
+                # giving the true traction system efficiency.  This is not
+                # necessarily the same as the chopper efficiency, due to
+                # oddities in the way SES was written and bugs in SES.
+                #
+                # We write this table because it makes it easier to get the
+                # train efficiency right without having to know your way
+                # around Garage.for, Resist.for, Ampere.for and Heat.for.
+                #
+                # I used to wrestle with that all the time.  Every couple of
+                # years I would read the user manual and get confused by how
+                # the printed SES output and the sample files didn't match it.
+                # Why does SES limit the line current to no more than twice
+                # the motor current (Ampere.for) regardless of how many motors
+                # there are in each powered car?  Eventually I wrote something
+                # in Aurecon's internal version of SES to calculate traction power
+                # efficiency from the runtime train performance data (tractive
+                # effort, train speed and power sent to the acceleration grid).
+                # This call does something similar based on the v4.1 output.
+                efficiencies = WriteTrainEfficTable(trtype_dict, debug1,
+                                                    out, log)
+                if efficiencies is None:
+                    return(None)
+                else:
+                    trtype_dict.__setitem__("calc_effics", efficiencies)
 
             if trperfopt == 1:
                 # Forms 9J, 9K and 9L are only read with the implicit
@@ -6105,7 +6642,7 @@ def Form9(line_triples, tr_index, settings_dict,
                 # active.
                 # Read five lines in form 9J, the accel/decel rate behaviour.
                 result = FormRead(line_triples, tr_index, defns9J,
-                                  debug1, out, log)
+                                  settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -6115,7 +6652,7 @@ def Form9(line_triples, tr_index, settings_dict,
                 # Check if we need to read flywheel data, forms 9K and 9L
                 if line_currents and trtype_dict["flywheels"] == 2:
                     result = FormRead(line_triples, tr_index, defns9KL,
-                                      debug1, out, log)
+                                      settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -6130,7 +6667,160 @@ def Form9(line_triples, tr_index, settings_dict,
     return(form9_dict, tr_index)
 
 
-def WriteTrainEfficTable(trtype_dict, debug1, file_name, out, log):
+def FormSVS9HA(line_triples, tr_index, settings_dict, out, log):
+    '''Read SVS form 9H-A.
+
+    Parameters:
+        line_triples [(int, str, Bool)] Lines from the output file
+        tr_index        int,            The place to start reading the form
+        settings_dict   {}              Dictionary of stuff (incl. counters)
+        out             handle,         The handle of the output file
+        log             handle,         The handle of the logfile
+
+
+    Returns:
+        result_dict     {},             The lines of data in the form.
+        tr_index        int,            Where to start reading the next form
+    '''
+    result_dict = {}
+    # Skip over the header lines in form 9H-A.
+    tr_index = SkipLines(line_triples, tr_index, 2, out, log)
+    if tr_index is None:
+        return(None)
+
+    # These define the two lines that have the train speed and traction
+    # efficiency that the user input.
+    defns9HA1 = (
+        ("speed1",   26, 38, "speed2",  1, "Form 9H-A, 1st speed"),
+        ("speed2",   38, 50, "speed2",  1, "Form 9H-A, 2nd speed"),
+        ("speed3",   50, 62, "speed2",  1, "Form 9H-A, 3rd speed"),
+        ("speed4",   62, 74, "speed2",  1, "Form 9H-A, 4th speed"),
+        ("speed5",   74, 86, "speed2",  1, "Form 9H-A, 5th speed"),
+               )
+    defns9HA2 = (
+        ("effic1",   26, 38, "null",  1, "Form 9H-A, 1st efficiency"),
+        ("effic2",   38, 50, "null",  1, "Form 9H-A, 2nd efficiency"),
+        ("effic3",   50, 62, "null",  1, "Form 9H-A, 3rd efficiency"),
+        ("effic4",   62, 74, "null",  1, "Form 9H-A, 4th efficiency"),
+        ("effic5",   74, 86, "null",  1, "Form 9H-A, 1th efficiency"),
+               )
+    # This defines the entries in the speed-traction efficiency table
+    # showing the calculated efficiency curve.
+    defns9HA3 = (
+        ("speed_1",  0,  8, "speed2", 1, "Form 9H-A, 1st speed"),
+        ("effic_1", 14, 24, "null",   1, "Form 9H-A, 1st efficiency"),
+        ("speed_2", 31, 41, "speed2", 1, "Form 9H-A, 2nd speed"),
+        ("effic_2", 48, 58, "null",   1, "Form 9H-A, 2nd efficiency"),
+               )
+    # This defines the last set of entries.  We need to split it in
+    # two because the last two entries are only read if the regen
+    # option is non-zero.
+    defns9HA4 = (
+        (0, "regen_opt",    78, 92, "null", 1, 3, "Form 9H-A, regen option"),
+        (0, "brake_TE_fac", 78, 92, "null", 1, 3, "Form 9H-A, brake TE fraction"),
+                 )
+    defns9HA5 = (
+        (0, "static_coeff", 78, 92, "null", 2, 3, "Form 9H-A, static friction coeff"),
+        (0, "regen_eff",    78, 92, "perc", 1, 3, "Form 9H-A, regen efficiency"),
+               )
+    for index, defns in enumerate((defns9HA1, defns9HA2)):
+        (discard, units_texts) = USc.ConvertToSI(defns[0][3],
+                                 1.0, False, log, True)
+        result = ReadAllChangeOne(line_triples, tr_index,
+                                  defns, units_texts, "9H",
+                                  settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            form_dict, tr_index = result
+            # We put the five entries into a list and store them.
+            this_list = []
+            if index == 0:
+                trainkey = "eff_speeds_inp"
+            else:
+                trainkey = "eff_effics_inp"
+            for index in range(len(defns9HA1)):
+                key = defns[index][0]
+                value = form_dict[key]
+                this_list.append(value)
+            result_dict.__setitem__(trainkey, this_list)
+
+    result = GetValidLine(line_triples, tr_index, out, log)
+    if result is None:
+        return(None)
+    else:
+        (line_num, line_text, tr_index) = result
+        effic_zero = float(line_text.split()[-2])
+        gen.WriteOut(line_text, out)
+
+    # Prepend the efficiency at zero speed to the list of five efficiencies.
+    result_dict.__setitem__("eff_speeds_inp", [0.0] + result_dict["eff_speeds_inp"])
+    result_dict.__setitem__(trainkey, [effic_zero] + result_dict[trainkey])
+
+    # Skip over the line with "Percent" on it and the four header
+    # lines of the efficiency table.
+    tr_index = SkipLines(line_triples, tr_index, 3, out, log)
+    if tr_index is None:
+        return(None)
+    # We have no idea how many lines are in the table of speeds and
+    # efficiencies.  Figure out how many lines of output there are.
+    tr_index_store = tr_index
+    while "REGEN BRAKING MOTOR OPTION" not in line_triples[tr_index][1]:
+        tr_index += 1
+    line_count = tr_index - tr_index_store - 1
+    tr_index = tr_index_store
+
+    # Now read the table and then concatenate the lists of train speeds
+    # and traction efficiencies.
+    result = TableToList(line_triples, tr_index, line_count,
+                         "9H-A", defns9HA3,
+                         settings_dict, out, log)
+    if result is None:
+        return(None)
+    else:
+        calc_dict, tr_index = result
+        # Concatenate the pairs of lists and store them
+        speed_list = (list(calc_dict["speed_1"]) +
+                      list(calc_dict["speed_2"]) )
+        result_dict.__setitem__("calc_speeds", tuple(speed_list))
+
+        effic_list = (list(calc_dict["effic_1"]) +
+                      list(calc_dict["effic_2"]) )
+        result_dict.__setitem__("calc_effics", tuple(effic_list))
+
+    # Read the last entry in form 9H-A and add its values to the dictionary.
+    # We can only tell if we need to read the last two entries after
+    # we have read the first one, so this is a two-step process.
+    result = FormRead(line_triples, tr_index, defns9HA4,
+                      settings_dict, out, log)
+    if result is None:
+        return(None)
+    else:
+        addon_dict, tr_index = result
+    result_dict.update(addon_dict)
+    if result_dict['regen_opt'] > 0.0:
+        # The above test is based on feeding 0.5 as the regen option
+        # (in test file SVS-310-9H-A.inp) and seeing the regen turned
+        # on in the output file.
+        # Read the two extra entries in the train controller 3 option
+        # when the regen is turned on.
+        result = FormRead(line_triples, tr_index, defns9HA5,
+                          settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            addon_dict, tr_index = result
+        result_dict.update(addon_dict)
+
+
+    if False:
+        print("Form 9H-A:")
+        for key, yielded in result_dict.items():
+            print("   ", key, yielded)
+    return(result_dict, tr_index)
+
+
+def WriteTrainEfficTable(trtype_dict, debug1, out, log):
     '''Write a table of train traction system efficiencies based on how
     I think the calculations in SES routines Garage.for, Resist.for,
     Ampere.for and Heat.for work.
@@ -6139,7 +6829,6 @@ def WriteTrainEfficTable(trtype_dict, debug1, file_name, out, log):
             trtype_dict     {},             The values in the train type
                                             dictionary so far (forms 9A to 9I)
             debug1          bool,           The debug Boolean set by the user
-            file_name       str,            The file name, used in errors
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6225,7 +6914,7 @@ def WriteTrainEfficTable(trtype_dict, debug1, file_name, out, log):
                          "circuit resistance at a speed can have two values:\n"
                          "one where the external resistors are in circuit "
                          "(train modes 2 or 7) and another where they are \n"
-                         "not (train modes 1, 5 or 6).  This is why the table"
+                         "not (train modes 1, 5 or 6).  This is why the table "
                          "below gives two efficiencies at each speed.", out)
     if ext_ohms:
         if not debug1:
@@ -6378,7 +7067,7 @@ def WriteTrainEfficTable(trtype_dict, debug1, file_name, out, log):
 
 
 def Form9AmpsTable(line_triples, tr_index, line_currents,
-                   debug1, file_name, out, log):
+                   settings_dict, out, log):
     '''Read the table of verification of currents for traction systems,
     whether they were motor currents only or motor currents + line currents.
 
@@ -6387,8 +7076,7 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
             tr_index        int,            The place to start reading the form
             line_currents   bool,           If True, the table has line currents.
                                             If False, it doesn't.
-            debug1          bool,           The debug Boolean set by the user
-            file_name       str,            The file name, used in errors
+            settings_dict   {}              Dictionary of stuff (incl. counters)
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6398,7 +7086,6 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
                                             concatenated into 3 or 4 entries.
             tr_index        int,            Where to start reading the next form
     '''
-
     # Read the two lines of the header first.
     tr_index = SkipLines(line_triples, tr_index, 2, out, log)
     if tr_index is None:
@@ -6410,11 +7097,11 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
             ("speed_1",       2,   8, "speed2", 3, "Traction verification table, speed (LHS)"),
             ("TE_1",          8,  24, "Force1",  1, "Traction verification table, motor tractive effort (LHS)"),
             ("mot_amps_1",   24,  41, "null",   1, "Traction verification table, amps per motor (LHS)"),
-            ("line_amps_1",  41,  58, "null",   1, "Traction verification table, amps per motor (LHS)"),
+            ("line_amps_1",  41,  58, "null",   1, "Traction verification table, amps per pwd car (LHS)"),
             ("speed_2",      66,  72, "speed2", 3, "Traction verification table, speed (RHS)"),
             ("TE_2",         72,  88, "Force1",  1, "Traction verification table, motor tractive effort (RHS)"),
             ("mot_amps_2",   88, 105, "null",   1, "Traction verification table, amps per motor (RHS)"),
-            ("line_amps_2", 105, 122, "null",   1, "Traction verification table, amps per motor (RHS)"),
+            ("line_amps_2", 105, 122, "null",   1, "Traction verification table, amps per pwd car (RHS)"),
                    )
         # Skip the last line of the eight column header and rewrite it in SI
         # units.
@@ -6428,10 +7115,10 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
         # Read a six-column table of data.  Garage.for format field 460
         defns9table = (
             ("speed_1",       5,  15, "speed2", 3, "Traction verification table, speed (LHS)"),
-            ("TE_1",         15,  33, "Force1",  1, "Traction verification table, motor tractive effort (LHS)"),
+            ("TE_1",         15,  33, "Force1", 1, "Traction verification table, motor tractive effort (LHS)"),
             ("mot_amps_1",   33,  50, "null",   1, "Traction verification table, amps per motor (LHS)"),
             ("speed_2",      60,  68, "speed2", 3, "Traction verification table, speed (RHS)"),
-            ("TE_2",         68,  86, "Force1",  1, "Traction verification table, motor tractive effort (RHS)"),
+            ("TE_2",         68,  86, "Force1", 1, "Traction verification table, motor tractive effort (RHS)"),
             ("mot_amps_2",   86, 103, "null",   1, "Traction verification table, amps per motor (RHS)"),
                    )
 
@@ -6456,7 +7143,7 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
 
     result = TableToList(line_triples, tr_index, line_count,
                          "9", defns9table,
-                         debug1, file_name, out, log)
+                         settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -6488,6 +7175,64 @@ def Form9AmpsTable(line_triples, tr_index, line_currents,
     return(concat_dict, tr_index)
 
 
+def Form9AmpsSVS(line_triples, tr_index, line_currents,
+                 settings_dict, out, log):
+    '''Read the table of verification of currents for traction systems,
+    whether they were motor currents only or motor currents + line currents.
+
+        Parameters:
+            line_triples [(int, str, Bool)] Lines from the output file
+            tr_index        int,            The place to start reading the form
+            line_currents   bool,           If True, the table has line currents.
+                                            If False, it doesn't.
+            settings_dict   {}              Dictionary of stuff (incl. counters)
+            out             handle,         The handle of the output file
+            log             handle,         The handle of the logfile
+
+
+        Returns:
+            concat_dict     {},             The lines of data in the table,
+                                            concatenated into 3 or 4 entries.
+            tr_index        int,            Where to start reading the next form
+    '''
+
+    # Read the six lines of the header first.
+    tr_index = SkipLines(line_triples, tr_index, 6, out, log)
+    if tr_index is None:
+        return(None)
+
+    # Read a six-column table of data for the powered cars at full power.
+    # We ignore the values for half power (the five columns on the right-hand
+    # side of the table in Form 9H) because I don't know what to do with
+    # them and can't be bothered to learn.
+    # It looks like someone in PB programmed SVS to write the 'kW in' and
+    # 'kW out' columns for the same reasons that I added a train efficiency
+    # calculation to the output of SESconv.py.
+    defns9table = (
+        ("calc_speeds",     2,   8, "speed2", 3, "Traction verification table, speed"),
+        ("calc_TEs",        8,  19, "Force1", 1, "Traction verification table, motor tractive effort"),
+        ("calc_motoramps", 19,  30, "null",   1, "Traction verification table, amps per motor"),
+        ("calc_lineamps",  30,  41, "null",   1, "Traction verification table, amps per pwdcar"),
+        ("SVS_kW_in",    41,  51, "IT_kwatt", 1, "Traction verification table, input power"),
+        ("SVS_kW_out",   51,  60, "IT_kwatt", 1, "Traction verification table, output power"),
+               )
+
+    # Figure out how many lines of output are in the list.
+    tr_index_store = tr_index
+    while "  |" in line_triples[tr_index][1]:
+        tr_index += 1
+    line_count = tr_index - tr_index_store - 1
+    tr_index = tr_index_store
+
+    result = TableToList(line_triples, tr_index, line_count, "9",
+                         defns9table, settings_dict, out, log)
+    if result is None:
+        return(result)
+    else:
+        result_dict, tr_index = result
+    return(result_dict, tr_index)
+
+
 def ReplaceLine(line_triples, tr_index, repl_line, out, log):
     '''Read a line of input from the input file, throw it away and
     write a replacement line in SI units.
@@ -6513,14 +7258,13 @@ def ReplaceLine(line_triples, tr_index, repl_line, out, log):
     return(tr_index)
 
 
-def Form10(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
+def Form10(line_triples, tr_index, settings_dict, out, log):
     '''Process form 10, the trains in the model at the start.
 
         Parameters:
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6534,6 +7278,8 @@ def Form10(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
     # Dig out the counters and settings we will need for form 10.
     # Count of trains at the start to read.
     trstart = settings_dict['trstart']
+    debug1 = settings_dict["debug1"]
+    SVS = settings_dict["SVS"]
 
     # Log the counts.
     plural = gen.Plural(trstart)
@@ -6543,14 +7289,14 @@ def Form10(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
 
     # Make a dictionary that will contain all the entries.  The key
-    # will be fire index number (starting at 1) and the entries in it
-    # will be all the things that pertain to that train.
+    # will be route number (starting at 1) and the entries in it
+    # will be all the things that pertain to that route.
     form10_dict = {}
 
     # Create lists of the definitions in form 10, which is one line of data.
     # for each train.  From Input.for format fields 1360 to 1362.  Format fields
     # 1361 and 1362 are slightly different to 1360 (F16.1 for the dwell time in
-    # place of F167.1) so we need two definitions to avoid raising warnings
+    # place of F17.1) so we need two definitions to avoid raising warnings
     # about mismatched slices.
     # Format field 1360
     defns10_1 =(
@@ -6602,13 +7348,13 @@ def Form10(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
                 # There is no text for the coasting option, use the first
                 # definition
                 result = ValuesOnLine(line_data, 8, "10", defns10_1,
-                                      debug1, file_name, log)
+                                      settings_dict, log)
             else:
                 # There is text for the coasting option, use the second
                 # definition.  Note that if there are not 9 entries on
                 # the line, PROC ValuesOnLine will catch it.
                 result = ValuesOnLine(line_data, 9, "10", defns10_2,
-                                      debug1, file_name, log)
+                                      settings_dict, log)
             if result is None:
                 # Something went wrong.
                 return(None)
@@ -6647,7 +7393,7 @@ def Form10(line_triples, tr_index, settings_dict, debug1, file_name, out, log):
 
 
 def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
-           debug1, file_name, out, log):
+           out, log):
     '''Process form 11, the environmental zones.
 
         Parameters:
@@ -6658,7 +7404,6 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
                                             use this to get the list of segments
                                             if there is no form 11B.
             form5_dict      {}              Dictionary of stuff in form5.
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6673,6 +7418,8 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
     # Count of line segments to read
     zones = settings_dict['eczones']
     supopt = settings_dict['supopt']
+    debug1 = settings_dict["debug1"]
+    SVS = settings_dict["SVS"]
 
     # Log the counts.
     plural = gen.Plural(zones)
@@ -6682,8 +7429,8 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
 
 
     # Make a dictionary that will contain all the entries.  The key
-    # will be fire index number (starting at 1) and the entries in it
-    # will be all the things that pertain to that train.
+    # will be zone number (starting at 1) and the entries in it will
+    # be all the things that pertain to that zone.
     form11_dict = {}
 
     # Create lists of the definitions in form 11A.
@@ -6693,14 +7440,20 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
         (0, "z_count",    78, 92, "int",   0, 3, "Form 11A, count of segments"),
            )
 
-    # Input.for format fields 1430 to 1460.
+    # Input.for format fields 1430 to 1460.  SVS has condensed the
+    # printout of evening rush/off hour design conditions from two lines
+    # to one line, so we set that here.
+    if SVS:
+        skip = 0
+    else:
+        skip = 1
     defns11A2 =(
         (0, "z_morn_DB", 78, 92, "temp",   3, 3, "Form 11A, morning DB"),
         (0, "z_morn_WB", 78, 92, "temp",   3, 3, "Form 11A, morning WB"),
         (0, "z_morn_W",  78, 92, "W",      5, 3, "Form 11A, morning humidity ratio"),
         (0, "z_morn_RH", 78, 92, "RH",     1, 3, "Form 11A, morning RH"),
         (0, "z_eve_DB",  78, 92, "temp",   3, 3, "Form 11A, evening DB"),
-        (1, "z_eve_WB",  78, 92, "temp",   3, 3, "Form 11A, evening WB"),
+        (skip, "z_eve_WB",  78, 92, "temp",   3, 3, "Form 11A, evening WB"),
         (0, "z_eve_W",   78, 92, "W",      5, 3, "Form 11A, evening humidity ratio"),
         (0, "z_eve_RH",  78, 92, "RH",     1, 3, "Form 11A, evening RH"),
            )
@@ -6712,7 +7465,7 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
 
     for z_index in range(1, zones + 1):
         result = FormRead(line_triples, tr_index, defns11A1,
-                          debug1, out, log)
+                          settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -6721,9 +7474,7 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
         # Check if we need to read the temperature data in form 11A.
         if zone_dict["z_type"] == 1:
             result = FormRead(line_triples, tr_index, defns11A2,
-                              debug1, out, log)
-            # Check if we have a line for a fire segment (this line is absent
-            # in non-fire segments)
+                              settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -6818,8 +7569,7 @@ def Form11(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
     return(form11_dict, tr_index)
 
 
-def Form12(line_triples, tr_index, settings_dict,
-           debug1, file_name, out, log):
+def Form12(line_triples, tr_index, settings_dict, out, log):
     '''Process form 12, the print timesteps, summary/ECZ settings and aero
     and thermo timestep multiplier.
 
@@ -6827,7 +7577,6 @@ def Form12(line_triples, tr_index, settings_dict,
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6838,7 +7587,8 @@ def Form12(line_triples, tr_index, settings_dict,
             tr_index        int,            Where to start reading the next form
     '''
     # Get the file version.
-    version = settings_dict["version"]
+    debug1 = settings_dict["debug1"]
+    SVS = settings_dict["SVS"]
 
     # Create lists of the definitions in form 12.
     # Input.for format fields 1520 and 1530.
@@ -6849,22 +7599,36 @@ def Form12(line_triples, tr_index, settings_dict,
            )
 
 
-    # Input.for format fields 1550 to 1590.  The field for the aero cycles
-    # had to be widened from 89:94 to 89:95 to account for a mistake in
-    # format field 1570.
-    defns12_2 = (
-        ("intervals",      12,  17, "int",   0, "Form 12, count of intervals"),
-        ("time_ints",       21,  31, "null",  2, "Form 12, time interval"),
-        ("abbreviated",    34,  41, "int",   0, "Form 12, abbreviated prints/detailed"),
-        ("summary",        48,  51, "int",   0, "Form 12, summary option"),
-        ("aero_cycles",    89,  95, "int",   0, "Form 12, time steps per aero cycles"),
-        ("thermo_cycles", 105, 110, "int",   0, "Form 12, time steps per thermo cycles"),
-        ("end_time",      118, 128, "null",  2, "Form 12, time at end of group"),
-                )
+    if SVS:
+        # SVS has an extra entry in form 12 for binary file time interval,
+        # so they shuffled some of the columns to be closer together to fit
+        # it in.
+        defns12_2 = (
+            ("intervals",      12,  17, "int",   0, "Form 12, count of intervals"),
+            ("time_ints",       21,  31, "null",  2, "Form 12, time interval"),
+            ("abbreviated",    34,  41, "int",   0, "Form 12, abbreviated prints/detailed"),
+            ("summary",        48,  51, "int",   0, "Form 12, summary option"),
+            ("aero_cycles",    85,  89, "int",   0, "Form 12, time steps per aero cycles"),
+            ("thermo_cycles",  98, 103, "int",   0, "Form 12, time steps per thermo cycles"),
+            ("end_time",      109, 119, "null",  2, "Form 12, time at end of group"),
+            ("BIF_step",      120, 129, "null",  2, "Form 12, binary file timestep"),
+                    )
+    else:
+        # Input.for format fields 1550 to 1590.  The field for the aero cycles
+        # had to be widened from 89:94 to 89:95 to account for a mistake in
+        # format field 1570.
+        defns12_2 = (
+            ("intervals",      12,  17, "int",   0, "Form 12, count of intervals"),
+            ("time_ints",       21,  31, "null",  2, "Form 12, time interval"),
+            ("abbreviated",    34,  41, "int",   0, "Form 12, abbreviated prints/detailed"),
+            ("summary",        48,  51, "int",   0, "Form 12, summary option"),
+            ("aero_cycles",    89,  95, "int",   0, "Form 12, time steps per aero cycles"),
+            ("thermo_cycles", 105, 110, "int",   0, "Form 12, time steps per thermo cycles"),
+            ("end_time",      118, 128, "null",  2, "Form 12, time at end of group"),
+                    )
 
     # Read the first two lines in the form.
-    result = FormRead(line_triples, tr_index, defns12,
-                      debug1, out, log)
+    result = FormRead(line_triples, tr_index, defns12, settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -6878,8 +7642,7 @@ def Form12(line_triples, tr_index, settings_dict,
 
     group_count = form12["group_count"]
     result = TableToList(line_triples, tr_index, group_count,
-                         "12", defns12_2,
-                         debug1, file_name, out, log)
+                         "12", defns12_2, settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -6892,15 +7655,13 @@ def Form12(line_triples, tr_index, settings_dict,
     return(form12, tr_index)
 
 
-def Form13(line_triples, tr_index, settings_dict,
-           debug1, file_name, out, log):
+def Form13(line_triples, tr_index, settings_dict, out, log):
     '''Process form 13, run time and time step
 
         Parameters:
             line_triples [(int, str, Bool)] Lines from the output file
             tr_index        int,            The place to start reading the form
             settings_dict   {}              Dictionary of stuff (incl. counters)
-            debug1          bool,           The debug Boolean set by the user
             out             handle,         The handle of the output file
             log             handle,         The handle of the logfile
 
@@ -6910,7 +7671,9 @@ def Form13(line_triples, tr_index, settings_dict,
                                             dictionary.
             tr_index        int,            Where to start reading the next form
     '''
+    debug1 = settings_dict["debug1"]
     fire_sim  = settings_dict["fire_sim"]
+
     # Create lists of the definitions in form 13.
     # Input.for format field 1600
     defns13 = (
@@ -6922,7 +7685,7 @@ def Form13(line_triples, tr_index, settings_dict,
 
     # Read the first two lines in the form
     result = FormRead(line_triples, tr_index, defns13,
-                      debug1, out, log)
+                      settings_dict, out, log)
     if result is None:
         return(None)
     else:
@@ -6933,16 +7696,303 @@ def Form13(line_triples, tr_index, settings_dict,
     if fire_sim != 0 and form13_dict["wall_cycles"] == 0:
         tr_index = SkipLines(line_triples, tr_index, 2, out, log)
 
-
     if debug1:
         descrip = "Runtime settings"
         DebugPrintDict(form13_dict, descrip)
+
     return(form13_dict, tr_index)
 
 
-def BuildTimeLists(settings_dict, form12, form13):
+def Form14(line_triples, tr_index, settings_dict, form3_dict, form5_dict,
+           sec_seg_dict, out, log):
+    '''Process form 14, the cooling pipe loops.
+
+        Parameters:
+            line_triples [(int, str, Bool)] Lines from the output file
+            tr_index        int,            The place to start reading the form
+            settings_dict   {}              Dictionary of stuff (incl. counters)
+            form3_dict      {}              Dictionary of stuff in form3.  We
+                                            use this to get the list of segments
+                                            if there is no form 11B.
+            form5_dict      {}              Dictionary of stuff in form5.
+            sec_seg_dict    {}              Relationships between the sections
+                                            and segments.
+            out             handle,         The handle of the output file
+            log             handle,         The handle of the logfile
+
+
+        Returns:
+            form14_dict     {},             The numbers in the form, as a
+                                            dictionary of dictionaries.
+            tr_index        int,            Where to start reading the next form
+    '''
+
+    # Dig out the counters and settings we will need for form 14.
+    debug1 = settings_dict["debug1"]
+    coolpipes = settings_dict["coolpipes"]
+
+    # Log the counts.
+    plural = gen.Plural(coolpipes)
+    log_mess = ("Expecting " + str(coolpipes) + " instance" + plural
+                + " of form 14.")
+    gen.WriteOut(log_mess, log)
+
+
+    # Make a dictionary that will contain all the entries.  The key
+    # will be cooling pipe loop number (starting at 1) and the entries
+    # in it will be all the things that pertain to that pipe loop.
+    form14_dict = {}
+
+    # Create lists of the definitions in forms 14A, 14B and 14C.
+    defns14A =(
+        (1, "inlets",  78, 92, "int",   0, 3, "Form 14A, count of inlets"),
+        (0, "sections", 78, 92, "int",   0, 3, "Form 14A, count of segments"),
+        (0,"fl_spcht",  78,92, "IT_specheat2", 3, 3, "Form 14A, fluid heat capacity"),
+        (0,"pipe_area", 78,92, "area",  5, 3, "Form 14A, pipe flow area"),
+        (0,"fl_dens",   78,92, "dens1", 4, 3, "Form 14A, fluid density"),
+        (0,"pipe_perim",78,92, "dist1", 4, 3, "Form 14A, pipe perimeter"),
+        (0,"init_temp",   78,92, "temp",  2, 3, "Form 14A, fluid temperature"),
+           )
+
+    # 14B defines a cooling pipe's source, which could be from the outside
+    # or from the end of another cooling pipe.  We can take a slice of this
+    # to handle both cases.
+    defns14B =(
+        (0, "inlet_pipe", 78, 92, "int", 0, 3, "Form 14A, inlet pipe number"),
+        (0, "mass_flow",  78, 92, "massflow", 2, 3, "Form 14A, mass flow at inlet"),
+        (0, "flow_temp",  78, 92, "temp",     2, 3, "Form 14A, inlet fluid temperature"),
+           )
+
+    defns14C = (
+        ("sections", 20, 30, "int",   0, "Form 14C, section number"),
+        ("segments", 40, 50, "int",   0, "Form 14C, segment number"),
+        ("up_chs",   62, 73, "dist1", 2, "Form 14C, left hand chainage"),
+        ("down_chs", 80, 91, "dist1", 2, "Form 14C, right hand chainage"),
+              )
+
+    for p_index in range(1, coolpipes + 1):
+        # Get the name of the cooling pipe.  The manual indicates that
+        # 80 characters can be entered but only 73 could fit into the
+        # space provided.
+        line_data = GetValidLine(line_triples, tr_index, out, log)
+        if line_data is None:
+            # The input file has ended unexpectedly, likely a fatal error.
+            return(None)
+        else:
+            (line_num, line_text, tr_index) = line_data
+            gen.WriteOut(line_text, out)
+        pipe_name = line_text[38:111].strip()
+        pipe_dict = {"pipe_name": pipe_name}
+
+        result = FormRead(line_triples, tr_index, defns14A,
+                          settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            result_dict, tr_index = result
+            pipe_dict.update(result_dict)
+
+        inlets = pipe_dict["inlets"]
+        sections = pipe_dict["sections"]
+
+        # Skip over the line "Inlet infomation"
+        tr_index = SkipLines(line_triples, tr_index, 1, out, log)
+        if tr_index is None:
+            return(None)
+
+        for inlet in range(inlets):
+            # Skip over the line giving the inlet number.
+            line_data = GetValidLine(line_triples, tr_index, out, log)
+            if line_data is None:
+                # The input file has ended unexpectedly, likely a fatal error.
+                return(None)
+            else:
+                (line_num, line_text, tr_index) = line_data
+                gen.WriteOut(line_text, out)
+            # Get the line that details whether this inlet is an external
+            # source or the end of another cooling pipe.
+            line_data = GetValidLine(line_triples, tr_index, out, log)
+            if line_data is None:
+                # The input file has ended unexpectedly, likely a fatal error.
+                return(None)
+            else:
+                (line_num, line_text, tr_index) = line_data
+                gen.WriteOut(line_text, out)
+            if "EXTERNAL SOURCE" in line_text:
+                # Read the flow rate and temperature at the inlet.
+                result = FormRead(line_triples, tr_index, defns14B[1:],
+                                  settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    inlet_dict, tr_index = result
+                    inlet_dict.__setitem__("inlet_pipe", "external")
+            else:
+                tr_index -= 1
+                # Read the source pipe's number and the flow rate.
+                result = FormRead(line_triples, tr_index, defns14B[:2],
+                                  settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    inlet_dict, tr_index = result
+                # Skip over the line stating that the inlet temperature
+                # is taken from the other pipe.
+                line_data = GetValidLine(line_triples, tr_index, out, log)
+                if line_data is None:
+                    # The input file has ended unexpectedly, likely a fatal error.
+                    return(None)
+                else:
+                    (line_num, line_text, tr_index) = line_data
+                    gen.WriteOut(line_text, out)
+            pipe_dict.__setitem__(inlet, inlet_dict)
+
+
+        # Do form 14C.
+        # Skip over the lines at the top of the file and process
+        # the units in the last line.
+        tr_index = SkipLines(line_triples, tr_index, 4, out, log)
+        if tr_index is None:
+            return(None)
+        repl_line = (" "*26 + "NUMBER" + " "*14 + "NUMBER" +
+                     " "*15 + "(m)" + " "*15 + "(m)")
+        tr_index = ReplaceLine(line_triples, tr_index, repl_line, out, log)
+        if tr_index is None:
+            return(None)
+
+        # Get the list of sections that the pipe flows through before we
+        # process the table proper, as we don't know how many lines it
+        # has in it (it has one line per segment, but we only know the
+        # count of sections and sections may have more than one segment
+        # in them.
+        sec_list = []
+        tr_store = tr_index
+        while len(sec_list) < sections:
+            line_data = GetValidLine(line_triples, tr_index, out, log)
+            if line_data is None:
+                # The input file has ended unexpectedly, likely a fatal error.
+                return(None)
+            else:
+                (line_num, line_text, tr_index) = line_data
+            sec_num = int(line_text.split()[0])
+            if sec_num not in sec_list:
+                sec_list.append(sec_num)
+
+        # Figure out how many segments this list of sections has.
+        seg_count = 0
+        for sec_num in sec_list:
+            sec_key = "sec" + str(abs(sec_num))
+            seg_count += len(sec_seg_dict[sec_key])
+
+        # Now read the whole table of the segment data.
+        tr_index = tr_store
+        result = TableToList(line_triples, tr_index, seg_count, "14C", defns14C,
+                             settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            (result_dict, tr_index) = result
+            pipe_dict.update(result_dict)
+
+        # Now build some lists so that we can plot along the route of this
+        # pipe loop in the same way we plot along routes.  We need a list
+        # of chainages at the ends of subsegments (to plot heat transfer
+        # as a stepped curve with one value per subsegment) and we need
+        # a list of chainages at each subpoint to plot temperature.
+        # ("sections", 20, 30, "int",   0, "Form 14C, section number"),
+        # ("segments", 40, 50, "int",   0, "Form 14C, segment number"),
+        # ("up_chs",   62, 73, "dist1", 2, "Form 14C, left hand chainage"),
+        # ("down_chs", 80, 91, "dist1", 2, "Form 14C, right hand chainage"),
+        paired_chs = list(pipe_dict["up_chs"]) + list(pipe_dict["down_chs"])
+        chs = list(set(paired_chs))
+        paired_chs.sort()
+        chs.sort()
+        pipe_dict.__setitem__("chs", chs)
+        pipe_dict.__setitem__("paired_chs", paired_chs)
+
+        subp_chs = []
+        subp_IDs = []
+        subseg_chs = []
+        subseg_IDs = []
+        entry_ch = 0.0
+        for seg_num in pipe_dict["segments"]:
+            # Cooling pipes can be in line segments and vent segments,
+            # so we have to catch exceptions here.
+            try:
+                subsegs = form3_dict[abs(seg_num)]["subsegs"]
+                half_dist = form3_dict[abs(seg_num)]["sublength"] / 2
+            except KeyError:
+                subsegs = form5_dict[abs(seg_num)]["subsegs"]
+                half_dist = form5_dict[abs(seg_num)]["sublength"] / 2
+            # Figure out if the back chainage is at the back end or
+            # forward end of the segment and build a suitable set of
+            # iterators.
+            if seg_num > 0:
+                start = 1
+                end = subsegs + 1
+                adder = +1
+            else:
+                start = subsegs
+                end = 0
+                adder = -1
+
+            # Do the subsegment and subpoint variables together.
+            for count in range(start, end, adder):
+                # Add the identifiers of the back ends, midpoints and
+                # forward ends of the subsegments.  This is for QA when
+                # plotting coolant temperature and absorbed heat along
+                # the length of a cooling pipe loop (there is one value
+                # in each subsegment, so we want to plot at the ends of
+                # subsegs).
+                #
+                base_text = str(abs(seg_num)) + "-" + str(count)
+                if seg_num > 0:
+                    subp_IDs.extend([base_text + "b", base_text + "m",
+                                    base_text + "f"])
+                    subseg_IDs.extend([base_text + "b", base_text + "f"])
+                else:
+                    subp_IDs.extend([base_text + "f", base_text + "m",
+                                    base_text + "b"])
+                    subseg_IDs.extend([base_text + "f", base_text + "b"])
+                # Add chainages at the back end and forward end of
+                # this subsegment.
+                subseg_chs.append(entry_ch)
+                subp_chs.append(entry_ch)
+                entry_ch += half_dist
+                subp_chs.append(entry_ch)
+                entry_ch += half_dist
+                subp_chs.append(entry_ch)
+                subseg_chs.append(entry_ch)
+        pipe_dict.__setitem__("subseg_chs", subseg_chs)
+        pipe_dict.__setitem__("subseg_IDs", subseg_IDs)
+        pipe_dict.__setitem__("subp_chs", subp_chs)
+        pipe_dict.__setitem__("subp_IDs", subp_IDs)
+
+        form14_dict.__setitem__(p_index, pipe_dict)
+
+    # Skip over the headers of the cooling pipe summary
+    tr_index = SkipLines(line_triples, tr_index, 4, out, log)
+    if tr_index is None:
+        return(None)
+    repl_line = " "*15 + "NUMBER" + " "*33 + "(kg/s)" + " "*27 + "(deg C)"
+    tr_index = ReplaceLine(line_triples, tr_index, repl_line, out, log)
+    if tr_index is None:
+        return(None)
+
+    # Skip over the lines of summary information, we already have the
+    # information from the individual cooling pipe definitions.
+    tr_index = SkipLines(line_triples, tr_index, coolpipes, out, log)
+    if tr_index is None:
+        return(None)
+    if debug1:
+        descrip = "Cooling pipes in form 14"
+        DebugPrintDict(form14_dict, descrip)
+    return(form14_dict, tr_index)
+
+
+def BuildTimeLists(settings_dict, form12_dict, form13_dict):
     '''Take the set of print timesteps (form 12) and the runtime in
-    form13.  Build a list of the timesteps we expect to be printed.
+    form 13.  Build a list of the timesteps we expect to be printed.
     If we have summaries turned on, make a list of the summary times
     and their types (summary or summary and ECZ).
 
@@ -6952,8 +8002,8 @@ def BuildTimeLists(settings_dict, form12, form13):
 
         Parameters:
             settings_dict  {}         Dictionary of stuff (incl. counters)
-            form12         {}         The contents of input form 12
-            form13         {}         The contents of input form 13
+            form12_dict    {}         The contents of input form 12
+            form13_dict    {}         The contents of input form 13
 
         Returns:
             print_times    []         List of the times expected
@@ -6971,22 +8021,23 @@ def BuildTimeLists(settings_dict, form12, form13):
     # Check if we are running in SES version 204.2.  If we are then
     # the time intervals are in tenths of a second not in seconds.
     version = settings_dict["version"]
-    if version in ("204.2",):
+    offline_ver = settings_dict["offline_ver"]
+    if offline_ver == 204.2:
         # The print intervals in form 12 are in tenths of a second
         mult = 0.1
     else:
         # They are in seconds (e.g. SES v4.1)
         mult = 1.0
 
-    intervals = form12["intervals"]
-    time_ints = form12["time_ints"]
-    abbreviated  = form12["abbreviated"]
-    summary  = form12["summary"]
-    aero_cycles  = form12["aero_cycles"]
-    thermo_cycles  = form12["thermo_cycles"]
-    end_time  = form12["end_time"]
-    aero_timestep = form13["aero_timestep"]
-    run_time = form13["run_time"]
+    intervals = form12_dict["intervals"]
+    time_ints = form12_dict["time_ints"]
+    abbreviated  = form12_dict["abbreviated"]
+    summary  = form12_dict["summary"]
+    aero_cycles  = form12_dict["aero_cycles"]
+    thermo_cycles  = form12_dict["thermo_cycles"]
+    end_time  = form12_dict["end_time"]
+    aero_timestep = form13_dict["aero_timestep"]
+    run_time = form13_dict["run_time"]
     # First figure out what the actual aero and thermo times will be.
     # Although the form 12 input puts time intervals in integer seconds,
     # users can choose to set an aero timestep in form 13 that is not
@@ -7037,8 +8088,7 @@ def BuildTimeLists(settings_dict, form12, form13):
     return(print_times, ECZ_times)
 
 
-def ReadPressures(line_triples, tr_index, settings_dict,
-                  file_name, debug1, out, log):
+def ReadPressures(line_triples, tr_index, settings_dict, out, log):
     '''Read the lines of section pressures data at the top of each
     timestep's output.  These are printed eight to a line and are read
     here.  In OpenSES v4.3 files the pressures are printed one per line
@@ -7049,8 +8099,6 @@ def ReadPressures(line_triples, tr_index, settings_dict,
                                              text, True if not an error line)
             tr_index        int,             Index of the last valid line
             settings_dict   {}               Dictionary of stuff (incl. counters)
-            file_name       str,             The file name, used in errors
-            debug1          bool,            The debug Boolean set by the user
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -7063,6 +8111,7 @@ def ReadPressures(line_triples, tr_index, settings_dict,
                                             the printed output.
     '''
     sections = settings_dict["sections"]
+    SVS = settings_dict["SVS"]
 
     # Eight pressures are printed on each line of output.  Figure out how
     # many lines we have to deal with.
@@ -7105,24 +8154,16 @@ def ReadPressures(line_triples, tr_index, settings_dict,
             defns_DP = defns_DP[:rem]
 
         result = DoOneLine(line_triples, tr_index, -1, "pressures", defns_DP,
-                           True, debug1, file_name, out, log)
+                           True, settings_dict, out, log)
         if result is None:
             return(None)
         else:
             (values, line_text, tr_index) = result
             DP_values.extend(values)
-        # result = DoOneLine(line_triples, tr_index, -1, "pressures", defns_DP,
-        #                    True, debug1, file_name, out, log)
-        # if result is None:
-        #     return(None)
-        # else:
-        #     (values, line_text, tr_index) = result
-        #     DP_values.extend(values)
     return(DP_values, tr_index)
 
 
-def ReadOpenPressures(line_triples, tr_index, settings_dict, #form2_dict,
-                  file_name, debug1, out, log):
+def ReadOpenPressures(line_triples, tr_index, settings_dict, out, log):
     '''Read the lines of section pressures data at the top of each
     timestep's output in OpenSES output files of version 4.3 and higher.
     OpenSES version 4.3 and above prints one section pressure change per
@@ -7133,8 +8174,6 @@ def ReadOpenPressures(line_triples, tr_index, settings_dict, #form2_dict,
                                              text, True if not an error line)
             tr_index        int,             Index of the last valid line
             settings_dict   {}               Dictionary of stuff (incl. counters)
-            file_name       str,             The file name, used in errors
-            debug1          bool,            The debug Boolean set by the user
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -7176,7 +8215,7 @@ def ReadOpenPressures(line_triples, tr_index, settings_dict, #form2_dict,
     DP_values = []
     for index in range(sections):
         result = DoOneLine(line_triples, tr_index, -1, "pressures", defns_DP,
-                           True, debug1, file_name, out, log)
+                           True, settings_dict, out, log, False)
         if result is None:
             return(None)
         else:
@@ -7186,11 +8225,13 @@ def ReadOpenPressures(line_triples, tr_index, settings_dict, #form2_dict,
 
 
 def ReadTrainValues(line_triples, tr_index, settings_dict,
-                    train_count, file_name, debug1, out, log):
+                    train_count, out, log):
     '''Read the lines of train performance data at the top of each
     timestep's output.  It reads one set that is always printed and an
     optional second set if trperfopt is 2 or above).  Returns an updated
-    dictionary with the train data in it.
+    dictionary with the train data in it.  This routine is used to read
+    output from SES, OpenSES and offline-SES; train performance data
+    from SVS is read in the routine ReadSVSTrainValues.
 
         Parameters:
             line_triples [(int,str,Bool)],   A list of tuples (line no., line
@@ -7198,7 +8239,6 @@ def ReadTrainValues(line_triples, tr_index, settings_dict,
             tr_index        int,             Index of the last valid line
             settings_dict   {}               Dictionary of stuff (incl. counters)
             train_count     int,             The count of active trains
-            debug1          bool,            The debug Boolean set by the user
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -7271,7 +8311,7 @@ def ReadTrainValues(line_triples, tr_index, settings_dict,
         # We set the count of values to -1 because the values on the
         # line will run together.
         result = DoOneLine(line_triples, tr_index, -1, "", defns_tp1,
-                           True, debug1, file_name, out, log)
+                           True, settings_dict, out, log)
         if result is None:
             return(None)
         else:
@@ -7300,7 +8340,7 @@ def ReadTrainValues(line_triples, tr_index, settings_dict,
         # tuple we return.
         for tc_index in range(train_count):
             result = DoOneLine(line_triples, tr_index, -1, "", defns_tp2,
-                               True, debug1, file_name, out, log)
+                               True, settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -7322,9 +8362,273 @@ def ReadTrainValues(line_triples, tr_index, settings_dict,
     return(tp_values, tr_index)
 
 
+def ReadSVSTrainValues(line_triples, tr_index, settings_dict,
+                       train_count, out, log):
+    '''Read the lines of train performance data at the top of each
+    timestep's output.  It reads one set that is always printed and an
+    optional second set if trperfopt is 2 or above).  Returns an updated
+    dictionary with the train data in it.  This version of the routine
+    reads the train data written by SVS, which differs from the train
+    data written by SES.
+
+        Parameters:
+            line_triples [(int,str,Bool)],   A list of tuples (line no., line
+                                             text, True if not an error line)
+            tr_index        int,             Index of the last valid line
+            settings_dict   {}               Dictionary of stuff (incl. counters)
+            train_count     int,             The count of active trains
+            out             handle,          The handle of the output file
+            log             handle,          The handle of the logfile
+
+
+        Returns:
+            tr_index        int,             Index of the last valid line
+            tp_values       (())             A tuple tuples of the data on the 1st
+                                             line of train performance data
+                                             and (optionally) the data on the
+                                             2nd line too.
+    '''
+    debug1 = settings_dict["debug1"]
+    prefix = settings_dict["BTU_prefix"]
+    SVS = settings_dict["SVS"]
+
+    # First define the lists needed to process the required and optional
+    # lines of train data.
+
+    # This differs from the SES definition (Print.for format field 35) by
+    # having an extra entry for train efficiency.
+
+#       R T                             AIR    AIR  TRACTIVE   MOTOR     LINE     FLY  MOTOR       GRID TEMP.         HEAT      HEAT
+# TRAIN T Y  LOCATION  SPEED   ACCEL   DRAG   DRAG    EFFORT CURRENT  CURRENT   WHEEL    EFF    ACCEL.    DECEL.      GEN.   REJECT.
+#  NO.  E P       (M)  (KPH) (M/S^2)   (KN)  COEFF (N/MOTOR)  (AMPS)   (AMPS)   (RPM)    (%)   (DEG C)   (DEG C)     (W/M)     (W/M)
+# " NO.  E P       (m) (km/h) (m/s^2)   (kN)  COEFF (N/motor)  (amps)   (amps)   (rpm)    (%)   (deg C)   (deg C)     (W/m)     (W/m)"
+
+#   1   1 1   3292.23  18.53    1.28   0.39   2.16    53807.  404.00   481.47      0.   0.00    276.67    526.10   2838.38   5266.82
+
+#   1   1 1  32968.41  77.62      0.00     3833.    2.87         331.      110.     220.        0.    482.0    482.0   1.057   1.057
+
+
+
+    defns_tp1 = (
+        ("train_number",   0,   3, "int",    0, "the number of a train"),
+        ("route_number",   3,   7, "int",    0, "the route a train follows"),
+        ("train_type",     7,   9, "int",    0, "a train's type"),
+        ("train_locn",     9,  19, "dist1",  2, "a train's location"), # XV
+        ("train_speed",   19,  26, "speed2", 2, "a train's speed"), # U
+        ("train_accel",   26,  34, "accel",  3, "a train's acceleration"), # AC
+        ("train_drag",    34,  41, "Force3",  2, "a train's drag (kN)"), # DRAGV
+        ("train_coeff",   41,  48, "null",   2, "a train's drag coefficient"), # CDV
+        ("motor_TE",      48,  58, "Force1",  1, "a train's tractive effort (N/motor)"), # TEV
+        ("motor_amps",    58,  66, "null",   2, "a train's motor current"), # AMPV
+        ("line_amps",     66,  75, "null",   2, "a train's line current"), # AMPLV
+        ("flywh_rpm",     75,  83, "null",   1, "a train's flywheel speed"), # RPM
+        ("motor_eff",     83,  90, "null",   2, "a train's traction efficiency"),
+        ("accel_temp",    90, 100, "temp",   2, "a train's acceleration grid temperature"), # TGACCV
+        ("decel_temp",   100, 110, "temp",   2, "a train's deceleration grid temperature"), # TGDECV
+        ("pwr_all",      110, 120, "IT_wperm",  2, "a train's waste power (W/m of train length)"), # HETGEN
+        ("heat_reject",  120, 130, "IT_wperm",  2, "a train's heat rejection (W/m of train length)"), # QTRPF
+              )
+
+    # This is from Print.for format field 646.  We ignore the first three
+    # entries because we already have them from the first line.
+    defns_tp2 = (
+        ("train_modev",    9,  13, "int",    1, "a train's mode (0 to 7)"), # MODEV
+        ("pwr_aux",       13,  26, "IT_watt3",   1, "a train's auxiliary power drawn"),  # PAUXV
+        ("pwr_prop",      26,  41, "IT_watt3",   1, "a train's propulsion power drawn"), # PPROPV
+        ("pwr_regen",     41,  55, "IT_watt3",   1, "a train's regenerated power returned"), # PREGNV (should probably make this a negative)
+        ("pwr_flywh",     55,  71, "IT_watt3",   1, "a train's flywheel power drawn (+ve)/returned (-ve)"), # PFLYV
+        ("pwr_accel",     71,  81, "IT_watt3",  1, "a train's power loss to the acceleration grid"), # QACCV
+        ("pwr_decel",     81,  91, "IT_watt3",  1, "a train's power loss to the deceleration grid)"), # QDECV
+        ("pwr_mech",      91, 101, "IT_watt3",  1, "a train's mechanical power loss (A & B terms, flange drag"), # RMHTV
+        ("heat_adm",     101, 111, "IT_wperm",  1, "a train's heat generation (accel & decel grids + mechanical)"), # QPRPV
+        ("heat_sens",    111, 121, "IT_wperm",  1, "a train's sensible heat generation (W/m of train length)"), # QAXSV
+        ("heat_lat",     121, 130, "IT_wperm",  1, "a train's latent heat generation (W/m of train length)"), # QAXLV
+              )
+
+    # SVS has a third table of output, although only one entry seems to be
+    # non-zero.  The entry that works is the braking regen factor, which
+    # can be based on train type (form 9H-A) or based on track section (form
+    # 8C).
+    defns_tp3 = (
+        ("train_modev",   56,  67, "perc",   2, "a train's regen percentage"),
+              )
+
+    # Create a list to hold all the values that will be read.
+    tp_values = []
+
+    # Process the header of the first table of train performance data
+    tr_index = SkipLines(line_triples, tr_index, 2, out, log)
+    if tr_index is None:
+        return(None)
+    else:
+        repl_line = (" NO.  E P       (m) (km/h) (m/s^2)   (kN)  COEFF "
+                     "(N/motor)  (amps)   (amps)   (rpm)    (%)   (deg C)"
+                     "   (deg C)     (W/m)     (W/m)")
+
+        tr_index = ReplaceLine(line_triples, tr_index, repl_line, out, log)
+        if tr_index is None:
+            return(None)
+
+    for discard in range(train_count):
+        # We set the count of values to -1 because the values on the
+        # line will run together.
+        result = DoOneLine(line_triples, tr_index, -1, "", defns_tp1,
+                           True, settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            (line1_values, line_text, tr_index) = result
+            tp_values.append(line1_values)
+
+    supopt = settings_dict["supopt"]
+    if supopt >= 2:
+
+        # Process the second table of train performance data.  In SVS these
+        # are in kW, not watts, though the W/m values remain W/m.
+        # We change the entries in kW to watts in order to be consistent
+        # with the converted printouts of the other programs.  It is safe
+        # to do this, because if SESconv.py runs out of width it switches
+        # to scientific notation.
+        repl_line = ("      R T        ------------- PROPULSION POWER "
+                     "(W/TRAIN)-------------- HEAT GENERATION(W/TRAIN)"
+                     "        HEAT REJECTION(W/m)")
+        tr_index = ReplaceLine(line_triples, tr_index, repl_line, out, log)
+        if tr_index is None:
+            return(None)
+
+        tr_index = SkipLines(line_triples, tr_index, 2, out, log)
+
+        for tc_index in range(train_count):
+            result = DoOneLine(line_triples, tr_index, -1, "", defns_tp2,
+                               True, settings_dict, out, log)
+            if result is None:
+                return(None)
+            else:
+                (line2_values, line_text, tr_index) = result
+                tp_values[tc_index] = tp_values[tc_index] + line2_values
+
+        # Process the third table of train performance data.  These appear
+        # to be all zero apart from regen percentage, so we'll process
+        # that entry only
+        tr_index = SkipLines(line_triples, tr_index, 3, out, log)
+
+        # Read a third table of train performance data and add it to the
+        # tuple we return.
+        for tc_index in range(train_count):
+            result = DoOneLine(line_triples, tr_index, -1, "", defns_tp3,
+                               True, settings_dict, out, log)
+            if result is None:
+                return(None)
+            else:
+                (line3_values, line_text, tr_index) = result
+                tp_values[tc_index] = tp_values[tc_index] + line3_values
+
+        # Now check if we need to skip over the printing of the locate arrays
+        # TRNNLS AND TRNDLS, which tell you which sections have trains in them.
+        # We won't process the lines and change the distance values from feet to
+        # metres because we can figure out all the data in them from the route
+        # definitions and the runtime train chainages.
+        if supopt >= 3:
+            # We do.  We skip three header lines and one line for each line
+            # segment in the file.
+            skip_count = settings_dict["linesegs"] + 3
+            tr_index = SkipLines(line_triples, tr_index, skip_count, out, log)
+
+    # Now return the values at this timestep.
+    return(tp_values, tr_index)
+
+
+def ReadTrainDPs(line_triples, tr_index, settings_dict,
+                 train_count, file_name, out, log):
+    '''Read the lines of train pressure drop data and train end annulus
+    area printed by offline-SES.
+
+        Parameters:
+            line_triples [(int,str,Bool)],   A list of tuples (line no., line
+                                             text, True if not an error line)
+            tr_index        int,             Index of the last valid line
+            settings_dict   {}               Dictionary of stuff (incl. counters)
+            train_count     int,             The count of active trains
+            file_name       str,             The file name, used in errors
+            out             handle,          The handle of the output file
+            log             handle,          The handle of the logfile
+
+
+        Returns:
+            tr_index        int,             Index of the last valid line
+            trainDP_values  (())             A tuple of tuples.  Each
+                                             sub-tuple has four entries:
+                                             train number, up end pressure
+                                             drop (Pa), friction DP and
+                                             down end DP.
+        Errors:
+            Warns with 8281 if there was a mismatch between the train drag
+            calculated from the pressure drops and the train drag in the
+            SES array "DRAGV".
+    '''
+    debug1 = settings_dict["debug1"]
+    SVS = settings_dict["SVS"]
+    # First define the lists needed to process the train pressure drop data.
+    # This is from Print.for format field 2005 in offline-SES.  We ignore
+    # the route and train type.
+    defns_tDP = (
+        ("train_number",   3,   5, "int",    0, "the number of a train"),
+#        ("route_number",   9,  12, "int",    0, "the route a train follows"),
+#        ("train_type",    16,  19, "int",    0, "a train's type"),
+        ("tr_up_DP",      22,  31, "press1", 2, "a train's up end DP"),
+        ("tr_up_area",    33,  42, "area",   2, "a train's up end annulus area"),
+        ("tr_fric_DP",    43,  52, "press1", 2, "a train's friction DP"),
+        ("tr_down_DP",    56,  65, "press1", 2, "a train's down end DP"),
+        ("tr_down_area",  67,  76, "area",   2, "a train's up end annulus area"),
+        ("tr_DP_ratio",   79,  90, "null",   9, "a train drag check"),
+              )
+
+    # Create a list to hold all the values that will be read.
+    trainDP_values = []
+
+    # Process the header of the table of train pressure drop data
+    tr_index = SkipLines(line_triples, tr_index, 4, out, log)
+    if tr_index is None:
+        return(None)
+    else:
+        repl_line = "   no.   route   type     (Pa)      (m^2)   "  \
+                    "    (Pa)        (Pa)      (m^2)       (N/N)"
+
+        tr_index = ReplaceLine(line_triples, tr_index, repl_line, out, log)
+        if tr_index is None:
+            return(None)
+
+    for discard in range(train_count):
+        # We set the count of values to -1 because there are values
+        # on the line we are not reading.
+        result = DoOneLine(line_triples, tr_index, -1, "", defns_tDP,
+                           True, settings_dict, out, log)
+        if result is None:
+            return(None)
+        else:
+            (line_values, line_text, tr_index) = result
+            # Check for a mismatch in the train pressure drop
+            # calculation.
+            if not math.isclose(1.0, line_values[-1], abs_tol = 1e-6):
+                trnum = line_values[0]
+                line_num = line_triples[tr_index][0]
+                err = ('> Found a mismatch in the calculation of net drag '
+                          'on train ' + str(trnum) + ', ratio\n'
+                       '> of drag values is ' +
+                          gen.RoundText(line_values[-1], 9) + '.'
+                      )
+                gen.WriteError(8281, err, log)
+                gen.ErrorOnLine(line_num, line_text, log, False)
+                gen.WriteOut(err, out)
+            # Store the first six values on the line.
+            trainDP_values.append(line_values[:-1])
+
+    # Now return the values at this timestep.
+    return(trainDP_values, tr_index)
+
+
 def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
-                 subseg_counts, sub_lengths, line_segs, JF_segs, file_name,
-                 debug1, out, log):
+                 subseg_counts, sub_lengths, line_segs, JF_segs, out, log):
     '''Read the lines of segment data in one timestep's output.
 
         Parameters:
@@ -7343,7 +8647,6 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                                              vent segments).
             JF_segs         []               A list of the segments that have
                                              jet fans in them.
-            debug1          bool,            The debug Boolean set by the user
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -7363,6 +8666,8 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
     supopt = settings_dict["supopt"]
     prefix = settings_dict["BTU_prefix"]
     offline_ver = settings_dict["offline_ver"]
+    debug1 = settings_dict["debug1"]
+    SVS = settings_dict["SVS"]
 
     if detailed:
         # Process the header at the top of the detailed table.
@@ -7473,13 +8778,16 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
       ("humid8", 104, 114, "W",    4, "8th subsegment water content"),
                  )
 
-    # The line of jet fan runtime performance data.  This is from
-    # Runstatus.f95 routine JetFanStatus format field 10.
+    # The lines of jet fan runtime performance data written by
+    # offline-SES.
+    # This is from Runstatus.f95 routine JetFanStatus format field 10.
     defns_JF = (
       ("thrust",  26,  36, "Force2",  2, "jet fan thrust to air"),
       ("velder",  61,  68, "null",   3, "jet fan density derating"),
       ("densder", 90,  97, "null",   4, "jet fan velocity derating"),
                  )
+
+
     # Create lists to hold the segment data
     seg_flow = []
     seg_vel = []
@@ -7573,10 +8881,11 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 (line_num, line_text, tr_index) = result
             seg_text = line_text[14:17].lstrip().rstrip()
             if str(seg_num) != seg_text:
-                err =("Found a line of runtime data that wasn't what was expected.\n"
-                      "It should have been the first line of detailed print data\n"
-                      " for segment " + str(seg_num)
-                      + " but the text didn't match (" + seg_text + ").")
+                err =("> Found a line of runtime data that wasn't what was\n"
+                      "> expected.  It should have been the first line of\n"
+                      "> detailed print data for segment " + str(seg_num)
+                        + ' but the\n'
+                      "> text didn't match (" + seg_text + ").")
                 gen.WriteError(8181, err, log)
                 gen.ErrorOnLine(line_num, line_text, log)
                 return(None)
@@ -7584,7 +8893,7 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 # Change the segment length from feet to metres and write
                 # out the line.
                 result = ConvOne(line_text, 0, 7, "dist1", 1, "tunnel length",
-                                 debug1, log)
+                                 settings_dict, log)
                 if result is None:
                     return(None)
                 else:
@@ -7594,13 +8903,13 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 # Read the subsegment properties, the volume flow
                 # and airspeed.
                 result = DoOneLine(line_triples, tr_index, -1, "runtime1",
-                                   defns1_det, True,
-                                   debug1, file_name, out, log)
+                                   defns1_det, True, settings_dict,
+                                   out, log)
             else:
                 # Read the subsegment properties only.
                 result = DoOneLine(line_triples, tr_index, -1, "runtime2",
-                                   defns1_det[2:], True,
-                                   debug1, file_name, out, log)
+                                   defns1_det[2:], True, settings_dict,
+                                   out, log)
             if result is None:
                 return(None)
             else:
@@ -7628,11 +8937,11 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 if line_seg:
                     result = TableToList(line_triples, tr_index, subsegs-1,
                                          "runtime3", defns1_det[:4],
-                                         debug1, file_name, out, log)
+                                         settings_dict, out, log)
                 else:
                     result = TableToList(line_triples, tr_index, subsegs-1,
                                          "runtime4", defns1_det[2:4],
-                                         debug1, file_name, out, log)
+                                         settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -7649,8 +8958,9 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
             # It is an abbreviated print without temperatures, humidities
             # or heat gains.  One line per segment, with volume flow and
             # air velocity on it.
-            result = DoOneLine(line_triples, tr_index, -1, "runtime6", defns1_abbr[:2],
-                               True, debug1, file_name, out, log)
+            result = DoOneLine(line_triples, tr_index, -1, "runtime6",
+                               defns1_abbr[:2], True, settings_dict,
+                               out, log)
             if result is None:
                 return(None)
             else:
@@ -7658,10 +8968,11 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 # Check the segment number we read against what we are expecting.
                 seg_num_read = line_text[7:10].lstrip().rstrip()
                 if str(seg_num) != seg_num_read:
-                    err =("Found a line of runtime data that wasn't what was expected.\n"
-                          "It should have been the first line of abbreviated print data\n"
-                          " for segment " + str(seg_num)
-                          + " but the text didn't match (" + str(seg_num_read) + ").")
+                    err =("> Found a line of runtime data that wasn't what was\n"
+                          "> expected.  It should have been the first line of\n"
+                          "> abbreviated print data for segment " + str(seg_num)
+                            + ' but the\n'
+                          "> text didn't match (" + str(seg_num_read) + ").")
                     gen.WriteError(8182, err, log)
                     gen.ErrorOnLine(line_triples[tr_index][0], line_text, log)
                     return(None)
@@ -7692,8 +9003,9 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 if line == 0:
                     # The first line has volume flow and airspeed on it, so we
                     # read the whole thing.
-                    result = DoOneLine(line_triples, tr_index, -1, "runtime7", defns1_abbr[:count + 2],
-                                       True, debug1, file_name, out, log)
+                    result = DoOneLine(line_triples, tr_index, -1, "runtime7",
+                                       defns1_abbr[:count + 2], True,
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -7701,10 +9013,11 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                         # Check the segment number we read against what we are expecting.
                         seg_num_read = line_text[7:10].lstrip().rstrip()
                         if str(seg_num) != seg_num_read:
-                            err =("Found a line of runtime data that wasn't what was expected.\n"
-                                  "It should have been the first line of abbreviated print data\n"
-                                  " for segment " + str(seg_num)
-                                  + " but the text didn't match (" + str(seg_num_read) + ").")
+                            err =("> Found a line of runtime data that wasn't what was\n"
+                                  "> expected.  It should have been the first line of\n"
+                                  "> abbreviated print data for segment " + str(seg_num)
+                                    + ' but the'
+                                  "> text didn't match (" + str(seg_num_read) + ").")
                             gen.WriteError(8183, err, log)
                             gen.ErrorOnLine(line_triples[tr_index][0], line_text, log)
                             return(None)
@@ -7720,8 +9033,8 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                     # humidities them, so we ignore the first two entries in the
                     # definition.
                     result = DoOneLine(line_triples, tr_index, -1, "runtime8",
-                                       defns1_abbr[2:count + 2],
-                                       True, debug1, file_name, out, log)
+                                       defns1_abbr[2:count + 2], True,
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -7734,7 +9047,7 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 # next line.
                 result = DoOneLine(line_triples, tr_index, -1, "runtime9",
                                        defns2_abbr[:count], True,
-                                       debug1, file_name, out, log)
+                                       settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -7743,13 +9056,13 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
         # Once we get to here we have read all the subsegment data.
         # Check if this run has runtime jet fan performance data after
         # the segment runtime data.
-        if offline_ver >= 204.4 and seg_num in JF_segs:
+        if offline_ver >= 204.399 and seg_num in JF_segs:
             # This run has jet fan derating turned on and this segment has
             # jet fans in it.  There will be a line of jet fan derating data.
             # We tell DoOneLine not to write the line to file because we
             # need to edit the line to change the jet fan thrust unit.
             result = DoOneLine(line_triples, tr_index, -1, "runtime10",
-                               defns_JF, False, debug1, file_name, out, log)
+                               defns_JF, False, settings_dict, out, log)
             if result is None:
                 return(None)
             else:
@@ -7760,7 +9073,6 @@ def ReadSegments(line_triples, tr_index, settings_dict, detailed, seg_order,
                 # Change the units of "lbs" on the line of text to Newtons.
                 SI_text = line_text[:37] + "N  " + line_text[40:]
                 gen.WriteOut(SI_text, out)
-
 
     # Return a tuple of the results in this timestep.  If the run has a
     # supplementary print option below 4 we spoof an empty list for
@@ -7821,6 +9133,11 @@ def ProcessFile(arguments):
             performance above ground, not airflow in tunnels.  There are far,
             far better ways to model train performance than SES these days.
     '''
+    # Make inp_err (the dictionary of counts of lines of error message
+    # for each error message number) a global, so we can change the
+    # counts of lines for errors 263 and 264 which are used for one
+    # type of error in SES and different errors in SVS.
+    global inp_errs
 
     (file_string, file_num, file_count, options_dict,
      user_name, when_who) = arguments
@@ -7973,15 +9290,26 @@ def ProcessFile(arguments):
         # of the line number and the text on that line).  We
         # also have the header line and the footer line, giving
         # some QA about the run (date, time etc.) and the version.
+        # Finally, we have a string of the SES version number,
+        # which could be "4.10", "4.2", "4.3ALPHA", "6.6.2", "204.2",
+        # "204.3", "204.4", "204.5" or "204.6".
 
+    if version in ("6.6.2",):
+        # Set the counts of lines for SVS errors 263 and 264.
+        inp_errs.__setitem__(263, (0, 2, False))
+        inp_errs.__setitem__(264, (0, 2, False))
 
-    settings_dict = {"version": version}
+    settings_dict = {"version": version,
+                     "debug1": debug1,
+                     "file_name": file_name,
+                     "picky": options_dict["picky"],
+                    }
     # Create a tuple of version numbers that use the SES definition of
     # the BTU.
     usesSESBTUs = ("4.10",
                    "4.2", "4.3", "4.3ALPHA",                # OpenSES
                    "204.1", "204.2", "204.3", "204.4",      # offline-SES
-                   "204.5",)
+                   "204.5", "204.6", )
     # Now create a prefix for those units that involve BTUs.
     if version in usesSESBTUs:
         # We want the conversion factors that use the SES v4.1 value
@@ -8044,11 +9372,12 @@ def ProcessFile(arguments):
     # in line_pairs.  This routine also figures out if the run failed
     # at the input stage, failed due to a simulation error, ran to
     # completion or had issues with flow reversal.  It writes these
-    # states and errors to the log file.
-    line_triples, errors = FilterErrors(line_pairs[index1B:],
-                                        errors, log, debug1)
+    # states and errors to the log file and flags up if the run failed
+    # due to too many input errors.
+    line_triples, errors, input_errors = FilterErrors(line_pairs[index1B:],
+                                                      errors, log, debug1)
 
-
+    settings_dict.__setitem__("input_errors", input_errors)
     # Turn the line holding form 1B into numbers.
     result = Form1B(line_pairs[index1B], file_name, log)
     if result is None:
@@ -8059,7 +9388,7 @@ def ProcessFile(arguments):
         gen.PauseIfLast(file_num, file_count)
         return()
     else:
-        # Create a dictionary to hold forms 1B, 1C, 1D and 1E.
+        # We put forms 1B, 1C, 1D and 1E into settings_dict.
         # Each of the entries in those forms will be yielded by a
         # relevant dictionary key.  Many of these are useless
         # except for the procedural generation of SES input files.
@@ -8106,7 +9435,7 @@ def ProcessFile(arguments):
 
                     # Now check if this is a version of SES that has some
                     # bugs corrected.
-                    if offline_ver >= 204.3:
+                    if offline_ver >= 204.299:
                         settings_dict.__setitem__("bug1fixed", True)
                         # Bug 1 is in the traction power calculation
                         # option 2 (explicit speed, implicit tractive
@@ -8145,7 +9474,7 @@ def ProcessFile(arguments):
     # form 1C and returns the index to where form 1D starts in.
     # From this point on we assume that the file is well-formed.  We
     # don't issue any more error checks like 8030 above.
-    result = Form1C(line_triples, index1C, 8, debug1, out, log)
+    result = Form1C(line_triples, index1C, 8, settings_dict, out, log)
     if result is None:
         # Something failed.
         CloseDown("1C", out, log)
@@ -8246,7 +9575,7 @@ def ProcessFile(arguments):
             return(None)
 
     # Process form 1D in a similar way.
-    result = Form1DE(line_triples, index1D, 7, debug1, out, log)
+    result = Form1DE(line_triples, index1D, 7, settings_dict, out, log)
     if result is None:
         CloseDown("1D", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8269,7 +9598,7 @@ def ProcessFile(arguments):
             print(line_triples[index1E])
 
     # Process form 1E in a similar way.
-    result = Form1DE(line_triples, index1E, 8, debug1, out, log)
+    result = Form1DE(line_triples, index1E, 8, settings_dict, out, log)
     if result is None:
         CloseDown("1E", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8290,7 +9619,18 @@ def ProcessFile(arguments):
             print("Forms 1C, 1D & 1E", settings_dict)
             print(line_triples[index1F])
 
-    result = Form1F(line_triples, index1F, debug1, out, log)
+    # At this point we begin to read output that has dimensions.  Figure
+    # out if we are processing SVS files and set a Boolean for it.  This
+    # is used by UScustomary.py to decide whether to use the conversion
+    # factors in 'USequivalents' or 'SVSequivalents' (the factors in
+    # the latter are mostly 1.0).
+    if version[:2] == "6.":
+        SVS = True
+    else:
+        SVS = False
+    settings_dict.__setitem__("SVS", SVS)
+
+    result = Form1F(line_triples, index1F, settings_dict, out, log)
     if result is None:
         CloseDown("1F", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8307,7 +9647,7 @@ def ProcessFile(arguments):
             print("Form 1F", form1F_dict)
             print(line_triples[index1G])
 
-    result = Form1G(line_triples, index1G, debug1, out, log)
+    result = Form1G(line_triples, index1G, settings_dict, out, log)
     if result is None:
         CloseDown("1G", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8325,13 +9665,28 @@ def ProcessFile(arguments):
             print("Form 1G", form1G_dict)
             print(line_triples[index2A])
 
+    # Read form 1H, the SVS-specific settings/counters.  If this is not
+    # an SVS file, a default set of settings/counters is returned.
+    result = Form1H(line_triples, index2A, settings_dict, out, log)
+    if result is None:
+        CloseDown("1H", out, log)
+        gen.PauseIfLast(file_num, file_count)
+        return()
+    else:
+        (form1H_dict, index2A) = result
+        settings_dict.update(form1H_dict)
+        gen.WriteOut("Processed form 1H", log)
+        if debug1:
+            print("Form 1H", form1H_dict)
+            print(line_triples[index2A])
+
+
     # We now have all the values in forms 1B to 1G in a dictionary.
     if debug1:
         for key in settings_dict:
             print(key, settings_dict[key])
 
-    result = Form2(line_triples, index2A, settings_dict,
-                   debug1, file_name, out, log)
+    result = Form2(line_triples, index2A, settings_dict, out, log)
     if result is None:
         CloseDown("2", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8355,8 +9710,7 @@ def ProcessFile(arguments):
 
     # We now have a dictionary of settings, a dictionary of entries in
     # form 2 and the index of the last line in form 2.  Do form 3.
-    result = Form3(line_triples, tr_index, settings_dict,
-                   debug1, file_name, out, log)
+    result = Form3(line_triples, tr_index, settings_dict, out, log)
     if result is None:
         CloseDown("3", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8370,7 +9724,7 @@ def ProcessFile(arguments):
     fires = settings_dict["fires"]
     if fires != 0:
         result = Form4(line_triples, tr_index, settings_dict, form3_dict,
-                       debug1, file_name, out, log)
+                       out, log)
         if result is None:
             CloseDown("4", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8386,7 +9740,7 @@ def ProcessFile(arguments):
     ventsegs = settings_dict["ventsegs"]
     if ventsegs != 0:
         result = Form5(line_triples, tr_index, settings_dict, sec_seg_dict,
-                       debug1, file_name, out, log)
+                       out, log)
         if result is None:
             CloseDown("5", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8468,7 +9822,7 @@ def ProcessFile(arguments):
     # Check for vent segments and process all instances of form 6.
     # If there were none, create an empty dictionary for form 6.
     result = Form6(line_triples, tr_index, settings_dict,
-                   options_dict, file_name, out, log)
+                   options_dict, out, log)
     if result is None:
         CloseDown("6", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8483,14 +9837,13 @@ def ProcessFile(arguments):
 
     # Now read all instances of forms 7A & 7B (the fan characteristics)
     # and 7C (the jet fans).
-    result = Form7(line_triples, tr_index, settings_dict,
-                   debug1, file_name, out, log)
+    result = Form7(line_triples, tr_index, settings_dict, out, log)
     if result is None:
         CloseDown("7", out, log)
         gen.PauseIfLast(file_num, file_count)
         return()
     else:
-        (form7_fans, form7_JFs, tr_index) = result
+        (form7_fans, form7_JFs, form7D, tr_index) = result
         gen.WriteOut("Processed form 7", log)
 
     # Check if we have any routes
@@ -8498,7 +9851,7 @@ def ProcessFile(arguments):
     if routes > 0:
         # Read all the routes.
         result = Form8(line_triples, tr_index, settings_dict, form3_dict,
-                       sec_seg_dict, debug1, file_name, out, log)
+                       sec_seg_dict, out, log)
         if result is None:
             CloseDown("8", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8513,8 +9866,7 @@ def ProcessFile(arguments):
     trtypes = settings_dict["trtypes"]
     if trtypes > 0:
         # Read all the train types.
-        result = Form9(line_triples, tr_index, settings_dict,
-                      debug1, file_name, out, log)
+        result = Form9(line_triples, tr_index, settings_dict, out, log)
         if result is None:
             CloseDown("9", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8529,8 +9881,7 @@ def ProcessFile(arguments):
     trstart = settings_dict['trstart']
     if trstart > 0:
         # Read all the trains.
-        result = Form10(line_triples, tr_index, settings_dict,
-                      debug1, file_name, out, log)
+        result = Form10(line_triples, tr_index, settings_dict, out, log)
         if result is None:
             CloseDown("10", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8545,9 +9896,8 @@ def ProcessFile(arguments):
     zones = settings_dict["eczones"]
     if zones > 0:
         # Read all the zones.
-        result = Form11(line_triples, tr_index,
-                        settings_dict, form3_dict, form5_dict,
-                        debug1, file_name, out, log)
+        result = Form11(line_triples, tr_index, settings_dict, form3_dict,
+                        form5_dict, out, log)
         if result is None:
             CloseDown("11", out, log)
             gen.PauseIfLast(file_num, file_count)
@@ -8559,8 +9909,7 @@ def ProcessFile(arguments):
         form11_dict = {}
 
     # Read form 12.
-    result = Form12(line_triples, tr_index, settings_dict,
-                  debug1, file_name, out, log)
+    result = Form12(line_triples, tr_index, settings_dict, out, log)
     if result is None:
         CloseDown("12", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8570,8 +9919,7 @@ def ProcessFile(arguments):
         gen.WriteOut("Processed form 12", log)
 
     # Read form 13.
-    result = Form13(line_triples, tr_index, settings_dict,
-                  debug1, file_name, out, log)
+    result = Form13(line_triples, tr_index, settings_dict, out, log)
     if result is None:
         CloseDown("13", out, log)
         gen.PauseIfLast(file_num, file_count)
@@ -8579,6 +9927,24 @@ def ProcessFile(arguments):
     else:
         form13_dict, tr_index = result
         gen.WriteOut("Processed form 13", log)
+
+    # Read form 14 (SVS only).
+    coolpipes = settings_dict["coolpipes"]
+    if coolpipes > 0:
+        # Read all the cooling pipe loops.
+        result = Form14(line_triples, tr_index, settings_dict,
+                        form3_dict, form5_dict, sec_seg_dict, out, log)
+        if result is None:
+            CloseDown("14", out, log)
+            gen.PauseIfLast(file_num, file_count)
+            return()
+        else:
+            form14_dict, tr_index = result
+            gen.WriteOut("Processed form 14", log)
+    else:
+        form14_dict = {}
+
+
 
     # Check if a dud binary file argument was set and if so, rename the
     # binary file.
@@ -8606,12 +9972,15 @@ def ProcessFile(arguments):
         #
         # Generate a version number for the binary file.  Each time
         # we modify the format, the binary file version is increased.
-        binversion = 10
+        binversion = 12
 
         # Identify the program type, in this case SES 4.10, SES 4.2
         # or SES 204.4.
         if options_dict["dudbin1"] is False:
-            prog_type = "SES " + version
+            if SVS:
+                prog_type = "SVS " + version
+            else:
+                prog_type = "SES " + version
         else:
             # We want write a binary file that will trigger an error
             # when we read it into classSES.py.
@@ -8620,8 +9989,23 @@ def ProcessFile(arguments):
         # Write the input data to the binary file.  This is a set of
         # dictionaries, one group of forms per dictionary.
 
+        # First we take the values out of settings_dict that won't be
+        # needed by people creating a class instance from this .sbn
+        # file, we leave forms 1B to 1H.  We keep the list of nodes,
+        # as that may come in handy when developing new SES files.
+        settings_copy = settings_dict.copy()
+        settings_copy.__delitem__("version")
+        settings_copy.__delitem__("debug1")
+        settings_copy.__delitem__("file_name")
+        settings_copy.__delitem__("picky")
+        settings_copy.__delitem__("input_errors")
+        settings_copy.__delitem__("BTU_prefix")
+        settings_copy.__delitem__("offline_ver")
+        settings_copy.__delitem__("bug1fixed")
         if debug1:
-            print("Dictionary of SES settings:", settings_dict)
+            print("Dictionary of SES settings:")
+            for key, value in settings_dict.items():
+                print("   ", key, value)
         # Put a string with the binary file version number as the
         # first entry.  When we read a binary file we check for
         # this string and don't read anything else until we've
@@ -8638,7 +10022,7 @@ def ProcessFile(arguments):
                       header,         # Header in the .PRN file
                       footer,         # Footer in the .PRN file
                       comments,       # Form 1A
-                      settings_dict,  # Forms 1B to 1G
+                      settings_copy,  # Forms 1B to 1H plus a list of nodes
                       form2_dict,
                       form3_dict,
                       form4_dict,
@@ -8647,28 +10031,30 @@ def ProcessFile(arguments):
                       form6_dict,
                       form7_fans,
                       form7_JFs,
+                      form7D,
                       form8_dict,
                       form9_dict,
                       form10_dict,
                       form11_dict,
                       form12_dict,
-                      form13_dict), bdat)
+                      form13_dict,
+                      form14_dict), bdat)
 
         # Put all the input forms in a tuple.
-        forms2to13 = (form2_dict, form3_dict, form4_dict, form5_dict,
-                      form6_dict, form7_fans, form7_JFs,
+        forms2to14 = (form2_dict, form3_dict, form4_dict, form5_dict,
+                      form6_dict, form7_fans, form7_JFs, form7D,
                       form8_dict, form9_dict, form10_dict,
-                      form11_dict, form12_dict, form13_dict)
+                      form11_dict, form12_dict, form13_dict,
+                      form14_dict)
 
         # If the "-dudbin3" command line option was set, write something
-        # to the binary file to trigger error 8024 in classSES.py.
+        # to the binary file to trigger error 5024 in classSES.py.
         if options_dict["dudbin3"] is True:
             pickle.dump([1, 2, 3, 4], bdat)
 
         # Read the transcript of the output during the run.
-        result = ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
-                              sec_seg_dict,
-                              file_name, debug1, out, log)
+        result = ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to14,
+                              sec_seg_dict, out, log)
         if result is None:
            return(None)
         elif options_dict["dudbin2"] is True:
@@ -8691,6 +10077,8 @@ def ProcessFile(arguments):
             #  pwr_prop, pwr_regen, pwr_flywh, pwr_accel,
             #  pwr_decel, pwr_mech, heat_adm, heat_sens,
             #  heat_lat, train_eff,
+            #  train_SVSeff, train_SVSregen,
+            #  dp_up, area_up, dp_skin, dp_down, area_down,
             #  airT_AM, airW_AM, wallT_AM,
             #  airT_PM, airW_PM, wallT_PM,
             #  airT_off, airW_off, wallT_used,
@@ -8699,19 +10087,19 @@ def ProcessFile(arguments):
             #  ground_sens,
             #  airex_sens, airex_lat,
             #  HVAC_sens, HVAC_lat, HVAC_total,
+            #  coolpipe_temps, coolpipe_HT,
             # ) = result
             print("Writing",len(result),"arrays to the pickle file.")
             pickle.dump(result, bdat)
 
-    # USunits = options_dict["USunits"]
     if debug1:
         # Print the contents of the input forms in a structured way.
         for dictionary in (settings_dict, form2_dict, form3_dict,
                            form4_dict, sec_seg_dict, form5_dict,
                            form5_dict, form6_dict, form7_fans,
-                           form7_JFs, form8_dict, form9_dict,
+                           form7_JFs, form7D, form8_dict, form9_dict,
                            form10_dict, form11_dict, form12_dict,
-                           form13_dict):
+                           form13_dict, form14_dict):
             for dict_key_1 in dictionary:
                 result_1 = dictionary[dict_key_1]
                 if type(result_1) is dict:
@@ -8854,6 +10242,12 @@ def ProcessFile(arguments):
     #     csv.close()
 
 
+    if version in ("6.6.2",):
+        # Set the counts of lines for errors 263 and 264 back to the
+        # counts for SES.  This is needed when we are running files
+        # in series and an SES file is processed after an SVS file.
+        inp_errs.__setitem__(263, (0, 6, True))
+        inp_errs.__setitem__(264, (0, 7, True))
 
     # We completed with no failures, return to main() and
     # process the next file.
@@ -8911,7 +10305,8 @@ def BuildTrainLists(init_train_count, form8_dict, form13_dict):
         train_grps = route_dict["train_grps"]
         # There is always at least one train for each route, defined in
         # form 8A.
-        tr_timelist.append(launch_time)
+        if launch_time <= run_time:
+            tr_timelist.append(launch_time)
         if train_grps > 1:
             # There was more than one group of trains.  The first group
             # is always a group of one train with its train type set in
@@ -8952,6 +10347,7 @@ def BuildTrainLists(init_train_count, form8_dict, form13_dict):
                     # the train groups.  No need to process the rest of
                     # them.  Break out of this middle for loop.
                     break
+
     # When we get to here we should have all the actual train launch times
     # that SES used in the list, up to the runtime.  Sort it.
     tr_timelist.sort()
@@ -8994,26 +10390,25 @@ def TimeAndTrains(result, line_triples, debug1, out):
         return(time, train_count, tr_index)
 
 
-def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
-                 sec_seg_dict, file_name, debug1, out, log):
+def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to14,
+                 sec_seg_dict, out, log):
     '''Controls the reading of data in timesteps, calling routines to
     read the train performance (if active), section pressures (if active),
     train location stuff (if active), the segment properties (long form,
     short form, or in runs without humidity and/or temperature), the
-    thermal arrays, the wall temperature stuff, and the summaries and ECZ
-    estimates.
+    thermal arrays, the wall temperature stuff, the summaries, the ECZ
+    estimates, train pressure drop (if offline-SES) and the cooling pipe
+    performance (if active and SVS).
 
         Parameters:
             line_triples [(int,str,Bool)],   A list of tuples (line no., line
                                              text, True if not an error line)
             tr_index        int,             Index of the last valid line
             settings_dict   {}               Dictionary of stuff (incl. counters)
-            forms2to13      ({})             A list of the dictionaries containing
-                                             forms 2 to 13.
+            forms2to14      ({})             A list of the dictionaries containing
+                                             forms 2 to 14.
             sec_seg_dict    {}               Relationships between the sections
                                              and segments.
-            file_name       str,             The file name, used in errors
-            debug1          bool,            The debug Boolean set by the user
             out             handle,          The handle of the output file
             log             handle,          The handle of the logfile
 
@@ -9031,6 +10426,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             Aborts with 8008 if some optional Python libraries are not
             available on this system.
     '''
+    debug1 = settings_dict["debug1"]
+    file_name = settings_dict["file_name"]
     # Set a debug switch.
     debug2 = False
 
@@ -9047,6 +10444,9 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     readopt  = settings_dict["readopt"]   # 0 to 5
     prefix = settings_dict["BTU_prefix"]
     version = settings_dict["version"]
+    offline_ver = settings_dict["offline_ver"]
+    SVS = settings_dict["SVS"]
+    coolpipes = settings_dict["coolpipes"]
 
     # Now get the counters
     linesegs  = settings_dict["linesegs"]
@@ -9060,11 +10460,15 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     eczones  = settings_dict["eczones"]
     nodes_list = settings_dict["nodes_list"]
 
+    # Get the Boolean signalling whether the run failed due to input
+    # errors.
+    input_errors = settings_dict["input_errors"]
+
     # Break out the individual forms.
     (form2_dict, form3_dict, form4_dict, form5_dict,
-    form6_dict, form7_fans, form7_JFs, form8_dict,
+    form6_dict, form7_fans, form7_JFs, form7D, form8_dict,
     form9_dict, form10_dict, form11_dict, form12_dict,
-    form13_dict) = forms2to13
+    form13_dict, form14_dict) = forms2to14
 
 
     # If we have read a restart file, process its lines.  We don't save
@@ -9082,6 +10486,20 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     init_train_count = len(form10_dict)
 
     if readopt > 0:
+        # First check if the output file has ended here.  If it has,
+        # it means that the restart file could not be read.  We raise
+        # a specific error for this, as it isn't clear from the text
+        # written by error 8041 what happened.
+        try:
+            line_triples[tr_index + 1]
+        except IndexError:
+            err = ('> File "' + file_name + '" was not able to\n'
+                   "> read its restart file.  Either the restart file didn't\n"
+                   "> exist or no restart file name was given in the input\n"
+                   "> file.")
+            gen.WriteError(8009, err, log)
+            return(None)
+
         # Skip over the header.
         tr_index = SkipLines(line_triples, tr_index, 4, out, log)
         if tr_index is None:
@@ -9098,7 +10516,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 return(None)
             else:
                 (line_num, line_text, tr_index) = result
-                init_flows = GetInt(line_text, 26, 30, log, debug1)
+                init_flows = GetInt(line_text, 26, 30, log, settings_dict)
                 gen.WriteOut(line_text, out)
             tr_index = SkipLines(line_triples, tr_index, 1, out, log)
             if tr_index is None:
@@ -9113,7 +10531,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             for line in range(init_flows):
                 result = DoOneLine(line_triples, tr_index, -1, "runtime11",
                                    defns_secs, True,
-                                   debug1, file_name, out, log)
+                                   settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -9152,7 +10570,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 return(None)
             else:
                 (line_num, line_text, tr_index) = result
-                init_train_count = GetInt(line_text, 34, 37, log, debug1)
+                init_train_count = GetInt(line_text, 34, 37, log, settings_dict)
                 gen.WriteOut(line_text, out)
             tr_index = SkipLines(line_triples, tr_index, 1, out, log)
             if tr_index is None:
@@ -9179,7 +10597,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             for line in range(init_train_count):
                 result = DoOneLine(line_triples, tr_index, -1, "runtime12",
                                    defns_train, True,
-                                   debug1, file_name, out, log)
+                                   settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -9195,7 +10613,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 return(None)
             else:
                 (line_num, line_text, tr_index) = result
-                init_linesegs = GetInt(line_text, 34, 38, log, debug1)
+                init_linesegs = GetInt(line_text, 34, 38, log, settings_dict)
                 gen.WriteOut(line_text, out)
             tr_index = SkipLines(line_triples, tr_index, 1, out, log)
             if tr_index is None:
@@ -9215,7 +10633,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             for line in range(init_linesegs):
                 result = DoOneLine(line_triples, tr_index, -1, "runtime13",
                                    defns_segs, True,
-                                   debug1, file_name, out, log)
+                                   settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -9227,14 +10645,14 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 return(None)
             else:
                 (line_num, line_text, tr_index) = result
-                init_ventsegs = GetInt(line_text, 34, 38, log, debug1)
+                init_ventsegs = GetInt(line_text, 34, 38, log, settings_dict)
                 gen.WriteOut(line_text, out)
             if tr_index is None:
                 return(None)
             for line in range(init_ventsegs):
                 result = DoOneLine(line_triples, tr_index, -1, "runtime14",
                                    defns_segs[:3], True,
-                                   debug1, file_name, out, log)
+                                   settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -9253,17 +10671,15 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     # one summary or ECZ estimate.
     # First we figure out which timesteps we are expecting to be printed,
     # from the contents of forms 12 and 13.
-    #
-    if inperrs < 0:
-        # If the number of input errors is less than zero, SES prints
-        # one timestep.  Set suitable numbers.  Note that we have
-        # already set a value for 'init_train_count' above from the
-        # length of the form 10 dictionary or the counter in the
-        # restart file so we don't need to do anything to it here.
+    if inperrs < 0 or input_errors:
+        # If the counter of input errors (form 1C) is less than zero
+        # or there were too many input errors, SES prints one timestep.
+        # Set suitable numbers and entries for the trains in the run
+        # at time zero.
         print_times = (0.0,)
         ECZ_times = []
         ECZ_times2 = []
-        train_launch = []
+        train_launch = tr_timelist = [0.0] * init_train_count
     else:
         (print_times, ECZ_times) = BuildTimeLists(settings_dict,
                                                 form12_dict, form13_dict)
@@ -9293,6 +10709,9 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     # pandas dataframes after we've read all the data.
     trainperf_list = [] # Holds the train performance data as a list of
                         # tuples of values at each timestep.
+    trainpress_list = []# Holds the detailed train pressure drop data.
+                        # This is only printed by versions of offline-SES
+                        # v204.6 and above.
     secpress_list = []  # Holds the section data (the pressure drops)
     fans_list = []      # Holds the fan data (fan characteristic adjusted
                         # for local air density, system characteristic)
@@ -9307,11 +10726,11 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     walltemps_list = [] # Wall temperatures, set by either fire runs or
                         # in controlled zones in ECZ estimates.
     ht_conv_list = []   # Convective heat to the walls in fire runs.
-                        # If not a fire run, or not a fire segment,
-                        # all zero.
+                        # If not a fire run, or not a fire segment in
+                        # a fire run, has zero values.
     ht_rad_list = []    # Radiative heat to the walls in fire runs.
-                        # If not a fire run, or not a fire segment,
-                        # all zero.
+                        # If not a fire run, or not a fire segment in
+                        # a fire run, has zero values.
 
 
     ECZ_contr_list = [] # Holds the runtime data for ECZ estimates in
@@ -9321,6 +10740,14 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                         # uncontrolled zones (mean air temperatures and
                         # humidities) and (if a peak hour ECZ is being
                         # done) AM and PM wall temperatures.
+
+    # Build lists of lists of SVS pipe temperatures and heat transfer.
+    # There is one sub-list for each cooling pipe loop.  At each
+    # timestep we add the values of heat transfer and temperature,
+    # then turn each sub-list into a pandas DataFrame after we finish
+    # reading the timesteps.
+    pipe_temps_list = [[]] * coolpipes
+    pipe_HT_list = [[]] * coolpipes
 
     # Extract a list of train lengths, areas and count of motors.  We need
     # length when reading the runtime train data (it prints some values as
@@ -9353,12 +10780,17 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     # "sec201" and return the list of segments in that section.
     # Keys that are integers are segment numbers and return an
     # integer giving the section the segment is in.
+    # The code change here is to correct a bug in the sorting process
+    # that the test files never used to catch.
     sec_keys = [key for key in sec_seg_dict if type(key) is str]
-    sec_keys_sorted = sec_keys.copy()
-    sec_keys_sorted.sort()
+    sec_nums_sorted = [int(key[3:]) for key in sec_keys]
+    sec_nums_sorted.sort()
     seg_order = []
-    for key in sec_keys_sorted:
-        seg_order.extend(sec_seg_dict[key])
+    sec_keys_sorted = []
+    for sec_num in sec_nums_sorted:
+        sec_key = "sec" + str(sec_num)
+        seg_order.extend(sec_seg_dict[sec_key])
+        sec_keys_sorted.append(sec_key)
     # Make lists of the line segments so we can distinguish them from
     # vent segments (vent segments have less printed output, i.e. no
     # heat gains).
@@ -9425,6 +10857,22 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         else:
             length = form5_dict[seg_num]["sublength"]
         sub_lengths.append(length)
+
+    # Define where to look for numbers in the table that defines
+    # the inlet conditions.
+    pipetrans = (
+        (2, "inlet_temp", 30, 39, "temp", 2, 5, "pipe inlet temperature"),
+        (0, "flow_rate", 30, 39, "massflow", 2, 5, "pipe flow rate"),
+        (0, "spec_heat", 30, 39, "IT_specheat2", 2, 5, "coolant specific heat"),
+               )
+
+    # Define where to look for numbers in table of subsegment data.
+    defns_pipes = (
+      ("seg_num",   21,  24, "int",     0, "segment number"),
+      ("sub_num",   26,  29, "int",     0, "subsegment number"),
+      ("fl_temp",   32,  47, "temp",     2, "cooling fluid temperature"),
+      ("heattrans", 57,  72, "IT_watt1", 2, "heat absorbed by pipe"),
+                  )
 
     # Set rules defining how to process optional runtime printouts
     # and ECZ data before we start looping over every time step.
@@ -9666,14 +11114,31 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
 
         new_times.append(time)
         if train_count == 0:
-            # Add an empty tuple for the trains at this timestep.
+            # Add an empty tuple for the train performance at this timestep.
             trainperf_list.append( () )
+            if offline_ver >= 204.599 and supopt in (3, 5):
+                # Add a blank entry for the train end pressures in the
+                # optional printout that newer versions of offline-SES
+                # print.
+                trainpress_list.append( () )
+        elif SVS:
+            # Read the SVS train performance data and add it to the list of
+            # lists.  The SVS train performance output is sufficiently
+            # different from the SES train performance output that it is
+            # sensible to do it in a different subroutine.
+            result = ReadSVSTrainValues(line_triples, tr_index, settings_dict,
+                                        train_count, out, log)
+            if result is None:
+                return(None)
+            else:
+                (tp_values, tr_index) = result
+                # Add the train data to the list.
+                trainperf_list.append(tuple(tp_values))
         else:
             # Read the train performance data and add it to the list of
             # lists
             result = ReadTrainValues(line_triples, tr_index, settings_dict,
-                                     train_count,
-                                     file_name, debug1, out, log)
+                                     train_count, out, log)
             if result is None:
                 return(None)
             else:
@@ -9705,29 +11170,43 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
 
 
         # Check if we are printing section pressure data and process it
-        # if we are.
+        # if we are.  If using newer versions of offline-SES, we print
+        # pressure drops on the trains too.
         if supopt in (3, 5):
             if version in ("4.3ALPHA", "4.3", ):
                 # OpenSES v4.3 rearranged the printing of the pressure
                 # values to have one on each line.
                 result = ReadOpenPressures(line_triples, tr_index,
-                                           settings_dict, file_name,
-                                           debug1, out, log)
+                                           settings_dict, out, log)
             else:
-                # SES, OpenSES 4.2 and offline-SES still print the pressure
+                # SES, OpenSES 4.2, offline-SES and SVS print the pressure
                 # values eight to a line.
                 result = ReadPressures(line_triples, tr_index, settings_dict,
-                                         file_name, debug1, out, log)
+                                       out, log)
             if result is None:
                 return(None)
             else:
                 (DP_values, tr_index) = result
                 secpress_list.append(DP_values)
 
+            if offline_ver >= 204.599 and train_count > 0:
+                # Offline-SES v204.6 and above print a table of the
+                # train pressure losses (at the up end, down end and due
+                # to friction along the train skin) after printing the
+                # section pressure drops.  It also prints the annulus
+                # areas at the two ends of each train (useful when
+                # trains pass other trains).
+                result = ReadTrainDPs(line_triples, tr_index, settings_dict,
+                                      train_count, file_name, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    (trainDP_values, tr_index) = result
+                    trainpress_list.append(tuple(trainDP_values))
+
         result = ReadSegments(line_triples, tr_index, settings_dict,
                               detailed, seg_order, subseg_counts,
-                              sub_lengths, line_segs, JF_segs,
-                              file_name, debug1, out, log)
+                              sub_lengths, line_segs, JF_segs, out, log)
         if result is None:
             return(None)
         else:
@@ -9735,7 +11214,6 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             segments_list.append(segment_values)
             subsegs_list.append(subseg_values)
             JFperf_list.append(JF_values)
-
 
         walltemps = []
         ht_conv = []
@@ -9762,7 +11240,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                     for subseg in range(subsegs):
                         result = DoOneLine(line_triples, tr_index, -1,
                                            "runtime15", defns_heattrans, True,
-                                           debug1, file_name, out, log)
+                                           settings_dict, out, log)
                         if result is None:
                             return(None)
                         else:
@@ -9801,7 +11279,69 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         ht_conv_list.append(ht_conv)
         ht_rad_list.append(ht_rad)
 
+        # The lines of cooling pipe fluid temperatures and heat transfers
+        # written by SVS.
+        if SVS and coolpipes > 0:
+            # Skip over the cooling pipe table header.
+            tr_index = SkipLines(line_triples, tr_index, 2, out, log)
+            if tr_index is None:
+                return(None)
+            # Read the table of pipe temperatures and heat transfers
+            # then update the two dictionaries above with the
+            # calculated values.
+            for p_index, pipe_num in enumerate(range(1, coolpipes + 1)):
+                subseg_IDs = form14_dict[pipe_num]["subseg_IDs"]
+                subcount = len(form14_dict[pipe_num]["subseg_IDs"]) // 2
+                # Read the three lines that give conditions at the
+                # inlet of the cooling pipe.
+                result = FormRead(line_triples, tr_index, pipetrans,
+                                  settings_dict, out, log)
+                if result is None:
+                    return(None)
+                else:
+                    pipe_dict, tr_index = result
+                # Get the inlet temperature, to store it at the first
+                # the segment boundary in the route of the pipe.  We
+                # don't do anything with the mass flow or specific heat.
+                up_temp = pipe_dict["inlet_temp"]
+                pipetemps = []
+                pipe_htrn = []
 
+                # Skip over the header at the top of the lines of
+                # subsegment temperature and heat transfer.
+                tr_index = SkipLines(line_triples, tr_index, 3, out, log)
+                if tr_index is None:
+                    return(None)
+
+                # Now read the temperatures and heat transfer in the
+                # subsegments.
+                for index in range(subcount):
+                    result = DoOneLine(line_triples, tr_index, -1, "runtime26",
+                                       defns_pipes, True,
+                                       settings_dict, out, log)
+                    if result is None:
+                        return(None)
+                    else:
+                        (values, line_text, tr_index) = result
+                        seg, sub, down_temp, heattrans = values
+                    # We store two values of heat transfer, at the up
+                    # end and down end (even though they are the same).
+                    pipe_htrn.extend((heattrans, heattrans))
+                    # Add three temperature values for the up end, midpoint
+                    # and down end of the subsegment this pipe passes
+                    # through.
+                    pipetemps.extend((up_temp,
+                                      0.5 * (up_temp + down_temp),
+                                      down_temp))
+                    # Now set the up temperature to the down temperature
+                    # for use by the next subsegment that the pipe passes
+                    # through.
+                    up_temp = down_temp
+                # Store the values of temperature and heat transfer for
+                # this cooling pipe at this timestep.
+                #
+                pipe_temps_list[p_index].append(pipetemps)
+                pipe_HT_list[p_index].append(pipe_htrn)
 
         if supopt in (4, 5):
             # Process the instantaneous thermodynamic characteristics.
@@ -9831,19 +11371,6 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             # have.  TTMPSS is slightly different to the subsegment temperature
             # in the earlier printout (TDBSS), so we'll keep the value in
             # TDBSS.
-
-            # This is from Print.for format field 840.
-            # defns_thermo = (
-            #   ("volss",   20,  30, "volume",  2, "subsegment volume"),
-            #   ("fbss",    30,  42, "volflow2", 3, "subsegment back end volume flow"),
-            #   ("ffss",    42,  54, "volflow2", 3, "subsegment forward end volume flow"),
-            #   ("htrnss",  54,  67, prefix + "SHTC2",   3, "subsegment SHTC"),
-            #   ("shltss",  67,  79, prefix + "watt2",   1, "subsegment sensible heat gain"),
-            #   ("lhltss",  79,  91, prefix + "watt2",   1, "subsegment latent heat gain"),
-            #   ("rels",    91, 105, "null",    1, "subsegment Reynolds number"),
-            #   ("ttmpss", 105, 116, "temp",    5, "subsegment temperature"),
-            #   ("htmpss", 116, 127, "W",       6, "subsegment water content"),
-            #                    )
             # Although we process all the numbers we ignore all but one
             # for the moment.
             htrnss = []
@@ -9856,7 +11383,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 for subseg in range(subsegs):
                     result = DoOneLine(line_triples, tr_index, -1, "runtime16",
                                        defns_thermo, True,
-                                       debug1, file_name, out, log)
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -9894,8 +11421,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 # Process the line(s) of node temperatures and humidities.
                 for index in range(count):
                     result = DoOneLine(line_triples, tr_index, -1, "runtime17",
-                                           defns_nodethermo, True,
-                                           debug1, file_name, out, log)
+                                       defns_nodethermo, True,
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -9954,18 +11481,18 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
 
                 # First do the lines of buoyancy.  In v204.5 and above
                 # vent segments have three lines,
-                if version in ("204.5", ) and line_sec == False:
+                if offline_ver >= 204.499 and line_sec == False:
                     # Read the buoyancy term and the mean density ratio.
                     # We have three numbers and five words, so want eight
                     # words when we split the line.
                     result = DoOneLine(line_triples, tr_index, 8, "runtime18",
-                                           defns_sec_buoy, True,
-                                           debug1, file_name, out, log)
+                                       defns_sec_buoy, True,
+                                       settings_dict, out, log)
                 else:
                     # Just read the buoyancy term.
                     result = DoOneLine(line_triples, tr_index, 2, "runtime19",
-                                           defns_sec_buoy[:1], True,
-                                           debug1, file_name, out, log)
+                                       defns_sec_buoy[:1], True,
+                                       settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -9981,7 +11508,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                         for subseg in range(subsegs):
                             result = DoOneLine(line_triples, tr_index, -1,
                                                "runtime20", defns_sec_thermo2,
-                                               True, debug1, file_name, out, log)
+                                               True, settings_dict, out, log)
                             if result is None:
                                 return(None)
                             else:
@@ -9997,7 +11524,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 for count in range(fires):
                     result = DoOneLine(line_triples, tr_index, 2,
                                        "runtime21", defns_throtl, True,
-                                       debug1, file_name, out, log)
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -10091,8 +11618,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 z_states = []
                 for index in range(subcount):
                     result = DoOneLine(line_triples, tr_index, -1,
-                                       "runtime22", defns_ECZ_uncon,
-                                       True, debug1, file_name, out, log)
+                                       "runtime22", defns_ECZ_uncon, True,
+                                       settings_dict, out, log)
                     if result is None:
                         return(None)
                     else:
@@ -10125,8 +11652,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 # Celsius on the line that shows the zone number
                 # and temperatures.
                 result = DoOneLine(line_triples, tr_index, -1,
-                                   "runtime23", defns_control_temps,
-                                   False, debug1, file_name, out, log)
+                                   "runtime23", defns_control_temps, False,
+                                   settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -10165,7 +11692,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                     for subseg in range(1, subcount + 1):
                         result = DoOneLine(line_triples, tr_index, -1,
                                            "runtime24", defns_ECZ_loads,
-                                           False, debug1, file_name, out, log)
+                                           False, settings_dict, out, log)
                         if result is None:
                             return(None)
                         else:
@@ -10208,7 +11735,7 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                     return(None)
                 result = DoOneLine(line_triples, tr_index, -1,
                                    "runtime25", defns_ECZ_loads[3:],
-                                   True, debug1, file_name, out, log)
+                                   True, settings_dict, out, log)
                 if result is None:
                     return(None)
                 else:
@@ -10308,7 +11835,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     except ModuleNotFoundError:
         err = ('> Ugh, you do not have the Python package "' + package_name
                + '" installed on your computer.\n'
-               "> Please install it, as it is needed to process the .PRN files."
+               "> Please install it, as it is needed to process the SES\n"
+               "> output files."
               )
         gen.WriteError(8008, err, log)
         return(None)
@@ -10534,6 +12062,10 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     decel_temps_all = [] # TGDECV
     pwr_alls_all = [] # HETGEN * train length (W, not W/m)
     heat_rejects_all = [] # QTRPF * train length (W, not W/m)
+    if SVS:
+        # SVS prints the traction efficiency for train control option 3,
+        # We store it here.
+        train_SVSeff_all = []
 
     if supopt >= 2:
         # This group of lists is the line of supplementary train data that is
@@ -10551,10 +12083,26 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         heat_adms_all = [] # QPRPV * train length (W, not W/m)
         heat_senses_all = [] # QAXSV * train length (W, not W/m)
         heat_lats_all = [] # QAXLV * train length (W, not W/m)
+        # Offline-SES prints the pressure drop across train noses,
+        # train tails and due to friction along the length of the
+        # train.  It also prints the annulus areas.
+        dp_up_end_all = [] # offline-SES variable 'uploss'
+        area_up_end_all = [] # offline-SES variable 'uparea'
+        dp_skin_all = [] # offline-SES variable 'fricloss'
+        dp_down_end_all = []# offline-SES variable 'downloss'
+        area_down_end_all = []# offline-SES variable 'downarea'
 
-        # These value are not in the printouts but can be calculated from
-        # the values that are.
+
+        # The traction system efficiencies are not in the printouts but
+        # can be calculated from the values that are in the supplementary
+        # printout.
         train_effs_all = [] # Calculated efficiency, 0 to 1.0
+
+        if SVS:
+            # SVS prints the regenerative braking efficiency for train
+            # control option 3, because it can be varied with location
+            # along a route in form 8C.
+            train_SVSregen_all = []
 
     # Make a list that tracks which train numbers are currently active.
     tr_actives = []
@@ -10590,6 +12138,16 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         decel_temps_thistime = [math.nan] * tr_width # TGDECV
         pwr_alls_thistime = [math.nan] * tr_width # HETGEN
         heat_rejects_thistime = [math.nan] * tr_width # QTRPF
+        if SVS:
+            # SVS train printouts have two extra entries: the traction
+            # power efficiency for train control option 3 (always printed)
+            # and the regenerative braking efficiency of the track
+            # section the train is on (only printed if the supplementary
+            # print option in form 1D is 2 or more.  Make lists for
+            # these two as well.
+            train_SVSeff_thistime = [math.nan] * tr_width
+            train_SVSregen_thistime = [math.nan] * tr_width
+
 
         if supopt >= 2:
             # This group of lists is the line of supplementary train data that is
@@ -10607,24 +12165,64 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             heat_adms_thistime = [math.nan] * tr_width # QPRPV
             heat_senses_thistime = [math.nan] * tr_width # QAXSV
             heat_lats_thistime = [math.nan] * tr_width # QAXLV
-
+            # This group of lists is the train annulus area and train pressure
+            # drop data written by offline-SES.
+            dp_up_end_thistime = [math.nan] * tr_width # offline-SES 'uploss'
+            area_up_end_thistime = [math.nan] * tr_width
+            dp_skin_thistime = [math.nan] * tr_width # offline-SES 'fricloss'
+            dp_down_end_thistime = [math.nan] * tr_width # offline-SES 'downloss'
+            area_down_end_thistime = [math.nan] * tr_width
             # These value are not in the printouts but can be calculated from
             # the values that are.
             train_effs_thistime = [math.nan] * tr_width # Calculated efficiency, 0.0 to 1.0
 
-
         for index, train_values in enumerate(trainperf_list[time_index]):
             # train_values is a list of the values in the printed output
             # for each train in this timestep.  We get the train's values.
-            (train_num, route_num, train_type, train_down_ch,
-             train_speed, train_accel, train_drag, train_coeff,
-             motor_TE, motor_amps, line_amps, flywh_rpm,
-             accel_temp, decel_temp, pwr_all, heat_reject) = train_values[:16]
 
-            if supopt >= 2:
-                (train_modev, pwr_aux, pwr_prop, pwr_regen,
-                 pwr_flywh, pwr_accel, pwr_decel, pwr_mech,
-                 heat_adm, heat_sens, heat_lat) = train_values[16:]
+            if SVS:
+                # SVS prints an additional entry in the first line of the
+                # train data, the traction power efficiency.  This appears
+                # to only be valid when using train control option 3.
+                # We include it in the data we get from the values.
+                (train_num, route_num, train_type, train_down_ch,
+                 train_speed, train_accel, train_drag, train_coeff,
+                 motor_TE, motor_amps, line_amps, flywh_rpm, SVS_effic,
+                 accel_temp, decel_temp, pwr_all, heat_reject) = train_values[:17]
+
+                if supopt >= 2:
+                    # SVS prints location-based regen efficiency in
+                    # its optional train printout, so we include that
+                    # in the data we get from the values.  All the other
+                    # values on the line appear to be always zero, so
+                    # they aren't processed.
+                    (train_modev, pwr_aux, pwr_prop, pwr_regen,
+                     pwr_flywh, pwr_accel, pwr_decel, pwr_mech,
+                     heat_adm, heat_sens, heat_lat, SVS_regen) = train_values[17:]
+            else:
+                (train_num, route_num, train_type, train_down_ch,
+                 train_speed, train_accel, train_drag, train_coeff,
+                 motor_TE, motor_amps, line_amps, flywh_rpm,
+                 accel_temp, decel_temp, pwr_all, heat_reject) = train_values[:16]
+
+                if supopt >= 2:
+                    (train_modev, pwr_aux, pwr_prop, pwr_regen,
+                     pwr_flywh, pwr_accel, pwr_decel, pwr_mech,
+                     heat_adm, heat_sens, heat_lat) = train_values[16:]
+                    if supopt in (3, 5) and offline_ver >= 204.599:
+                        # Get the train pressure drop data.
+                        (train_num2, up_DP, up_area, fric_DP, down_DP,
+                         down_area) = trainpress_list[time_index][index]
+                        # Do a quick check of the train numbers.  It
+                        # shouldn't be possible to have a mismatch but
+                        # you never know.
+                        if train_num != train_num2:
+                            print("Mismatch in train numbers at ", time,
+                                  " seconds.  Mismatch is trains", train_num,
+                                  "and", train_num2)
+                            sys.exit()
+
+
 
 
             # Get the train's length from form 9 and figure out the
@@ -10656,6 +12254,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             decel_temps_thistime[train_num] = decel_temp
             pwr_alls_thistime[train_num] = pwr_all * train_length
             heat_rejects_thistime[train_num] = heat_reject * train_length
+            if SVS:
+                train_SVSeff_thistime[train_num] = SVS_effic
 
             if supopt >= 2:
                 # Do the optional line of data too.
@@ -10670,6 +12270,19 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
                 heat_adms_thistime[train_num] = heat_adm * train_length
                 heat_senses_thistime[train_num] = heat_sens * train_length
                 heat_lats_thistime[train_num] = heat_lat * train_length
+                if SVS:
+                    # Convert the percentages in the SVS printed output
+                    # to fractions (0-1).  Doing this makes sense because
+                    # it is consist with the fractional values set in
+                    # forms 8C and 9H-A.
+                    train_SVSregen_thistime[train_num] = SVS_regen / 100.
+                elif supopt in (3, 5) and offline_ver >= 204.599:
+                    dp_up_end_thistime[train_num] = up_DP
+                    area_up_end_thistime[train_num] = up_area
+                    dp_skin_thistime[train_num] = fric_DP
+                    dp_down_end_thistime[train_num] = down_DP
+                    area_down_end_thistime[train_num] = down_area
+
 
                 # Check if the traction power system is delivering power to
                 # the wheel-rail interface.
@@ -10770,6 +12383,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         decel_temps_all.append(decel_temps_thistime)
         pwr_alls_all.append(pwr_alls_thistime)
         heat_rejects_all.append(heat_rejects_thistime)
+        if SVS:
+            train_SVSeff_all.append(train_SVSeff_thistime)
 
         if supopt >= 2:
             # This group of lists is the line of supplementary train data that is
@@ -10788,6 +12403,14 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
             heat_senses_all.append(heat_senses_thistime)
             heat_lats_all.append(heat_lats_thistime)
             train_effs_all.append(train_effs_thistime)
+            if SVS:
+                train_SVSregen_all.append(train_SVSregen_thistime)
+            elif supopt in (3, 5) and offline_ver >= 204.599:
+                dp_up_end_all.append(dp_up_end_thistime)
+                area_up_end_all.append(area_up_end_thistime)
+                dp_skin_all.append(dp_skin_thistime)
+                dp_down_end_all.append(dp_down_end_thistime)
+                area_down_end_all.append(area_down_end_thistime)
 
     # When we get to here we've read all the timestep data and put it
     # into either lists of lists (train performance data) or pandas
@@ -10903,7 +12526,10 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     decel_temp = pd.DataFrame(decel_temps_all, index = print_times)
     pwr_all = pd.DataFrame(pwr_alls_all, index = print_times)
     heat_reject = pd.DataFrame(heat_rejects_all, index = print_times)
-
+    if SVS:
+        train_SVSeff = pd.DataFrame(train_SVSeff_all, index = print_times)
+    else:
+        train_SVSeff = "There are no entries in this SVS-only value."
 
     if supopt >= 2:
         train_modev = pd.DataFrame(train_modevs_all, index = print_times)
@@ -10918,6 +12544,22 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         heat_sens = pd.DataFrame(heat_senses_all, index = print_times)
         heat_lat = pd.DataFrame(heat_lats_all, index = print_times)
         train_eff = pd.DataFrame(train_effs_all, index = print_times)
+        if SVS:
+            train_SVSregen = pd.DataFrame(train_SVSregen_all, index = print_times)
+        else:
+            train_SVSregen = "There are no entries in this SVS-only value."
+        if supopt in (3, 5) and offline_ver >= 204.599:
+            dp_up = pd.DataFrame(dp_up_end_all, index = print_times)
+            area_up = pd.DataFrame(area_up_end_all, index = print_times)
+            dp_skin = pd.DataFrame(dp_skin_all, index = print_times)
+            dp_down = pd.DataFrame(dp_down_end_all, index = print_times)
+            area_down = pd.DataFrame(area_down_end_all, index = print_times)
+        else:
+            dp_up = "There are no entries in this offline-SES-only value."
+            area_up = "There are no entries in this offline-SES-only value."
+            dp_skin = "There are no entries in this offline-SES-only value."
+            dp_down = "There are no entries in this offline-SES-only value."
+            area_down = "There are no entries in this offline-SES-only value."
     else:
         # We don't have the second line of train performance data.  But
         # we need something to put in the binary file, so we spoof it
@@ -10941,7 +12583,12 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         heat_sens = train_modev
         heat_lat = train_modev
         train_eff = train_modev
-
+        train_SVSregen = "There are no entries in this SVS-only value."
+        dp_up = "There are no entries in this offline-SES-only value."
+        area_up = "There are no entries in this offline-SES-only value."
+        dp_skin = "There are no entries in this offline-SES-only value."
+        dp_down = "There are no entries in this offline-SES-only value."
+        area_down = "There are no entries in this offline-SES-only value."
     # Here we ought to do some tricksy stuff to figure out if any of
     # the trains appeared more than once and split their results into
     # different columns in the database.  This is a rare event (as more
@@ -11056,9 +12703,9 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     # at time zero in the runtime DataFrames, then copy it into the
     # other times in ECZ_indices.
     count = len(ECZ_indices)
-    airT_AM = subseg_temps[:1].copy()
-    airW_AM = subseg_humids[:1].copy()
-    wallT_AM = subseg_walltemps[:1].copy()
+    airT_AM = subseg_temps.loc[:1].copy()
+    airW_AM = subseg_humids.loc[:1].copy()
+    wallT_AM = subseg_walltemps.loc[:1].copy()
     for time in ECZ_indices[1:]:
         airT_AM.loc[time] = airT_AM.loc[0.0]
         airW_AM.loc[time] = airW_AM.loc[0.0]
@@ -11078,47 +12725,49 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
     airW_off = airW_AM.copy()
     wallT_used = wallT_AM.copy()
     # Now loop over the zones (if any) and adjust the entries in the
-    # temperature and heat transfer arrays.
+    # temperature and heat transfer arrays.  If the run ended before
+    # an ECZ estimate was carried out, we don't need to do anything.
     if debug1:
         print("Processing zone data")
-    hour = settings_dict["hour"]
-    for key, z_states in zone_stuff.items():
-        if debug1:
-            print("Zone number", key, len(z_states), str(z_states)[:90])
-        # Now overwrite the relevant entries in the temperature fields
-        # (uncontrolled zones) or the heat gain fields (controlled
-        # zones).  Note that we also change the contents of the
-        # print variable subseg_walltemps to reflect any changes in
-        # wall temperature due to ECZ estimates.
-        if key in uncontrolled:
+    if count > 1:
+        hour = settings_dict["hour"]
+        for key, z_states in zone_stuff.items():
             if debug1:
-                print("Zone", key, "is uncontrolled")
-            result = PopulateUncontrolled(airT_AM, airW_AM, wallT_AM,
-                                          airT_PM, airW_PM, wallT_PM,
-                                          airT_off, airW_off, wallT_used,
-                                          subseg_walltemps,
-                                          z_states, ECZopt, hour)
-            (airT_AM, airW_AM, wallT_AM,
-             airT_PM, airW_PM, wallT_PM,
-             airT_off, airW_off, wallT_used,
-             subseg_walltemps) = result
-        elif key in controlled:
-            if debug1:
-                print("Zone", key, "is controlled")
-            result = PopulateControlled(key, misc_sens, misc_lat,
-                                        steady_sens, steady_lat,
-                                        ground_sens,
-                                        airex_sens, airex_lat,
-                                        HVAC_sens, HVAC_lat, HVAC_total,
-                                        z_states, ECZopt, hour)
-            (misc_sens, misc_lat,
-             steady_sens, steady_lat,
-             ground_sens,
-             airex_sens, airex_lat,
-             HVAC_sens, HVAC_lat, HVAC_total) = result
-        else:
-            if debug1:
-                print("Zone", key, "is noninertial")
+                print("Zone number", key, len(z_states), str(z_states)[:90])
+            # Now overwrite the relevant entries in the temperature fields
+            # (uncontrolled zones) or the heat gain fields (controlled
+            # zones).  Note that we also change the contents of the
+            # print variable subseg_walltemps to reflect any changes in
+            # wall temperature due to ECZ estimates.
+            if key in uncontrolled:
+                if debug1:
+                    print("Zone", key, "is uncontrolled")
+                result = PopulateUncontrolled(airT_AM, airW_AM, wallT_AM,
+                                              airT_PM, airW_PM, wallT_PM,
+                                              airT_off, airW_off, wallT_used,
+                                              subseg_walltemps,
+                                              z_states, ECZopt, hour)
+                (airT_AM, airW_AM, wallT_AM,
+                 airT_PM, airW_PM, wallT_PM,
+                 airT_off, airW_off, wallT_used,
+                 subseg_walltemps) = result
+            elif key in controlled:
+                if debug1:
+                    print("Zone", key, "is controlled")
+                result = PopulateControlled(key, misc_sens, misc_lat,
+                                            steady_sens, steady_lat,
+                                            ground_sens,
+                                            airex_sens, airex_lat,
+                                            HVAC_sens, HVAC_lat, HVAC_total,
+                                            z_states, ECZopt, hour)
+                (misc_sens, misc_lat,
+                 steady_sens, steady_lat,
+                 ground_sens,
+                 airex_sens, airex_lat,
+                 HVAC_sens, HVAC_lat, HVAC_total) = result
+            else:
+                if debug1:
+                    print("Zone", key, "is noninertial")
 
     if tempopt == 0:
         # We have a whole set of DataFrames that are full of zeros or
@@ -11136,6 +12785,34 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
         # output file.
         subpoint_warmflows = "Not saved to the output file"
         subpoint_warmvels = "Not saved to the output file"
+
+    if SVS and coolpipes > 0:
+        # Make lists for the cooling pipe temperatures and heat transfer
+        # data.  Each list has one pandas dataframe for each cooling
+        # pipe loop in it.
+        coolpipe_temps = []
+        coolpipe_HT = []
+        # Make pandas dataframes for the heat transfer to the cooling
+        # pipes (one value per subsegment that the pipe passes through)
+        # and for the cooling pipe temperature (one value per subpoint
+        # at each timestep).
+        for index in range(coolpipes):
+            subseg_keys = form14_dict[index + 1]["subseg_IDs"]
+            subp_keys = form14_dict[index + 1]["subp_IDs"]
+            # Swap the orientation of the arrays.
+            temps = zip(*pipe_temps_list[index])
+            hts = zip(*pipe_HT_list[index])
+            coolpipe_temps.append(pd.DataFrame(temps,
+                                               columns = subp_IDs,
+                                               index = print_times))
+            coolpipe_HT.append(pd.DataFrame(hts,
+                                            columns = subseg_IDs,
+                                            index = print_times))
+    else:
+        coolpipe_temps = "Not saved to the output file"
+        coolpipe_HT = "Not saved to the output file"
+
+
 
     # Now we return a list of all the subsegment names (e.g. "101-2"
     # and the subpoint keys (e.g. "101-2b") and pandas dataframes of
@@ -11162,8 +12839,13 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
            pwr_all, heat_reject, train_modev, pwr_aux,
            pwr_prop, pwr_regen, pwr_flywh, pwr_accel,
            pwr_decel, pwr_mech, heat_adm, heat_sens,
-           # This next set of arrays are from the ECZ estimates.
            heat_lat, train_eff,
+           # These two train performance entries are printed by SVS.
+           train_SVSeff, train_SVSregen,
+           # These five train values are printed by offline-SES 204.6
+           # and above.
+           dp_up, area_up, dp_skin, dp_down, area_down,
+           # This next set of arrays are from the ECZ estimates.
            airT_AM, airW_AM, wallT_AM,
            airT_PM, airW_PM, wallT_PM,
            airT_off, airW_off, wallT_used,
@@ -11172,6 +12854,8 @@ def ReadTimeSteps(line_triples, tr_index, settings_dict, forms2to13,
            ground_sens,
            airex_sens, airex_lat,
            HVAC_sens, HVAC_lat, HVAC_total,
+           # These two cooling pipe entries are printed by SVS.
+           coolpipe_temps, coolpipe_HT,
           )
 
 

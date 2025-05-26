@@ -1,9 +1,11 @@
-SES v4.1 file with a simple rail tunnel (up line, down line, one station).
+offline-SES v204.6 file with a rail tunnel (up line, down line, one station).
 Implicit train performance calculation.
 Uses all forms except form 4 (fires), 6C to 6H (see the ECZ run for those) and
 8E (explicit train speed).
 Humidity displayed as kg/kg of dry air.
-Supplementary print option set to 3 (aero).
+Supplementary print option set to 3 (aero).  offline-SES prints pressure
+changes across train ends pressure change due to train skin friction and
+annulus areas at the ends of trains.
 Has train types with all five permutations of train motor control types 1 and 2.
 This file has some oddities included to prove that the plots are working,
 such as non-fire segments in the running tunnels, reversed sections,
@@ -12,6 +14,7 @@ Do not use it as a basis for other files unless you need the weird.
 If the runtime is extended to 1810 seconds, an ECZ estimate occurs that raises
 simulation error 8 (failed ECZ estimate).
 17.       7         2029
+offline-SES 204.6
 1         1         1         1         0         3         0         0          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
 67        80        14        68        1         0         0         2          lsegs  sects  vsegs nodes use1  use0   fires  fans
 3         5         3         2         0         2         0         0          routes trtyp  zones fcark trns  JFs    write  read

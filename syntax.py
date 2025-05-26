@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #

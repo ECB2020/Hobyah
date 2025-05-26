@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -572,65 +572,66 @@ class Hobyahdata:
                              "var_name": self.p_diff_dict,
                             },
                 # These are skeleton properties intrinsic to trains.
-                # "speed":    {"versions": (1,),
-                #              "solver": ("moc2",),
-                #              "place": "train",
-                #              "descrip": "speed of",
-                #              "conversion": "speed2", # km/h and mph
-                #              "signed": False,
-                #              "transient": True,
-                #              "curve_types": ("transient",),
-                #              "var_name": self.tr_speeds_bin,
-                #             },
-                # "speedms":  {"versions": (1,),
-                #              "solver": ("moc2",),
-                #              "place": "train",
-                #              "descrip": "speed of",
-                #              "conversion": "speed1", # m/s and fpm
-                #              "signed": False,
-                #              "transient": True,
-                #              "curve_types": ("transient",),
-                #              "var_name": self.tr_speeds_bin,
-                #             },
-                # "accel":    {"versions": (1,),
-                #              "solver": ("moc2",),
-                #              "place": "train",
-                #              "descrip": "acceleration of",
-                #              "conversion": "accel",
-                #              "signed": False,
-                #              "transient": True,
-                #              "curve_types": ("transient",),
-                #              "var_name": self.tr_accels_bin,
-                #             },
-                # "down_ch":  {"versions": (1,),
-                #              "solver": ("moc2",),
-                #              "place": "train",
-                #              "descrip": "location of the down end of",
-                #              "conversion": "dist1",
-                #              "signed": False,
-                #              "transient": True,
-                #              "curve_types": ("transient",),
-                #              "var_name": self.tr_down_bin,
-                #             },
-                # "up_ch":    {"versions": (1,),
-                #              "solver": ("moc2",),
-                #              "place": "train",
-                #              "descrip": "location of the up end of",
-                #              "conversion": "dist1",
-                #              "signed": False,
-                #              "transient": True,
-                #              "curve_types": ("transient",),
-                #              "var_name": self.tr_up_bin,
-                #             },
-                # These skeleton properties for traffic in segments.
+                "speed":    {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "train",
+                             "descrip": "speed of",
+                             "conversion": "speed2", # km/h and mph
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             # "var_name": self.tr_speeds_bin,
+                            },
+                "speedms":  {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "train",
+                             "descrip": "speed of",
+                             "conversion": "speed1", # m/s and fpm
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             # "var_name": self.tr_speeds_bin,
+                            },
+                "accel":    {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "train",
+                             "descrip": "acceleration of",
+                             "conversion": "accel",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             # "var_name": self.tr_accels_bin,
+                            },
+                "down_ch":  {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "train",
+                             "descrip": "location of the down end of",
+                             "conversion": "dist1",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             # "var_name": self.tr_down_bin,
+                            },
+                "up_ch":    {"versions": (1,),
+                             "solver": ("moc2",),
+                             "place": "train",
+                             "descrip": "location of the up end of",
+                             "conversion": "dist1",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             # "var_name": self.tr_up_bin,
+                          },
+                # These next two are properties for traffic in segments.
                 # If a file has a "traffictypes" block with traffic
-                # names in it, "_flow" or "dens" are appended to each
-                # name and the dictionary below is copied as a new
-                # entry with that name as the key.  If your file has
-                # a vehicle type named "HGV" the keys become
-                # "HGV_flow" and "HGV_dens".
-                # We put a "#" in these keys so that they can't be
-                # directly accessed in Hobyah plots.
+                # names in it, "_flow" or "_dens" are appended to each
+                # name and the two dictionaries below are copied as new
+                # entries with "<name>_flow" and "<name>_dens" as the
+                # keys - if your file has a vehicle type named "HGV",
+                # the names "HGV_flow" and "HGV_dens" are assigned
+                # the "#flow" and "#dens" properties below.
+                # We put a "#" in these template keys so that they
+                # can't be directly accessed in Hobyah plots.
                 "#flow":    {"versions": (1,),
                              "solver": ("moc2",),
                              "place": "route",
@@ -986,6 +987,11 @@ class Hobyahdata:
                      self.t_traffic_dict,
                     ) = self.fixed_data
 
+                # Set the full program name (this is for compatibility
+                # with classSES, where 'self.full_prog' differs from
+                # 'self.prog_type').
+                self.full_prog = self.prog_type
+
                 # A quick note about file names for future reference:
                 # "self.file_name" is the name of the .hbn file and
                 # "self.runfile_name" is the name of the .txt file that
@@ -1282,7 +1288,7 @@ class Hobyahdata:
                    '> for ' + descrip + '.\n'
                    '> Expected ' + str(count)
                        + ' item' + gen.Plural(count) + ' but read '
-                       + str(len(value)) + ' instead.\n'
+                       + str(len(value)) + ' instead.'
                    )
             gen.WriteError(7024, err, self.log)
             return(None)
@@ -2272,7 +2278,6 @@ class Hobyahdata:
                 gen.ErrorOnLine(line_number, line_text, self.log, False)
                 gen.OopsIDidItAgain(self.log, file_name)
                 return(None)
-
         return(result)
 
 

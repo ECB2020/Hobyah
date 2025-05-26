@@ -1,5 +1,5 @@
 SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     1
-FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
                                       UNITED STATES DEPARTMENT OF TRANSPORTATION
                                             FEDERAL TRANSIT ADMINISTRATION
                                  JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
@@ -31,20 +31,602 @@ FILE: SES-081-no-segments.ses                                                 SI
                             SUPPLEMENTARY OUTPUT OPTION                           2
                             ALLOWABLE SIMULATION ERRORS                           0
                             ALLOWABLE INPUT ERRORS                                0
-                            AN ENTRY OF ZERO (0) HAS BEEN MADE FOR EACH OF THE FOLLOWING:
-                               NUMBER OF LINE SEGMENTS
-                               NUMBER OF VENTILATION SHAFTS
-                               NUMBER OF SECTIONS
-                               NUMBER OF NODES
-                               NUMBER OF BRANCHED JUNCTIONS.
-                            THIS INDICATES AN AT GRADE TRAIN PERFORMANCE SIMULATION ONLY
-> There is a problem with the SES file "SES-081-no-segments.PRN".
-> The run has no line segments or vent segments, which
-> means that this run is intended to calculation traction
-> power performance in the open air.
-> SESconv.py does not handle runs that only calculate
-> traction power performance in the open air.  It could
-> handle them, but no-one who needs to do serious train
-> performance calculations should be doing them in SES
-> now that far more capable programs like OpenTrack or
-> TRAIN are available.
+                            NUMBER OF LINE SEGMENTS                               1                            FORM 1D
+                            TOTAL NUMBER OF SECTIONS                              1
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+                            NUMBER OF NODES                                       2
+                            NUMBER OF BRANCHED JUNCTIONS                          0
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+                            NUMBER OF FAN TYPES                                   0
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+                            NUMBER OF TRAIN TYPES                                 1
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       0
+                            NUMBER OF IMPULSE FAN TYPES                           0
+                            INITIALIZATION FILE WRITING OPTION                    0
+                            INITIALIZATION FILE READING OPTION                    0
+                                           INPUT VERIFICATION OF GENERAL DATA
+                                                 DESIGN HOUR WEATHER DATA
+AMBIENT AIR DRY-BULB TEMPERATURE                                                      29.444   deg C           FORM 1F
+AMBIENT AIR WET-BULB TEMPERATURE                                                      23.333   deg C
+AMBIENT BAROMETRIC PRESSURE                                                         101287.9   Pa
+  AMBIENT AIR DENSITY                                                                  1.166   kg/m^3
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 DAILY WEATHER DATA
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                              23.889   deg C
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                              18.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01088   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   %
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                  29.444   deg C
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                  23.333   deg C
+  AMBIENT HUMIDITY RATIO                                                             0.01552   kg/kg OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   %
+                                                 ANNUAL WEATHER DATA
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                            16.11   deg C
+AVERAGE PATRON WEIGHT                                                                    68.   kg              FORM 1G
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                             0.   percent
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                              0.   percent
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                         0.   km/h
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+                                                   SYSTEM GEOMETRY
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS       (m^3/s)
+LINE SECTIONS                                                                                                  FORM 2A
+                          101             101            102              1               0.
+                      INTERNAL-EXTERNAL SECTION-NODE REFERENCE TABLES
+   INTERNAL                 EXTERNAL                 BACKWARD                   FORWARD
+   SECTION                  SECTION                  AERO NODE                 AERO NODE
+   --------                 --------                 ---------                 ---------
+                            (TABL11)                 (TABL12)                  (TABL13)
+       1                      101                        1                         2
+   INTERNAL                 EXTERNAL             NO. OF SECTIONS           INTERNAL SECTIONS
+     NODE                     NODE               ADJACENT TO NODE          ADJACENT TO NODE*
+   --------                 --------             ----------------          -----------------
+                            (TABL15)                 (TABL16)                  (TABL17)
+       1                      101                        1                  -1
+       2                      102                        1                   1
+                   * NOTE - ORDER OF ENTRIES MAY BE CHANGED BY JINS
+   EXTERNAL                 INTERNAL                 INTERNAL
+   SECTION                  SECTION                    NODE
+   OR NODE                  (TABL14)                 (TABL19)
+   --------                 --------                 --------
+     101                        1                        1
+     102                        0                        2
+                                       LOOP TABLE
+ LOOP     EXTERNAL NUMBERS OF SECTIONS
+          ----------------------------------------------------
+NUMBER    INTERNAL NUMBERS OF SECTIONS-CONTAINED IN ARRAY LOOP
+   1       101
+             1
+   HALF-BANDWIDTH OF AERODYNAMIC RESPONSE MATRIX =  1
+   ARRAY BLP DATA     1 ELEMENTS REQUIRED
+                  20000 ELEMENTS AVAILABLE
+                                              CONTINUITY TABLE
+INTERNAL  EXTERNAL  STORAGE LOCATIONS   LOOPS THAT PASS THROUGH SECTION - SIGN SHOWS DIRECTION WITH RESPECT TO SECTION
+SECTION   SECTION     IN ARRAY LKAN
+NUMBER    NUMBER      FROM       TO
+   1       101           1        1      1
+                TABLES OF LOOPS PASSING THROUGH BRANCHED JUNCTIONS
+        INTERNAL  EXTERNAL   LOOP      FROM SECTION         TO SECTION
+          NODE      NODE    NUMBER  INTERNAL  EXTERNAL  INTERNAL  EXTERNAL
+         NUMBER    NUMBER            NUMBER    NUMBER    NUMBER    NUMBER
+            1       101     STRAIGHT-THROUGH JUNCTION OR PORTAL
+            2       102     STRAIGHT-THROUGH JUNCTION OR PORTAL
+                                                    FLOW INITIALIZATION CHECK
+    INTERNAL SECTION AIRFLOW RATE (CFM)
+    -----------------------------------
+              0.0
+    LOOP AIRFLOW RATE (CFS)
+    -----------------------
+            0.000
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Short tunnel with a jet fan and fric                   FORM 3A
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+LENGTH                                                                                  750.   m
+CROSS SECTION AREA                                                                  92.00188   m^2
+STACK HEIGHT                                                                              0.   m
+  GRADE OF LINE SEGMENT                                                                   0.   percent
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS       22.494  22.494                                                   TOTAL PERIMETER      44.988  m
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS         0.04999 0.00101                                                   ROUGHNESS LENGTH    0.02551  m
+   HYDRAULIC DIAMETER                                                                  8.169   m
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                            0.027
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+   AT FORWARD LIMIT                                      0.                   0.
+   AT BACKWARD LIMIT                                     0.                   0.
+WETTED WALL SURFACE                                                                       0.   percent
+NUMBER OF SUBSEGMENTS                                                                     30
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (deg C)         (deg C)        (deg C)
+     1     THRU    30           21.056          21.056         16.667
+                                    SUBSEGMENTS ADJACENT TO THE NODE
+   INTERNAL            EXTERNAL            NO. OF SECTIONS                SUBSEGMENTS ADJACENT TO NODE
+     NODE                NODE              ADJACENT TO NODE         (ORDER OF ENTRIES MAY BE CHANGED BY JINS)
+   --------            --------            ----------------         -----------------------------------------
+                       (TABL15)                (TABL16)                             (TABL18)
+       1                 101                       1                         1
+       2                 102                       1                        30
+                                            INPUT VERIFICATION OF NODE DATA
+NODE NUMBER                                                                              101                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+NODE NUMBER                                                                              102                   FORM 6A
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+DRY-BULB TEMPERATURE AT BOUNDARY                                                      29.444   deg C           FORM 6B
+WET-BULB TEMPERATURE AT BOUNDARY                                                      23.333   deg C
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   kg/kg OF DRY AIR
+                                    DUMP OF TABLES RELATED TO AERO AND THERMO PHENOMENA
+                                                                      (ORDER OF ENTRIES MAY HAVE BEEN CHANGED BY JINS)
+   INTERNAL            EXTERNAL            NO. OF SECTIONS             INTERNAL SECTIONS              SUBSEGMENTS
+     NODE                NODE              ADJACENT TO NODE            ADJACENT TO NODE             ADJACENT TO NODE
+   --------            --------            ----------------            -----------------            ----------------
+                       (TABL15)                (TABL16)                    (TABL17)                     (TABL18)
+       1                 101                       1                   -1
+                                                                                                      1
+       2                 102                       1                    1
+                                                                                                     30
+   INTERNAL            EXTERNAL                       (BACKWARD THERMO SUBNODE)                  (FORWARD THERMO SUBNODE)
+   SECTION             SECTION                           NUMBER       BRANCH                        NUMBER      BRANCH
+   --------            --------            --------   -----------   -----------       --------   -----------  -----------
+                       (TABL11)            (TABL20)                                   (TABL21)
+       1                 101                   65           1            1               129          2            1
+FIRST DUMP OF TABL1
+    0    0    0
+FIRST DUMP OF TABL2
+COMBINED DUMP OF TABL1 AND TABL2
+   0  -1
+   0  -1
+FIRST DUMP OF TABL23
+    1    1    1
+FIRST DUMP OF COAEND
+     0.0000
+COMBINED DUMP OF TABL23 AND COAEND
+    1    0
+    1    0
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+                                               TRAIN SCHEDULING DATA
+TRAIN SCHEDULING ORIGIN                                                                   0.   m
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                                 1.   SECONDS
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                              40.23   km/h
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+             1                   1                 1                  1                         1
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                  TRACK SECTION DATA                                           FORM 8C
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+                 (m)            (m)         (m)              (m)        (percent)       (km/h)
+   1           1828.8         1828.8      15240.              0.             0.          80.47            0
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+NUMBER OF SCHEDULED STOPS                                                                  0
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                               0.   m
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER                 (m)               (m)
+                           101                 101                     0.    TO     749.991
+                        DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
+               FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
+    1          0.00       0.0   0.00000     73.33         0       500         0
+    2       2460.63   50000.0   0.00000     73.33         0         0       128
+    3       6000.00   50000.0   0.00000     73.33         0         0         0
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+TOTAL LENGTH OF TRAIN                                                                 243.84   m
+FRONTAL AREA OF TRAIN                                                                 12.096   m^2
+PERIMETER OF CAR                                                                      13.698   m               FORM 9B
+SKIN FRICTION COEFFICIENT                                                              0.023
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                                0.   m^2
+FRONT OF TRAIN DRAG COEFFICIENT                                                          0.6
+TRAIN HEAT DATA                                                                                                FORM 9C
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    19782.3   W      PER CAR
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                         0.   W      PER CAR
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR         135.   W      PER PATRON
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR             0.   W      PER PATRON
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                          17.   KW PER CAR
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.065   KW PER PATRON
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                           800.                 0.   kg
+       EFFECTIVE DIAMETER OF AN ELEMENT                            0.0406             0.0406   m
+       EFFECTIVE SURFACE AREA FOR CONVECTION                        1.997              1.997   m^2
+       EFFECTIVE SURFACE AREA FOR RADIATION                         2.397              2.397   m^2
+       EMISSIVITY OF RESISTANCE ELEMENT                               0.9                0.9
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                         501.97             501.97   J/kg-K
+       INITIAL GRID TEMPERATURES                                  276.667            526.667   deg C
+A VALUE OF ZERO FOR THE DECELERATION GRID RESISTANCE ELEMENT WEIGHT INDICATES THAT THE HEAT GENERATED FROM TRAIN
+BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+AVERAGE EMPTY CAR WEIGHT                                                              42.366   tonnes          FORM 9E
+NUMBER OF MOTORS PER POWERED CAR                                                           2
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.005786   N/kg
+                                                                                 =    5.7859   N/tonne
+                                                                                 =      1.18   lb/ton
+                                           SECOND                                     515.99   N
+                                           THIRD                                    0.000448   N/(kg-m/s)
+                                                                              =    0.4475111   N/(tonne-m/s)
+                                                                              = 0.1243086364   N/(tonne-kph)
+                                                                              =  0.000124309   N/(kg-kph)
+                                                                              =       0.0408   lb/ton-mph
+ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
+                                                                                 =    4087.9   kg/car
+                                                                                 =     8.800   (lb/ton)/(mph/s)
+                      MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+       WHEEL DIAMETER                                              0.8407             0.8407   m
+       GEAR RATIO                                                     4.4                4.4
+       SUPPLY VOLTAGE                                               1500.              1500.   VOLTS
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                    750.   VOLTS/MOTOR
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+       TRAIN SPEED              34.923      35.084      78.053     116.034                     km/h             FORM 9G
+       TRACTIVE EFFORT        55332.23    55332.23    24999.86    16665.68                     N
+       MOTOR CURRENT              392.        392.        392.        392.                     AMPS
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+       LINE CURRENT               80.8        581.        582.        583.        584.         AMPS/POWERED CAR
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                              92.   percent
+SPEED U1                                                                              79.019   km/h
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                            95.   percent
+REGENERATIVE BRAKING EFFECTIVENESS                                                       20.   percent
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+  (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)  . (km/h)        (N/motor)        (amps/motor)   (amps/pwr car)
+                                                                .
+      0.         55331.3             392.              81.      . 88.514         22000.9             392.             583.
+   8.047         55331.3             392.             196.      . 96.561         20132.6             392.             584.
+  16.093         55331.3             392.             311.      . 104.61         18544.6             392.             584.
+   24.14         55331.3             392.             427.      . 112.65         17183.5             392.             584.
+  32.187         55331.3             392.             542.      .  120.7         16000.2             392.             584.
+  40.234          48401.             392.             582.      . 128.75         14963.8             392.             584.
+   48.28         40438.7             392.             582.      . 136.79         14047.5             392.             584.
+  56.327         34696.1             392.             582.      . 144.84         13233.4             392.             584.
+  64.374         30359.1             392.             583.      . 152.89         12499.5             392.             585.
+   72.42         26965.1             392.             583.      . 160.93         11845.6             392.             585.
+  80.467         24238.3             392.             583.      . 168.98         11249.5             392.             585.
+INTERNAL MOTOR RESISTANCE                                                                0.3   OHMS/MOTOR      FORM 9I
+Hobyah freebie: a table of traction efficiencies
+                                    Power delivered at wheel-rail interface
+    Traction efficiency = ----------------------------------------------------------
+                          Power delivered at wheel-rail interface + loss in traction
+
+ Speed     Tractive     Power at      Loss in       Efficiency
+            effort       wheels      traction      of traction
+(km/h)    (N/train)     (W/train)    (W/train)         (%)
+   0.00     663976             0       611510          0.00
+   8.05     663976       1484119       694310         68.13
+  16.09     663976       2968239       777110         79.25
+  24.14     663976       4452358       860630         83.80
+  32.19     663976       5936478       943430         86.29
+  40.23     580812       6491158       972230         86.97
+  48.28     485265       6507981       972230         87.00
+  56.33     416353       6514424       972230         87.01
+  64.37     364309       6514424       972950         87.01
+  72.42     323581       6509413       972950         87.00
+  80.47     290860       6501300       815540         88.85
+  88.51     264010       6491278       815540         88.84
+  96.56     241591       6480062       815990         88.82
+ 104.61     222535       6466342       815990         88.79
+ 112.65     206201       6452621       815990         88.77
+ 120.70     192003       6437468       815990         88.75
+ 128.75     179566       6421838       815990         88.73
+ 136.79     168570       6405373       815990         88.70
+ 144.84     158801       6389147       815990         88.67
+ 152.89     149994       6370057       816440         88.64
+ 160.93     142147       6354546       816440         88.61
+ 168.98     134994       6336530       816440         88.59
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                    1.296   m/s^2           FORM 9J
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                         1.118   m/s^2
+SPEED V1                                                                              32.187   km/h
+NORMAL DECELERATION RATE AT SPEED V2                                                   0.894   m/s^2
+SPEED V2                                                                             115.873   km/h
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+TEMPERATURE TABULATION INCREMENT                                                       2.778   deg C
+NUMBER OF CONTROL GROUPS                                                                   1
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+     1        500            1.         0         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5              500.
+                                                   PROGRAM CONTROLS                                            FORM 13
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+MAXIMUM SIMULATION TIME                                                                  20.   SECONDS
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101             0.       0.
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+TIME      1.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101             0.       0.
+TIME      2.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1      0.59   4.44     1.296      26.7    2.55      54535.1      389.     141.        0.  276.667  526.667   3780.  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       1265171.            0.              0.  646419.2        0.    9921.4        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          0.016       0.
+TIME      3.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1      2.47   9.09     1.296     115.7    2.55      54561.8      389.     207.        0.  276.667  526.667  4022.1  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       1859100.            0.              0.  694223.4        0.   21039.1        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          0.136    0.002
+TIME      4.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1      5.64  13.76     1.296     262.4    2.56      54597.4      389.     273.        0.  276.667  526.667  4267.7  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       2453893.            0.              0.   742150.        0.   32852.7        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          0.474    0.005
+TIME      5.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     10.11  18.43     1.296      476.    2.57      54637.4      390.     339.        0.  276.667  526.667  4513.2  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       3049726.            0.              0.  790211.5        0.   45367.1        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          1.144    0.012
+TIME      6.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     15.88  23.11     1.296     751.7    2.58      54681.9      390.     405.        0.  276.667  526.667  4765.7  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       3646778.            0.              0.  838423.7        0.   58586.8        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          2.268    0.025
+TIME      7.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     22.95  27.78     1.296    1089.8     2.6      54730.8      390.     472.        0.  276.667  526.667  5021.6  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       4245234.            0.              0.  886804.5        0.    72516.        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          3.974    0.043
+TIME      8.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     31.31  32.44     1.296    1494.6    2.61      54788.7      390.     538.        0.  276.667  526.667   5281.  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       4845282.            0.              0.  935367.8        0.   87157.7        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          6.399     0.07
+TIME      9.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     40.97  37.06     1.243    1961.7    2.62      52600.1      392.     582.        0.  276.667  526.667  5495.4  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5237202.            0.              0.   972166.        0.  102387.6        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101          9.681    0.105
+TIME     10.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     51.86  41.28     1.113    2442.1    2.63      47306.8      392.     582.        0.  276.667  526.667  5554.2  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5236592.            0.              0.  972117.5        0.  116890.1        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         13.847     0.15
+TIME     11.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     63.86  45.09     1.015    2922.5    2.64      43343.4      392.     582.        0.  276.667  526.667  5609.5  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5236929.            0.              0.  972144.9        0.  130546.2        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         18.927    0.206
+TIME     12.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     76.89   48.6     0.939    3411.8    2.65      40238.6      392.     582.        0.  276.667  526.667  5664.8  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5237660.            0.              0.  972202.9        0.   143552.        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         24.967    0.271
+TIME     13.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     90.85  51.87     0.876    3905.5    2.67      37716.4      392.     582.        0.  276.667  526.667  5716.7  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5238551.            0.              0.  972274.6        0.  156036.9        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         32.012    0.348
+TIME     14.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    105.69  54.94     0.827    4394.8    2.68      35621.3      392.     582.        0.  276.667  526.667  5765.1  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5239492.            0.              0.  972349.4        0.  168093.9        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         40.104    0.436
+TIME     15.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    121.35  57.82     0.782    4888.6    2.68       33842.      392.     582.        0.  276.667  526.667  5813.6  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5240433.            0.              0.  972425.3        0.  179788.3        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         49.283    0.535
+TIME     16.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1     137.8  60.58     0.742     5369.    2.69      32307.4      392.     582.        0.  276.667  526.667   5862.  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5241348.            0.              0.   972498.        0.  191172.8        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         59.586    0.648
+TIME     17.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    154.99  63.18     0.711     5845.    2.69       30964.      392.     582.        0.  276.667  526.667  5906.9  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5242226.            0.              0.  972568.7        0.  202285.3        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         71.047    0.772
+TIME     18.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    172.89  65.68      0.68    6307.6    2.69      29780.8      392.     583.        0.  276.667  526.667  5951.9  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5243062.            0.              0.  972635.1        0.  213160.7        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         83.695     0.91
+TIME     19.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    191.47  68.09     0.653    6756.8    2.68      28722.1      392.     583.        0.  276.667  526.667  5993.4  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5243854.            0.              0.  972698.3        0.  223824.1        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101         97.556     1.06
+TIME     20.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P     (m)   (km/h)    (m/s^2)     (N)               (N/motor)  (amps)   (amps)    (rpm)    (deg C)  (deg C)  (W/m)   (W/m)
+  1   1 1    210.71  70.39      0.63    7183.9    2.66      27770.2      392.     583.        0.  276.667  526.667  6038.4  1089.4
+      R T        ------------- PROPULSION POWER (W/train) ------------- ---HEAT GENERATION(W/train)---   HEAT REJECTION(W/m-train)
+TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
+ NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
+  1   1 1   2      202500.       5244605.            0.              0.  972758.4        0.  234297.9        0.    1089.4       0.
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                   (m^3/s)   (m/s)
+  101 -101        112.652    1.224
+                                            END OF SIMULATION

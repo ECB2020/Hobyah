@@ -1,0 +1,129 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/test-SES-capabilities/SES-052-train-crash-simerr.TMP".
+Using SESconv.py, run at 11:30 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+SES read all the input and started the calculation.
+The run finished early due to errors, but will be processed as far as possible.
+Checking the output file for SES error messages...found 1 SES error message:
+  Line 873: SIMULATION *ERROR* TYPE   7          ********************************************************************************
+  Line 875:                THE COEFFICIENT MATRIX FOR THE SET OF AERODYNAMIC EQUATIONS IS NOT POSITIVE DEFINITE.
+  Line 876:                THIS IS CAUSED BY:
+  Line 877:                  1. THE TOTAL TRAIN CROSS SECTION AREA OVERLAPPING THE TUNNEL CROSS SECTION AREA(BLOCKAGE
+  Line 878:                     RATIO GREATER THAN OR EQUAL TO ONE) OR
+  Line 879:                  2. THE TIME INTERVAL USED FOR THE INTEGRATION OF THE AERODYNAMIC EQUATIONS IS TOO LARGE.
+Processed form 1C
+Processed form 1D
+Processed form 1E
+Processed form 1F
+Processed form 1G
+Processed form 1H
+Expecting 4 instances of form 2A and 1 instance of form 2B.
+Processed form 2
+Expecting 4 instances of form 3.
+Processed form 3
+Expecting 1 instance of form 5.
+Processed form 5
+Expecting 6 instances of form 6.
+Processed form 6
+Expecting 0 fan chars and 2 jet fans.
+Processed form 7
+Expecting 1 route.
+Processed form 8
+Expecting 1 train type.
+Processed form 9
+Expecting 2 instances of form 10.
+Processed form 10
+Processed form 12
+Processed form 13
+> *Error* type 8065 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character after it.  Details are:
+> Line:   1   1 1     304.5     0.      0.00**********    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+> Slice:--------------------------^^^^^^^^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line:   1   1 1     304.5     0.        0.**********    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+> Slice:------------------------------------^^^^^^^^^^
+
+> *Error* type 8066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   1   1 1     304.5     0.        0.**********    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+> Slice:------------------------------------^^^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 8065 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character after it.  Details are:
+> Line:   2   1 1    853.74     0.      0.00204666288.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+> Slice:--------------------------^^^^^^^^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line:   2   1 1    853.74     0.        0.204666288.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+> Slice:------------------------------------^^^^^^^^^^
+
+> *Error* type 8065 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character after it.  Details are:
+> Line:   3   1 1    235.56  71.66      1.29******************        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:--------------------------^^^^^^^^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line:   3   1 1    235.56  71.66     0.577******************        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:------------------------------------^^^^^^^^^^
+
+> *Error* type 8065 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character after it.  Details are:
+> Line:   3   1 1    235.56  71.66     0.577******************        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:------------------------------------^^^^^^^^^^
+
+> *Error* type 8066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   3   1 1    235.56  71.66     0.577******************        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:------------------------------------^^^^^^^^^^
+> Returning a zero value instead.
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line:   3   1 1    235.56  71.66     0.577        0.********        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:----------------------------------------------^^^^^^^^
+
+> *Error* type 8066
+> The Fortran format field is too small for the number.  Details are:
+> Line:   3   1 1    235.56  71.66     0.577        0.********        6132.      392.     583.        0.    530.0    980.0   1.753   0.315
+> Slice:----------------------------------------------^^^^^^^^
+> Returning a zero value instead.
+

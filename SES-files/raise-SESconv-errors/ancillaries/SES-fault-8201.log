@@ -1,0 +1,11 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8201.OUT".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8201 ******************************
+> "SES-fault-8201.OUT" looks like an OpenSES
+> output file but it has a version that is not
+> recognised.  This converter can only handle
+> OpenSES versions 4.2 and 4.3, this one has the
+> version 4.201 on the following line:
+>   OpenSES, 4.201   , 14 July 2021
+> Please raise a bug report so that the program
+> can be updated to deal with the new version.

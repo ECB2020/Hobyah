@@ -1,0 +1,107 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/test-SES-capabilities/SES-013-impl-expl-3.PRN".
+Using SESconv.py, run at 11:30 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+SES read all the input and started the calculation.
+The run finished at the intended time and will be processed.
+Checking the output file for SES error messages...didn't find any SES error messages.
+Processed form 1C
+> *Error* type 8031 ******************************
+> There is a fatal problem with the input of "SES-013-impl-expl-3.PRN".
+> The run uses train performance option 2 (explicit train
+> speed and implicit brake/traction heat calculation). In
+> SES version 4.1 the tractive effort calculation of train
+> performance option 2 is too low by a factor of several
+> hundred.  This is a bug in SES v4.1 routine Train.for.
+> 
+> Details of the bug are as follows:
+> 
+> SES calculates the tractive effort required to overcome
+> the gradient resistance (variable name RG, tractive effort
+> needed to climb a hill) and the curve resistance (variable
+> name RC, friction at the flange-rail interface).  It does
+> so by a call to Locate.for.
+> Locate.for returns RG as a fraction of train mass and RC
+> as lbs of flange drag on curves per short ton of train mass.
+> 
+> When using train performance option 1, SES v4.1 works
+> properly.  It gets RG and RC from Locate.for as fractions
+> of train mass (see line 185 of Train.for). It multiplies
+> RG by train mass (line 193 of Train.for) and it multiplies
+> RC by "train mass/2000" (line 194).  These factors put RG
+> and RC into units suitable for the tractive effort
+> calculation.
+>
+> But when using train performance option 2, SES v4.1 does
+> not behave properly.  It gets RG and RC from Locate.for as
+> fractions of train mass (at line 693) but does not multiply
+> by the relevant factors.  Instead, it jumps to label 1100
+> and starts assuming that RG and RC are already in suitable
+> units.
+>
+> I came across the bug a few years ago when doing a freight
+> rail tunnel.  We could see this 4,000 tonne train racing up
+> a 1.6% incline with negligible tractive effort when we used
+> train performance option 2.
+> A bit of investigation showed that SES v4.1 exhibited the
+> same behaviour, so we went looking for the cause and found
+> the bug in Train.for in the SES v4.1 distribution.
+>
+> Your best bet is to switch to implicit train performance
+> or (if you're up to the challenge) you can calculate the
+> heat rejection yourself and use train performance option 3.
+>
+> You have set the "-acceptwrong" flag so the run will
+> continue.  We've already printed a long spiel about how
+> risky your choice was, so we won't harp on about it.
+Processed form 1D
+Processed form 1E
+Processed form 1F
+Processed form 1G
+Processed form 1H
+Expecting 66 instances of form 2A and 14 instances of form 2B.
+Processed form 2
+Expecting 67 instances of form 3.
+Processed form 3
+Expecting 14 instances of form 5.
+Processed form 5
+Expecting 68 instances of form 6.
+Processed form 6
+Expecting 2 fan chars and 2 jet fans.
+Processed form 7
+Expecting 2 routes.
+Seeking 100 entries in 8E.
+Seeking 100 entries in 8E.
+Processed form 8
+Expecting 1 train type.
+Processed form 9
+Expecting 3 instances of form 11.
+Processed form 11
+Processed form 12
+Processed form 13

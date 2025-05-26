@@ -1,0 +1,1258 @@
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     1
+
+
+                                      UNITED STATES DEPARTMENT OF TRANSPORTATION
+                                            FEDERAL TRANSIT ADMINISTRATION
+                                 JOHN A. VOLPE NATIONAL TRANSPORTATION SYSTEMS CENTER
+
+                                               XXXXX   XXXXXXX   XXXXX
+                                              X        X        X
+                                               XXXXX   XXXXX     XXXXX
+                                                    X  X              X
+                                                    X  X              X
+                                              XXXXXX   XXXXXXX  XXXXXX
+
+                                            SUBWAY ENVIRONMENT SIMULATION
+
+                                                  SIMULATION OF
+
+                         SES v4.1 file with an example of a mismatch between motor and line currents.
+
+                         This file has trains with eight motors per powered car.  The line currents
+
+                         are limited to no more than twice the motor current when you print them.
+
+                         This may be because SES is aimed at EMUs instead of locomotives, but if
+
+                         you are modelling locomotive train performance you need to know about this
+
+                         limitation.  See the printout of line currents in form 9H.
+
+                                    DESIGN TIME 1700 HRS   JULY       2020
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                                                             DEVELOPED BY -
+                                                                                               PARSONS, BRINCKERHOFF,
+                                                                                               QUADE AND DOUGLAS, INC.
+                                                                                               NEW YORK CITY, NEW YORK
+                                                                                               VERSION 4.10
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     2
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+                                                                                                               FORM 1C
+                            TRAIN PERFORMANCE OPTION                              1     IMPLICIT
+
+                            TEMPERATURE / HUMIDITY SIMULATION OPTION              0     BYPASS
+
+                            SUPPLEMENTARY OUTPUT OPTION                           0
+
+                            ALLOWABLE SIMULATION ERRORS                           0
+
+                            ALLOWABLE INPUT ERRORS                                0
+
+
+                            NUMBER OF LINE SEGMENTS                               1                            FORM 1D
+
+                            TOTAL NUMBER OF SECTIONS                              1
+
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
+
+                            NUMBER OF NODES                                       2
+
+                            NUMBER OF BRANCHED JUNCTIONS                          1
+
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
+
+                            NUMBER OF FAN TYPES                                   0
+
+
+                            NUMBER OF TRAIN ROUTES                                1                            FORM 1E
+
+                            NUMBER OF TRAIN TYPES                                 1
+
+                            NUMBER OF ENVIRONMENTAL CONTROL ZONES                 0
+
+                            FAN STOPPING/WINDMILLING OPTION                       1     SIMULATION TERMINATION
+
+                            NUMBER OF TRAINS IN OPERATION AT INITIALIZATION       2
+
+                            NUMBER OF IMPULSE FAN TYPES                           0
+
+                            INITIALIZATION FILE WRITING OPTION                    0
+
+                            INITIALIZATION FILE READING OPTION                    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     3
+
+
+                                           INPUT VERIFICATION OF GENERAL DATA
+
+
+                                                 DESIGN HOUR WEATHER DATA
+
+AMBIENT AIR DRY-BULB TEMPERATURE                                                        85.0   DEG F           FORM 1F
+
+AMBIENT AIR WET-BULB TEMPERATURE                                                        74.0   DEG F
+
+AMBIENT BAROMETRIC PRESSURE                                                            29.91   IN. HG
+
+  AMBIENT AIR DENSITY                                                                0.07281   LB/CU FT
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 DAILY WEATHER DATA
+
+MORNING AMBIENT AIR DRY-BULB TEMPERATURE                                                75.0   DEG F
+
+MORNING AMBIENT AIR WET-BULB TEMPERATURE                                                65.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01088   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              59.   PERCENT
+
+EVENING OR OFF HOUR AMBIENT AIR DRY-BULB TEMPERATURE                                    85.0   DEG F
+
+EVENING OR OFF HOUR AMBIENT AIR WET-BULB TEMPERATURE                                    74.0   DEG F
+
+  AMBIENT HUMIDITY RATIO                                                             0.01552   LB/LB OF DRY AIR
+  AMBIENT RELATIVE HUMIDITY                                                              60.   PERCENT
+
+                                                 ANNUAL WEATHER DATA
+
+AMPLITUDE OF ANNUAL TEMPERATURE FLUCTUATION                                              9.0   DEG F
+
+
+AVERAGE PATRON WEIGHT                                                                   150.   LBS             FORM 1G
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF HEAT FROM TRAIN PROPULSION/BRAKING SYSTEM
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS STOPPED                            0.0   PERCENT
+
+PERCENT OF SENSIBLE HEAT FROM TRAIN AUXILIARIES AND PASSENGERS
+CAPTURED BY THE TRACKWAY EXHAUST SYSTEM WHEN TRAIN IS MOVING                             0.0   PERCENT
+
+MAXIMUM TRAIN SPEED AT WHICH THE TRACKWAY EXHAUST SYSTEM OPERATES                        0.0   MPH
+
+FIRE SIMULATION OPTION                                                                     0   BYPASS
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            102              1               0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     5
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Left side tunnel                                       FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                               1000.00   FT
+
+CROSS SECTION AREA                                                                     190.0   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         50.0                                                           TOTAL PERIMETER        50.0  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.2000                                                           ROUGHNESS LENGTH     0.2000  FT
+
+   HYDRAULIC DIAMETER                                                                   15.2   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.01316
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0414
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.50                 1.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     12
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    12             85.0            85.0           74.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     6
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     7
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
+
+
+                                               TRAIN SCHEDULING DATA
+
+
+TRAIN SCHEDULING ORIGIN                                                                  0.0   FT
+
+NUMBER OF GROUPS OF TRAINS THAT COULD ENTER ROUTE                                          1
+
+NUMBER OF TRACK SECTIONS IN THIS ROUTE                                                     1
+
+DELAY TIME BEFORE DISPATCHING FIRST TRAIN                                                  1   SECONDS
+
+MINIMUM TRAIN SPEED ALLOWED ON THIS ROUTE DURING COASTING                               25.0   MPH
+
+ROUTE COASTING OPTION                                                                      0   MAINTAIN MINIMUM SPEED
+
+
+                                             TRAIN GROUP INFORMATION                                           FORM 8B
+
+          GROUP              NUMBER OF           TRAIN                              TIME LAST TRAIN IN GROUP
+          NUMBER              TRAINS             TYPE             HEADWAY             BECOMES OPERATIONAL
+                                                                 (SECONDS)                 (SECONDS)
+
+
+             1                   1                 1                  1                         1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     8
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                  TRACK SECTION DATA                                           FORM 8C
+
+ TRACK        LOCATION OF                                ELEVATION                     MAXIMUM
+SECTION     FORWARD END OF                RADIUS OF      OF FORWARD                   ALLOWABLE        ENERGY      COASTING
+NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE     TRAIN VELOCITY     SECTOR      PARAMETER
+               (FEET)                      (FEET)          (FEET)       (PERCENT)        (MPH)
+
+
+   1           6000.0         6000.0     50000.0             0.0           0.00          50.00            0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:     9
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                                SCHEDULED STOPS DATA                                           FORM 8D
+
+NUMBER OF SCHEDULED STOPS                                                                  0
+
+NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                                      500
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    10
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+
+
+
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                              0.0   FT
+
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER               (FEET)            (FEET)
+
+
+                           101                 101                    0.0    TO      1000.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    11
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   4 motors, line amps > 2 * motor amps                                     FORM 9A
+
+
+TOTAL NUMBER OF CARS PER TRAIN                                                            10
+
+NUMBER OF POWERED CARS PER TRAIN                                                           6
+
+TOTAL LENGTH OF TRAIN                                                                  800.0   FT
+
+FRONTAL AREA OF TRAIN                                                                 130.20   SQ FT
+
+PERIMETER OF CAR                                                                       44.94   FT              FORM 9B
+
+SKIN FRICTION COEFFICIENT                                                             0.0230
+
+DRAG COEFFICIENT WEIGHTED TOTAL TRUCK AREA                                             12.50   SQ FT
+
+FRONT OF TRAIN DRAG COEFFICIENT                                                       0.5000
+
+TRAIN HEAT DATA                                                                                                FORM 9C
+
+SENSIBLE HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                    67560.0   BTU/HR PER CAR
+
+LATENT HEAT REJECTION FROM AUXILIARY SYSTEMS FOR AN EMPTY CAR EXCLUDING
+PROPULSION SYSTEM                                                                        0.0   BTU/HR PER CAR
+
+SENSIBLE HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR        461.0   BTU/HR PER PATRON
+
+LATENT HEAT REJECTION FROM PASSENGERS AND AUXILIARY SYSTEMS PER PATRON IN CAR            0.0   BTU/HR PER PATRON
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS FOR AN EMPTY CAR                         17.0   KW PER CAR
+
+POWER CONSUMPTION BY VEHICLE AUXILIARY SYSTEMS PER PATRON IN CAR                       0.065   KW PER PATRON
+
+RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION       DECELERATION               FORM 9D
+                                                                     GRID               GRID
+
+       TOTAL WEIGHT OF RESISTANCE ELEMENTS                         1763.7                0.0   LB
+
+       EFFECTIVE DIAMETER OF AN ELEMENT                               1.6                1.6   IN.
+
+       EFFECTIVE SURFACE AREA FOR CONVECTION                         21.5               21.5   SQ FT
+
+       EFFECTIVE SURFACE AREA FOR RADIATION                          25.8               25.8   SQ FT
+
+       EMISSIVITY OF RESISTANCE ELEMENT                              0.90               0.90
+
+       SPECIFIC HEAT OF RESISTANCE ELEMENT                          0.120              0.120   BTU/LB-DEG F
+
+       INITIAL GRID TEMPERATURES                                    530.0              980.0   DEG F
+
+A VALUE OF ZERO FOR THE DECELERATION GRID RESISTANCE ELEMENT WEIGHT INDICATES THAT THE HEAT GENERATED FROM TRAIN
+BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    12
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   4 motors, line amps > 2 * motor amps                                     CONTINUED
+
+
+AVERAGE EMPTY CAR WEIGHT                                                                46.7   TONS            FORM 9E
+
+NUMBER OF MOTORS PER POWERED CAR                                                          8.
+
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                        1.18   LBS/TON
+
+                                           SECOND                                     116.00   LBS
+
+                                           THIRD                                      0.0408   LBS/TON-MPH
+
+ACCELERATION RESISTANCE OF ROTATING PARTS                                                8.8   (LBS/TON)/(MPH/SEC)
+
+                      MOTOR TYPE   4 no. 28 kN, 250 kW motors                                                  FORM 9F
+
+MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE
+                                                                     DATA               DATA
+
+       WHEEL DIAMETER                                                33.1               33.1   IN.
+
+       GEAR RATIO                                                     4.4                4.4
+
+       SUPPLY VOLTAGE                                              1500.0             1500.0   VOLTS
+
+MOTOR TERMINAL VOLTAGE AT BASE SPEED                                                   750.0   VOLTS/MOTOR
+
+TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON MANUFACTURER'S DATA
+
+       TRAIN SPEED                21.7        21.8        48.5        72.1                     MPH             FORM 9G
+
+       TRACTIVE EFFORT         12439.2     12439.2      5620.2      3746.6                     LBS
+
+       MOTOR CURRENT             392.0       392.0       392.0       392.0                     AMPS
+
+TRAIN CONTROLLER OPTION                                                                    2   CHOPPER CONTROL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    13
+
+
+INPUT VERIFICATION FOR TRAIN TYPE 1   4 motors, line amps > 2 * motor amps                                     CONTINUED
+
+
+LINE CURRENT REQUIRED BASED ON MANUFACTURER'S DATA                                                             FORM 9H
+
+       LINE CURRENT              170.0      1568.0      1569.0      1400.0      1200.0         AMPS/POWERED CAR
+
+
+CHOPPER EFFICIENCY FOR SPEEDS OF ZERO TO U1                                             92.0   PERCENT
+
+SPEED U1                                                                                49.1   MPH
+
+CHOPPER EFFICIENCY FOR SPEEDS GREATER THAN U1                                           95.0   PERCENT
+
+REGENERATIVE BRAKING EFFECTIVENESS                                                      20.0   PERCENT
+
+ON-BOARD FLYWHEEL SIMULATION OPTION                                                        1   BYPASS
+
+
+
+VERIFICATION OF TRACTIVE EFFORT AVAILABLE AND CURRENT REQUIRED BASED ON THE VEHICLE DATA
+
+   SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT   .  SPEED      TRACTIVE EFFORT    MOTOR CURRENT   LINE CURRENT
+   (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)  .  (MPH)        (LBS/MOTOR)      (AMPS/MOTOR)   (AMPS/PWR CAR)
+                                                                .
+     0.0          12439.             392.             170.      .   55.0           4946.             392.             784.
+     5.0          12439.             392.             492.      .   60.0           4526.             392.             784.
+    10.0          12439.             392.             814.      .   65.0           4169.             392.             784.
+    15.0          12439.             392.            1136.      .   70.0           3863.             392.             784.
+    20.0          12439.             392.            1458.      .   75.0           3597.             392.             784.
+    25.0          10881.             392.             784.      .   80.0           3364.             392.             784.
+    30.0           9091.             392.             784.      .   85.0           3158.             392.             784.
+    35.0           7800.             392.             784.      .   90.0           2975.             392.             784.
+    40.0           6825.             392.             784.      .   95.0           2810.             392.             784.
+    45.0           6062.             392.             784.      .  100.0           2663.             392.             784.
+    50.0           5449.             392.             784.      .  105.0           2529.             392.             784.
+
+
+INTERNAL MOTOR RESISTANCE                                                              0.300   OHMS/MOTOR      FORM 9I
+
+MAXIMUM ALLOWABLE ACCELERATION RATE                                                      2.9   MPH/SEC         FORM 9J
+
+NORMAL DECELERATION RATE FROM SPEED V1 TO ZERO                                           2.5   MPH/SEC
+
+SPEED V1                                                                                20.0   MPH
+
+NORMAL DECELERATION RATE AT SPEED V2                                                     2.0   MPH/SEC
+
+SPEED V2                                                                                72.0   MPH
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    14
+
+
+                                   INPUT VERIFICATION OF TRAIN INITIALIZATION DATA                             FORM 10
+
+
+NUMBER OF TRAINS IN OPERATION AT INITIALIZATION    2
+
+                                                                       ACCELERATION   DECELERATION      REMAINING
+TRAIN         LOCATION        TRAIN         ROUTE           TRAIN          GRID           GRID            DWELL
+NUMBER        ON ROUTE        SPEED         NUMBER          TYPE       TEMPERATURE    TEMPERATURE         TIME       COASTING
+               (FEET)         (MPH)                                      (DEG F)        (DEG F)         (SECONDS)
+
+
+
+   1           999.00          0.00           1               1           85.00          85.00            900.0
+
+   2          2801.00          0.00           1               1           85.00          85.00            900.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    15
+
+
+                                  INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
+
+
+TEMPERATURE TABULATION INCREMENT                                                         5.0   DEG F
+
+NUMBER OF CONTROL GROUPS                                                                   1
+
+
+  GROUP     NUMBER OF   INTERVAL    NUMBER OF         SUMMARY OPTION                     NUMBER OF      NUMBER OF        TIME OF
+  NUMBER    INTERVALS    LENGTH    ABBREVIATED                                          CYCLES PER      CYCLES PER      LAST PRINT
+                                   PRINTS PER                                           AERODYNAMIC    THERMODYNAMIC     IN GROUP
+                                   DETAIL PRINT                                         EVALUATION      EVALUATION        (SEC)
+
+
+
+     1        100          5.00         1         0 - NEITHER SUMMARY NOR INITIALIZATION     1               5            500.00
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    16
+
+
+                                                   PROGRAM CONTROLS                                            FORM 13
+
+
+TIME INCREMENT PER CYCLE                                                                0.05   SECONDS
+
+MAXIMUM SIMULATION TIME                                                                 5.00   SECONDS
+
+NUMBER OF CYCLES PER COMPLETE TRAIN EVALUATION                                            10
+
+NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                             2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    18
+
+
+TIME      0.00 SECONDS                           2 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00        0.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00        0.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
+
+
+
+               END OF SES INPUT VERIFICATION.   0 ERRORS WERE FOUND.
+
+               EXECUTION OF THIS SUBWAY ENVIRONMENT SIMULATION IS TO PROCEED.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    19
+
+
+INTEGRATION STEP SIZE
+     AERODYNAMIC    RATIO = 1     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.10 SEC
+     THERMODYNAMIC  RATIO = 5     INTEGRATION INCREMENT ( TWO CYCLES ) = 0.50 SEC
+
+
+TIME      5.00 SECONDS                           3 TRAIN(S) ARE OPERATIONAL
+
+      R T                                 AIR   COEF. OF   TRACTIVE     MOTOR    LINE    FLYWHEEL     GRID TEMP.     HEAT    HEAT
+TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
+ NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
+
+  1   1 1    999.00   0.00      0.00     -395.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  2   1 1   2801.00   0.00      0.00        0.    0.00           0.        0.       0.        0.     85.0     85.0   0.315   0.315
+  3   1 1     33.18  11.45      2.90      622.   14.96        3081.      195.     224.        0.    530.0    980.0   1.209   0.315
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101         6996.1     36.8
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-066-motor+line-currents.ses                                         SIMULATION TIME: 21 JUL 2024 14:59:39
+       SES VER 4.10        SES v4.1 file with an example of a mismatch between motor and line currents.        PAGE:    20
+
+
+                                            END OF SIMULATION

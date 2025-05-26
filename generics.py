@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -484,7 +484,7 @@ def WriteMessage2(message_text, log):
 
 def WriteMessage3(message_text, debug1, log):
     '''Print a message to the screen with "> " prepended to it if
-    the debug Boolean is True. Write the same to the logfile without
+    the debug Boolean is True.  Write the same to the logfile without
     anything prepended.
 
         Parameters:
@@ -1063,7 +1063,6 @@ def FormatOnLines(my_list, lastword = "and", width = 45, indent = 3):
         Returns:
             line      str   lines of text with the keywords, properly formatted.
     '''
-    len_list = len(my_list)
     pad = ' ' * indent
     true_list = list(my_list)
     try:
@@ -1072,13 +1071,14 @@ def FormatOnLines(my_list, lastword = "and", width = 45, indent = 3):
         # that in a list of sectype names, tunnel names, route names etc.
         true_list.remove("block_index")
     except ValueError:
-        # It doesn't exist in this list.
+        # "Block_index" doesn't exist in this list.
         pass
+    len_list = len(true_list)
     if len_list == 1:
-        line = ">" + pad + str(my_list[0]) + "."
+        line = ">" + pad + str(true_list[0]) + "."
     else:
         line = ">" + pad
-        for index, entry in enumerate(my_list):
+        for index, entry in enumerate(true_list):
             if index == (len_list - 2):
                 # This is the 2nd last entry, we don't append
                 # a comma
@@ -1271,12 +1271,13 @@ def CheckSESVer(version_string):
     '''
     if (version_string in ("SES 4.10",   # SES
                            "SES 4.2", "SES 4.3ALPHA", "SES 4.3", # OpenSES
-                          ) or version_string[:6] == "SES 20"   # offline-SES
+                           "SVS 6.6.2",                          # SVS
+                          ) or version_string[:6] == "SES 20"    # offline-SES
        ):
         return(True)
     else:
-        # This is either Aurecon SES or SVS, neither of which can be
-        # processed yet.
+        # This is a version of SES we haven't encountered, most likely
+        # Aurecon SES.
         return(False)
 
 

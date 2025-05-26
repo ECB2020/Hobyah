@@ -1,0 +1,1635 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/test-SES-capabilities/SES-033-ECZs+restart.PRN".
+Using SESconv.py, run at 11:30 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+SES read all the input and started the calculation.
+The run finished at the intended time and will be processed.
+Checking the output file for SES error messages...didn't find any SES error messages.
+Processed form 1C
+Processed form 1D
+Processed form 1E
+Processed form 1F
+Processed form 1G
+Processed form 1H
+Expecting 65 instances of form 2A and 14 instances of form 2B.
+Processed form 2
+Expecting 66 instances of form 3.
+Processed form 3
+Expecting 14 instances of form 5.
+Processed form 5
+Expecting 65 instances of form 6.
+Processed form 6
+Expecting 2 fan chars and 1 jet fan.
+Processed form 7
+Expecting 2 routes.
+Processed form 8
+Expecting 1 train type.
+Processed form 9
+Expecting 1 instance of form 11.
+Processed form 11
+Processed form 12
+Processed form 13
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  1        73.5                77.1                75.4                83.7             0.01128            0.01098
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  2        76.0                79.1                77.7                85.0             0.01112            0.01082
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  3        78.2                81.0                79.9                86.4             0.01093            0.01064
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  4        80.3                82.8                81.9                87.6             0.01072            0.01043
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  5        82.3                84.4                83.8                88.8             0.01047            0.01019
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  6        84.2                86.0                85.6                90.0             0.01028            0.01001
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  7        85.9                87.4                87.3                91.0             0.01021            0.00994
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  8        87.5                88.7                88.8                92.0             0.01036            0.01008
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 -  9        88.9                89.9                90.2                92.7             0.01103            0.01073
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 101 -101 - 10        90.1                90.8                91.4                93.1             0.01259            0.01225
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  1        91.1                91.5                92.3                93.0             0.01500            0.01459
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  2        91.0                91.3                92.1                92.8             0.01512            0.01472
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  3        90.9                91.2                92.1                92.7             0.01524            0.01483
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  4        90.8                91.1                92.0                92.7             0.01535            0.01494
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  5        90.8                91.1                92.0                92.6             0.01546            0.01505
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  6        90.8                91.1                92.0                92.7             0.01557            0.01515
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  7        90.9                91.1                92.1                92.7             0.01569            0.01527
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  8        90.9                91.2                92.1                92.7             0.01582            0.01539
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 -  9        90.9                91.2                92.1                92.7             0.01594            0.01551
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 - 10        91.0                91.2                92.2                92.8             0.01604            0.01561
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 - 11        91.0                91.3                92.2                92.8             0.01610            0.01567
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 102 -102 - 12        91.1                91.3                92.3                92.8             0.01614            0.01571
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 103 -103 -  1        91.4                91.7                92.4                92.9             0.01615            0.01571
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 103 -103 -  2        91.4                91.7                92.4                92.9             0.01611            0.01568
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 103 -103 -  3        91.5                91.8                92.5                93.0             0.01605            0.01562
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 103 -103 -  4        91.6                91.8                92.6                93.0             0.01597            0.01554
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 104 -104 -  1        91.6                91.9                92.6                93.1             0.01589            0.01547
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 104 -104 -  2        91.7                91.9                92.7                93.1             0.01581            0.01538
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 104 -104 -  3        91.8                92.0                92.8                93.2             0.01572            0.01530
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 104 -104 -  4        91.8                92.1                92.8                93.2             0.01563            0.01521
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 105 -105 -  1        92.4                92.6                93.3                93.7             0.01516            0.01476
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 105 -105 -  2        92.3                92.5                93.3                93.6             0.01521            0.01480
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 105 -105 -  3        92.2                92.4                93.2                93.6             0.01526            0.01485
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 105 -105 -  4        92.1                92.3                93.1                93.5             0.01532            0.01491
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  1        92.6                92.8                93.4                93.8             0.01514            0.01473
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  2        92.7                92.8                93.5                93.9             0.01512            0.01472
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  3        92.8                92.9                93.7                94.0             0.01513            0.01472
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  4        92.9                93.1                93.8                94.1             0.01515            0.01474
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  5        93.0                93.2                93.9                94.2             0.01519            0.01479
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  6        93.1                93.3                94.0                94.3             0.01524            0.01483
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  7        93.2                93.4                94.1                94.4             0.01531            0.01489
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  8        93.4                93.5                94.3                94.6             0.01538            0.01496
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 -  9        93.5                93.7                94.4                94.7             0.01545            0.01503
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 106 -106 - 10        93.6                93.8                94.5                94.8             0.01553            0.01511
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 107 -107 -  1        88.2                88.6                89.2                90.2             0.01221            0.01188
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 107 -107 -  2        89.0                89.5                90.1                91.1             0.01191            0.01159
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 107 -107 -  3        89.7                90.1                90.7                91.7             0.01172            0.01141
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 108 -108 -  1        90.1                90.5                91.1                92.1             0.01164            0.01133
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  1        92.1                92.2                93.2                93.3             0.01570            0.01528
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  2        91.9                92.0                92.9                93.1             0.01569            0.01526
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  3        91.7                91.8                92.7                92.9             0.01568            0.01526
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  4        91.5                91.6                92.6                92.7             0.01567            0.01525
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  5        91.4                91.4                92.4                92.6             0.01568            0.01526
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  6        91.2                91.3                92.2                92.4             0.01568            0.01526
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  7        91.0                91.1                92.1                92.3             0.01571            0.01528
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  8        90.9                91.0                91.9                92.1             0.01579            0.01537
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 -  9        90.8                90.9                91.8                92.0             0.01588            0.01545
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 - 10        90.6                90.7                91.6                91.8             0.01598            0.01555
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 - 11        90.5                90.6                91.5                91.7             0.01607            0.01564
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 202 -202 - 12        90.4                90.5                91.4                91.6             0.01616            0.01573
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 203 -203 -  1        90.2                90.3                91.2                91.5             0.01625            0.01582
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 203 -203 -  2        90.1                90.2                91.1                91.3             0.01633            0.01590
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 203 -203 -  3        90.0                90.1                91.0                91.2             0.01641            0.01597
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 203 -203 -  4        89.9                90.0                90.9                91.1             0.01648            0.01603
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  1        89.7                89.9                90.7                91.0             0.01648            0.01604
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  2        89.6                89.8                90.6                90.9             0.01648            0.01603
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  3        89.5                89.6                90.5                90.8             0.01647            0.01603
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  4        89.4                89.6                90.4                90.7             0.01647            0.01603
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  5        89.3                89.5                90.3                90.6             0.01646            0.01602
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 204 -204 -  6        89.3                89.4                90.3                90.5             0.01645            0.01601
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 205 -205 -  1        89.2                89.3                90.2                90.5             0.01643            0.01599
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 205 -205 -  2        89.1                89.3                90.1                90.4             0.01640            0.01596
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 205 -205 -  3        89.1                89.3                90.1                90.4             0.01635            0.01591
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 205 -205 -  4        89.1                89.2                90.1                90.4             0.01627            0.01584
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  1        89.1                89.3                90.1                90.4             0.01618            0.01575
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  2        89.1                89.3                90.1                90.4             0.01607            0.01564
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  3        89.2                89.3                90.1                90.5             0.01595            0.01552
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  4        89.2                89.4                90.2                90.6             0.01584            0.01541
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  5        89.3                89.5                90.2                90.6             0.01576            0.01533
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  6        89.4                89.6                90.3                90.7             0.01571            0.01529
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  7        89.5                89.7                90.4                90.8             0.01570            0.01528
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  8        89.6                89.9                90.6                91.0             0.01569            0.01527
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 -  9        89.9                90.2                90.9                91.3             0.01566            0.01523
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 206 -206 - 10        90.4                90.6                91.3                91.8             0.01555            0.01513
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 207 -207 -  1        80.8                81.5                81.8                83.3             0.01161            0.01130
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 207 -207 -  2        80.4                81.0                81.4                83.0             0.01170            0.01139
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 207 -207 -  3        80.2                80.9                81.2                82.8             0.01177            0.01145
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 208 -208 -  1        80.2                80.9                81.1                82.8             0.01180            0.01149
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 301 -301 -  1        91.0                91.5                92.0                93.0             0.01168            0.01137
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 302 -302 -  1        90.5                90.9                91.5                92.6             0.01170            0.01138
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 302 -302 -  2        91.6                92.1                92.7                93.7             0.01171            0.01139
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 303 -303 -  1        92.1                92.6                93.2                94.2             0.01182            0.01150
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 304 -304 -  1        91.8                92.3                92.9                94.0             0.01189            0.01157
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 305 -305 -  1        92.4                92.8                93.6                94.6             0.01184            0.01152
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 306 -306 -  1        91.3                91.9                92.5                93.8             0.01181            0.01149
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 307 -307 -  1        92.9                93.4                94.0                95.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 307 -307 -  2        93.8                94.3                95.0                96.2             0.01139            0.01109
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 308 -308 -  1        91.5                92.2                92.5                93.9             0.01140            0.01109
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 311 -311 -  1        80.5                81.1                81.5                83.0             0.01179            0.01147
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 312 -312 -  1        81.0                81.5                82.1                83.7             0.01180            0.01148
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 312 -312 -  2        82.4                83.0                83.5                85.1             0.01176            0.01145
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 313 -313 -  1        82.3                83.0                83.3                85.0             0.01162            0.01131
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 314 -314 -  1        82.4                83.1                83.4                85.1             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 315 -315 -  1        81.8                82.5                82.7                84.4             0.01152            0.01121
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 316 -316 -  1        81.8                82.5                82.7                84.3             0.01151            0.01120
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 317 -317 -  1        81.1                81.9                82.0                83.7             0.01148            0.01117
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 317 -317 -  2        80.1                81.0                81.0                82.7             0.01141            0.01110
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 318 -318 -  1        80.0                80.9                80.8                82.5             0.01151            0.01120
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  1        88.8                89.9                89.8                91.8             0.01150            0.01119
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  2        88.8                89.9                89.8                91.8             0.01145            0.01114
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  3        88.8                89.9                89.8                91.7             0.01139            0.01108
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  4        88.8                89.8                89.8                91.6             0.01134            0.01103
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  5        88.8                89.8                89.8                91.6             0.01130            0.01099
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  6        88.8                89.7                89.8                91.5             0.01127            0.01097
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  7        88.8                89.7                89.7                91.4             0.01126            0.01096
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  8        88.7                89.6                89.7                91.3             0.01126            0.01096
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 -  9        88.7                89.6                89.7                91.2             0.01128            0.01097
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 10        88.7                89.5                89.7                91.2             0.01130            0.01100
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 11        88.7                89.5                89.7                91.1             0.01134            0.01103
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 12        88.7                89.5                89.7                91.1             0.01137            0.01106
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 13        88.8                89.5                89.7                91.1             0.01141            0.01111
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 14        88.8                89.5                89.7                91.1             0.01146            0.01115
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 15        88.9                89.5                89.8                91.1             0.01150            0.01119
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 120 -120 - 16        88.9                89.6                89.9                91.1             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 121 -121 -  1        89.0                89.6                89.9                91.2             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 121 -121 -  2        89.1                89.7                90.0                91.2             0.01163            0.01132
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 121 -121 -  3        89.2                89.8                90.1                91.2             0.01167            0.01135
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  1        89.3                89.9                90.2                91.3             0.01170            0.01139
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  2        89.4                89.9                90.3                91.4             0.01173            0.01141
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  3        89.5                90.0                90.4                91.4             0.01174            0.01143
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  4        89.6                90.1                90.5                91.5             0.01176            0.01144
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  5        89.7                90.2                90.6                91.6             0.01176            0.01145
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  6        89.8                90.3                90.7                91.6             0.01177            0.01145
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  7        89.9                90.3                90.8                91.7             0.01176            0.01145
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  8        90.0                90.4                90.9                91.8             0.01175            0.01144
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 -  9        90.1                90.5                91.0                91.8             0.01174            0.01142
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 - 10        90.2                90.6                91.1                91.9             0.01172            0.01141
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 - 11        90.3                90.7                91.2                92.0             0.01171            0.01139
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 - 12        90.4                90.8                91.3                92.1             0.01169            0.01137
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 122 -122 - 13        90.5                90.9                91.4                92.2             0.01167            0.01135
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 123 -123 -  1        90.6                91.0                91.5                92.3             0.01165            0.01134
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 123 -123 -  2        90.7                91.1                91.6                92.4             0.01164            0.01132
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 123 -123 -  3        90.8                91.2                91.7                92.4             0.01162            0.01131
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  1        91.0                91.3                91.8                92.5             0.01161            0.01130
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  2        91.1                91.4                92.0                92.6             0.01160            0.01129
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  3        91.2                91.5                92.1                92.7             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  4        91.3                91.7                92.2                92.8             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  5        91.4                91.8                92.3                92.9             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  6        91.6                91.9                92.4                93.0             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  7        91.7                92.0                92.5                93.1             0.01160            0.01129
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  8        91.8                92.1                92.7                93.2             0.01161            0.01130
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 -  9        91.9                92.2                92.8                93.4             0.01162            0.01131
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 10        92.1                92.4                92.9                93.5             0.01164            0.01133
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 11        92.2                92.5                93.1                93.6             0.01166            0.01134
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 12        92.4                92.6                93.3                93.8             0.01167            0.01136
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 13        92.5                92.8                93.4                93.9             0.01169            0.01137
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 14        92.7                93.0                93.6                94.1             0.01170            0.01139
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 124 -124 - 15        92.9                93.1                93.8                94.2             0.01172            0.01140
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 125 -125 -  1        93.1                93.3                93.9                94.4             0.01173            0.01141
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 125 -125 -  2        93.2                93.4                94.1                94.5             0.01174            0.01142
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 125 -125 -  3        93.3                93.5                94.2                94.6             0.01174            0.01143
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 126 -126 -  1        93.3                93.5                94.3                94.7             0.01175            0.01144
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 126 -126 -  2        93.4                93.6                94.4                94.8             0.01177            0.01146
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 126 -126 -  3        93.6                93.8                94.6                95.0             0.01187            0.01156
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 126 -126 -  4        93.2                93.5                94.2                94.9             0.01199            0.01166
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  1        79.1                80.2                79.8                81.6             0.01157            0.01126
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  2        78.2                79.3                78.9                80.8             0.01157            0.01126
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  3        77.4                78.4                78.2                80.1             0.01156            0.01125
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  4        77.2                78.2                78.0                80.0             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  5        77.0                78.0                77.8                79.8             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  6        76.8                77.9                77.7                79.7             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  7        76.7                77.7                77.5                79.6             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  8        76.5                77.6                77.3                79.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 -  9        76.3                77.5                77.2                79.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 10        76.2                77.3                77.1                79.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 11        76.0                77.2                76.9                79.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 12        75.9                77.1                76.8                79.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 13        75.7                77.0                76.6                79.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 14        75.6                76.9                76.5                79.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 15        75.5                76.8                76.4                79.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 220 -220 - 16        75.3                76.7                76.3                79.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 221 -221 -  1        75.2                76.7                76.2                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 221 -221 -  2        75.1                76.6                76.1                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 221 -221 -  3        75.0                76.5                75.9                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  1        74.8                76.4                75.8                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  2        74.7                76.4                75.7                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  3        74.6                76.3                75.7                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  4        74.5                76.3                75.6                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  5        74.4                76.2                75.5                79.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  6        74.3                76.2                75.4                79.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  7        74.3                76.2                75.4                79.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  8        74.2                76.1                75.3                79.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 -  9        74.1                76.1                75.2                79.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 - 10        74.0                76.1                75.2                79.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 - 11        73.9                76.1                75.1                79.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 - 12        73.9                76.1                75.1                79.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 222 -222 - 13        73.8                76.1                75.0                79.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 223 -223 -  1        73.7                76.1                75.0                79.6             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 223 -223 -  2        73.7                76.1                75.0                79.7             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 223 -223 -  3        73.7                76.2                74.9                79.8             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  1        73.6                76.2                74.9                79.9             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  2        73.5                76.2                74.9                80.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  3        73.5                76.2                74.9                80.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  4        73.4                76.3                74.8                80.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  5        73.4                76.3                74.8                80.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  6        73.3                76.3                74.8                80.6             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  7        73.2                76.4                74.7                80.7             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  8        73.2                76.4                74.7                80.9             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 -  9        73.1                76.4                74.7                81.0             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 10        73.0                76.5                74.6                81.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 11        73.0                76.5                74.6                81.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 12        72.9                76.6                74.6                81.6             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 13        72.8                76.7                74.5                81.7             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 14        72.8                76.7                74.5                81.9             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 224 -224 - 15        72.7                76.8                74.5                82.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 225 -225 -  1        72.5                76.8                74.4                82.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 225 -225 -  2        72.5                76.9                74.4                82.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 225 -225 -  3        72.4                77.0                74.4                82.6             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 226 -226 -  1        72.4                76.4                74.3                82.8             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 226 -226 -  2        72.4                76.5                74.3                83.1             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 226 -226 -  3        72.3                76.5                74.3                83.3             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 226 -226 -  4        72.2                76.6                74.3                83.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 352 -352 -  1        73.7                74.1                75.9                79.6             0.01243            0.01210
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 352 -352 -  2        72.7                73.2                74.7                79.2             0.01196            0.01164
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 353 -353 -  1        71.0                71.5                72.9                77.6             0.01090            0.01060
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 353 -353 -  2        70.3                70.7                72.2                76.2             0.01064            0.01035
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 354 -354 -  1        70.5                70.9                72.6                75.9             0.01145            0.01114
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 354 -354 -  2        70.7                71.0                72.7                76.1             0.01182            0.01150
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 355 -355 -  1        70.4                70.9                72.3                76.7             0.01111            0.01081
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 355 -355 -  2        70.2                70.7                72.1                76.2             0.01121            0.01091
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 361 -361 -  1        71.8                73.5                73.7                81.5             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 361 -361 -  2        71.7                73.3                73.6                80.8             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 362 -362 -  1        71.0                71.8                73.1                79.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 362 -362 -  2        70.7                71.4                72.8                78.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 363 -363 -  1        71.3                72.4                73.4                80.4             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 363 -363 -  2        71.5                72.7                73.7                81.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 364 -364 -  1        71.4                72.6                73.3                79.9             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 365 -365 -  1        71.2                72.3                73.0                78.9             0.01153            0.01122
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 371 -371 -  1        71.7                73.2                73.9                82.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 372 -372 -  1        71.7                73.2                73.9                82.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 373 -373 -  1        71.7                73.2                73.9                82.2             0.01154            0.01123
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 332 -332 -  1        79.7                80.2                81.8                84.0             0.01190            0.01158
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 333 -333 -  1        77.1                77.8                79.3                83.1             0.01169            0.01137
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 334 -334 -  1        72.7                73.6                74.5                78.8             0.01175            0.01143
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 335 -335 -  1        72.1                72.9                73.7                77.1             0.01150            0.01119
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 342 -342 -  1        76.8                77.2                78.8                81.0             0.01181            0.01150
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 343 -343 -  1        72.4                73.2                74.4                79.0             0.01138            0.01108
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 344 -344 -  1        72.3                72.9                74.1                77.5             0.01148            0.01117
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 345 -345 -  1        71.6                72.2                73.3                76.5             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 831 -831 -  1        91.1                91.5                92.5                93.5             0.01178            0.01146
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 832 -832 -  1        91.3                91.6                92.5                93.4             0.01174            0.01142
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 833 -833 -  1        91.5                91.9                92.8                93.7             0.01187            0.01156
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 834 -834 -  1        91.3                91.9                92.5                93.7             0.01172            0.01141
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 835 -835 -  1        81.5                82.1                82.5                84.0             0.01155            0.01124
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 836 -836 -  1        82.1                82.7                83.1                84.7             0.01164            0.01133
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 837 -837 -  1        81.7                82.3                82.7                84.3             0.01152            0.01121
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 838 -838 -  1        80.9                81.6                81.9                83.4             0.01148            0.01117
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 931 -931 -  1        74.4                81.2                75.4                83.0             0.01158            0.01127
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 932 -932 -  1        85.4                87.2                86.4                88.9             0.01273            0.01238
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 933 -933 -  1        79.4                82.3                80.4                84.1             0.01206            0.01174
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 934 -934 -  1        73.3                82.0                74.2                83.6             0.01153            0.01122
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 935 -935 -  1        77.8                82.1                78.6                83.8             0.01159            0.01128
+> Slice:-----^^^
+
+> *Error* type 8062 (it may be an error, it may be OK).
+> Sliced a line to get a number but found that there
+> was a possibly related character before it.  Details are:
+> Line: 936 -936 -  1        78.9                80.6                79.7                82.2             0.01148            0.01117
+> Slice:-----^^^
+

@@ -910,15 +910,15 @@ ACCELERATION IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
 INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper-controlled train                                                 CONTINUED
 AVERAGE EMPTY CAR WEIGHT                                                              33.112   tonnes          FORM 9E
 NUMBER OF MOTORS PER POWERED CAR                                                           2
-TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0064   N/kg
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.006374   N/kg
                                                                                  =    6.3743   N/tonne
-                                                                                 =     1.300   lb/ton
-                                           SECOND                                       516.   N
+                                                                                 =       1.3   lb/ton
+                                           SECOND                                     515.99   N
                                            THIRD                                    0.000494   N/(kg-m/s)
                                                                               =    0.4935784   N/(tonne-m/s)
                                                                               = 0.1371051136   N/(tonne-kph)
                                                                               =  0.000137105   N/(kg-kph)
-                                                                              =      0.04500   lb/ton-mph
+                                                                              =        0.045   lb/ton-mph
 ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
                                                                                  =   3195.04   kg/car
                                                                                  =     8.800   (lb/ton)/(mph/s)

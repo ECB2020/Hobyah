@@ -1,0 +1,98 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/test-SES-capabilities/SES-032-ECZs-5-2.TMP".
+Using SESconv.py, run at 11:30 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+SES read all the input and started the calculation.
+Checking the output file for SES error messages...didn't find any SES error messages.
+Processed form 1C
+Processed form 1D
+Processed form 1E
+Processed form 1F
+Processed form 1G
+Processed form 1H
+Expecting 65 instances of form 2A and 14 instances of form 2B.
+Processed form 2
+Expecting 66 instances of form 3.
+Processed form 3
+Expecting 14 instances of form 5.
+Processed form 5
+Expecting 65 instances of form 6.
+Processed form 6
+Expecting 2 fan chars and 1 jet fan.
+Processed form 7
+Expecting 2 routes.
+Processed form 8
+Expecting 1 train type.
+Processed form 9
+Expecting 1 instance of form 11.
+Processed form 11
+Processed form 12
+Processed form 13
+> *Error* type 8041 ******************************
+> Ugh, ran out of lines of input to read!
+>
+> This usually occurs when SESconv.py tries
+> to process an SES file that triggered an
+> untrapped Fortran runtime error.  SES
+> traps most of those, but not all.
+>
+> The first thing to do is check the end of
+> the SES output file for clues about what
+> went wrong.  Here are the last ten lines of
+> the output file (possibly truncated):
+>   -133.27      -133.27      -134.78      -58.972      -55.202      -57.488...
+>   -49.080      -55.747      -46.641      -46.930      -47.633      -117.46...
+>   -53.884      -53.718      -74.290      -73.066      -52.660      0.21209...
+>    0.0000       0.0000       0.0000       0.0000       0.0000       0.0000...
+>    0.0000       0.0000       0.0000       0.0000       0.0000       0.0000...
+>    0.0000       0.0000       0.0000       0.0000       0.0000       0.0000...
+>    0.0000       0.0000       0.0000       0.0000       7564.0       0.0000...
+>    0.0000      0.38768E+06   0.0000       0.0000       0.0000       0.0000...
+>    0.0000       38456.       38456.       38966.       0.0000       0.0000...
+>    0.0000       31558.
+>
+> If those ten lines give no clues as to what
+> happened, try running SES again.  But run
+> it in a terminal window (not by drag and
+> drop) so that you can read the output after
+> the SES run ends.  Check the output to see
+> see if a runtime error occurred.
+> A typical runtime error looks like:
+>     At line 61 of file Simq1.for
+>     Fortran runtime error: Index '488670' of array...
+>     Error termination. Backtrace:
+>     #0  0x1026bd357
+>     #1  0x1026bde17
+>     #2  0x1026be1d3...
+>
+> Please only raise a report about a possible
+> bug in SESconv.py if it looks like there was
+> no Fortran runtime error.
+> *Error* 8041 ******************************
+> *Ugh, ran out of lines of input!  See above for details.*

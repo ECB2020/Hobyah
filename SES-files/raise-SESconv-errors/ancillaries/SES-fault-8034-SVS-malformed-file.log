@@ -1,0 +1,7 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8034-SVS-malformed-file.OUT".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8034 ******************************
+> Failed to find a line with exactly two words
+> (the word "VERSION" and an SVS version number
+> like "6.6.2"). Instead, there was the following:
+>   VERSION   6.6.2 extras

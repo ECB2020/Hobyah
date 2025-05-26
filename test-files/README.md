@@ -5,7 +5,7 @@ The files in this folder are Hobyah input files (.txt files) that run calculatio
 Other files in this folder are ancillary files.  Ancillary files are could be:
   * .csv files with data that a Hobyah input file needs (test data, fan curves),
   * .png files that a Hobyah "image" block imports,
-  * .sbn files (binary files with SES output written by SESconv.py) that a Hobyah input file plots from and
+  * .sbn files (binary files with SES output written by SESconv.py) that a Hobyah input file plots from,
   * .hbn files (binary files with Hobyah output written by Hobyah.py) that a Hobyah input file plots from,
   * .pdf files that a Hobyah run generates and
   * .ses or .INP files that a Hobyah run generates from a Hobyah geometry.

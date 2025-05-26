@@ -121,9 +121,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                     1.43523   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.21044   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    2 - 52           Zero perim in 3rd entry, dud                           FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)

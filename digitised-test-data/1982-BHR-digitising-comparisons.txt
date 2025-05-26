@@ -1,0 +1,849 @@
+This is a Hobyah input file for plotting measured transient pressures and
+velocities from the following paper:
+
+"An experimental investigation into the effect of train shape on the unsteady
+flows generated in tunnels", Pope, C W, Gawthorpe R G, and Richards, S P,
+paper C-2, Proceedings of the 4th Symposium on the Aerodynamics and Ventilation
+of Vehicle Tunnels (ISAVVT), BHRA 1982 (pages 107 to 126).
+
+The Figures were scanned in, then loaded into a very capable online graph
+digitisation website, https://automeris.io.  Points on the curves were
+picked out manually and the data saved as .tar files.  The .tar files
+can be loaded back into the automeris.io website for checking.
+The values were saved on tabs in a spreadsheet and exported to .csv files
+(which is where they are read by Hobyah when plotting).
+
+This Hobyah input file has been set up to show the digitised data over
+the top of the images that the curve data came from, to show how closely
+they match (or not, as the case may be).
+
+
+begin settings
+  version 1
+  frictiontype Darcy
+  runtype plot
+  QA1 3
+  QA2 Software validation, digitisation of full-scale test data
+  QA3 Comparison plots of digitised data and source images
+#  images hidden # This option speeds up plotting, but hides the images
+end settings
+
+begin csv
+  1982-P-9     1982-PGR-Fig-9-DP.txt
+  1982-P-10    1982-PGR-Fig-10-DP.txt
+  1982-P-14    1982-PGR-Fig-14-vel.txt
+  1982-P-15    1982-PGR-Fig-15-vel.txt
+  1982-P-16    1982-PGR-Fig-16-DP-PTA.txt
+  1982-P-17    1982-PGR-Fig-17-DP-PTA.txt
+  1982-P-19    1982-PGR-Fig-19-vel-PTA.txt
+  1982-P-20    1982-PGR-Fig-20-DP-PTP.txt
+  1982-P-21    1982-PGR-Fig-21-DP-PTP.txt
+  1982-P-22    1982-PGR-Fig-22-DP-PTP.txt
+end csv
+
+begin plots
+  # pngtrim False
+  begin page #ignore  # 1
+    begin image #ignore
+      # Figure 9 (Top graph on page 122).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 9" offset char 0, char -2.5
+      filename   1982-PGR-Fig-9-rotated-P.png
+      leftbase  0.0627  0.414   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 9 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-9-rotated-P.png
+      leftbase  0.0627   0.06 border := off   namecheck := on
+      width  0.568
+    end image
+
+    begin graph #ignore
+      margins  0.12 0.88    0.1   0.38
+      xrange -0.3  28.5  1
+      yrange -1080  2700  500
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Top graph on page 122}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Patchway Old tunnel (single track, no shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 1140 m, tunnel area: 22.71 m^2, tunnel perimeter: 18.19 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 Conventional train: 2 class 50 locomotives plus 8 MkI coaches.  Length 203.2 m, area 8.2 m^2, perimeter 9.82 m, speed 31.9 m/s (114.8 km/h)}" \
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 32.3 m/s (116.3 km/h)}"\
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 5 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=18 s, P=0 Pa), (t=0, P=-500 Pa) and (t=0, P=2500 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-9.tar' into webplotdigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP = Reflected primary wave arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key top center
+      userdata  1982-P-9   1  2  lt:= 2 lw:= 1 "{/*0.9digitised conventional train curve}"
+      userdata  1982-P-9   3  4  lt:= 3 lw:= 1 "{/*0.9digitised HST curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 2
+    begin image #ignore
+      # Figure 10 (Middle graph on page 122).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 10" offset char 20, char -2.5
+      filename   1982-PGR-Fig-10-rotated-P.png
+      leftbase  0.0617  0.41   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 10 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-10-rotated-P.png
+      leftbase  0.0617   0.059 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.12 0.88    0.1   0.38
+      xrange -0.3  28.5  1
+      yrange -1030  2710  500
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Middle graph on page 122}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Patchway Old tunnel (single track, no shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 1140 m, tunnel area: 22.71 m^2, tunnel perimeter: 18.19 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 27.8 m/s (100.1 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 MGR train: class 50(?) loco, Mk III coach and 18 coal wagons.  Length 203.7 m, area 6.52 m^2, perimeter 9 m, speed 28 m/s (100.8 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 5 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=18 s, P=0 Pa), (t=0, P=-500 Pa) and (t=0, P=2500 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-10.tar' into webplotdigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP = Reflected primary wave arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key top right
+      userdata  1982-P-10   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve}"
+      userdata  1982-P-10   3  4  lt:= 3 lw:= 1 "{/*0.9digitised MGR train curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 3
+    begin image #ignore
+      # Figure 14 (Middle graph on page 123).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 14" offset char 20, char -2.5
+      filename   1982-PGR-Fig-14-rotated-P.png
+      leftbase  0.0617  0.41   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 14 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-14-rotated-P.png
+      leftbase  0.0617   0.059 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.0915 0.752    0.1480   0.3111
+      xrange -0.3  28.5  1
+      yrange -23  27  10
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Middle graph on page 123}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Patchway Old tunnel (single track, no shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 1140 m, tunnel area: 22.71 m^2, tunnel perimeter: 18.19 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 35 m/s (126 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 Conventional train: 2 class 50 locomotives plus 8 MkI coaches.  Length 203.2 m, area 8.2 m^2, perimeter 9.82 m, speed 35.4 m/s (127.4 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured air velocity 150 m from the entry portal, 1m above track level and 0.3 m from the tunnel wall}"\
+                     at screen base_x2, base_y - 5 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, v=0 m/s), (t=22 s, v=0 m/s), (t=0, v=-20 m/s) and (t=0, v=20 m/s).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-14.tar' into webplotdigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 VCNP = Velocity change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 VCTP = Velocity change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Air velocity (m/s)
+      verbatim set key bottom right
+      userdata  1982-P-14   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve}"
+      userdata  1982-P-14   3  4  lt:= 3 lw:= 1 "{/*0.9digitised conventional train curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 4
+    begin image #ignore
+      # Figure 15 (Bottom graph on page 123).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 15" offset char 20, char -2.5
+      filename   1982-PGR-Fig-15-rotated-P.png
+      leftbase  0.0617  0.41   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 15 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-15-rotated-P.png
+      leftbase  0.0617   0.059 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.0905 0.759    0.1535   0.3205
+      xrange -0.3  28.5  1
+      yrange -23  27  10
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Bottom graph on page 123}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Patchway Old tunnel (single track, no shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 1140 m, tunnel area: 22.71 m^2, tunnel perimeter: 18.19 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 28.2 m/s (101.5 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 MGR train: class 50(?) loco, Mk III coach and 18 coal wagons.  Length 203.7 m, area 6.52 m^2, perimeter 9 m, speed 27.8 m/s (100.1 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured air velocity 150 m from the entry portal, 1m above track level and 0.3 m from the tunnel wall}"\
+                     at screen base_x2, base_y - 5 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, v=0 m/s), (t=22 s, v=0 m/s), (t=0, v=-20 m/s) and (t=0, v=20 m/s).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-15.tar' into webplotdigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 VCNP = Velocity change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 VCTP = Velocity change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Air velocity (m/s)
+      verbatim set key bottom right
+      userdata  1982-P-15   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve}"
+      userdata  1982-P-15   3  4  lt:= 3 lw:= 1 "{/*0.9digitised MGR train curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 5
+    begin image #ignore
+      # Figure 16 (Top graph on page 124).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 16" offset char 20, char -2.5
+      filename   1982-PGR-Fig-16-rotated-CS.png
+      leftbase  0.0617  0.4   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 16 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-16-rotated-CS.png
+      leftbase  0.0617   0.049 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.1287 0.7565    0.1392   0.3288
+      xrange -0.3  28.5  1
+      yrange -1100  1900  500
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Top graph on page 124}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 Conventional train: 2 class 50 locomotives plus 8 MkI coaches.  Length 203.2 m, area 8.2 m^2, perimeter 9.82 m, speed 44.9 m/s (161.6 km/h)}" \
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 44.4 m/s (159.8 km/h)}"\
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 8 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=22 s, P=0 Pa), (t=0, P=-500 Pa) and (t=0, P=1500 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-16.tar' into WebPlotDigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP1 = Reflected wave from first shaft arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key top right
+      userdata  1982-P-16   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve}"
+      userdata  1982-P-16   3  4  lt:= 3 lw:= 1 "{/*0.9digitised conventional train curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 6
+    begin image #ignore
+      # Figure 17 (Middle graph on page 124).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 17" offset char 20, char -2.5
+      filename   1982-PGR-Fig-17-rotated-CS.png
+      leftbase  0.0617  0.4   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 17 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-17-rotated-CS.png
+      leftbase  0.0617   0.049 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.1125 0.76    0.1064   0.301
+      xrange -0.3  28.5  1
+      yrange -400  800  200
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Middle graph on page 124}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 MGR train: class 50(?) loco, Mk III coach and 18 coal wagons.  Length 203.7 m, area 6.52 m^2, perimeter 9 m, speed 28.8 m/s (103.7 km/h)}" \
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 28.5 m/s (102.6 km/h)}"\
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 8 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=22 s, P=0 Pa), (t=0, P=-200 Pa) and (t=0, P=600 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-17.tar' into WebPlotDigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP1 = Reflected wave from first shaft arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key top right
+      userdata  1982-P-17   1  2  lt:= 2 lw:= 1 "{/*0.9digitised MGR train curve}"
+      userdata  1982-P-17   3  4  lt:= 3 lw:= 1 "{/*0.9digitised HST curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 7
+    begin image #ignore
+      # Figure 19 (Top graph on page 125).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 19" offset char 20, char -2.5
+      filename   1982-PGR-Fig-19-rotated-CS.png
+      leftbase  0.0617  0.41   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 19 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-19-rotated-CS.png
+      leftbase  0.0617   0.059 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+#      margins  0.0905 0.759    0.1535   0.3205
+      margins  0.077 0.774    0.1215   0.2925
+      xrange -0.3  28.5  1
+      yrange -23  27  10
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Top graph on page 125}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 28.5 m/s (102.6 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 Conventional train: 2 class 50 locomotives plus 8 MkI coaches.  Length 203.2 m, area 8.2 m^2, perimeter 9.82 m, speed 29.6 m/s (106.6 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 MGR train: class 50(?) loco, Mk III coach and 18 coal wagons.  Length 203.7 m, area 6.52 m^2, perimeter 9 m, speed 29.2 m/s (105.1 km/h)}" \
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Data in the image: measured air velocity 150 m from the entry portal, 1m above track level and 0.3 m from the tunnel wall closest to the moving train}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 8 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 9 * delta_y
+        set label  "{/*0.6 Note that the Figure has a distorted Y-axis: -20 m/s to zero spans 12 mm on the page in the Proceedings, zero to 20 m/s spans 14 mm on the page.}"\
+                     at screen base_x2, base_y - 10 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, v=0 m/s), (t=22 s, v=0 m/s), (t=0, v=-20 m/s) and (t=0, v=20 m/s).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-19.tar' into webplotdigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 VCNP = Velocity change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 VCTP = Velocity change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Air velocity (m/s)
+      verbatim set key top right
+      userdata  1982-P-19   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve}"
+      userdata  1982-P-19   3  4  lt:= 3 lw:= 1 "{/*0.9digitised conventional train curve}"
+      userdata  1982-P-19   5  6  lt:= 5 lw:= 1 "{/*0.9digitised MGR train curve}"
+    end graph
+  end page
+
+  begin page #ignore  # 8
+    begin image #ignore
+      # Figure 20 (Second graph on page 125).  The original source image,
+      # without anything obscuring it.  The aspect ratio has been adjusted
+      # from 0.45 to 0.34 to fit the images on the page.
+      verbatim set title "Original image, P, G \\& R Figure 20" offset char 20, char -2.5
+      filename   1982-PGR-Fig-20-rotated-CS.png
+      leftbase  0.0617  0.4   border := on    ratio:=0.34
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 20 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-20-rotated-CS.png
+      leftbase  0.0617   0.049 border := off   namecheck := on  ratio:=0.3
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.108 0.74    0.105   0.325
+      margins  0.1075 0.735   0.108   0.33
+      margins  0.107  0.725   0.105   0.327
+      margins  0.1066  0.7225   0.105   0.31
+      margins  0.1065  0.7221   0.102   0.303
+      margins  0.1065  0.7221   0.1015   0.301
+      xrange -0.3  28.5  1
+      yrange -1900  3000  500
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Second graph on page 125}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 55.5 m/s (199.8 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 55.5 m/s (199.8 km/h)}"\
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 In the second test a 200 m long HST was parked just inside the entrance. }"\
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 8 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 9 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=22 s, P=0 Pa), (t=0, P=-1500 Pa) and (t=0, P=2500 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-20.tar' into WebPlotDigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP1 = Reflected wave from first shaft arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key bottom right
+      userdata  1982-P-20   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve, parked train absent}"
+      userdata  1982-P-20   3  4  lt:= 3 lw:= 1 "{/*0.9digitised HST curve, parked train present}"
+    end graph
+  end page
+
+  begin page #ignore  # 9
+    begin image #ignore
+      # Figure 21 (Third graph on page 125).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 21" offset char 20, char -2.5
+      filename   1982-PGR-Fig-21-rotated-CS.png
+      leftbase  0.0617  0.4   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 21 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-21-rotated-CS.png
+      leftbase  0.0617   0.049 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.1078  0.7685  0.096  0.3345
+      xrange -0.3  28.5  1
+      yrange -1300  2400  500
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Third graph on page 125}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 44.9 m/s (161.6 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 Conventional train: 2 class 50 locomotives plus 8 MkI coaches.  Length 203.2 m, area 8.2 m^2, perimeter 9.82 m, speed 44.6 m/s (160.6 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 In both tests a 200 m long HST was parked just inside the entrance. }"\
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 8 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 9 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=22 s, P=0 Pa), (t=0, P=-500 Pa) and (t=0, P=2000 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-21.tar' into WebPlotDigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP1 = Reflected wave from first shaft arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key bottom right
+      userdata  1982-P-21   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve, parked train present}"
+      userdata  1982-P-21   3  4  lt:= 3 lw:= 1 "{/*0.9digitised conventional train curve, parked train present}"
+    end graph
+  end page
+
+  begin page #ignore  # 10
+    begin image #ignore
+      # Figure 22 (Bottom graph on page 125).  The original source image,
+      # without anything obscuring it.
+      verbatim set title "Original image, P, G \\& R Figure 22" offset char 20, char -2.5
+      filename   1982-PGR-Fig-22-rotated-CS.png
+      leftbase  0.0617  0.4   border := on
+      width  0.56
+    end image
+
+    begin image #ignore
+      # Figure 22 again, but with the digitised data overlaid on top of
+      # it (the graph below).
+      filename   1982-PGR-Fig-22-rotated-CS.png
+      leftbase  0.0617   0.049 border := off   namecheck := on
+      width  0.5675
+    end image
+
+    begin graph #ignore
+      margins  0.1078  0.7685  0.096  0.3345 # right, left  below below
+      margins  0.109   0.75    0.105  0.336 #
+      margins  0.1072   0.746  0.102  0.336 #
+      margins  0.1072   0.746  0.1  0.3365 #
+      xrange -0.3  28.5  1
+      yrange -500  1000  200
+      begin verbatim
+        base_x1 = 0.05    # Text describing the source of the data and the conditions of the test
+        base_y = 0.839
+        base_x2 = base_x1 + 0.02
+        delta_x = 0.55
+        delta_y = 0.0175
+
+
+        set label  "{/*0.8 Source paper: \"An experimental investigation into the effect of train shape on the unsteady flows generated in tunnels\", Pope, C W, Gawthorpe R G, and Richards, S P,}"\
+                    at screen base_x1, base_y + 0.04
+        set label  "{/*0.8pages 107 to 126, Proceedings of the 4th International Symposium on the Aerodynamics and Ventilation of Vehicle Tunnels (ISAVVT), 1982.}"\
+                    at screen base_x1, base_y + 0.02
+
+        set label  "{/*0.6 Image source: Bottom graph on page 125}" at screen base_x2, base_y
+        set label  "{/*0.6 Test place \\& time: Chipping Sodbury tunnel (twin track, six shafts), early 1980s}" at screen base_x2, base_y - 1 * delta_y
+        set label  "{/*0.6 Tunnel length: 4063 m, tunnel area: 43.8 m^2, tunnel perimeter: 24.87 m}"\
+                     at screen base_x2, base_y - 2 * delta_y
+        set label  "{/*0.6 HST, 2 class 43 power cars plus 7 MkIII coaches: length 196.6 m, area 9.11 m^2, perimeter 11 m, speed 28.9 m/s (104 km/h)}"\
+                     at screen base_x2, base_y - 3 * delta_y
+        set label  "{/*0.6 MGR train: class 50(?) loco, Mk III coach and 18 coal wagons.  Length 203.7 m, area 6.52 m^2, perimeter 9 m, speed 28.7 m/s (103.3 km/h)}" \
+                     at screen base_x2, base_y - 4 * delta_y
+        set label  "{/*0.6 In both tests a 200 m long HST was parked just inside the entrance. }"\
+                     at screen base_x2, base_y - 5 * delta_y
+        set label  "{/*0.6 Data in the image: measured static pressure 150 m from the entry portal.}"\
+                     at screen base_x2, base_y - 6 * delta_y
+        set label  "{/*0.6 Airshaft locations 422.5 m from entry portal, 1006 m, 1508.8 m, 2172.6 m, 2796.2 m and 3480.2 m}"\
+                     at screen base_x2, base_y - 7 * delta_y
+        set label  "{/*0.6 Airshaft areas 10.52 m^2, perimeters 11.5 m (brick-lined construction shafts 12 feet in diameter)}"\
+                     at screen base_x2, base_y - 8 * delta_y
+        set label  "{/*0.6 Airshaft lengths 36.6 m, 58 m, 56.4 m, 71.6 m, 83.5 m and 84.1 m}"\
+                     at screen base_x2, base_y - 9 * delta_y
+
+        set label  "{/*0.6 Digitisation method: webplotdigitizer was given the following setting out points:}"\
+                     at screen base_x2 + delta_x, base_y
+        set label  "{/*0.6 (t=0 s, P=0 Pa), (t=22 s, P=0 Pa), (t=0, P=-200 Pa) and (t=0, P=800 Pa).  It}"\
+                     at screen base_x2 + delta_x, base_y -  delta_y
+        set label  "{/*0.6 adjusted the axes of the image to be orthogonal and digitised a set of manually}"\
+                     at screen base_x2 + delta_x, base_y -  2 * delta_y
+        set label  "{/*0.6 selected points.  Load '1982-PGR-Fig-22.tar' into WebPlotDigitizer for more}"\
+                     at screen base_x2 + delta_x, base_y -  3 * delta_y
+        set label  "{/*0.6 details.}"\
+                     at screen base_x2 + delta_x, base_y -  4 * delta_y
+
+        base_x3 = 0.67 # Text describing the graph annotations
+        set label  "{/*0.8 IP = Initial pressure rise (due to nose entry)}"\
+                     at screen base_x3, base_y -  15 * delta_y
+        set label  "{/*0.8 PCNP = Pressure change, nose passing the sensor}"\
+                     at screen base_x3, base_y -  16.5 * delta_y
+        set label  "{/*0.8 RP1 = Reflected wave from first shaft arrives at the sensor}"\
+                     at screen base_x3, base_y -  18 * delta_y
+        set label  "{/*0.8 PCTP = Pressure change, tail passing the sensor}"\
+                     at screen base_x3, base_y -  19.5 * delta_y
+      end verbatim
+      verbatim set title "{Comparison of the image to the digitised data}" offset char 0, char -0.5
+      xlabel Time (s)
+      ylabel Total pressure (Pa)
+      verbatim set key top right
+      userdata  1982-P-22   1  2  lt:= 2 lw:= 1 "{/*0.9digitised HST curve, parked train present}"
+      userdata  1982-P-22   3  4  lt:= 3 lw:= 1 "{/*0.9digitised MGR train curve, parked train present}"
+    end graph
+  end page
+end plots
+

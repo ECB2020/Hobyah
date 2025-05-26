@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -29,7 +29,7 @@
 #
 #  * writing a new SES input file from the contents stored in the
 #    class: WriteInputFile().
-#    Input files can be generated for SES v4.1, OpenSES 4.3 and
+#    Input files can be generated for SES v4.1, SVS v6.6.2, OpenSES 4.3,
 #    offline-SES 204.5.
 #
 #  * Printing the contents of the variables in the binary file in a
@@ -185,8 +185,9 @@ class SESdata:
             # that involve Joules, as there are two types of Joule: the
             # one used by SES v4.1 and the one used by anyone writing a
             # program from scratch (the IT BTU).
-
-            if gen.CheckSESVer(self.prog_type):
+            if (self.prog_type in ("SES 4.10",   # SES
+                                   "SES 4.2", "SES 4.3ALPHA", "SES 4.3", # OpenSES
+                                  ) or self.prog_type[:6] == "SES 20"):  # offline-SES
                 # We want to use the conversion factors based on the
                 # SES v4.1 BTU (1 BTU = 1054.118 J ).
                 energy_fac = "v4_1energy"
@@ -203,8 +204,7 @@ class SESdata:
             else:
                 # We want to use the conversion factors involving the
                 # IT BTU (1 BTU = 1055.056 J).  We use this in Hobyah
-                # conversions, but it may come in useful if someone
-                # ends up using this class on SVS v6 output files (as
+                # conversions and for SVS v6 output files (because
                 # IP2SI2IP.EXE seems to use the IT BTU instead of the
                 # SES v4.1 BTU.
                 energy_fac = "IT_energy"
@@ -230,7 +230,10 @@ class SESdata:
             basic = ["SES 4.10",
                      "OpenSES 4.2", "OpenSES 4.3",
                      "SES 204.2", "SES 204.3",
-                     "SES 204.4", "SES 204.5", ]
+                     "SES 204.4", "SES 204.5",
+                     "SES 204.6",
+                     "SVS 6.6.2",
+                     ]
 
             # Make a dictionary of requirements and data for each plot type.
             # These include the version numbers of SES that can plot them,
@@ -597,6 +600,16 @@ class SESdata:
                              "var_name": self.heat_reject,
                              "tpopt": (1, 2, 3),
                             },
+                "svseffic": {"versions": ("SVS 6.6.2",),
+                             "place": "train",
+                             "descrip": "SVS train efficiency",
+                             "conversion": "nulldash",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.train_SVSeff,
+                             "tpopt": (1, 2, 3),
+                            },
                 "mode":     {"versions": basic,
                              "place": "train",
                              "descrip": "travel mode of", # 0 to 7, see below.
@@ -768,6 +781,89 @@ class SESdata:
                              # supplementary print options 2, 3, 4 and 5.
                              "supopt":  (2, 3, 4, 5),
                             },
+                "svsregen1":{"versions": ("SVS 6.6.2",),
+                             "place": "train",
+                             "descrip": "SVS train regen factor on",
+                             "conversion": "nulldash",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.train_SVSregen,
+                             # SVS regen fraction can vary with location
+                             # on a route.  It is only available with
+                             # supplementary print options 2, 3, 4 and 5.
+                             "supopt":  (2, 3, 4, 5),
+                             "tpopt": (1, 2, 3),
+                            },
+                # These are annulus areas at the ends of trains and
+                # pressure changes across the train ends and due to
+                # train skin friction.  These are only available in
+                # offline-SES 204.6.
+                "dp_up":    {"versions": ("204.6",),
+                             "place": "train",
+                             "descrip": "pressure change at up end of",
+                             "conversion": "press1",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.dP_up,
+                             "tpopt": (1, 2, 3),
+                             # This is only available with supplementary print
+                             # options 3 and 5.
+                             "supopt":  (3, 5),
+                            },
+                "area_up":  {"versions": ("204.6",),
+                             "place": "train",
+                             "descrip": "annulus area at up end of",
+                             "conversion": "area",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.area_up,
+                             "tpopt": (1, 2, 3),
+                             # This is only available with supplementary print
+                             # options 3 and 5.
+                             "supopt":  (3, 5),
+                            },
+                "dp_skin":  {"versions": ("204.6",),
+                             "place": "train",
+                             "descrip": "skin friction on",
+                             "conversion": "press1",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.dP_skin,
+                             "tpopt": (1, 2, 3),
+                             # This is only available with supplementary print
+                             # options 3 and 5.
+                             "supopt":  (3, 5),
+                            },
+                "dp_down":  {"versions": ("204.6",),
+                             "place": "train",
+                             "descrip": "pressure change at up end of",
+                             "conversion": "press1",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.dP_down,
+                             "tpopt": (1, 2, 3),
+                             # This is only available with supplementary print
+                             # options 3 and 5.
+                             "supopt":  (3, 5),
+                            },
+                "area_down":{"versions": ("204.6",),
+                             "place": "train",
+                             "descrip": "annulus area at up end of",
+                             "conversion": "area",
+                             "signed": False,
+                             "transient": True,
+                             "curve_types": ("transient",),
+                             "var_name": self.area_down,
+                             "tpopt": (1, 2, 3),
+                             # This is only available with supplementary print
+                             # options 3 and 5.
+                             "supopt":  (3, 5),
+                            },
                 # These are the properties that return data that can be
                 # used by Hobyah.py to plot icons as gnuplot objects
                 # (polygons, arrows, labels) instead of curves.
@@ -924,6 +1020,32 @@ class SESdata:
                              "y_list": "coasting2",
                              "open_air": "not used",
                              "tpopt": (1,),
+                            },
+                # SVS has route-based regen braking factor, given as
+                # a fraction 0-1 (form 8C) and a train-based regen factor
+                # (form 9H-A).  If the former is zero at a given train
+                # chainage, the latter is used.  The result is multiplied
+                # by the train's regenerative braking effectiveness (which,
+                # rather confusingly, is given as a percentage instead
+                # of a fraction) to give the total fraction of regen
+                # power in a given track section.
+                # The following plot ("SVSregen2") is of the first of these
+                # only.  Plot type "SVSregen1" (plotted on trains) gives
+                # the combined result of the entries in forms 8C and
+                # 9H-A, plotted against train chainage or against time.
+                "svsregen2":{"versions": ("SVS 6.6.2",),
+                             "place": "route",
+                             "descrip": "SVS track regen factor",
+                             "conversion": "null",
+                             "signed": False,
+                             "transient": False,
+                             "curve_types": ("profile",),
+                             "complexity": "simple",
+                             "var_name": self.form8_dict,
+                             "x_list": "paired_chs",
+                             "y_list": "regen2",
+                             "open_air": "not used",
+                             "tpopt": (1, 2),
                             },
                 "sections": {"versions": basic,
                              "place": "route",
@@ -1309,7 +1431,7 @@ class SESdata:
                              "signed": False,
                              "transient": True,
                              "curve_types": ("transient", "profile"),
-                             "var_name": self.HVAC_sens,
+                             "var_name": self.hVAC_sens,
                              "open_air": 0.0,
                              "tempopt": (1, 2),
                              "ECZopt": (1, 2),
@@ -1321,7 +1443,7 @@ class SESdata:
                              "signed": False,
                              "transient": True,
                              "curve_types": ("transient", "profile"),
-                             "var_name": self.HVAC_lat,
+                             "var_name": self.hVAC_lat,
                              "open_air": 0.0,
                              "tempopt": (1, 2),
                              "ECZopt": (1, 2),
@@ -1333,11 +1455,40 @@ class SESdata:
                              "signed": False,
                              "transient": True,
                              "curve_types": ("transient", "profile"),
-                             "var_name": self.HVAC_total,
+                             "var_name": self.hVAC_total,
                              "open_air": 0.0,
                              "tempopt": (1, 2),
                              "ECZopt": (1, 2),
                             },
+                # These next two are the runtime SVS cooling pipe properties
+                # printed at each timestep.  These store values only in the
+                # subsegments that each pipe runs through.  The variables
+                # are a list of pandas DataFrames, one per cooling pipe.
+                # They are commented out because the code to plot along
+                # pipes and in routes hasn't been written yet.
+                # "pipetemp": {"versions": ("SVS 6.6.2",),
+                #              "place": "pipe",
+                #              "descrip": "cooling pipe temperature",
+                #              "conversion": "temp",
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient", "profile",),
+                #              "complexity": "simple",
+                #              "var_name": self.coolpipe_temps,
+                #              "curve_types": ("transient", "profile"),
+                #              "open_air": 0.0,
+                #             },
+                # "pipe_ht": {"versions": ("SVS 6.6.2",),
+                #              "place": "pipe",
+                #              "descrip": "pipe heat transfer",
+                #              "conversion": watt1_fac,
+                #              "signed": False,
+                #              "transient": True,
+                #              "curve_types": ("transient", "profile",),
+                #              "complexity": "simple",
+                #              "var_name": self.coolpipe_HT,
+                #              "open_air": 0.0,
+                #             },
                 # The rest of the entries are used to trigger various
                 # error messages that are otherwise impossible to get to.
                 "_t5042":   {"versions": ("SES 504.2",), # Used to trigger error 5042
@@ -1405,33 +1556,33 @@ class SESdata:
                         # peak hour temperatures and expect them to give
                         # you valid data (see Section 5.10 of the SES v4.1
                         # User's Manual for details).
-                        self.properties["wallt_pm"]["descrip"] = "invalid PM wall temperature"
-                        self.properties["meandb_pm"]["descrip"] = "invalid PM mean air temperature"
-                        self.properties["meanw_pm"]["descrip"] = "invalid PM mean air humidity"
-                        self.properties["meandb_off"]["descrip"] = "invalid off-hour mean air temperature"
-                        self.properties["meanw_off"]["descrip"] = "invalid off-hour mean air humidity"
+                        self.properties["wallt_pm"]["descrip"] = "non-valid PM wall temperature"
+                        self.properties["meandb_pm"]["descrip"] = "non-valid PM mean air temperature"
+                        self.properties["meanw_pm"]["descrip"] = "non-valid PM mean air humidity"
+                        self.properties["meandb_off"]["descrip"] = "non-valid off-hour mean air temperature"
+                        self.properties["meanw_off"]["descrip"] = "non-valid off-hour mean air humidity"
                     else:
                         self.properties["wallt_used"]["descrip"] = "PM design hour wall temperature"
                         # It's an evening peak hour estimate.  Trash the
                         # descriptions of the morning peak and off-hour
                         # plot types.
-                        self.properties["wallt_am"]["descrip"] = "invalid AM wall temperature"
-                        self.properties["meandb_am"]["descrip"] = "invalid AM mean air temperature"
-                        self.properties["meanw_am"]["descrip"] = "invalid AM mean air humidity"
-                        self.properties["meandb_off"]["descrip"] = "invalid off-hour mean air temperature"
-                        self.properties["meanw_off"]["descrip"] = "invalid off-hour mean air humidity"
+                        self.properties["wallt_am"]["descrip"] = "non-valid AM wall temperature"
+                        self.properties["meandb_am"]["descrip"] = "non-valid AM mean air temperature"
+                        self.properties["meanw_am"]["descrip"] = "non-valid AM mean air humidity"
+                        self.properties["meandb_off"]["descrip"] = "non-valid off-hour mean air temperature"
+                        self.properties["meanw_off"]["descrip"] = "non-valid off-hour mean air humidity"
                 else:
                     newdesc = self.settings_dict["design_time"]  \
                               + " (off hour) wall temperature"
                     self.properties["wallt_used"]["descrip"] = newdesc
                     # It's an off hour estimate.  Trash the descriptions
                     # of the morning and evening peaks plot types.
-                    self.properties["wallt_am"]["descrip"] = "invalid AM wall temperature"
-                    self.properties["meandb_am"]["descrip"] = "invalid AM mean air temperature"
-                    self.properties["meanw_am"]["descrip"] = "invalid AM mean air humidity"
-                    self.properties["wallt_pm"]["descrip"] = "invalid PM wall temperature"
-                    self.properties["meandb_pm"]["descrip"] = "invalid PM mean air temperature"
-                    self.properties["meanw_pm"]["descrip"] = "invalid PM mean air humidity"
+                    self.properties["wallt_am"]["descrip"] = "non-valid AM wall temperature"
+                    self.properties["meandb_am"]["descrip"] = "non-valid AM mean air temperature"
+                    self.properties["meanw_am"]["descrip"] = "non-valid AM mean air humidity"
+                    self.properties["wallt_pm"]["descrip"] = "non-valid PM wall temperature"
+                    self.properties["meandb_pm"]["descrip"] = "non-valid PM mean air temperature"
+                    self.properties["meanw_pm"]["descrip"] = "non-valid PM mean air humidity"
 
 
     def _ReadSESData(self):
@@ -1461,7 +1612,6 @@ class SESdata:
             Aborts with 5006 if the binary file's version was too high.
             Aborts with 5007 if the file doesn't exist.
             Aborts with 5008 if we don't have permission to read the file.
-
 
         Returns:
             None if an error occurred, True if all was well.
@@ -1581,7 +1731,7 @@ class SESdata:
 
                 # Now check the version number.  The entry below is the version
                 # number that this version of the class can handle.
-                required = 10
+                required = 12
                 if self.binversion < required:
                     err = ('> A binary file has a version number that is\n'
                            '> too old for this program to process correctly.\n'
@@ -1613,7 +1763,7 @@ class SESdata:
                 # in the 'else' clause below and the list in the procedure
                 # PrettyClassPrint.
 
-                count = 23
+                count = 25
                 self.fixed_data = self._UnPickleData("the fixed data", count, pkl)
                 if self.fixed_data is None:
                     return(None)
@@ -1636,30 +1786,38 @@ class SESdata:
                      self.form6_dict,
                      self.form7_fans,
                      self.form7_JFs,
+                     self.form7D,
                      self.form8_dict,
                      self.form9_dict,
                      self.form10_dict,
                      self.form11_dict,
                      self.form12_dict,
-                     self.form13_dict) = self.fixed_data
+                     self.form13_dict,
+                     self.form14_dict) = self.fixed_data
 
                     # Convert the version number into a program type
                     # with the appropriate program prefix.  SESconv.py
                     # added "SES ", here we add the necessary prefix.
-                    if self.prog_type in ("SES 4.10", "SES 4.1"):
-                        # Nothing needed.
-                        self.full_prog = self.prog_type
-                    elif self.prog_type in ("SES 4.2", "SES 4.3"):
+                    if self.prog_type in ("SES 4.2", "SES 4.3"):
                         # It's an OpenSES file.
                         self.full_prog = "Open" + self.prog_type
-                    elif self.prog_type in ("SES 204.2", "SES 204.3",
-                        "SES 204.4", "SES 204.5", ):
+                    elif "SES 20" in self.prog_type:
+                        # It's offline-SES file (version numbers are
+                        # 204.2, 204.3 etc.
                         self.full_prog = "offline-" + self.prog_type
+                    else:
+                        # It's an SES or SVS file.
+                        self.full_prog = self.prog_type
+
 
                     # Get the name of the SES input file from the footer.
-                    # This works even if it is a spoofed footer from data
-                    # in SES v4.2.
-                    candidate = self.footer[5:78].strip()
+                    # SVS needs the slice to start later than SES.
+                    if self.prog_type in ("SVS 6.6.2", ):
+                        candidate = self.footer[7:78].strip()
+                    else:
+                        # This works even if it is a spoofed footer from data
+                        # in SES v4.2.
+                        candidate = self.footer[5:78].strip()
                     # Look for the last instance of a forward slash
                     foldersep = candidate.rfind('/')
                     if foldersep != -1:
@@ -1679,7 +1837,7 @@ class SESdata:
                 # When this changes, we need to update the counter, the list
                 # in the 'else' clause below and the list in the procedure
                 # PrettyClassPrint.
-                count = 67
+                count = 76
                 self.transient_data = self._UnPickleData("the transient data",
                                                          count, pkl)
 
@@ -1734,6 +1892,13 @@ class SESdata:
                      self.heat_sens, # heat from trains, not in zones
                      self.heat_lat,
                      self.train_eff,
+                     self.train_SVSeff,
+                     self.train_SVSregen,
+                     self.dP_up,
+                     self.area_up,
+                     self.dP_skin,
+                     self.dP_down,
+                     self.area_down,
                      self.airT_AM,
                      self.airW_AM,
                      self.wallT_AM,
@@ -1750,13 +1915,12 @@ class SESdata:
                      self.ground_sens,
                      self.airex_sens,
                      self.airex_lat,
-                     self.HVAC_sens,
-                     self.HVAC_lat,
-                     self.HVAC_total,
+                     self.hVAC_sens,
+                     self.hVAC_lat,
+                     self.hVAC_total,
+                     self.coolpipe_temps,
+                     self.coolpipe_HT,
                     ) = self.transient_data
-
-
-
         except FileNotFoundError:
             # The binary file doesn't exist.  Complain and return.
             err = ("> A binary file does not exist.  The missing\n"
@@ -2231,7 +2395,7 @@ class SESdata:
                    '> for ' + descrip + '.\n'
                    '> Expected ' + str(count)
                        + ' item' + gen.Plural(count) + ' but read '
-                       + str(len(value)) + ' instead.\n'
+                       + str(len(value)) + ' instead.'
                    )
             gen.WriteError(5024, err, self.log)
             return(None)
@@ -2379,6 +2543,12 @@ class SESdata:
       "form13_dict":
         'A dictionary containing the entries in form 12 of the input\n'
         'file.',
+      "form14_dict":
+        'A dictionary containing the entries in form 14 of the input\n'
+        'file.  There are no sub-dictionaries, just keys that return\n'
+        'one number (such as pipe inlet temperature) or a list of\n'
+        'numbers (such as a list of the sections the cooling pipe\n'
+        'passes through).\n',
       "subseg_names":
         'A list of strings giving the names of all the subsegments in\n'
         "the run, such as ['201-1','201-2', ...]",
@@ -3046,14 +3216,28 @@ class SESdata:
         'zones (total of all the subsegments in the zone).\n'
         'It is the sensible heat flow from fixed heat gains and\n'
         'from trains.\n'
-        'Values are given at the start and end of the run with two\n'
-        'values each time an ECZ estimate is calculated.\n'
+        'Values are given at the start and end of the run, as are\n'
+        'two values each time an ECZ estimate is calculated.\n'
         'The columns are strings, but with two types: strings\n'
         'giving the segment number and subsegment numbers, such\n'
-        'as "204-5" for subsegment 5 in segment 204 and strings\n'
+        'as "204-5" for subsegment 5 in segment 204; and strings\n'
         'giving the zone number preceded by the word "zone", such\n'
         'as "zone2" (to give the total over the entire zone).\n'
-        'The indices are the times given  as floats.  The values\n'
+        'The indices are the times given as floats.  The values\n'
+        'are given in watts.\n',
+      "misc_lat":
+        'A pandas DataFrame giving ECZ estimates over controlled\n'
+        'zones (total of all the subsegments in the zone).\n'
+        'It is the latent heat flow from fixed heat gains and\n'
+        'from trains.\n'
+        'Values are given at the start and end of the run, as are\n'
+        'two values each time an ECZ estimate is calculated.\n'
+        'The columns are strings, but with two types: strings\n'
+        'giving the segment number and subsegment numbers, such\n'
+        'as "204-5" for subsegment 5 in segment 204; and strings\n'
+        'giving the zone number preceded by the word "zone", such\n'
+        'as "zone2" (to give the total over the entire zone).\n'
+        'The indices are the times given as floats.  The values\n'
         'are given in watts.\n',
                      # self.misc_lat,
                      # self.steady_sens,
@@ -3061,9 +3245,9 @@ class SESdata:
                      # self.ground_sens,
                      # self.airex_sens,
                      # self.airex_lat,
-                     # self.HVAC_sens,
-                     # self.HVAC_lat,
-                     # self.HVAC_total,
+                     # self.hVAC_sens,
+                     # self.hVAC_lat,
+                     # self.hVAC_total,
         }
 
 
@@ -3133,74 +3317,11 @@ class SESdata:
                        'form2_dict', 'form3_dict', 'form4_dict', 'form5_dict',
                        'form6_dict', 'form7_fans', 'form7_JFs', 'form8_dict',
                        'form9_dict', 'form10_dict', 'form11_dict', 'form12_dict',
-                       'form13_dict',
+                       'form13_dict', 'form14_dict',
                        'print_times',
                        'ECZ_times',
                        'sec_seg_dict'
                       ]
-        trans_known = ['sec_DPs',
-                       'seg_flows',
-                       'seg_vels',
-                       'subseg_names',
-                       'subseg_humids',
-                       'subseg_sens',
-                       'subseg_lat',
-                       'subseg_denscorr',
-                       'seg_meandenscorr',
-                       'subseg_walltemps',
-                       'subseg_temps',
-                       'subpoint_keys',
-                       'subpoint_areas',
-                       'subpoint_trainflows',
-                       'subpoint_coldflows',
-                       'subpoint_coldvels',
-                       'subpoint_warmflows',
-                       'subpoint_warmvels',
-                       'route_num',
-                       'train_type',
-                       'train_locn',
-                       'train_speed',
-                       'train_accel',
-                       'train_aerodrag',
-                       'train_coeff',
-                       'train_TE',
-                       'motor_amps',
-                       'line_amps',
-                       'flywh_rpm',
-                       'accel_temp',
-                       'decel_temp',
-                       'pwr_all',         # Watts per train
-                       'heat_reject',     # Watts per train
-                       'train_modev',
-                       'pwr_aux',
-                       'pwr_prop',
-                       'pwr_regen',
-                       'pwr_flywh',
-                       'pwr_accel',
-                       'pwr_decel',
-                       'pwr_mech',
-                       'heat_adm',        # Watts per train
-                       'heat_sens',       # Watts per train
-                       'heat_lat',        # Watts per train
-                       'train_eff',
-                       'airT_AM',
-                       'airT_PM',
-                       'airT_off',
-                       'airW_AM',
-                       'airW_PM',
-                       'airW_off',
-                       'airex_lat',
-                       'airex_sens',
-                       'ground_sens',
-                       'misc_lat',
-                       'misc_sens',
-                       'steady_lat',
-                       'steady_sens',
-                       'wallT_AM',
-                       'wallT_PM',
-                       'wallT_used',
-                      ]
-
         # Set the decimal places to round the runtime pandas DataFrames
         # to when printing them.  This can be overridden by passing
         # 'rounded' as False.
@@ -3249,6 +3370,13 @@ class SESdata:
                    'heat_sens': 1,
                    'heat_lat': 1,
                    'train_eff': 4, # Fractional value, 0 to 1.  Not %.
+                   'dP_up': 3,
+                   'area_up': 3,
+                   'dP_skin': 3,
+                   'dP_down': 3,
+                   'area_down': 3,
+                   'train_SVSeff': 2,
+                   'train_SVSregen': 4,
                    'airT_AM': 3,
                    'airT_PM': 3,
                    'airT_off': 3,
@@ -3265,14 +3393,20 @@ class SESdata:
                    'wallT_AM': 3,
                    'wallT_PM': 3,
                    'wallT_used': 3,
+                   'misc_sens': 2,
+                   'misc_lat': 2,
+                   'steady_sens': 2,
+                   'steady_lat': 2,
+                   'ground_sens': 2,
+                   'airex_sens': 2,
+                   'airex_lat': 2,
+                   'hVAC_sens': 2,
+                   'hVAC_lat': 2,
+                   'hVAC_total': 2,
+                   'coolpipe_temps': 2,
+                   'coolpipe_HT': 2,
                   }
-        # Check if the names in the list of decimal places match
-        # the names in the list of transient properties and complain
-        # if they do not.
-        absent = [key for key in decpls.keys() if key not in trans_known]
-        if len(absent) > 0:
-            print("Need to add one or more entries to 'decpls' in\n"
-                  "PrettyClassPrint: ", absent)
+        trans_known = list(decpls.keys())
 
         # Make a list of any properties that we haven't handled yet.  We
         # get a list of all of them (dir.self()).  Then we ignore the ones
@@ -3284,6 +3418,8 @@ class SESdata:
         #  * the ones already in 'trans_known'.
         # Ideally this would be empty.  But as we add more content to the
         # binary file it may not be, so this is where we pick up on that.
+        # Note that this test relies on the first letter of the arrays
+        # that hold the properties being in lower case.
         missed = [entry for entry in dir(self) if entry[0].islower() and
                                                   not (entry in ignore or
                                                        entry in fixed_known or
@@ -3993,7 +4129,7 @@ class SESdata:
                         return(None)
                 else:
                     err = ('> Tell the programmer that the train number\n'
-                           '> handling in SESclass.TransientAt needs to be\n'
+                           '> handling in classSES.TransientAt needs to be\n'
                            '> modified to handle output from '
                              + self.prog_type + '\n'
                            '> input files.'
@@ -4018,7 +4154,7 @@ class SESdata:
                 # allowed.remove("zone")
 
                 err = ('> Tell the programmer that an extra elif clause\n'
-                       '> needs to be added in SESclass.TransientAt\n'
+                       '> needs to be added in classSES.TransientAt\n'
                        '> to handle plot locations of type "' + allowed[0] + '".'
                       )
                 gen.WriteError(5083, err, self.log)
@@ -4145,7 +4281,7 @@ class SESdata:
                         err = ('> Tell the programmer that a new type of \n'
                                '> DataFrame key was added (not str or int)\n'
                                '> without adding the ability to handle it\n'
-                               '> to an "if" clause in SESclass.GetLocation.'
+                               '> to an "if" clause in classSES.GetLocation.'
                               )
                         gen.WriteError(5098, err, self.log)
                         gen.ErrorOnLine(line_number, line_text, self.log, False)
@@ -4241,7 +4377,7 @@ class SESdata:
             #
             #   $       Matches the end of the string.
             # Note that .
-            result = re.match("^[-+]?\d+$", where)
+            result = re.match(r"^[-+]?\d+$", where)
             if result is not None:
                 seg_num = where
                 if int(seg_num) < 1:
@@ -4268,7 +4404,7 @@ class SESdata:
                 # a dash, possible with one of "b", "m" or "f" after it.
                 where_low = where.lower()
                 #
-                result = re.match("^\d+-\d+[bmf]?$", where_low)
+                result = re.match(r"^\d+-\d+[bmf]?$", where_low)
                 # Here are the details of how this regular expression
                 # was built up:
                 #
@@ -4308,7 +4444,7 @@ class SESdata:
                 else:
                     # Check if it is a section number, e.g. "sec701".
                     where_low = where.lower()
-                    result = re.match("^sec\d+$", where_low)
+                    result = re.match(r"^sec\d+$", where_low)
                     if result is not None:
                         # We have a match.
                         db_key = where_low
@@ -5164,6 +5300,18 @@ class SESdata:
             autolabel = self._BuildAutoLabel("transient", prop, units,
                                              orig_where, "outside")
             descrip = "In the open air"
+        elif prop in ("pipetemp", "pipe_ht"):
+            # We need to be careful with SVS cooling pipes, as not every
+            # subsegment or subpoint will have a cooling pipe passing
+            # through it.
+            # We can plot at a distance along a pipe, a distance along
+            # a route and along a pipe or route at an instant in time.
+            # Need to figure out if more than one pipe can pass through
+            # a single segment: if only one can be in a segment we can
+            # plot at subsegments and at subpoints; if more than one
+            # can, we will have to choose a location and which pipe to
+            # plot at.
+            pass
         else:
             # It is inside the tunnel, in a zone or on a train.  First
             # check if the location is a segment.  If it is, turn the
@@ -5295,6 +5443,7 @@ class SESdata:
             Raises 5261 if a pressure profile had an optional argument that
             gave a vent segment to take the pressure at the start of the
             route from, but the vent segment is not in the run.
+            Raises 5262 if the definition had no "@" in it.
         '''
 
 
@@ -5304,6 +5453,19 @@ class SESdata:
         these_props = self.properties[prop.lower()]
         keytype = these_props["place"]
         transient = these_props["transient"]
+
+        if "@" not in where:
+            # There was no "@" in the entry.
+            err = ('> Tried to plot a curve in "' + file_name + '",\n'
+                   '> but found that the location identifier was\n'
+                   '> invalid.  It was "' + where + '" whereas it should\n'
+                   '> be something like "route4@120".\n'
+                   '> Please edit the file to correct it.'
+                   )
+            gen.WriteError(5262, err, self.log)
+            gen.ErrorOnLine(line_number, line_text, self.log, False)
+            return(None)
+
 
         # Check the general structure of the location.  This returns
         # the name of the entity in lower case ("route" is the only
@@ -6535,7 +6697,7 @@ class SESdata:
             print('Ugh, need to add an entry for key "' + x_name.lower() + '" in\n'
                   'PROC _Colheaders in classSES.py.')
             err = ('> Tell the programmer that an entry for "' + x_name.lower() + '"\n'
-                   '> needs to be added in SESclass._Colheaders.'
+                   '> needs to be added in classSES._Colheaders.'
                   )
             gen.WriteError(5201, err, self.log)
             gen.OopsIDidItAgain(self.log, file_name)
@@ -6677,12 +6839,6 @@ class SESdata:
             # This train number did not enter the system during the run.
             # Spoof the data with two points so that gnuplot accepts it
             # as a valid curve.
-            y_data = db_to_use[tr_num].dropna()
-
-            # Get the list of valid times for this train.  These are
-            # (conveniently) the indices of y_data.  Get the chainage
-            # as well, in case the user wants to plot against distance
-            # instead of against time.
             x_times = [0.0, 1.0]
             x_dists = [0.0, 1.0]
             y_data = [0.5, 0.5]
@@ -6897,6 +7053,7 @@ class SESdata:
                        "OFFLINE-SES 204.3",
                        "OFFLINE-SES 204.4",           # As of May 2023
                        "OFFLINE-SES 204.5",           # As of June 2023
+                       "OFFLINE-SES 204.6",           # As of Jan 2025
                        "SVS 6.6.2",
                       )
         # Check that we have strings in the three arguments.  This routine
@@ -6935,7 +7092,7 @@ class SESdata:
                      + str(target) + '")\n'
                    '> instead.  Please set the third argument in the\n'
                    '> call to a valid string, one of\n'
-                     + gen.FormatOnLine(acceptables)
+                     + gen.FormatOnLines(acceptables)
                   )
             gen.WriteError(5183, err, self.log)
             return(err)
@@ -7011,6 +7168,7 @@ class SESdata:
               "offline-SES v204.3", "offline-SES 204.3",
               "offline-SES v204.4", "offline-SES 204.4",
               "offline-SES v204.5", "offline-SES 204.5",
+              "offline-SES v204.6", "offline-SES 204.6",
               "SVS 6.6.2", "SVS v6.6.2"
               )
             # Check for versions on the first line, replace the first instance
@@ -7410,7 +7568,7 @@ class SESdata:
             forms_5D = this_5["forms_5D"]
             for index_5D in range(len(forms_5D)):
                 form_5D = forms_5D[index_5D]
-                decpl = (2, 3, 2, 2, 2, 2, 2)
+                decpl = (3, 3, 2, 2, 2, 2, 2)
                 if USunits:
                     # Convert the units to US and adjust the count of decimal places.
                     keys = ["dist1", "area", "dist1", "null", "null", "null", "null"]
@@ -7861,8 +8019,8 @@ class SESdata:
                                 for i in range(len(keys))]
             elif target[:3] == "SVS":
                 # SVS sets the diameters in mm, not metres.
-                form9D1[2] = form9D1[2] * 1000
-                form9D1[3] = form9D1[3] * 1000
+                form9D1[2] = form9D1[2] * 1000.
+                form9D1[3] = form9D1[3] * 1000.
             line = gen.FormatInpLine(form9D1, decpl, "9D_1", USunits, self.log, Aur, comment)
             gen.WriteOut(line, ses)
 
@@ -7934,20 +8092,20 @@ class SESdata:
                 form9F1 = [m_descrip, manfdiam, actdiam]
                 decpl = (0, 3, 3)
                 if USunits:
-                    keys = ("null", "dist4", "dist4")
+                    # Convert the diameters to inches and adjust the count
+                    # of decimal places.
+                    form9F1[1] = form9F1[1] / 0.0254
+                    form9F1[2] = form9F1[2] / 0.0254
                     decpl = (0, 2,  2)
-                    # Convert the units to US and adjust the count of decimal places.
-                    form9F1 = [USc.ConvertToUS(keys[i+1], form9F1[i], False, self.log)[0]
-                                    for i in range(2)]
                 elif target[:3] == "SVS":
-                    # Form 9D in SVS has wheel diameters in mm.
-                    form9F1[1] = form9F1[1] * 1000
-                    form9F1[2] = form9F1[2] * 1000
+                    # Form 9D in SVS has wheel diameters in mm rather than
+                    # inches (SES) or metres (offline-SES and Aurecon SES).
+                    form9F1[1] = form9F1[1] * 1000.
+                    form9F1[2] = form9F1[2] * 1000.
                     decpl = (0, 0, 0)
                 line = gen.FormatInpLine(form9F1, decpl, "9F1", USunits, self.log,
                                     Aur, "motor descrip, 2 wheel diameters")
                 gen.WriteOut(line, ses)
-
 
                 form9F2 = (this_9["ratio_manf"],
                            this_9["ratio_act"],
@@ -8291,92 +8449,6 @@ subf = "files-SES/2021-08-files/SES41-tests"
 fname = "SES-sample-project-1.sbn"
 
 bfses = clS.SESdata(subf, "SES-sample-project-1.sbn", log)
-
-import importlib
-import classSES as clS
-log = open("log_discard.txt", "w")
-subf2 = "/Users/ecb/Documents/sandboxes/Hobyah/files-SES/SES-41-test-files-2"
-fname2 = "SES-161-trains-crossing.sbn"
-tx = clS.SESdata(subf2, fname2, log)
-importlib.reload(clS); tx = clS.SESdata(subf2, fname2, log)
-
-fname3 = "SES-163-density-adjustments.sbn"
-s163 = clS.SESdata(subf2, fname3, log)
-importlib.reload(clS); s163 = clS.SESdata(subf2, fname3, log)
-
-
-import importlib
-import classSES as clS
-log = open("log_discard.txt", "w")
-subf3 = "/Users/ecb/Documents/sandboxes/Hobyah/files-SES/2023-03-files"
-fname3 = "SES-060-normal-ops-sample.sbn"
-r060 = clS.SESdata(subf3, fname3, log)
-importlib.reload(clS); r060 = clS.SESdata(subf3, fname3, log)
-
-
-
-import importlib
-import classSES as clS
-log = open("log_discard.txt", "w")
-
-
-subf = "/Users/ecb/Documents/sandboxes/Hobyah/files-SES/SES-41-test-files-2"
-fname105 = "SES-105-impl-impl-5"
-fname115 = "SES-115-impl-expl-5"
-fname125 = "SES-125-expl-expl-5"
-fname132 = "SES-132-ECZs-5-2"
-fname145 = "SES-145-fire-5"
-fname151 = "SES-151-fans-cark"
-fname152 = "SES-152-train-crash"
-fname153 = "SES-153-fire-fixed-wall-temps"
-fname154 = "SES-154-ECZ-fails"
-fname155 = "SES-155-thermo-criterion-fails"
-
-importlib.reload(clS);
-bf105 = clS.SESdata(subf, fname105 + ".sbn", log)
-bf115 = clS.SESdata(subf, fname115 + ".sbn", log)
-bf125 = clS.SESdata(subf, fname125 + ".sbn", log)
-bf132 = clS.SESdata(subf, fname132 + ".sbn", log)
-bf132.form13_dict.__setitem__('run_time', 2405.0)
-bf145 = clS.SESdata(subf, fname145 + ".sbn", log)
-bf151 = clS.SESdata(subf, fname151 + ".sbn", log)
-bf152 = clS.SESdata(subf, fname152 + ".sbn", log)
-bf153 = clS.SESdata(subf, fname153 + ".sbn", log)
-bf154 = clS.SESdata(subf, fname154 + ".sbn", log)
-bf155 = clS.SESdata(subf, fname155 + ".sbn", log)
-
-bf105.WriteInputFile("SVS" + fname105[3:] + ".inp", "SI", "SVS 6.6.2")
-bf115.WriteInputFile("SVS" + fname115[3:] + ".inp", "SI", "SVS 6.6.2")
-bf125.WriteInputFile("SVS" + fname125[3:] + ".inp", "SI", "SVS 6.6.2")
-bf132.WriteInputFile("SVS" + fname132[3:] + ".inp", "SI", "SVS 6.6.2")
-bf145.WriteInputFile("SVS" + fname145[3:] + ".inp", "SI", "SVS 6.6.2")
-bf151.WriteInputFile("SVS" + fname151[3:] + ".inp", "SI", "SVS 6.6.2")
-bf152.WriteInputFile("SVS" + fname152[3:] + ".inp", "SI", "SVS 6.6.2")
-bf153.WriteInputFile("SVS" + fname153[3:] + ".inp", "SI", "SVS 6.6.2")
-bf154.WriteInputFile("SVS" + fname154[3:] + ".inp", "SI", "SVS 6.6.2")
-bf155.WriteInputFile("SVS" + fname155[3:] + ".inp", "SI", "SVS 6.6.2")
-
-bf105.WriteInputFile(fname105 + "_US.ses", "US", "SES 4.1")
-bf115.WriteInputFile(fname115 + "_US.ses", "US", "SES 4.1")
-bf125.WriteInputFile(fname125 + "_US.ses", "US", "SES 4.1")
-bf132.WriteInputFile(fname132 + "_US.ses", "US", "SES 4.1")
-bf145.WriteInputFile(fname145 + "_US.ses", "US", "SES 4.1")
-bf151.WriteInputFile(fname151 + "_US.ses", "US", "SES 4.1")
-bf152.WriteInputFile(fname152 + "_US.ses", "US", "SES 4.1")
-bf153.WriteInputFile(fname153 + "_US.ses", "US", "SES 4.1")
-bf154.WriteInputFile(fname154 + "_US.ses", "US", "SES 4.1")
-bf155.WriteInputFile(fname155 + "_SI.inp", "SI", "SVS 6.6.2")
-
-bf105.WriteInputFile(fname105 + "_SI.ses", "SI", "SES 4.1")
-bf115.WriteInputFile(fname115 + "_SI.ses", "SI", "SES 4.1")
-bf125.WriteInputFile(fname125 + "_SI.ses", "SI", "SES 4.1")
-bf132.WriteInputFile(fname132 + "_SI.ses", "SI", "SES 4.1")
-bf145.WriteInputFile(fname145 + "_SI.ses", "SI", "SES 4.1")
-bf151.WriteInputFile(fname151 + "_SI.ses", "SI", "SES 4.1")
-bf152.WriteInputFile(fname152 + "_SI.ses", "SI", "SES 4.1")
-bf153.WriteInputFile(fname153 + "_SI.ses", "SI", "SES 4.1")
-bf154.WriteInputFile(fname154 + "_SI.ses", "SI", "SES 4.1")
-bf155.WriteInputFile(fname155 + "_SI.inp", "SI", "SVS 6.6.2")
+importlib.reload(clS)
 '''
-
 

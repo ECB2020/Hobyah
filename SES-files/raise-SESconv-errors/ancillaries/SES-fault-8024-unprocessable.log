@@ -1,0 +1,11 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8024-unprocessable.PRN".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8024 ******************************
+> Failed to find lines marking "SES-fault-8024-unprocessable.PRN"
+> as an SES output file (no header, couldn't find
+> all three of the following lines near the start
+> of the file:
+>     "SUBWAY ENVIRONMENT SIMULATION"
+>            "SIMULATION OF"
+>                         "VERSION 4.10"
+> Are you sure this is an SES output file?

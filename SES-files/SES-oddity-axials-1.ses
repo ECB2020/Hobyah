@@ -14,6 +14,7 @@ The mean temperature is calculated in lines 122 to 139 of PINPNT.FOR and the
 ratio to outside air temperature is used as a proxy for mean density ratio in
 lines 27 to 37 of OMEGA1.FOR.
 17.0      7         2020
+  offline-SES 204.6
 1         1         1         0         0         5         0         0          tpopt  humid W/WB/RH ECZs therm supopt simerr inperr
 4         7         3         8         1         0         2         1          lsegs  sects  vsegs nodes use1  use0   fires  fans
 1         1         0         1         0         0         0         0          routes trtyp  zones fcark trns  JFs    write  read
@@ -81,7 +82,7 @@ Right fire                              104       3
 0.0       0.0       0.0       0.0       0.0       0.0
 TVS fan, random char                    0.075     20        -50005.0  560020.0   Form 7A
 10.2      0.0       7.4       140057.0  4.27      329909.0  0.0       429920.0
-10.2      0.0       7.4       140057.0  4.27      329909.0  0.0       429920.0
+2.55      0.0       1.85      70000.0   1.07      165000.0  0.0       215000.0
 Route 1                                                                          Form 8A
 0.0       1         1         5000.0    1         25.0      0
 6000.0    50000.0   0.0       0         50.0      0         0                    Form 8C

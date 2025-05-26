@@ -1,0 +1,8 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8035-SVS-newer-SVS-version.OUT".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8035 ******************************
+> SVS file "SES-fault-8035-SVS-newer-SVS-version.OUT" has
+> a version number ("6.7.1") that this script is
+> not able to process yet.
+> Please raise a request to get the new version
+> of SVS supported.

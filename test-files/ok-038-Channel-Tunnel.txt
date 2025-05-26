@@ -190,31 +190,6 @@ begin tunnel SangSouth  # Adit from SVS vent shaft at Sangatte to RTS
   SESpragmat 921 vent
 end tunnel
 
-begin SESdata
-  #  target offline-ses  # Sets which type of SES input file to write.
-  #  filename  ok-038-off.ses
-  #  target aurecon-ses
-  #  filename  ok-038-aur.ses
-  #  target svs
-  #  filename  ok-038-svs.ses
-    target 4.1
-    filename  ok-038-v41.ses
-  #  target openses
-  #  filename  ok-038-v43.ses
-
-  form1B 17   7    2024
-
-  form1F 25.       19.       p_atm     23.5      18.73     28.78     20.17     4.6
-
-  form1G 75        10.       12.2      14.5      12.8      96.6      1         0.2
-
-               # wall   DB    WB
-  3temperatures   21.   25.   19.
-
-  form3F 0.24      20.       1.4352    6.452E-07 1.2104    6.452E-07 19.
-
-end SESdata
-
 
 begin plots
   begin page # ignore # 1
@@ -419,4 +394,32 @@ Friction factor of the running tunnels is from:
 Details of the approximate crossover locations are from data on charts
 in "The Channel Tunnel, A Designer's Perspective", Mott MacDonald,
 privately published (in 1995, I think).
+
+
+
+
+begin SESdata
+  #  target offline-ses  # Sets which type of SES input file to write.
+  #  filename  ok-038-off.ses
+  #  target aurecon-ses
+  #  filename  ok-038-aur.ses
+  #  target svs
+  #  filename  ok-038-svs.ses
+    target 4.1
+    filename  ok-038-v41.ses
+  #  target openses
+  #  filename  ok-038-v43.ses
+
+  form1B 17   7    2024
+
+  form1F 25.       19.       p_atm     23.5      18.73     28.78     20.17     4.6
+
+  form1G 75        10.       12.2      14.5      12.8      96.6      1         0.2
+
+               # wall   DB    WB
+  3temperatures   21.   25.   19.
+
+  form3F 0.24      20.       1.4352    6.452E-07 1.2104    6.452E-07 19.
+
+end SESdata
 

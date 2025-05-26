@@ -1,0 +1,41 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8029-dud-year.PRN".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+It looks like the run crashed reading the input.
+Processing the file as far as possible.
+Checking the output file for SES error messages...didn't find any SES error messages.
+> *Error* type 8029 ******************************
+> Failed to find a valid year in form 1B in file "SES-fault-8029-dud-year.PRN".
+> The year was supposed to be something like "2028"
+> but was actually "10,000".
+> Please edit the file to correct the corrupted entry.
+> Faulty line of input (24th) is
+>   DESIGN TIME 1700 HRS   OCTOBER    10,000
+Failed to process form 1B

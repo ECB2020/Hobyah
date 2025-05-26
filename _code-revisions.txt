@@ -1,14 +1,15 @@
 Record of changes to Hobyah.py, SEScon.py and their associated programs
 *----------------------------------------------------------------------
 
-This file is a list of changes to the software in the Hobyah suite, in
-date order.  The order of entry is as follows:
+This file is a list of changes to the software in the published Hobyah
+suite, in date order (newest changes first).  The order of entry is as
+follows:
 
 Changes to the two principal scripts:
     Hobyah.py
     SESconv.py,
 
-The secondary scripts/programs:
+Changes to the secondary scripts/programs:
     classHobyah.py
     classSES.py
     compressible.f95
@@ -16,19 +17,65 @@ The secondary scripts/programs:
     syntax.py
     UScustomary.py
 
-The tertiary scripts:
+Changes to the tertiary scripts:
     _error-statements.py
     generate-batch-files.py
 
-The spreadsheets:
+Changes to the spreadsheets:
     slug-flow-quadratics.ods
 
-The most recent changes to each file can be jumped to by searching for "*-"
-(without double quotes).
+The most recent changes to each file can be jumped to by searching for
+"*-" (without double quotes).
 
 
 Hobyah.py
 *--------
+
+26 May 2025
+-----------
+Fixed a bug in which the .hbn file of the file being run in Hobyah was
+looked for in the current working directory rather than the directory
+that the input file is in.
+
+When writing new SES input files, changed the count of decimal places
+of segment lengths in form 5 to match the count of decimal places in
+the segment stack height.  This should reduce the occurrence of "stack
+height longer than the segment" errors in SES input files generated
+from Hobyah files.
+
+Changed the units of wheel diameters from metres to millimetres when
+writing SVS input files generated from Hobyah tunnel networks.
+
+Modified the text of error 2104 to include the names of valid entries
+rather than the full specification of those valid entries.
+
+Modified the writing of SES files to raise an error if the tunnels
+are not all connected together (this is fine in Hobyah but not allowed
+in SES).
+
+Modified the writing of SES files to handle SES files that have no
+routes or trains.
+
+Changed the definition of the variable "outstem" (which is written to the
+gnuplot .plt file so that advanced users of gnuplot can use it) so that
+it does not include a trailing ".".
+
+Changed the string definitions in regular expressions and some function
+descriptions to be raw strings so that newer versions of Python don't
+raise 'SyntaxWarning: invalid escape sequence' when they process the
+code.
+
+Added code to prevent messages about the Fortran compressible flow
+routines being written to the screen multiple times when using Python's
+multiprocessing module.
+
+Reduced the default passenger mass in SES input files from 100 kg (morbidly
+obese passengers) to 90.5 (slightly less morbidly obese).  This avoids
+tripping SES error type 4 (passenger mass over 200 lbs).
+
+Added descriptions of the errors raised in the procedure ProcessSESData.
+
+
 24 October 2024
 ---------------
 Added a Windows executable file "Hobyah.exe" and a standalone installation
@@ -59,6 +106,61 @@ value of the constant.
 
 SESconv.py
 *---------
+
+26 May 2025
+-----------
+Added support for processing SVS output files (.OUT files) and storing
+SVS data in .sbn files for plotting by Hobyah.py.  Some SVS input errors
+are not yet trapped - if you manage to trigger one, please raise a bug
+report on GitHub.
+
+Added code to improve the processing of files that don't run due to
+having too many input errors.
+
+Added support for processing printouts of train tail loss factor in the
+open air (in offline-SES v204.6 and SVS).
+
+Added code to calculate and print the tail loss factor to the output file
+for versions of SES that don't print it.
+
+Added developer command line option "-picky" to print warning messages
+that catch Fortran print field overflows and report on suspicious
+characters at the start and end of a number on a line.  These are
+otherwise only written to the log file.  This is mostly useful for
+debugging during development and is likely to not be useful for most
+users.
+
+Added support for processing the printouts of train nose pressure loss,
+tail loss and train skin friction loss printed by offline-SES v204.6
+and above.
+
+Corrected the processing of files that raise SES error 125.
+
+Added code to process files with SES type 6 junctions (a reserved type
+that in SES v4.1 turns out to treat the same as a zero pressure change
+junction).
+
+Modified some checks of offline-SES versions to avoid possible
+floating-point mismatches.
+
+Corrected a bug with the sorting of sections into the order needed
+for processing the runtime output.
+
+Added code to handle offline-SES error messages.
+
+Added code to process tables of runtime annulus areas and pressure losses
+due to train ends and skin friction written by offline-SES v204.6.
+
+Changed the string definitions in regular expressions and in some
+function descriptions to be raw strings so that newer versions of
+Python don't raise 'SyntaxWarning: invalid escape sequence'.
+
+Modified Pandas calls to avoid using features that will be eventually
+be deprecated.
+
+Raised the .sbn file version to 12 to account for the new data stored
+in it during the processing of offline-SES files and SVS files.
+
 24 October 2024
 ---------------
 Added a Windows executable file "SESconv.exe" with a standalone installation
@@ -74,6 +176,9 @@ module.  This is commented out in development code, but is uncommented
 and updated in code uploaded to github.  The values are set in the
 variable called "script_date".
 
+Moved the "import multiprocessing" statement to the top level to make
+it work with PyInstaller.
+
 
 classHobyah.py
 *-------------
@@ -82,6 +187,28 @@ No changes.
 
 classSES.py
 *----------
+
+26 May 2025
+-----------
+Added support for reading a dictionary containing form 14 (SVS cooling
+pipes).
+
+Added three plot types valid for .sbn files generated from SVS files:
+ * "SVSeffic", the traction power efficiency printed for train control
+   option 3 (fraction 0-1)
+ * "SVSregen1", regen braking efficiency from track-based regen
+   efficiencies as seen by a train moving along the route (percent)
+ * "SVSregen2", regen braking efficiency from track-based regen
+   efficiencies plotted against the route chainage (percent)
+
+
+Raised the lowest valid binary file version from 10 to 12.
+
+Changed the string definitions in regular expressions and in some
+function descriptions to be raw strings so that newer versions of
+Python don't raise 'SyntaxWarning: invalid escape sequence'.
+
+
 24 October 2024
 ---------------
 Modified calls in "WriteInputFile" to include the Boolean 'aur' in
@@ -107,31 +234,63 @@ Corrected an error in the comments.
 
 generics.py
 *----------
+26 May 2025
+-----------
+Corrected a bug in code in FormatOnLines that failed to remove an
+internal key called "block_index" from the list of keys shown to
+the user in error messages.
 
 
 syntax.py
 *--------
+No changes.
 
 
 UScustomary.py
 *-------------
+26 May 2025
+-----------
+Added support for converting SVS output files, where most of the
+conversion factors are 1.0 (some are 1000 or 0.001, though).
+The differences between SI files written by SVS and SI information
+stored in .sbn files written by SESconv.py are as follows:
+    Form 1F: atmospheric pressure is stored in Pa, not kPa
+    Form 3B: roughness heights are stored in metres, not mm
+    Form 4:  fire heat gainsare in stored in MW, not watts
+    Form 9D: grid diameters are stored as metres, not mm
+    Form 9E: static friction coefficients are stored as N/kg, not
+             N/tonne
+    Form 9E: rolling friction coefficients are stored as N/kg per m/s,
+             not N/tonne-kph
+    Form 9E: rotating mass resistance is stored as % tare mass,
+             not kg/car
+    Form 9F: wheel diameters are stored as metres, not mm
 
 
 generate-batch-files.py
 *----------------------
+No changes.
 
 
 _error-statements.py
 *-------------------
-This is an ancillary script that will only be of interest to those
-who want to dig into the evidence validation requirement 2 in the
-verification and validation document.  Requirement 2 reads:
+26 May 2025
+-----------
+Changed the list of error numbers that have no file to test them to
+a dictionary, with the error number as the key and a string with the
+reason for there being no test file as the value.
+
+
+"_error-statements.py" is an ancillary script that will be of
+interest to those who want to dig into the evidence for validation
+requirement 2 in the verification and validation document.
+Requirement 2 reads:
   "Some errors don’t have test files.  Document why those error
    messages have no test files."
-The reasons are documented in the code comments on each line of the
-definition of the variable named "no_testfile".  That's the only
-reason to upload this script: to let people read the comments on each
-line of entry in the definition of the "no_testfile".
+The reasons are documented in a dictionary named "no_testfile".  The
+key is an error number, the value yielded for each is a string with
+the reason why the error number has no testfile.  That's the only
+reason to upload this script: to let people read the reasoning.
 
 
 slug-flow-quadratics.ods

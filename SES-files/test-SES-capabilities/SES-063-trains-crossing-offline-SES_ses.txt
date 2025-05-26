@@ -138,9 +138,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    101 -   102   28 m^2, 760 m tunnel                                         FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
@@ -171,9 +171,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    103 -   103   34 m^2, 200 m tunnel                                         FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
@@ -204,9 +204,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    104 -   104   34 m^2, 200 m tunnel                                         FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
@@ -237,9 +237,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    105 -   106   30 m^2, 240 m tunnel                                         FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
@@ -270,9 +270,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR LINE SEGMENT    105 -   105   28 m^2, 760 m tunnel                                         FORM 3A
 LINE SEGMENT TYPE                                                                          1   (TUNNEL)
@@ -303,9 +303,9 @@ SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
 TUNNEL WALL THICKNESS                                                                  0.244   m               FORM 3F
 DISTANCE BETWEEN THE INSIDE WALL SURFACES OF ADJACENT TUNNELS                         14.996   m
 TUNNEL WALL THERMAL CONDUCTIVITY                                                      1.4335   W/m-K
-TUNNEL WALL THERMAL DIFFUSIVITY                                                  0.000000645   m^2/s
+TUNNEL WALL THERMAL DIFFUSIVITY                                                0.00000064516   m^2/s
 SURROUNDING SOIL THERMAL CONDUCTIVITY                                                1.20871   W/m-K
-SURROUNDING SOIL THERMAL DIFFUSIVITY                                             0.000000645   m^2/s
+SURROUNDING SOIL THERMAL DIFFUSIVITY                                           0.00000064516   m^2/s
 DEEP SINK TEMPERATURE                                                                    19.   deg C
 INPUT VERIFICATION FOR VENTILATION SHAFT    901 -   901   Cavern shaft                                                 FORM 5A
 SECTION TYPE                                                                               1   (VENTILATION SHAFT)
@@ -604,15 +604,15 @@ RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION   
 INPUT VERIFICATION FOR TRAIN TYPE 1   Large area train                                                         CONTINUED
 AVERAGE EMPTY CAR WEIGHT                                                              41.458   tonnes          FORM 9E
 NUMBER OF MOTORS PER POWERED CAR                                                           2
-TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0058   N/kg
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.005786   N/kg
                                                                                  =    5.7859   N/tonne
-                                                                                 =     1.180   lb/ton
-                                           SECOND                                       516.   N
+                                                                                 =      1.18   lb/ton
+                                           SECOND                                     515.99   N
                                            THIRD                                    0.000448   N/(kg-m/s)
                                                                               =    0.4475111   N/(tonne-m/s)
                                                                               = 0.1243086364   N/(tonne-kph)
                                                                               =  0.000124309   N/(kg-kph)
-                                                                              =      0.04080   lb/ton-mph
+                                                                              =       0.0408   lb/ton-mph
 ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
                                                                                  =   4000.37   kg/car
                                                                                  =     8.800   (lb/ton)/(mph/s)
@@ -717,15 +717,15 @@ RESISTOR GRID PHYSICAL CHARACTERISTICS  (PER POWERED CAR)        ACCELERATION   
 INPUT VERIFICATION FOR TRAIN TYPE 2   Small area train                                                         CONTINUED
 AVERAGE EMPTY CAR WEIGHT                                                              41.458   tonnes          FORM 9E
 NUMBER OF MOTORS PER POWERED CAR                                                           2
-TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0058   N/kg
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.005786   N/kg
                                                                                  =    5.7859   N/tonne
-                                                                                 =     1.180   lb/ton
-                                           SECOND                                       516.   N
+                                                                                 =      1.18   lb/ton
+                                           SECOND                                     515.99   N
                                            THIRD                                    0.000448   N/(kg-m/s)
                                                                               =    0.4475111   N/(tonne-m/s)
                                                                               = 0.1243086364   N/(tonne-kph)
                                                                               =  0.000124309   N/(kg-kph)
-                                                                              =      0.04080   lb/ton-mph
+                                                                              =       0.0408   lb/ton-mph
 ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
                                                                                  =   4000.37   kg/car
                                                                                  =     8.800   (lb/ton)/(mph/s)

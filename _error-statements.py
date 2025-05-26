@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2021-2024, Ewan Bennett
+# Copyright 2021-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -86,117 +86,132 @@ def main():
     # are code we can't get to yet in the normal run of things.  One
     # of these days we'll write a Python script to import the various
     # modules and trigger the errors directly.
-    no_testfile = [
+
+    reasoning = {
     # In the generics.py source code:
-          1021, # A non-number was fed to generics.Enth.
-          1022, # A negative number was fed to generics.Enth.
-          1023, # A negative number was fed to generics.ColumnText.
-          1024, # We tried to extrapolate when it was forbidden.
-          1025, # We couldn't open a .csv file to write to.
-          1026, # A format field is so narrow that the converted
-                # number has been too rounded.  Can only be raised
-                # by editing the SESconv.py source code to select
-                # a really narrow width for a number format.
-    # In the UScustomary.py source code:
-          1101, # Fed a dud key when converting to US units.
-          1102, # Fed a dud key when converting to SI units.
-          1103, # Programmer fouled up while updating the lists of
-                # US to SI conversion dictionaries.
-    # In the Hobyah.py source code:
-#          2003, # The input file doesn't exist.
-          2006, # Raised if the numpy or pandas Python modules are
-                # not installed.
-          2083, # Raised if a binary file became unwriteable between
-                # the start of a calculation and the finish.  We
-                # tested it before starting the calculation and it
-                # was writeable, so this happens in a race condition.
-          2084, # Can be raised if a new friction factor approximation
-                # is in the middle of being added to the code.
-          2090, # Raised if the scipy Python module is not installed.
-          2343, # First number in each list of pairs of numbers
-                # must be greater than or equal to its predecessor
-                # (no examples of this in input files yet).  Note to
-                # self: the chainages in routes can never be equal to
-                # the previous number, must always be higher (error
-                # number 2342).
-          2344, # First number in each list of pairs of numbers
-                # must be lower than its predecessor (no examples of
-                # this in input files yet).
-          2347, # Second number in each list of pairs of numbers
-                # must be greater than or equal to its predecessor
-                # (no examples of this in input files yet).
-          2348, # Second number in each list of pairs of numbers
-                # must be lower than its predecessor (no examples of
-                # this in input files yet).
-          2349, # Second number in each list of pairs of numbers
-                # must be lower than or equal to its predecessor
-                # (no examples of this in input files yet).
-          2362, # One number is not equal to or greater than another
-                # number on a different line (no examples of this
-                # in input files yet).
-    # In the classSES.py source code:
-          5001, # Checked before we get there from Hobyah.
-          5007, # Checked before we get there.
-          5008, # Checked before we get there.
-          5021, # Checked before we get there.
-          5042, # We will add code for this later.
-          5044, # We will add code for after we plot SES fan characteristics.
-          5061, # Checked before we get there.
-          5062, # Checked before we get there.
-          5063, # Checked before we get there.
-          5064, # Checked before we get there.
-          5082, # Programmer fouled up the code of an if statement
-          5083, # Programmer fouled up the code of an if statement
-          5086, # Programmer fouled up the code of an if statement
-          5090, # Programmer fouled up the code of an if statement
-          5093, # Programmer fouled up the code of an if statement
-          5096, # Programmer fouled up the code of an if statement
-          5097, # Not implemented yet.
-          5098, # Programmer fouled up the code of an if statement
-          5181, # The name argument to WriteInputFile wasn't a string.
-                # Can't be raised by test files, only interactively.
-          5182, # The units argument to WriteInputFile wasn't a string.
-                # Can't be raised by test files, only interactively.
-          5183, # The version argument to WriteInputFile wasn't a string.
-                # Can't be raised by test files, only interactively.
-          5184, # Don't have permission to write an SES input file.
-                # Can't be raised by test files, only interactively.
-          5185, # The units argument to WriteInputFile wasn't "US" or
-                # "SI".
-                # Can't be raised by test files, only interactively.
-          5186, # The version argument to WriteInputFile wasn't one
-                # of the valid strings.
-                # Can't be raised by test files, only interactively.
-          # 5187, # The user wanted to write an SVS input file in US units.
-          #       # Can't be raised by test files, only interactively.
-          5201, # The programmer failed to add an entry to a dictionary.
-          5221, # The fan name is not recognised (not implemented yet).
-    # In the Hobyah.py source code (in the plotting routines):
-          6002, # gnuplot is not installed on the computer.  Non-fatal.
-          6003, # we don't have permission to create the "images" subfolder.
-          6004, # we don't have permission to write to the "images" subfolder.
-          6005, # ImageMagick is not installed on the computer.  Non-fatal.
-          6045, # We added a new curve keyword that the code doesn't handle.
-          6124, # We will add code for this later.
-    # In the classHobyah.py source code:
-          7001, # Checked before we get there from Hobyah.
-          7007, # Checked before we get there.
-          7008, # Checked before we get there.
-          7061, # Checked before we get there.
-          7062, # Checked before we get there.
-          7063, # Checked before we get there.
-          7064, # Checked before we get there.
-          7084, # Checked before we get there, though this is a more
-                # informative error message.
-          7086, # Programmer fouled up the code of an if statement
-          7101, # The programmer needs to add an entry to 'print_units'
-    # In the SESconv.py source code:
-          8004, # The input file is in a folder we can't read from
-                # (this is weird, we used to be able to test this).
-          8008, # Raised if numpy or pandas are not installed.
-          8241, # Two conflicting command line options were
-                # passed to SESconv.py.
-         ]
+          1021: "A non-number was fed to generics.Enth."
+                "  Can only be raised during program development.",
+          1022: "A negative number was fed to generics.Enth."
+                "  Can only be raised during program development.",
+          1023: "A negative number was fed to generics.ColumnText."
+                "  Can only be raised during program development.",
+          1024: "We tried to extrapolate when it was forbidden.",
+          1025: "We couldn't open a .csv file to write to."
+                "  Writing .csv files has not been implemented.",
+          1026: "A format field is so narrow that the converted "
+                "number has been too rounded.  Can only be raised "
+                "by editing the SESconv.py source code to select "
+                "a really narrow width for a number format.",
+    # In the UScustomary.py source code:",
+          1101: "Fed a dud key when converting to US units."
+                "  Can only be raised during program development.",
+          1102: "Fed a dud key when converting to SI units."
+                "  Can only be raised during program development.",
+          1103: "Programmer fouled up while updating the lists of "
+                "US to SI conversion dictionaries."
+                "  Can only be raised during program development.",
+    # In the Hobyah.py source code:",
+#          2003: "The input file doesn't exist.",
+          2006: "Raised if the numpy or pandas Python modules are "
+                "not installed.  Can't be reliably raised by test files.",
+          2083: "Raised if a binary file became unwriteable between "
+                "the start of a calculation and the finish.  We "
+                "tested it before starting the calculation and it "
+                "was writeable, so this happens in a race condition.",
+          2084: "Can be raised if a new friction factor approximation "
+                "is in the middle of being added to the code.",
+          2090: "Raised if the scipy Python module is not installed.",
+          2343: "First number in each list of pairs of numbers "
+                "must be greater than or equal to its predecessor "
+                "(no examples of this in input files yet).",
+                # Note to self: the chainages in routes can never be
+                # equal to the previous number, must always be higher
+                # (error number 2342).
+          2344: "First number in each list of pairs of numbers "
+                "must be lower than its predecessor (no examples of "
+                "this in input files yet).",
+          2347: "Second number in each list of pairs of numbers "
+                "must be greater than or equal to its predecessor "
+                "(no examples of this in input files yet).",
+          2348: "Second number in each list of pairs of numbers "
+                "must be lower than its predecessor (no examples of "
+                "this in input files yet).",
+          2349: "Second number in each list of pairs of numbers "
+                "must be lower than or equal to its predecessor "
+                "(no examples of this in input files yet).",
+          2362: "One number is not equal to or greater than another "
+                "number on a different line (no examples of this "
+                "in input files yet).",
+    # In the classSES.py source code:",
+          5001: "Checked before we get there from Hobyah.",
+          5007: "Checked before we get there.",
+          5008: "Checked before we get there.",
+          5021: "Checked before we get there.",
+          5042: "We will add code for this later.",
+          5044: "We will add code for after we plot SES fan characteristics.",
+          5061: "Checked before we get there.",
+          5062: "Checked before we get there.",
+          5063: "Checked before we get there.",
+          5064: "Checked before we get there.",
+          5082: "Programmer fouled up the code of an if statement",
+          5083: "Programmer fouled up the code of an if statement",
+          5086: "Programmer fouled up the code of an if statement",
+          5090: "Programmer fouled up the code of an if statement",
+          5093: "Programmer fouled up the code of an if statement",
+          5096: "Programmer fouled up the code of an if statement",
+          5097: "Not implemented yet.",
+          5098: "Programmer fouled up the code of an if statement ",
+          5181: "The name argument to WriteInputFile wasn't a string.  "
+                "Can't be raised by test files, only interactively.",
+          5182: "The units argument to WriteInputFile wasn't a string.  "
+                "Can't be raised by test files, only interactively.",
+          5183: "The version argument to WriteInputFile wasn't a string.  "
+                "Can't be raised by test files, only interactively.",
+          5184: "Don't have permission to write an SES input file.  "
+                "Can't be raised by test files, only interactively.",
+          5185: 'The units argument to WriteInputFile was not "US" or '
+                '"SI".  '
+                "Can't be raised by test files, only interactively.",
+          5186: "The version argument to WriteInputFile wasn't one "
+                "of the valid strings.  "
+                "Can't be raised by test files, only interactively.",
+          # 5187: "The user wanted to write an SVS input file in US units.  "
+          #       "Can't be raised by test files, only interactively.",
+          5201: "The programmer failed to add an entry to a dictionary.",
+          5221: "The fan name is not recognised (not implemented yet).",
+    # In the Hobyah.py source code (in the plotting routines):",
+          6002: "Gnuplot is not installed on the computer.  Non-fatal.",
+          6003: "We don't have permission to create the "
+                '"images" subfolder.',
+          6004: "We don't have permission to write to the "
+                '"images" subfolder.',
+          6005: "ImageMagick is not installed on the computer.  Non-fatal.",
+          6045: "We added a new curve keyword that the code doesn't handle.",
+          6124: "We will add code for this later.",
+    # In the classHobyah.py source code:",
+          7001: "Checked before we get there from Hobyah.",
+          7007: "Checked before we get there.",
+          7008: "Checked before we get there.",
+          7023: "A miscellaneous unpickling error happened (these are "
+                "difficult to trigger reliably).",
+          7061: "Checked before we get there.",
+          7062: "Checked before we get there.",
+          7063: "Checked before we get there.",
+          7064: "Checked before we get there.",
+          7084: "Checked before we get there, though this is a more "
+                "informative error message.",
+          7086: "Programmer fouled up the code of an if statement",
+          7101: "The programmer needs to add an entry to 'print_units'",
+    # In the SESconv.py source code:",
+          8004: "The input file is in a folder we can't read from "
+                "(this is weird, we used to be able to test this).",
+          8008: "Raised if numpy or pandas are not installed.",
+          8241: "Two conflicting command line options were "
+                "passed to SESconv.py.",
+          8281: "Discovered a math error in an offline-SES calculation "
+                "(in the printing of train pressure drops).",
+         }
+    no_testfile = list(reasoning.keys())
     # Create a list to hold error numbers that are in "no_testfile" but which
     # we now have test files for.  At the end of the transcript the program
     # will suggest removing them from "no_testfile".
@@ -569,8 +584,14 @@ def ReadSource(file_name, dup_allowed, dup_appeared):
             error_num = int(err_text)
             newproc = False
         else:
-            # It's an error message written after we open the logfile
-            fragment = line.split(sep = "WriteError(")[1]
+            # It's an error message written after we open the logfile.
+            # This can be confused by comments that contain WriteError
+            # so we enclose it in a try block.
+            try:
+                fragment = line.split(sep = "WriteError(")[1]
+            except:
+                print(line)
+                raise()
             error_num = int(fragment.split(sep = ',')[0])
             newproc = False
 

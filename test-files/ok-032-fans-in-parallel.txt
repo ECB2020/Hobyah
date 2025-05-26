@@ -288,10 +288,10 @@ begin plots
         # Set a custom terminal, page size, linewidth and text size
 #        unset multiplot
 #        set terminal gif animate delay 100 size 1024, 768  linewidth 1 font "default, 10" enhanced
-#        set output outpath.outstem."gif"
+#        set output outpath.outstem.".gif"
 #        set terminal png size 1024, 768  linewidth 1 \
 #                         font "default, 9.5" enhanced
-#        set output outpath.outstem."png"
+#        set output outpath.outstem.".png"
 #        set multiplot
 #      end verbatim
       leftbase   0.93  0.03      border:=on

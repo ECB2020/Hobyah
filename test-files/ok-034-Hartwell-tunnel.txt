@@ -1,0 +1,304 @@
+Test input file for Hobyah, a 1D tunnel vent program.
+July 2024
+A file that illustrates the setting of road traffic in complex road
+tunnels for the Hobyah User Manual.
+
+A twin bore road tunnel (we'll call it the Hartwell tunnel) with
+five portals: Allambee, Bringa, Carramar, Doonkuna and Elaroo.
+Each tube of the tunnel is configured as per the following ASCII art:
+
+ Allambee --\
+             \                                     /---- Doonkuna
+   Bringa ----\                                   /
+               \                                 /
+ Carramar -------------------------------------------------- Elaroo
+
+In the southbound tube, traffic is left to right.  In the northbound,
+traffic is right to left.
+
+The southbound tube has stationary traffic, to illustrate the
+use of trafficsteady blocks to choose the correct mix of traffic in
+branches in which different streams of traffic mix.
+
+The northbound tube has moving traffic at 50 km/h, to illustrate the
+use of trafficsteady blocks to handle moving traffic that merges
+and splits.
+
+
+begin settings
+  version 1
+  runtype calc
+  frictiontype Darcy
+  QA1 2
+  QA2 Software testing
+  QA3 Files that work and test different capabilities
+  aero_step 0.1
+  aero_time 10.
+end settings
+
+begin sectypes
+  All-C+C1   132.   49    0.08
+  All-C+C2    67.   36.4  0.08
+  All-C+C3    56.   33.2  0.08
+  Bri-C+C1   141.   54    0.08
+  Bri-C+C2    87.   40.1  0.08
+  Bri-mined   72.   37.5  0.08
+  Bri-C+C3   104.   43.2  0.08
+  Car-C+C1   132.   42.1  0.08
+  Car-C+C2   155.   46.1  0.08  TBM chamber
+    TBM       84.5  39.2  0.08
+   Cavern1   123    45.2  0.08
+   Cavern2    92    41.2  0.08
+   Cavern3   180    48.2  0.08
+  Doo-mined   72.   37.5  0.08
+  Doo-C+C1    91.   41.2  0.08
+  Ela-C+C1   132.   42.1  0.08
+  Ela-C+C2   155.   46.1  0.08
+end sectypes
+
+begin tunnel SB1
+  back   0 portal  0  All-C+C1  # Allambee entrance
+  change  80  All-C+C2
+  change 130  All-C+C3
+  fwd  400 node A+B-merge
+end tunnel
+
+begin tunnel SB2
+  back   0 portal  0  Bri-C+C1  # Bringa entrance
+  change 100  Bri-C+C2
+  change 230  Bri-mined
+  fwd  650 node A+B-merge
+end tunnel
+
+begin tunnel SB3
+  back 650 node A+B-merge  Bri-C+C3  # Allambee and Bringa merged
+  fwd 1120 node A+B+C-merge
+end tunnel
+
+begin tunnel SB4
+  back  50 portal  0  Car-C+C1  # Carramar entrance
+  fwd  1250 node A+B+C-merge
+end tunnel
+
+begin tunnel SB5
+  back 1250 node A+B+C-merge  Car-C+C2  # TBM mainline tunnel and caverns
+  change 1350  TBM
+  change 3230  Cavern1
+  change 3300  Cavern3
+  fwd  3400 node D+E-split
+end tunnel
+
+begin tunnel SB6
+  back 3400 node D+E-split  Doo-mined  # Doonkuna offslip road
+  change 3850  Doo-C+C1
+  fwd  4000 portal 0
+end tunnel
+
+begin tunnel SB7
+  back 3400 node D+E-split  TBM  # Elaroo exit
+  change 4100  Ela-C+C1
+  change 4340  Ela-C+C2
+  fwd  4450 portal 0
+end tunnel
+
+begin traffictypes
+  calculate without blockage correction term
+# keyword   name   area  C_d  PCU/veh
+  vehicle   car    2.0   0.4    1
+  vehicle   LCV    4.0   0.9    1
+  vehicle   HGV    6.0   1.0    3   10   2
+end traffictypes
+
+begin route A2D
+  origin 0
+  portal 380
+  begin tunnels
+    SB1  SB3  SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route B2D
+  origin 0
+  portal 130
+  begin tunnels
+    SB2  SB3  SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route C2D
+  origin 0
+  portal 50
+  begin tunnels
+    SB4 SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route A2E
+  origin 0
+  portal 380
+  begin tunnels
+    SB1  SB3  SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route B2E
+  origin 0
+  portal 130
+  begin tunnels
+    SB2  SB3  SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route C2E
+  origin 0
+  portal 50
+  begin tunnels
+    SB4 SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin trafficsteady Southbound
+  routes   A2D   A2E   B2D   B2E   C2D   C2E  # route names
+   car     302   145   705   422   601  1400  # used to get vehicle densities at rest
+   LCV      33    21   108    94   132    97
+   HGV      82    49   181   172   264   381
+  standstill  A2D  165 PCU/lane-km   up_ptl  down_ptl
+  standstill  B2D  165 PCU/lane-km   up_ptl  down_ptl
+  standstill  C2D  165 PCU/lane-km   up_ptl  down_ptl
+  standstill  A2E  165 PCU/lane-km   up_ptl  down_ptl
+  standstill  B2E  165 PCU/lane-km   up_ptl  down_ptl
+  standstill  C2E  165 PCU/lane-km   up_ptl  down_ptl
+end trafficsteady
+
+begin plots
+end plots
+
+begin route D2A
+  origin 0
+  portal 380
+  begin tunnels
+    SB1  SB3  SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route D2B
+  origin 0
+  portal 130
+  begin tunnels
+    SB2  SB3  SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route D2C
+  origin 0
+  portal 50
+  begin tunnels
+    SB4 SB5  SB6
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route E2A
+  origin 0
+  portal 380
+  begin tunnels
+    SB1  SB3  SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route E2B
+  origin 0
+  portal 130
+  begin tunnels
+    SB2  SB3  SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin route E2C
+  origin 0
+  portal 50
+  begin tunnels
+    SB4 SB5  SB7
+  end tunnels
+  begin lanes
+     1    15000
+  end lanes
+  begin gradients percentages
+     2    15000
+  end gradients
+end route
+
+begin trafficsteady Northbound
+  routes   D2A   D2B   D2C   E2A   E2B   E2C  # route names
+   car     302   145   705   422   601  1400  # flowrates in veh/hr
+   LCV      33    21   108    94   132    97
+   HGV      82    49   181   172   264   381
+  allroutes  moving  50  # The "allroutes" entry avoids six entries, one for each route.
+end trafficsteady
+
+

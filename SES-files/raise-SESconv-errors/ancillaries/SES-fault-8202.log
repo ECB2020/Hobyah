@@ -1,0 +1,9 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8202.OUT".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8202 ******************************
+> "SES-fault-8202.OUT" does not seem
+> to be an OpenSES output file, as a line giving
+> the OpenSES version number and ending in the year
+> of issue could not be found, even though a line
+> resembling part of the OpenSES licence was found.
+> Are you sure this file came from OpenSES?

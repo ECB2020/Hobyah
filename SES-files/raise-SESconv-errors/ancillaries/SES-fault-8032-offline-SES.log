@@ -1,0 +1,72 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8032-offline-SES.PRN".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> You have chosen to set the option "-acceptwrong".
+>
+> The "-acceptwrong" option turns off some critical sanity checks
+> and allows SES runs that are known to be wrong to be processed.
+>
+> The "-acceptwrong" option is intended to make things easier for
+> programmers who are running modified SES code (e.g. executables
+> in which SES v4.1 bugs have been fixed).
+>
+> Those programmers use it to check various things in modified
+> versions of SES.  If you are not a programmer experienced in
+> modifying the SES Fortran source code you will most likely
+> regret using the "-acceptwrong" option.
+>
+> Please run through this thought experiment:
+>
+>   Are you setting the "-acceptwrong" option while hiding your
+>   use of it from your boss because admitting that the SES run
+>   is wrong would make you or your boss lose face?
+>
+> If yes, you have my sympathy.  But I still recommend that you
+> do not use the "-acceptwrong" option.  Either 'fess up, or find
+> some other way to move slowly from your wrong runs towards a
+> sane set of design calculations (difficult, but it can be done).
+>
+> Ok, you have been warned.  If you are not a competent Fortran
+> programmer using this option with your eyes open, then on your
+> own head be it!
+The run failed due to input errors, but will be processed as far as possible.
+Checking the output file for SES error messages...found 15 SES error messages:
+  Line 119: *ERROR* TYPE   5                    ********************************************************************************
+  Line 120:                THE AMBIENT BAROMETRIC PRESSURE ENTERED IS LESS THAN 20.00 OR GREATER THAN 32.00 IN. HG.
+  Line 186: *ERROR* TYPE  20                    ********************************************************************************
+  Line 187:                THE AREA OF THIS LINE SEGMENT IS LESS THAN 75 OR GREATER THAN 10,000 SQ FT.
+  Line 198: *ERROR* TYPE  21                    ********************************************************************************
+  Line 199:                THE PERIMETER OF THIS LINE SEGMENT IS LESS THAN 30 OR GREATER THAN 1,000 FT.
+  Line 204: *ERROR* TYPE  22                    ********************************************************************************
+  Line 205:                THE WEIGHTED AVERAGE ROUGHNESS LENGTH FOR THIS LINE SEGMENT IS LESS THAN 0.0 OR GREATER THAN 2.0.
+  Line 250: *ERROR* TYPE 262                    ********************************************************************************
+  Line 251:                THE EFFECTIVE EMISSIVITY OF THE COMBUSTION PRODUCTS IS LESS THAN ZERO OR GREATER THAN 1.0.
+  Line 384: *ERROR* TYPE  53                    ********************************************************************************
+  Line 385:                THE FRONTAL AREA OF THIS SUBWAY TRAIN IS LESS THAN 25 OR GREATER THAN 300 SQ FT.
+  Line 389: *ERROR* TYPE  78                    ********************************************************************************
+  Line 390:                THE PERIMETER OF THIS TRAIN IS LESS THAN 20.0 OR GREATER THAN 200.0 FEET.
+  Line 421: *ERROR* TYPE 103                    ********************************************************************************
+  Line 422:                THE EFFECTIVE DIAMETER OF THIS ACCELERATION RESISTOR GRID ELEMENT IS LESS THAN 0 OR GREATER THAN 24.0 IN.
+  Line 424: *ERROR* TYPE 104                    ********************************************************************************
+  Line 425:                THE EFFECTIVE DIAMETER OF THIS DECELERATION RESISTOR GRID ELEMENT IS LESS THAN 0 OR GREATER THAN 24.0 IN.
+  Line 435: *ERROR* TYPE 111                    ********************************************************************************
+  Line 436:                THE SPECIFIC HEAT OF THE ACCELERATION RESISTOR GRID ELEMENT
+  Line 437:                IS LESS THAN 0 OR GREATER THAN 1.0 BTU/(LB-DEG. F.).
+  Line 439: *ERROR* TYPE 112                    ********************************************************************************
+  Line 440:                THE SPECIFIC HEAT OF THE DECELERATION RESISTOR GRID ELEMENT
+  Line 441:                IS LESS THAN 0 OR GREATER THAN 1.0 BTU/(LB-DEG. F.).
+  Line 461: *ERROR* TYPE  99                    ********************************************************************************
+  Line 462:                THE SECOND MECHANICAL RESISTANCE COEFFICIENT IS LESS THAN 0.1 OR GREATER THAN 500.0 LBS.
+  Line 473: *ERROR* TYPE  59                    ********************************************************************************
+  Line 474:                THIS WHEEL DIAMETER IS LESS THAN 20 OR GREATER THAN 40 IN.
+  Line 476: *ERROR* TYPE  59                    ********************************************************************************
+  Line 477:                THIS WHEEL DIAMETER IS LESS THAN 20 OR GREATER THAN 40 IN.
+  Line 508: *ERROR* TYPE 210                    ********************************************************************************
+  Line 509:                THE SPEED U1 IS LESS THAN 0 OR GREATER THAN 100 MPH.
+> *Error* type 8032 ******************************
+> Ugh, something went horribly wrong with input
+> file "SES-fault-8032-offline-SES.PRN".
+> It looks like your offline-SES output file is
+> corrupted, the input file version number is
+> not a number, it was "204.xx".  This usually 
+> happens when you edit the .PRN file.
+Failed to process form 1C

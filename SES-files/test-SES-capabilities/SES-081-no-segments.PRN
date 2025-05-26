@@ -63,7 +63,7 @@
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
        SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     2
 
 
@@ -80,20 +80,20 @@
 
                             ALLOWABLE INPUT ERRORS                                0
 
-                            AN ENTRY OF ZERO (0) HAS BEEN MADE FOR EACH OF THE FOLLOWING:
 
-                               NUMBER OF LINE SEGMENTS
+                            NUMBER OF LINE SEGMENTS                               1                            FORM 1D
 
-                               NUMBER OF VENTILATION SHAFTS
+                            TOTAL NUMBER OF SECTIONS                              1
 
-                               NUMBER OF SECTIONS
+                            NUMBER OF VENTILATION SHAFT SECTIONS                  0
 
-                               NUMBER OF NODES
+                            NUMBER OF NODES                                       2
 
-                               NUMBER OF BRANCHED JUNCTIONS.
+                            NUMBER OF BRANCHED JUNCTIONS                          0
 
-                            THIS INDICATES AN AT GRADE TRAIN PERFORMANCE SIMULATION ONLY
+                            NUMBER OF UNSTEADY HEAT SOURCES                       0
 
+                            NUMBER OF FAN TYPES                                   0
 
 
                             NUMBER OF TRAIN ROUTES                                1                            FORM 1E
@@ -129,7 +129,7 @@
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
        SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     3
 
 
@@ -195,8 +195,667 @@ FIRE SIMULATION OPTION                                                          
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
        SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     4
+
+
+                                                   SYSTEM GEOMETRY
+
+                         SECTION        STARTING        ENDING         NUMBER        INITIAL
+                     IDENTIFICATION       NODE           NODE            OF          AIR FLOW
+                         NUMBER          NUMBER         NUMBER        SEGMENTS        (CFM)
+
+LINE SECTIONS                                                                                                  FORM 2A
+
+                          101             101            102              1               0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     5
+
+
+                      INTERNAL-EXTERNAL SECTION-NODE REFERENCE TABLES
+
+
+   INTERNAL                 EXTERNAL                 BACKWARD                   FORWARD
+   SECTION                  SECTION                  AERO NODE                 AERO NODE
+   --------                 --------                 ---------                 ---------
+                            (TABL11)                 (TABL12)                  (TABL13)
+
+       1                      101                        1                         2
+
+
+
+
+   INTERNAL                 EXTERNAL             NO. OF SECTIONS           INTERNAL SECTIONS
+     NODE                     NODE               ADJACENT TO NODE          ADJACENT TO NODE*
+   --------                 --------             ----------------          -----------------
+                            (TABL15)                 (TABL16)                  (TABL17)
+
+       1                      101                        1                  -1
+       2                      102                        1                   1
+
+                   * NOTE - ORDER OF ENTRIES MAY BE CHANGED BY JINS
+
+
+
+
+   EXTERNAL                 INTERNAL                 INTERNAL
+   SECTION                  SECTION                    NODE
+   OR NODE                  (TABL14)                 (TABL19)
+   --------                 --------                 --------
+
+     101                        1                        1
+     102                        0                        2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     6
+
+
+                                       LOOP TABLE
+
+ LOOP     EXTERNAL NUMBERS OF SECTIONS
+          ----------------------------------------------------
+NUMBER    INTERNAL NUMBERS OF SECTIONS-CONTAINED IN ARRAY LOOP
+
+   1       101
+             1
+
+
+
+
+
+   HALF-BANDWIDTH OF AERODYNAMIC RESPONSE MATRIX =  1
+
+   ARRAY BLP DATA     1 ELEMENTS REQUIRED
+                  20000 ELEMENTS AVAILABLE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     7
+
+
+                                              CONTINUITY TABLE
+
+INTERNAL  EXTERNAL  STORAGE LOCATIONS   LOOPS THAT PASS THROUGH SECTION - SIGN SHOWS DIRECTION WITH RESPECT TO SECTION
+SECTION   SECTION     IN ARRAY LKAN
+NUMBER    NUMBER      FROM       TO
+
+   1       101           1        1      1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     8
+
+
+                TABLES OF LOOPS PASSING THROUGH BRANCHED JUNCTIONS
+
+
+        INTERNAL  EXTERNAL   LOOP      FROM SECTION         TO SECTION
+          NODE      NODE    NUMBER  INTERNAL  EXTERNAL  INTERNAL  EXTERNAL
+         NUMBER    NUMBER            NUMBER    NUMBER    NUMBER    NUMBER
+
+
+            1       101     STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+            2       102     STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+
+
+
+                                                    FLOW INITIALIZATION CHECK
+
+
+    INTERNAL SECTION AIRFLOW RATE (CFM)
+    -----------------------------------
+
+              0.0
+
+
+
+    LOOP AIRFLOW RATE (CFS)
+    -----------------------
+
+            0.000
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     9
+
+
+INPUT VERIFICATION FOR LINE SEGMENT  101 -101           Short tunnel with a jet fan and fric                   FORM 3A
+
+LINE SEGMENT TYPE                                                                          1   (TUNNEL)
+
+LENGTH                                                                               2460.63   FT
+
+CROSS SECTION AREA                                                                     990.3   SQ FT
+
+STACK HEIGHT                                                                             0.0   FT
+
+  GRADE OF LINE SEGMENT                                                                0.000   PERCENT
+
+SEGMENT                                                                                                        FORM 3B
+ PERIMETERS         73.8    73.8                                                   TOTAL PERIMETER       147.6  FT
+
+ROUGHNESS                                                                          WEIGHTED AVERAGE
+ LENGTHS          0.1640  0.0033                                                   ROUGHNESS LENGTH     0.0837  FT
+
+   HYDRAULIC DIAMETER                                                                   26.8   FT
+   RELATIVE ROUGHNESS   ( E/D )                                                      0.00312
+   FULLY TURBULENT FRICTION FACTOR (FROM AVERAGE ROUGHNESS)                           0.0270
+   AVERAGE OF INDIVIDUAL WALL FRICTION FACTORS                                        0.0227
+
+SEGMENT TOTAL HEAD LOSS COEFFICIENTS                 POSITIVE             NEGATIVE                             FORM 3C
+                                                       FLOW                 FLOW
+
+   AT FORWARD LIMIT                                    0.00                 0.00
+   AT BACKWARD LIMIT                                   0.00                 0.00
+
+WETTED WALL SURFACE                                                                      0.0   PERCENT
+
+NUMBER OF SUBSEGMENTS                                                                     30
+
+NUMBER OF STEADY-STATE HEAT SOURCES                                                        0
+
+ STARTING        ENDING                                                                                        FORM 3E
+SUBSEGMENT     SUBSEGMENT     WALL SURFACE      INITIAL AIR TEMPERATURE
+  NUMBER         NUMBER       TEMPERATURE       DRY-BULB       WET-BULB
+                                (DEG F)         (DEG F)        (DEG F)
+
+     1     THRU    30             69.9            69.9           62.0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    10
+
+
+                                    SUBSEGMENTS ADJACENT TO THE NODE
+
+
+
+   INTERNAL            EXTERNAL            NO. OF SECTIONS                SUBSEGMENTS ADJACENT TO NODE
+     NODE                NODE              ADJACENT TO NODE         (ORDER OF ENTRIES MAY BE CHANGED BY JINS)
+   --------            --------            ----------------         -----------------------------------------
+                       (TABL15)                (TABL16)                             (TABL18)
+
+
+
+       1                 101                       1                         1
+
+       2                 102                       1                        30
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    11
+
+
+                                            INPUT VERIFICATION OF NODE DATA
+
+
+NODE NUMBER                                                                              101                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+NODE NUMBER                                                                              102                   FORM 6A
+
+NODE AERODYNAMIC TYPE                                                                      0   STRAIGHT-THROUGH JUNCTION OR PORTAL
+
+NODE THERMODYNAMIC TYPE                                                                    3   (TEMP/HUMID B.C.)
+
+DRY-BULB TEMPERATURE AT BOUNDARY                                                        85.0   DEG F           FORM 6B
+
+WET-BULB TEMPERATURE AT BOUNDARY                                                        74.0   DEG F
+
+    HUMIDITY RATIO AT BOUNDARY                                                       0.01552   LB/LB OF DRY AIR
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    12
+
+
+                                    DUMP OF TABLES RELATED TO AERO AND THERMO PHENOMENA
+
+
+
+                                                                      (ORDER OF ENTRIES MAY HAVE BEEN CHANGED BY JINS)
+   INTERNAL            EXTERNAL            NO. OF SECTIONS             INTERNAL SECTIONS              SUBSEGMENTS
+     NODE                NODE              ADJACENT TO NODE            ADJACENT TO NODE             ADJACENT TO NODE
+   --------            --------            ----------------            -----------------            ----------------
+                       (TABL15)                (TABL16)                    (TABL17)                     (TABL18)
+
+
+       1                 101                       1                   -1
+                                                                                                      1
+       2                 102                       1                    1
+                                                                                                     30
+
+
+
+
+   INTERNAL            EXTERNAL                       (BACKWARD THERMO SUBNODE)                  (FORWARD THERMO SUBNODE)
+   SECTION             SECTION                           NUMBER       BRANCH                        NUMBER      BRANCH
+   --------            --------            --------   -----------   -----------       --------   -----------  -----------
+                       (TABL11)            (TABL20)                                   (TABL21)
+
+
+       1                 101                   65           1            1               129          2            1
+
+
+
+FIRST DUMP OF TABL1
+
+
+    0    0    0
+
+
+
+FIRST DUMP OF TABL2
+
+
+
+
+
+
+COMBINED DUMP OF TABL1 AND TABL2
+
+   0  -1
+
+   0  -1
+
+
+
+FIRST DUMP OF TABL23
+
+
+    1    1    1
+
+
+
+FIRST DUMP OF COAEND
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    13
+
+
+     0.0000
+
+
+
+COMBINED DUMP OF TABL23 AND COAEND
+
+    1    0
+
+    1    0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    14
 
 
 INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                FORM 8A
@@ -261,8 +920,8 @@ ROUTE COASTING OPTION                                                           
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     5
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    15
 
 
 INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
@@ -327,8 +986,8 @@ NUMBER      TRACK SECTION     LENGTH      CURVATURE         END           GRADE 
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     6
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    16
 
 
 INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
@@ -393,8 +1052,74 @@ NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                             
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     7
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    17
+
+
+INPUT VERIFICATION FOR TRAIN ROUTE  1   Route 1                                                                CONTINUED
+
+
+                                          SECTION SEQUENCING FOR ROUTE                                         FORM 8F
+
+
+
+NUMBER OF SECTIONS THROUGH WHICH ROUTE PASSES                                              1
+
+DISTANCE FROM ROUTE ORIGIN TO PORTAL OR FIRST NODE ON ROUTE                              0.0   FT
+
+                                SECTIONS AND SEGMENTS THROUGH WHICH ROUTE PASSES
+
+                          SECTION             SEGMENT           LOCATION OF SEGMENT ALONG ROUTE
+                          NUMBER              NUMBER               (FEET)            (FEET)
+
+
+                           101                 101                    0.0    TO      2460.6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    18
 
 
                         DUMP OF INTERNAL TRACK SECTION DATA - ROUTE  1
@@ -402,7 +1127,8 @@ NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                             
                FSTS     RADTS     GRDTS     UMXTS     DWLTS    NPETTS    NSEGTS
 
     1          0.00       0.0   0.00000     73.33         0       500         0
-    2       6000.00   50000.0   0.00000     73.33         0         0         0
+    2       2460.63   50000.0   0.00000     73.33         0         0       128
+    3       6000.00   50000.0   0.00000     73.33         0         0         0
 
 
 
@@ -458,9 +1184,8 @@ NUMBER OF PERSONS ABOARD TRAIN AT SCHEDULING ORIGIN                             
 
 
 
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     8
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    19
 
 
 INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     FORM 9A
@@ -525,8 +1250,8 @@ BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:     9
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    20
 
 
 INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
@@ -591,8 +1316,8 @@ TRAIN CONTROLLER OPTION                                                         
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    10
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    21
 
 
 INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
@@ -657,8 +1382,8 @@ SPEED V2                                                                        
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    11
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    22
 
 
                                   INPUT VERIFICATION OF CONTROL GROUP INFORMATION                              FORM 12
@@ -723,8 +1448,8 @@ NUMBER OF CONTROL GROUPS                                                        
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    12
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    23
 
 
                                                    PROGRAM CONTROLS                                            FORM 13
@@ -789,8 +1514,8 @@ NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                  
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    13
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    24
 
 
 
@@ -855,12 +1580,18 @@ NUMBER OF THERMODYNAMIC CYCLES PER WALL TEMPERATURE EVALUATION                  
 
 
 
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    14
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    25
 
 
 TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
 
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
 
 
 
@@ -915,14 +1646,8 @@ TIME      0.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    15
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    26
 
 
 INTEGRATION STEP SIZE
@@ -933,6 +1658,11 @@ INTEGRATION STEP SIZE
 TIME      1.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
 
 
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101            0.0      0.0
 
 
 
@@ -982,13 +1712,8 @@ TIME      1.00 SECONDS                           0 TRAIN(S) ARE OPERATIONAL
 
 
 
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    16
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    27
 
 
 TIME      2.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -997,13 +1722,19 @@ TIME      2.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1      1.92   2.76      2.90        5.    2.22       12260.      389.     141.        0.    530.0    980.0   1.093   0.315
+  1   1 1      1.92   2.76      2.90        6.    2.55       12260.      389.     141.        0.    530.0    980.0   1.093   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       1265170.            0.              0.   613.231     0.000     9.412     0.000     0.315   0.0000
+  1   1 1   2      202500.       1265171.            0.              0.   613.232     0.000     9.412     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101           33.3      0.0
 
 
 
@@ -1047,14 +1778,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    17
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    28
 
 
 TIME      3.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1063,13 +1788,19 @@ TIME      3.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1      8.09   5.65      2.90       23.    2.22       12266.      389.     207.        0.    530.0    980.0   1.163   0.315
+  1   1 1      8.09   5.65      2.90       26.    2.55       12266.      389.     207.        0.    530.0    980.0   1.163   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       1859076.            0.              0.   658.574     0.000    19.959     0.000     0.315   0.0000
+  1   1 1   2      202500.       1859100.            0.              0.   658.582     0.000    19.959     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101          288.7      0.3
 
 
 
@@ -1113,14 +1844,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    18
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    29
 
 
 TIME      4.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1129,13 +1854,19 @@ TIME      4.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1     18.51   8.55      2.90       51.    2.22       12273.      389.     273.        0.    530.0    980.0   1.234   0.315
+  1   1 1     18.51   8.55      2.90       59.    2.56       12274.      389.     273.        0.    530.0    980.0   1.234   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       2453800.            0.              0.   704.021     0.000    31.166     0.000     0.315   0.0000
+  1   1 1   2      202500.       2453893.            0.              0.   704.048     0.000    31.166     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101         1003.8      1.0
 
 
 
@@ -1179,14 +1910,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    19
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    30
 
 
 TIME      5.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1195,13 +1920,19 @@ TIME      5.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1     33.18  11.45      2.90       92.    2.22       12282.      390.     339.        0.    530.0    980.0   1.305   0.315
+  1   1 1     33.18  11.45      2.90      107.    2.57       12283.      390.     339.        0.    530.0    980.0   1.305   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       3049489.            0.              0.   749.584     0.000    43.038     0.000     0.315   0.0000
+  1   1 1   2      202500.       3049726.            0.              0.   749.642     0.000    43.038     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101         2423.8      2.4
 
 
 
@@ -1245,14 +1976,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    20
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    31
 
 
 TIME      6.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1261,13 +1986,19 @@ TIME      6.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1     52.11  14.36      2.90      145.    2.22       12291.      390.     405.        0.    530.0    980.0   1.378   0.315
+  1   1 1     52.11  14.36      2.90      169.    2.58       12293.      390.     405.        0.    530.0    980.0   1.378   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       3646292.            0.              0.   795.273     0.000    55.579     0.000     0.315   0.0000
+  1   1 1   2      202500.       3646778.            0.              0.   795.379     0.000    55.579     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101         4805.5      4.9
 
 
 
@@ -1311,14 +2042,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    21
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    32
 
 
 TIME      7.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1327,13 +2052,19 @@ TIME      7.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1     75.29  17.26      2.90      210.    2.22       12302.      390.     472.        0.    530.0    980.0   1.452   0.315
+  1   1 1     75.29  17.26      2.90      245.    2.60       12304.      390.     472.        0.    530.0    980.0   1.452   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       4244352.            0.              0.   841.101     0.000    68.793     0.000     0.315   0.0000
+  1   1 1   2      202500.       4245234.            0.              0.   841.276     0.000    68.793     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101         8420.4      8.5
 
 
 
@@ -1377,14 +2108,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    22
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    33
 
 
 TIME      8.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1393,13 +2118,19 @@ TIME      8.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    102.72  20.16      2.90      286.    2.22       12313.      390.     538.        0.    530.0    980.0   1.527   0.315
+  1   1 1    102.72  20.16      2.90      336.    2.61       12317.      390.     538.        0.    530.0    980.0   1.527   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       4843815.            0.              0.   887.078     0.000    82.683     0.000     0.315   0.0000
+  1   1 1   2      202500.       4845282.            0.              0.   887.346     0.000    82.683     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        13557.9     13.7
 
 
 
@@ -1443,14 +2174,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    23
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    34
 
 
 TIME      9.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1459,13 +2184,19 @@ TIME      9.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    134.41  23.03      2.78      373.    2.22       11825.      392.     582.        0.    530.0    980.0   1.589   0.315
+  1   1 1    134.41  23.03      2.78      441.    2.62       11825.      392.     582.        0.    530.0    980.0   1.589   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5237201.            0.              0.   922.255     0.000    97.133     0.000     0.315   0.0000
+  1   1 1   2      202500.       5237202.            0.              0.   922.255     0.000    97.131     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        20512.0     20.7
 
 
 
@@ -1509,14 +2240,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    24
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    35
 
 
 TIME     10.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1525,13 +2250,19 @@ TIME     10.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    170.14  25.65      2.49      463.    2.22       10634.      392.     582.        0.    530.0    980.0   1.606   0.315
+  1   1 1    170.14  25.65      2.49      549.    2.63       10635.      392.     582.        0.    530.0    980.0   1.606   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5236592.            0.              0.   922.209     0.000   110.898     0.000     0.315   0.0000
+  1   1 1   2      202500.       5236592.            0.              0.   922.209     0.000   110.889     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        29341.0     29.6
 
 
 
@@ -1575,14 +2306,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    25
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    36
 
 
 TIME     11.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1591,13 +2316,19 @@ TIME     11.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    209.53  28.03      2.28      553.    2.22        9743.      392.     582.        0.    530.0    980.0   1.622   0.315
+  1   1 1    209.53  28.02      2.27      657.    2.64        9744.      392.     582.        0.    530.0    980.0   1.622   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5236930.            0.              0.   922.235     0.000   123.862     0.000     0.315   0.0000
+  1   1 1   2      202500.       5236929.            0.              0.   922.235     0.000   123.844     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        40104.8     40.5
 
 
 
@@ -1641,14 +2372,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    26
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    37
 
 
 TIME     12.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1657,13 +2382,19 @@ TIME     12.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    252.26  30.21      2.11      642.    2.22        9044.      392.     582.        0.    530.0    980.0   1.638   0.315
+  1   1 1    252.25  30.20      2.10      767.    2.65        9046.      392.     582.        0.    530.0    980.0   1.638   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5237662.            0.              0.   922.290     0.000   136.211     0.000     0.315   0.0000
+  1   1 1   2      202500.       5237660.            0.              0.   922.290     0.000   136.182     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        52902.6     53.4
 
 
 
@@ -1707,14 +2438,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    27
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    38
 
 
 TIME     13.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1723,13 +2448,19 @@ TIME     13.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    298.08  32.24      1.97      731.    2.22        8477.      392.     582.        0.    530.0    980.0   1.653   0.315
+  1   1 1    298.06  32.23      1.96      878.    2.67        8479.      392.     582.        0.    530.0    980.0   1.653   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5238554.            0.              0.   922.358     0.000   148.069     0.000     0.315   0.0000
+  1   1 1   2      202500.       5238551.            0.              0.   922.358     0.000   148.026     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        67829.2     68.5
 
 
 
@@ -1773,14 +2504,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    28
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    39
 
 
 TIME     14.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1789,13 +2514,19 @@ TIME     14.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    346.77  34.15      1.85      820.    2.22        8006.      392.     582.        0.    530.0    980.0   1.667   0.315
+  1   1 1    346.74  34.14      1.85      988.    2.68        8008.      392.     582.        0.    530.0    980.0   1.667   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5239497.            0.              0.   922.430     0.000   159.523     0.000     0.315   0.0000
+  1   1 1   2      202500.       5239492.            0.              0.   922.429     0.000   159.464     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101        84974.8     85.8
 
 
 
@@ -1839,14 +2570,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    29
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    40
 
 
 TIME     15.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1855,13 +2580,19 @@ TIME     15.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    398.18  35.94      1.75      909.    2.22        7605.      392.     582.        0.    530.0    980.0   1.681   0.315
+  1   1 1    398.14  35.93      1.75     1099.    2.68        7608.      392.     582.        0.    530.0    980.0   1.681   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5240440.            0.              0.   922.501     0.000   170.636     0.000     0.315   0.0000
+  1   1 1   2      202500.       5240433.            0.              0.   922.501     0.000   170.558     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       104424.0    105.4
 
 
 
@@ -1905,14 +2636,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    30
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    41
 
 
 TIME     16.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1921,13 +2646,19 @@ TIME     16.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    452.17  37.65      1.67      998.    2.22        7260.      392.     582.        0.    530.0    980.0   1.695   0.315
+  1   1 1    452.10  37.64      1.66     1207.    2.69        7263.      392.     582.        0.    530.0    980.0   1.695   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5241357.            0.              0.   922.571     0.000   181.457     0.000     0.315   0.0000
+  1   1 1   2      202500.       5241348.            0.              0.   922.570     0.000   181.358     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       126255.2    127.5
 
 
 
@@ -1971,14 +2702,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    31
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    42
 
 
 TIME     17.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -1987,13 +2712,19 @@ TIME     17.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    508.59  39.28      1.59     1086.    2.22        6958.      392.     582.        0.    530.0    980.0   1.708   0.315
+  1   1 1    508.50  39.26      1.59     1314.    2.69        6961.      392.     582.        0.    530.0    980.0   1.708   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5242236.            0.              0.   922.638     0.000   192.025     0.000     0.315   0.0000
+  1   1 1   2      202500.       5242226.            0.              0.   922.637     0.000   191.900     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       150539.5    152.0
 
 
 
@@ -2037,14 +2768,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    32
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    43
 
 
 TIME     18.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -2053,13 +2778,19 @@ TIME     18.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    567.35  40.84      1.53     1173.    2.22        6691.      392.     583.        0.    530.0    980.0   1.721   0.315
+  1   1 1    567.23  40.81      1.52     1418.    2.69        6695.      392.     583.        0.    530.0    980.0   1.721   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5243074.            0.              0.   922.701     0.000   202.369     0.000     0.315   0.0000
+  1   1 1   2      202500.       5243062.            0.              0.   922.700     0.000   202.217     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       177339.7    179.1
 
 
 
@@ -2103,14 +2834,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    33
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    44
 
 
 TIME     19.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -2119,13 +2844,19 @@ TIME     19.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    628.35  42.33      1.47     1261.    2.22        6453.      392.     583.        0.    530.0    980.0   1.734   0.315
+  1   1 1    628.19  42.31      1.46     1519.    2.68        6457.      392.     583.        0.    530.0    980.0   1.733   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5243869.            0.              0.   922.761     0.000   212.514     0.000     0.315   0.0000
+  1   1 1   2      202500.       5243854.            0.              0.   922.760     0.000   212.333     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       206710.0    208.7
 
 
 
@@ -2169,14 +2900,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    34
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    45
 
 
 TIME     20.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
@@ -2185,13 +2910,19 @@ TIME     20.00 SECONDS                           1 TRAIN(S) ARE OPERATIONAL
 TRAIN T Y  LOCATION  SPEED  ACCELERATION  DRAG  AIR DRAG    EFFORT     CURRENT  CURRENT   SPEED     ACCEL.   DECEL.  GEN.   REJECT.
  NO.  E P   (FEET)   (MPH)   (MPH/SEC)   (LBS)            (LBS/MOTOR)  (AMPS)   (AMPS)    (RPM)    (DEG F)  (DEG F)   (BTU/SEC-FT)
 
-  1   1 1    691.50  43.77      1.41     1348.    2.22        6239.      392.     583.        0.    530.0    980.0   1.746   0.315
+  1   1 1    691.29  43.74      1.41     1615.    2.66        6243.      392.     583.        0.    530.0    980.0   1.746   0.315
 
       R T        ------------- PROPULSION POWER (W/TRAIN) ------------- HEAT GENERATION(BTU/SEC-TRAIN)  HEAT REJECTION(BTU/SEC-FT)
 TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCEL     DECEL              PROPUL      AUX     AUX
  NO.  E P  MODE  AUXILARIES      3RD RAIL      3RD RAIL        FLYWHEEL     GRID      GRID       MECH     SENS       SENS   LATENT
 
-  1   1 1   2      202500.       5244621.            0.              0.   922.819     0.000   222.481     0.000     0.315   0.0000
+  1   1 1   2      202500.       5244605.            0.              0.   922.817     0.000   222.269     0.000     0.315   0.0000
+
+   SYSTEM            AIR     AIR
+PARTITIONING        FLOW     VEL.
+                    (CFM)    (FPM)
+
+  101 -101       238695.6    241.0
 
 
 
@@ -2235,14 +2966,8 @@ TRAIN T Y                      PROPULSION    REGENERATED         FROM       ACCE
 
 
 
-
-
-
-
-
-
-       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 21 JUL 2024 14:59:56
-       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    35
+       FILE: SES-081-no-segments.ses                                                 SIMULATION TIME: 16 SEP 2024 15:36:27
+       SES VER 4.10                     SES v4.1 file for testing a branch in SESconv.py.                      PAGE:    46
 
 
                                             END OF SIMULATION

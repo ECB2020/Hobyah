@@ -329,17 +329,17 @@ BRAKING IS TO BE INSTANTANEOUSLY REJECTED TO THE SYSTEM.
 INPUT VERIFICATION FOR TRAIN TYPE 1   Chopper, no flywheel, line Ohms=zero                                     CONTINUED
 AVERAGE EMPTY CAR WEIGHT                                                              42.366   tonnes          FORM 9E
 NUMBER OF MOTORS PER POWERED CAR                                                           2
-TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                      0.0058   N/kg
+TRAIN ROLLING RESISTANCE COEFFICIENTS      FIRST                                    0.005786   N/kg
                                                                                  =    5.7859   N/tonne
-                                                                                 =     1.180   lb/ton
-                                           SECOND                                       516.   N
+                                                                                 =      1.18   lb/ton
+                                           SECOND                                     515.99   N
                                            THIRD                                    0.000448   N/(kg-m/s)
                                                                               =    0.4475111   N/(tonne-m/s)
                                                                               = 0.1243086364   N/(tonne-kph)
                                                                               =  0.000124309   N/(kg-kph)
-                                                                              =      0.04080   lb/ton-mph
+                                                                              =       0.0408   lb/ton-mph
 ACCELERATION RESISTANCE OF ROTATING PARTS                                               9.65   % tare mass
-                                                                                 =   4087.90   kg/car
+                                                                                 =    4087.9   kg/car
                                                                                  =     8.800   (lb/ton)/(mph/s)
                       MOTOR TYPE   2 no. 28 kN, 250 kW motors                                                  FORM 9F
 MANUFACTURER'S MOTOR DATA CORRECTIONS                           MANUFACTURER'S        VEHICLE

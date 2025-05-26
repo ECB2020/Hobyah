@@ -1,0 +1,10 @@
+Processing "/Users/ecb/Documents/GitHub/Hobyah/SES-files/raise-SESconv-errors/SES-fault-8023b-dud-header.PRN".
+Using SESconv.py, run at 11:15 on 26 May 2025 by ecb.
+> *Error* type 8023 ******************************
+> Please check if the file "SES-fault-8023b-dud-header.PRN".
+> came from SES.  A line was found that looks like a
+> header but with the text in the wrong place.
+> > Valid headers have "PAGE:" in the 113th to 117th characters,
+> your line has it in the 112th to 116th characters.
+> Faulty line of input (1st) is
+>          SES VER 4.10           SES file for raising a fault in SESconv.py.                                     PAGE:     1

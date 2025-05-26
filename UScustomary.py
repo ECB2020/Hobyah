@@ -1,6 +1,6 @@
 #! python3
 #
-# Copyright 2020-2024, Ewan Bennett
+# Copyright 2020-2025, Ewan Bennett
 #
 # All rights reserved.
 #
@@ -346,161 +346,76 @@ SVSequivalents = { #key      SI unit,      SVS unit,     divisor
                  "tempzero1":( "deg C",     "DEG C",     1.0),
                  "tempzero2":( "deg C",     "DEG C",     1.0),
                  "tempzero3":( "deg C",     "DEG C",     1.0),
-                 "press1":  (  "Pa ",      "IWG",   1.0),
-                 "press2":  (  "Pa    ",   "IWG",   1.0),
-                 "press3":  (  "kPa   ",   "IWG",   1.0),
-                 "dens1":   ( "kg/m^3  ", "KG/M**3", 1.0),
-                 "dens1":   ( "kg/m^3  ", "KG/M**3", 1.0),
+                 "press1":  (  "Pa",      "PA",      1.0),
+                 "press2":  (  "Pa ",     "KPA",     1000.),
+                 "press3":  (  "Pa",      "PA",      1.0),
+                 "dens1":   ( "kg/m^3 ", "KG/M**3",  1.0),
+                 "dens2":   ( "kg/m^3 ", "KG/M**3",  1.0),
                  "dist1":   ( "m",        "M",       1.0),
                  "dist2":   ( "cm",       "M",       100.),
                  "dist3":   ( "mm",       "M",       1000.),
-                 "dist4":   ( "m ",       "mm",     0.001),
-                 "dist5":   ( "cm",       "mm",     0.01),
-                 "dist6":   ( "mm",       "mm",      1.0),
+                 "dist4":   ( "m ",       "MM",     0.001),
+                 "dist5":   ( "cm",       "MM",     0.01),
+                 "dist6":   ( "mm",       "MM",      1.0),
                  "area":    ( "m^2 ",    "M**2",     1.0),
-                 "mass1":   ( "kg",       "KG",       1.0),
+                 "mass1":   ( "kg",       "KG",      1.0),
                  "mass2":   ( "kg",       "KG",      1.0),
-                 "mass3":   ( "tonnes",   "TONS  ",  0.90718474),
-                 "mass4":   ( "kg  ",     "TONS",    907.18474),
-                 "speed1":  ( "m/s",      "FPM",     0.00508),
-                 "speed2":  ( "km/h",     "MPH",     1.609344),
-                 "speed3":  ( "m/s",      "MPH",     0.44704),
-                 "speed4":  ( "m/s",      "FPS",     0.3048),
-                 "accel":   ( "m/s^2  "  ,"MPH/SEC", 0.44704),
-                 "volflow": ( "m^3/s",    "CFM",     0.0004719474432),
-                 "volflow2":( "m^3/s",    "CFS",     0.028316846592),
-                 "massflow":( "kg/s",     "lb/s",    0.45359237),
-                 "IT_watt1":   ( "W     ",   "BTU/hr",
-                            # 1055.05585262 / 3600
-                                                    0.2930710701722222),
-                 "IT_watt2":   ( "W      ",  "BTU/sec", 1055.05585262),
-                 "IT_kwatt":   ( "kW    ",   "BTU/hr", 0.0002930710701722222),
-                 "IT_Mwatt":   ( "MW    ",   "BTU/hr", 2.930710701722222e-07),
-                 "IT_thcon":   ( "W/m-K          ",
-                                      "BTU/ft-hr-deg F",
-                             # 1055.05585262 * 9 / (5 * 3600 * 0.3048)
-                                                    1.730734666371391),
-                 "IT_specheat":( "J/kg-K         ",
-                                        "BTU/lb-deg F",
-                             # 1055.05585262 * 9 / (5 * 0.45359237)
-                                                    4186.8),
-                 "IT_SHTC":    ("W/m^2-K          ",
-                                       "BTU/hr-ft^2-deg F",
-                             # 1055.05585262 * 9 / (5 * 3600 * 0.3048**2)
-                                                    5.678263341113487),
-                 "IT_SHTC2":   ("W/m^2-K           ",
-                                       "BTU/sec-ft^2-deg F",
-                             # 1055.05585262 * 9 / (5 * 0.3048**2)
-                             # 9 / (5 * 0.0009478171203133174 * 0.3048**2)
-                                                    20441.748028008555),
-                 "IT_wattpua": ( "W/m^2       ",  "BTU/sec-ft^2",
-                             # 1055.05585262 / (0.3048**2)
-                                                    11356.526682226975),
-                 "IT_wperm":   ( "W/m       ",  "BTU/sec-ft",
-                             # 1055.05585262 / 0.3048
-                                                    3461.469332742782),
-                 # This next one isn't used but it is useful to have
-                 # it in the transcript included in the user manual.
-                 # It is the relationship between the Joule and the
-                 # BTU.
-                            # 1 / (4.1868/9 * 1000 * 0.45359237 * 5)
-                 "IT_energy":  ( "J  ",      "BTU",     0.000947817120313317),
-
-
-                 # Now for the equivalents using the SES v4.1 BTU.
-                 "v41_watt1":   ( "W     ",   "BTU/HR",
-                            # 1 / (9.4866E-04 * 3600)
-                                                    0.2928106779855562),
-                 "v41_watt2":   ( "W      ",  "BTU/SEC",
-                                                    1054.1184407480025),
-                 "v41_kwatt":   ( "kW    ",   "BTU/HR", 0.0002928106779855562),
-                 "v41_Mwatt":   ( "MW    ",   "BTU/HR", 2.9281067798555625e-07),
-                 "v41_thcon":   ( "W/m-K          ",
-                                      "BTU/FT-HR-DEG F",
-                             # 9 / (5 * 9.4866E-04 * 3600 * 0.3048)
-                                                    1.7291969172375365),
-                 "v41_specheat":( "J/kg-K         ",
-                                        "BTU/LB-DEG F",
-                             # 9 / (5 * 9.4866E-04 0.45359237)
-                                                    4183.080049045808),
-                 "v41_SHTC":    ("W/m^2-K          ",
-                                       "BTU/HR-FT^2-DEG F",
-                             # 9 / (5 * 9.4866E-04 * 3600 * 0.3048**2)
-                                                    5.673218232406616),
-                 "v41_SHTC2":   ("W/m^2-K           ",
-                                       "BTU/SEC-FT^2-DEG F",
-                             # BTU/SEC instead of BTU/HR.
-                             # 9 / (5 * 9.4866E-04 * 0.3048**2)
-                                                    20423.585636663818),
-                 "v41_wattpua": ( "W/m^2       ",  "BTU/SEC-FT^2",
-                            # 1 / (0.3048**2 * 9.4866e-4)
-                                                    11346.436464813232),
-                            # 1 / (0.3048 * 9.4866e-4)
-                 "v41_wperm":   ( "W/m       ",  "BTU/SEC-FT",
-                                                    3458.393834475073),
-                 "v41_energy":  ( "J  ",      "BTU",     9.4866E-4),
-
+                 "mass3":   ( "tonnes",   "TONNES",  1.0),
+                 "mass4":   ( "kg    ",   "TONNES",  1000.),
+                 "speed1":  ( "m/s",      "M/S",     1.0),
+                 "speed2":  ( "km/h",     "KPH",     1.0),
+                 "speed3":  ( "m/s",      "KPH",     3.6),
+                 "speed4":  ( "m/s",      "M/S",     1.0),
+                 "accel":   ( "m/s^2 "  ,"M/S**2",   1.0),
+                 "volflow": ( "m^3/s "  ,"M**3/S",   1.0),
+                 "volflow2":( "m^3/s "  ,"M**3/S",   1.0),
+                 "massflow":( "kg/s",     "KG/S",    1.0),
+                 "IT_watt1":   ( "W     ",   "WATTS", 1.0),
+                 "IT_watt2":   ( "W     ",   "WATTS", 1.0),
+                 "IT_watt3":   ( "W     ",   "KW",    1000.0),
+                 "IT_kwatt":   ( "kW",       "KW",    1.0),
+                 "IT_Mwatt":   ( "MW    ",   "WATTS", 0.000001),
+                 "IT_thcon":   ( "W/m-K",   "W/M-K",  1.0),
+                 "IT_specheat":( "J/kg-K",  "J/KG-K",  1.0),
+                 "IT_specheat2":( "kJ/kg-K",  "KJ/KG-K",  1.), # For SVS form 14
+                 "IT_SHTC":    ("W/m^2-K ",  "W/M**2-K",  1.0),
+                 "IT_SHTC2":    ("W/m^2-K ",  "W/M**2-K",  1.0),
+                 "IT_wattpua": ( "W/m^2 ", "W/M**2", 1.0),
+                 "IT_wperm":   ( "W/m", "W/M", 1.0),
+                 # This next one isn't used.
+                 # "IT_energy":  ( "J  ",      "BTU",     0.000947817120313317),
 
                             # The rest of the terms don't involve Joules.
-                 "diff":    ( "m^2/s        ",  "FT SQUARED/HR", 2.58064e-05),
-                 "Aterm1a":  ( "N/kg   ",  "LBS/TON",
-                             # Converting both A terms uses the value
-                             # of GRACC from SES 4.1.
-                             # 32.174 * 0.3048 / 2000.
-                                                    0.0049033176),
-                 "Aterm1b":   ( "N/tonne",  "LBS/TON",
-                             # An alternative SI unit for this.
-                             # 32.174 * 0.3048 * 1000 / 2000.
-                                                    4.9033176),
-                 "Force1":   ( "N  ",        "LBS",   4.448214902093424),
-                 "Force2":   ( "N  ",        "lbf",   4.448214902093424),
-                 "Bterm1a":  ( "N/(kg-m/s) ",     "LBS/TON-MPH",
-                             # Converting the B term also uses the
-                             # value of GRACC from SES 4.1.
-                             # 32.174 * 0.3048 * 3600 / (2000. * 5280 * 0.3048)
-                                                     0.010968409090909),
-                 "Bterm1b":   ( "N/(kg-km/h)",    "LBS/TON-MPH",
-                             # Three other alternative units for this.
-                             # 32.174 * 0.3048 / (2. * 5280 * 0.3048)
-                                                     0.003046780303030303),
-                 "Bterm1c":  ( "N/(tonne-m/s)",   "LBS/TON-MPH  ",
-                             # 32.174 * 0.3048 * 3.6 / (2000. * 5280 * 0.3048)
-                                                     1.0968409090909091e-05),
-                             # "Bterm1d" is used in SVS v6, TRAIN and
-                             # OpenTrack.
-                 "Bterm1d":  ( "N/(tonne-km/h)",  "LBS/TON-MPH   ",
-                             # 32.174 * 0.3048 * 1000 / (2. * 5280 * 0.3048),
-                                                     3.046780303030303),
-                 # I prefer percentage of tare mass to whatever hellish
-                 # unit (lb/ton)/(mph/sec) would convert into.
-                 # The factor is 1/0.912, which is tied up to the
-                 # definition of the slug.
-                 "rotmass": ( "% tare mass        ",
-                                              "(LBS/TON)/(MPH/SEC)",
-                                                     1.0964912280701753),
-                 "momint":  ( "kg-m^2        ", "LBS-FT SQUARED",
-                                                     0.042140110093805),
-                 "W":       ( "kg/kg",     "LB/LB", 1.),
+                 "diff":    ( "m^2/s ",  "M**2/S", 1.0),
+                 "Aterm1a":  ( "N/kg   ",  "N/TONNE", 0.001),
+                 "Aterm1b":   ( "N/tonne",  "N/TONNE", 1.0,),
+                 "Force1":   ( "N",        "N",   1.0),
+                 "Force2":   ( "N",        "N",   1.0),
+                 "Force3":   ( "kN",       "kN",  1.0), # For SVS train drag
+                 "Bterm1a":  ( "N/(kg-m/s) ",     "N/TONNE-KPH",
+                                                     0.0036),
+                 "Bterm1b":   ( "N/(kg-km/h)",    "N/TONNE-KPH",
+                                                     0.001),
+                 "Bterm1c":  ( "N/(tonne-m/s)",   "N/TONNE-KPH",
+                                                     3.6),
+                 "Bterm1d":  ( "N/(tonne-km/h)",  "N/TONNE-KPH", 1.0),
+                 # In SVS input files, rotating mass is in kg and thus
+                 # cannot be directly converted into a mass fraction.
+                 # We'll use math.nan here, so a calculation error is
+                 # raised if anyone tries to use it (unlikely, but you
+                 # never know).  When we convert SVS files in SESconv.py
+                 # we'll calculate it directly.
+                 "rotmass": ( "% tare mass",  "KG", math.nan),
+                 "momint":  ( "kg-m^2 ", "KG-M**2", 1.0),
+                 "W":       ( "kg/kg",     "KG/KG", 1.),
                  "RH":      ( "%      ",   "PERCENT", 1.),
                  "perc":    ( "percent",   "PERCENT", 1.),
                  "null":    ( "",         "", 1.),
-                 # Something to convert N-s^2/m^8 (gauls) into Atkinsons
-                 # (lb-s^2/ft^8).  The conventional use of Atkinsons in
-                 # mine ventilation is to get pressures in lb/ft^2 from
-                 # air flows in thousands of cubic feet per minute (kcfm),
-                 # not in the inches of water gauge and cfm used in tunnel
-                 # vent.
-                 # Sources: Penman Bros., "Mine Ventilation", 1947;
-                 #          NCB Bulletin 55-153, 1955;
-                 #          Roberts, "Mine Ventilation", 1960.
-                 # Other sources use air flows in 100,000s of cfm (e.g.
-                 # Hartman, "Mine Ventilation and Air Conditioning",
-                 # 1961) but I had to pick one and stick to it.
-                 # (0.45359237 * 9.80665) / (1e6 * 0.3048**8)
-                 "atk":     ( "gauls",   "atk. ",  0.059712700809941954),
-                 "volume":  ( "m^3 ",     "ft^3",     0.028316846592),
+                 # Now we're just getting silly.
+                 "atk":     ( "gauls",   "gauls",  1.0),
+                 "volume":  ( "m^3 ",     "M**3",     1.0),
                  # Buoyancy forces in an optional table in SES fire runs.
-                 "buoys":   ( "m^2/s^2 ",   "ft^2/s^2", 0.09290304),
+                 "buoys":   ( "m^2/s^2 ",   "M**2/S*2", 1.0),
 
                  # The next set of entries are only here to make it easy to
                  # get the units texts "s", "-" "amps/motor", "amps/pwd car",
@@ -512,14 +427,11 @@ SVSequivalents = { #key      SI unit,      SVS unit,     divisor
                  "Amotor":    ("amps/motor", "amps/motor", 1.0),
                  "Acar":      ("amps/pwd car", "amps/pwd car", 1.0),
                  "rpm":       ("rpm", "rpm", 1.0),
-                 "trafdens":  ("veh/lane-km", "veh/lane-mile", 0.621371192237334),
+                 # "trafdens":  ("veh/lane-km", "veh/lane-mile", 0.621371192237334),
                 }
 
 
-
-
-
-def ConvertToUS(key, SIvalue, debug1, log):
+def ConvertToUS(key, SIvalue, debug1, log, SVS = False):
     '''
     Take a string defining the type of unit and a number.
     Figure out which conversion factor to use and convert
@@ -537,6 +449,11 @@ def ConvertToUS(key, SIvalue, debug1, log):
                                      called from ConversionTest, a
                                      string that is ignored (because
                                      debug1 is False).
+            SVS            bool      Set True if we are converting an
+                                     SVS file so that the correct set
+                                     of conversion factors can be used
+                                     ('SVSequivalents' instead of
+                                     'USequivalents').  Default False.
 
         Returns:
             USvalue       real       a value in US customary units
@@ -608,7 +525,7 @@ def ConvertToUS(key, SIvalue, debug1, log):
     return(USvalue, yielded[:2])
 
 
-def ConvertToSI(key, USvalue, debug1, log):
+def ConvertToSI(key, USvalue, debug1, log, SVS = False):
     '''
     Take a string defining the type of unit and a number.
     Figure out which conversion factor to use and convert
@@ -624,6 +541,11 @@ def ConvertToSI(key, USvalue, debug1, log):
                                      called from ConversionTest, a
                                      string that is ignored (because
                                      debug1 is False).
+            SVS            bool      Set True if we are converting an
+                                     SVS file so that the correct set
+                                     of conversion factors can be used
+                                     ('SVSequivalents' instead of
+                                     'USequivalents').  Default False.
 
         Returns:
             SIvalue       real       a value in SI units
@@ -634,7 +556,10 @@ def ConvertToSI(key, USvalue, debug1, log):
             Aborts with 1102 if the key isn't valid.
     '''
     try:
-        yielded = USequivalents[key]
+        if SVS:
+            yielded = SVSequivalents[key]
+        else:
+            yielded = USequivalents[key]
     except:
         print('> *Error* type 1102 ******************************\n'
               '> Failed to use a correct key when converting\n'
@@ -648,6 +573,9 @@ def ConvertToSI(key, USvalue, debug1, log):
 
     if math.isclose(yielded[2], 1.0):
         # No need to do any arithmetic, the conversion factor is 1.0.
+        # This (conveniently) catches the case of temperature conversions
+        # in SVS and means the contents of the elif clause below don't
+        # need to be changed to handle SVS files.
         SIvalue = USvalue
         if debug1:
             QA_text = (" converted " + str(USvalue) + " " + yielded[1].rstrip()
@@ -694,7 +622,7 @@ def ConvertToSI(key, USvalue, debug1, log):
              (key == "tempzero2" and (abs(USvalue) - 0.1) <= 0.0) or
              (key == "tempzero3" and (abs(USvalue) - 0.1) < 0.0) ):
             # Replace the vale near zero deg F with zero deg C, which
-            # SES will replace with the appropriatre temperature from
+            # SES will replace with the appropriate temperature from
             # Form 1F when it reads the file.
             SIvalue = 0.0
             if debug1:
@@ -725,7 +653,7 @@ def ConvertToSI(key, USvalue, debug1, log):
     return(SIvalue, yielded[:2])
 
 
-def ConversionDetails(key):
+def ConversionDetails(key, SVS = False):
     '''
     Take a string defining the type of unit.  Turn the conversion it uses
     into a sentence that describes the operation that has been carried
@@ -735,20 +663,28 @@ def ConversionDetails(key):
     this routine is only called deep in the guts of the plotting code.
 
         Parameters:
-            key             str     A valid key for the dictionary called
-                                    "USequivalents".
+            key             str     A valid key for the dictionaries called
+                                    "USequivalents" and "SVSequvialents".
+            SVS            bool      Set True if we are converting an
+                                     SVS file so that the correct set
+                                     of conversion factors can be used
+                                     ('SVSequivalents' instead of
+                                     'USequivalents').  Default False.
 
         Returns:
             descrip         str     A sentence describing the arithmetic
                                     used to convert from SI to US units.
     '''
-    yielded = USequivalents[key]
+    if SVS:
+        yielded = SVSequivalents[key]
+    else:
+        yielded = USequivalents[key]
 
-    if key == "temp":
+    if key == "temp" and not SVS:
         descrip = ("converting "  + yielded[0].rstrip()
                    + " to " + yielded[1].rstrip() + " by dividing by "
                    + str(yielded[2]) + " and adding 32.")
-    elif key in ("tempzero1", "tempzero2", "tempzero3"):
+    elif key in ("tempzero1", "tempzero2", "tempzero3") and not SVS:
         descrip = ("converting "  + yielded[0].rstrip()
                    + " to " + yielded[1].rstrip() + " by dividing by "
                    + " by " + str(yielded[2]) + " and adding 32.  Unless"
